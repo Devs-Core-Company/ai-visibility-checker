@@ -33,7 +33,38 @@ const opt = (n, d) => {
 const tools = (opt('--tools') ?? ALL_TOOLS.join(',')).split(',').map((s) => s.trim()).filter(Boolean);
 for (const t of tools) if (!ALL_TOOLS.includes(t)) throw new Error(`unknown tool "${t}" (known: ${ALL_TOOLS.join(', ')})`);
 
+/** PIDs of browser processes currently running (Chrome/Chromium, any launcher). */
+function browserPids() {
+  try {
+    return new Set(
+      execFileSync('pgrep', ['-f', '[c]hrom(e|ium)'], { encoding: 'utf8' })
+        .split('\n')
+        .map(Number)
+        .filter(Boolean),
+    );
+  } catch {
+    return new Set(); // pgrep exits 1 when nothing matches
+  }
+}
+
+/**
+ * Stops browser processes a tool left behind, so they cannot load the machine while the next
+ * tool is measured. Only processes that appeared during this tool's run are touched.
+ */
+function stopStrayBrowsers(before, tool) {
+  const stray = [...browserPids()].filter((p) => !before.has(p) && p !== process.pid);
+  for (const pid of stray) {
+    try {
+      process.kill(pid, 'SIGKILL');
+    } catch {
+      /* already gone */
+    }
+  }
+  if (stray.length) console.log(`[bench] ${tool}: stopped ${stray.length} browser process(es) it left running`);
+}
+
 async function runTool(tool, url, outDir, extra = {}) {
+  const browsersBefore = browserPids();
   const mod = await import(pathToFileURL(join(BENCH, 'runners', `${tool}.mjs`)).href);
   rmSync(outDir, { recursive: true, force: true });
   mkdirSync(outDir, { recursive: true });
@@ -44,6 +75,7 @@ async function runTool(tool, url, outDir, extra = {}) {
   } catch (e) {
     result = { findings: [], meta: { version: '?', settings: {}, durationMs: 0, peakRssMb: 0, pagesAudited: 0, errors: [`runner crashed: ${e.stack ?? e}`] } };
   }
+  stopStrayBrowsers(browsersBefore, tool);
   const m = result.meta;
   console.log(
     `[bench] ${tool}: ${result.findings.length} findings, ${m.pagesAudited} pages, ${(m.durationMs / 1000).toFixed(1)} s, ${m.peakRssMb} MB peak` +

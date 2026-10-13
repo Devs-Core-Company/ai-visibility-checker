@@ -69,7 +69,9 @@ node bench/run.mjs --perf
 node bench/run.mjs --perf --tools avc,scrawly --pages 1000 --sample 50
 ```
 
-Tools run one at a time, never in parallel, so wall time and memory are not disturbed.
+Tools run one at a time, never in parallel, so wall time and memory are not disturbed. After each
+tool, any browser process it left running is stopped, so a leftover Chrome cannot load the machine
+while the next tool is measured (the runner logs when this happens).
 
 Outputs:
 
