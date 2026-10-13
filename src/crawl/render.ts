@@ -355,14 +355,14 @@ async function skipHeavy(route: import('playwright-core').Route): Promise<void> 
 }
 
 /**
- * Tabs rendered at once. Rendering mostly waits on the network and the page's own timers,
- * so two tabs per CPU core keeps the machine busy without starving it. AVC_RENDER_CONCURRENCY
- * overrides it (1–16).
+ * Tabs rendered at once: one per CPU core but one, between 2 and 4. Each tab renders a page
+ * on desktop and then as a phone; more tabs than this mostly add memory, not speed (measured
+ * on a 1,000-page site, see bench/results). AVC_RENDER_CONCURRENCY overrides it (1–16).
  */
 export function defaultRenderConcurrency(): number {
   const env = Number(process.env.AVC_RENDER_CONCURRENCY);
   if (Number.isFinite(env) && env >= 1) return Math.min(16, Math.floor(env));
-  return Math.max(2, Math.min(8, availableParallelism() * 2));
+  return Math.max(2, Math.min(4, availableParallelism() - 1));
 }
 
 export async function renderPages(pages: PageData[], opts: RenderOptions): Promise<RenderSummary> {
@@ -391,6 +391,17 @@ export async function renderPages(pages: PageData[], opts: RenderOptions): Promi
         '--no-default-browser-check',
         '--disable-extensions',
         '--mute-audio',
+        // An audit browser needs none of these; turning them off keeps memory flat on large
+        // crawls (one renderer per tab, no back-forward cache, no background traffic).
+        '--disable-dev-shm-usage',
+        '--disable-background-networking',
+        '--disable-component-update',
+        '--disable-features=BackForwardCache,Translate,OptimizationHints,MediaRouter,IsolateOrigins,site-per-process',
+        '--disk-cache-size=1',
+        '--disable-gpu',
+        '--disable-software-rasterizer',
+        '--js-flags=--max-old-space-size=256',
+        `--renderer-process-limit=${Math.max(2, (opts.concurrency ?? defaultRenderConcurrency()) * (opts.mobile ? 2 : 1))}`,
       ],
     });
   } catch (e) {
