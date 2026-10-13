@@ -1,0 +1,1885 @@
+{
+ "tool": "lighthouse",
+ "site": "bench/site",
+ "findings": [
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/",
+   "message": "Improve image delivery (Est savings of 185 KiB) | ul.cards > li > a > img, ul.cards > li > a > img, ul.cards > li > a > img, ul.cards > li > a > img, body > main#main > section.hero > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/",
+   "message": "Render-blocking requests (Est savings of 90 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "list",
+   "url": "/services",
+   "message": "Lists do not contain only `<li>` elements and script supporting elements (`<script>` and `<template>`). | body > main#main > ul.service-list",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/services",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/services",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/services",
+   "message": "Render-blocking requests (Est savings of 70 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "aria-valid-attr",
+   "url": "/services/general-dentistry",
+   "message": "`[aria-*]` attributes are not valid or misspelled | body > main#main > p > button.toggle",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "agent-accessibility-tree",
+   "url": "/services/general-dentistry",
+   "message": "Accessibility tree is not well-formed",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/services/general-dentistry",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/services/general-dentistry",
+   "message": "Improve image delivery (Est savings of 39 KiB) | body > main#main > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/services/general-dentistry",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/services/general-dentistry",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/services/dental-implants",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/services/dental-implants",
+   "message": "Improve image delivery (Est savings of 37 KiB) | body > main#main > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/services/dental-implants",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/services/dental-implants",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/services/teeth-whitening",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/services/teeth-whitening",
+   "message": "Improve image delivery (Est savings of 37 KiB) | body > main#main > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/services/teeth-whitening",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/services/teeth-whitening",
+   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "is-crawlable",
+   "url": "/services/invisalign",
+   "message": "Page is blocked from indexing",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/services/invisalign",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/services/invisalign",
+   "message": "Improve image delivery (Est savings of 34 KiB) | body > main#main > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/services/invisalign",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/services/invisalign",
+   "message": "Render-blocking requests (Est savings of 90 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/services/emergency-dentist",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/services/emergency-dentist",
+   "message": "Improve image delivery (Est savings of 41 KiB) | body > main#main > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/services/emergency-dentist",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/services/emergency-dentist",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/services/hygiene",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/services/hygiene",
+   "message": "Improve image delivery (Est savings of 40 KiB) | body > main#main > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/services/hygiene",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/services/hygiene",
+   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/services/childrens-dentistry",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/services/childrens-dentistry",
+   "message": "Improve image delivery (Est savings of 41 KiB) | body > main#main > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/services/childrens-dentistry",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/services/childrens-dentistry",
+   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "canonical",
+   "url": "/services/veneers",
+   "message": "Document does not have a valid `rel=canonical`",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/services/veneers",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/services/veneers",
+   "message": "Improve image delivery (Est savings of 41 KiB) | body > main#main > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/services/veneers",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/services/veneers",
+   "message": "Render-blocking requests (Est savings of 90 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "speed-index",
+   "url": "/team",
+   "message": "Speed Index (4.0 s)",
+   "severity": "warn"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "server-response-time",
+   "url": "/team",
+   "message": "Reduce initial server response time (Root document took 2,500 ms) | /team",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "link-name",
+   "url": "/team",
+   "message": "Links do not have a discernible name | body > main#main > p > a.icon-link",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "agent-accessibility-tree",
+   "url": "/team",
+   "message": "Accessibility tree is not well-formed",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/team",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "document-latency-insight",
+   "url": "/team",
+   "message": "Document request latency (Est savings of 2,400 ms)",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/team",
+   "message": "Improve image delivery (Est savings of 10 KiB) | ul.cards > li > a > img, ul.cards > li > a > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "lcp-breakdown-insight",
+   "url": "/team",
+   "message": "LCP breakdown",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "lcp-discovery-insight",
+   "url": "/team",
+   "message": "LCP request discovery",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/team",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/team",
+   "message": "Render-blocking requests (Est savings of 90 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-alt",
+   "url": "/team/dr-amelia-hart",
+   "message": "Image elements do not have `[alt]` attributes | body > main#main > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/team/dr-amelia-hart",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "lcp-discovery-insight",
+   "url": "/team/dr-amelia-hart",
+   "message": "LCP request discovery",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/team/dr-amelia-hart",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/team/dr-amelia-hart",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "document-title",
+   "url": "/team/dr-rohan-mehta",
+   "message": "Document doesn't have a `<title>` element | html",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "agent-accessibility-tree",
+   "url": "/team/dr-rohan-mehta",
+   "message": "Accessibility tree is not well-formed",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/team/dr-rohan-mehta",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "lcp-discovery-insight",
+   "url": "/team/dr-rohan-mehta",
+   "message": "LCP request discovery",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/team/dr-rohan-mehta",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/team/dr-rohan-mehta",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "html-lang-valid",
+   "url": "/team/dr-sophie-lang",
+   "message": "`<html>` element does not have a valid value for its `[lang]` attribute. | html",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/team/dr-sophie-lang",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/team/dr-sophie-lang",
+   "message": "Improve image delivery (Est savings of 5 KiB) | body > main#main > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "lcp-discovery-insight",
+   "url": "/team/dr-sophie-lang",
+   "message": "LCP request discovery",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/team/dr-sophie-lang",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/team/dr-sophie-lang",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "errors-in-console",
+   "url": "/team/priya-shah",
+   "message": "Browser errors were logged to the console",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/team/priya-shah",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/team/priya-shah",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/team/priya-shah",
+   "message": "Render-blocking requests (Est savings of 80 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/team/tom-ellis",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/team/tom-ellis",
+   "message": "Improve image delivery (Est savings of 5 KiB) | body > main#main > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "lcp-discovery-insight",
+   "url": "/team/tom-ellis",
+   "message": "LCP request discovery",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/team/tom-ellis",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/team/tom-ellis",
+   "message": "Render-blocking requests (Est savings of 120 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/locations",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/locations",
+   "message": "Improve image delivery (Est savings of 114 KiB) | ul.cards > li > a > img, ul.cards > li > a > img, ul.cards > li > a > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "lcp-discovery-insight",
+   "url": "/locations",
+   "message": "LCP request discovery",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/locations",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/locations",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "meta-viewport",
+   "url": "/locations/bristol",
+   "message": "`[user-scalable=\"no\"]` is used in the `<meta name=\"viewport\">` element or the `[maximum-scale]` attribute is less than 5. | head > meta",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/locations/bristol",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/locations/bristol",
+   "message": "Improve image delivery (Est savings of 37 KiB) | body > main#main > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/locations/bristol",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/locations/bristol",
+   "message": "Render-blocking requests (Est savings of 130 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "frame-title",
+   "url": "/locations/bath",
+   "message": "`<frame>` or `<iframe>` elements do not have a title | body > main#main > iframe",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/locations/bath",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/locations/bath",
+   "message": "Improve image delivery (Est savings of 36 KiB) | body > main#main > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/locations/bath",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/locations/bath",
+   "message": "Render-blocking requests (Est savings of 150 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/locations/leeds",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/locations/leeds",
+   "message": "Improve image delivery (Est savings of 40 KiB) | body > main#main > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/locations/leeds",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/locations/leeds",
+   "message": "Render-blocking requests (Est savings of 120 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/blog",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog",
+   "message": "Render-blocking requests (Est savings of 80 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "crawlable-anchors",
+   "url": "/blog/category/oral-health",
+   "message": "Links are not crawlable | body > main#main > p > a",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/blog/category/oral-health",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "document-latency-insight",
+   "url": "/blog/category/oral-health",
+   "message": "Document request latency (Est savings of 7 KiB)",
+   "severity": "warn"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/category/oral-health",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/category/oral-health",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "errors-in-console",
+   "url": "/blog/category/cosmetic",
+   "message": "Browser errors were logged to the console",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/blog/category/cosmetic",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/category/cosmetic",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/category/cosmetic",
+   "message": "Render-blocking requests (Est savings of 120 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "landmark-one-main",
+   "url": "/blog/category/news",
+   "message": "Document does not have a main landmark. | html",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/blog/category/news",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/category/news",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/category/news",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/blog/tag/whitening",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/tag/whitening",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/tag/whitening",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "doctype",
+   "url": "/blog/tag/kids",
+   "message": "Page lacks the HTML doctype, thus triggering quirks-mode",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/blog/tag/kids",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/tag/kids",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/tag/kids",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "largest-contentful-paint",
+   "url": "/about",
+   "message": "Largest Contentful Paint (4.1 s)",
+   "severity": "warn"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "interactive",
+   "url": "/about",
+   "message": "Time to Interactive (4.1 s)",
+   "severity": "warn"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/about",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/about",
+   "message": "Improve image delivery (Est savings of 551 KiB) | body > main#main > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "lcp-discovery-insight",
+   "url": "/about",
+   "message": "LCP request discovery",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/about",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/about",
+   "message": "Render-blocking requests (Est savings of 130 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "label",
+   "url": "/contact",
+   "message": "Form elements do not have associated labels | main#main > form.form > p > input",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "tabindex",
+   "url": "/contact",
+   "message": "Some elements have a `[tabindex]` value greater than 0 | main#main > form.form > p > input#c-phone",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "agent-accessibility-tree",
+   "url": "/contact",
+   "message": "Accessibility tree is not well-formed",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/contact",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/contact",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/contact",
+   "message": "Render-blocking requests (Est savings of 150 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/faq",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/faq",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/faq",
+   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "cumulative-layout-shift",
+   "url": "/pricing",
+   "message": "Cumulative Layout Shift (0.179)",
+   "severity": "warn"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "layout-shifts",
+   "url": "/pricing",
+   "message": "Avoid large layout shifts (1 layout shift found) | body > main#main > p",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "aria-hidden-focus",
+   "url": "/pricing",
+   "message": "`[aria-hidden=\"true\"]` elements contain focusable descendents | body > main#main > div.promo",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "agent-accessibility-tree",
+   "url": "/pricing",
+   "message": "Accessibility tree is not well-formed",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/pricing",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "cls-culprits-insight",
+   "url": "/pricing",
+   "message": "Layout shift culprits",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/pricing",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/pricing",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "button-name",
+   "url": "/book",
+   "message": "Buttons do not have an accessible name | main#main > form.form > p > button.icon-btn",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "agent-accessibility-tree",
+   "url": "/book",
+   "message": "Accessibility tree is not well-formed",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/book",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/book",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/book",
+   "message": "Render-blocking requests (Est savings of 70 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "autocomplete-valid",
+   "url": "/new-patients",
+   "message": "`autocomplete` attributes are not used correctly | main#main > form.form > p > input#np-email, main#main > form.form > p > input#np-tel",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "agent-accessibility-tree",
+   "url": "/new-patients",
+   "message": "Accessibility tree is not well-formed",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/new-patients",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/new-patients",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/new-patients",
+   "message": "Render-blocking requests (Est savings of 150 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/us/new-patients",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/us/new-patients",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/us/new-patients",
+   "message": "Render-blocking requests (Est savings of 120 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/invisalign-guide",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/invisalign-guide",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/invisalign-guide",
+   "message": "Render-blocking requests (Est savings of 90 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/us/invisalign-guide",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/us/invisalign-guide",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/us/invisalign-guide",
+   "message": "Render-blocking requests (Est savings of 60 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "cumulative-layout-shift",
+   "url": "/patient-stories",
+   "message": "Cumulative Layout Shift (0.623)",
+   "severity": "warn"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "layout-shifts",
+   "url": "/patient-stories",
+   "message": "Avoid large layout shifts (1 layout shift found) | body > footer.site-footer",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/patient-stories",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "cls-culprits-insight",
+   "url": "/patient-stories",
+   "message": "Layout shift culprits",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/patient-stories",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/patient-stories",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "max-potential-fid",
+   "url": "/legal/privacy",
+   "message": "Max Potential First Input Delay (230 ms)",
+   "severity": "warn"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/legal/privacy",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "forced-reflow-insight",
+   "url": "/legal/privacy",
+   "message": "Forced reflow",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/legal/privacy",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/legal/privacy",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/legal/cookies",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/legal/cookies",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/legal/cookies",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "canonical",
+   "url": "/legal/terms",
+   "message": "Document does not have a valid `rel=canonical`",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/legal/terms",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/legal/terms",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/legal/terms",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/legal/complaints",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/legal/complaints",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/legal/complaints",
+   "message": "Render-blocking requests (Est savings of 150 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "viewport-insight",
+   "url": "/legal/complaints",
+   "message": "Optimize viewport for mobile",
+   "severity": "warn"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/legal/accessibility",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/legal/accessibility",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/legal/accessibility",
+   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/careers",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/careers",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/careers",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/finance",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/finance",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/finance",
+   "message": "Render-blocking requests (Est savings of 70 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/referrals",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/referrals",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/referrals",
+   "message": "Render-blocking requests (Est savings of 120 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/developers",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/developers",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/developers",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/blog/how-to-floss-properly",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/blog/how-to-floss-properly",
+   "message": "Improve image delivery (Est savings of 38 KiB) | body > main#main > article > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/how-to-floss-properly",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/how-to-floss-properly",
+   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/blog/nervous-patients",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/blog/nervous-patients",
+   "message": "Improve image delivery (Est savings of 32 KiB) | body > main#main > article > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/nervous-patients",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/nervous-patients",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "color-contrast",
+   "url": "/blog/whitening-myths",
+   "message": "Background and foreground colors do not have a sufficient contrast ratio. | body > main#main > article > p",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/blog/whitening-myths",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/blog/whitening-myths",
+   "message": "Improve image delivery (Est savings of 30 KiB) | body > main#main > article > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/whitening-myths",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/whitening-myths",
+   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "unsized-images",
+   "url": "/blog/what-to-expect-implants",
+   "message": "Image elements do not have explicit `width` and `height` | body > main#main > article > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "heading-order",
+   "url": "/blog/what-to-expect-implants",
+   "message": "Heading elements are not in a sequentially-descending order | body > main#main > article > h4",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/blog/what-to-expect-implants",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/blog/what-to-expect-implants",
+   "message": "Improve image delivery (Est savings of 34 KiB) | body > main#main > article > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/what-to-expect-implants",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/what-to-expect-implants",
+   "message": "Render-blocking requests (Est savings of 80 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/blog/dental-implants-cost",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/blog/dental-implants-cost",
+   "message": "Improve image delivery (Est savings of 29 KiB) | body > main#main > article > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/dental-implants-cost",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/dental-implants-cost",
+   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "is-crawlable",
+   "url": "/blog/fluoride-facts",
+   "message": "Page is blocked from indexing",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/blog/fluoride-facts",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/blog/fluoride-facts",
+   "message": "Improve image delivery (Est savings of 32 KiB) | body > main#main > article > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/fluoride-facts",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/fluoride-facts",
+   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/blog/Top-10-Brushing-Mistakes",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/blog/Top-10-Brushing-Mistakes",
+   "message": "Improve image delivery (Est savings of 35 KiB) | body > main#main > article > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/Top-10-Brushing-Mistakes",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/Top-10-Brushing-Mistakes",
+   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/blog/gum_disease_signs",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/blog/gum_disease_signs",
+   "message": "Improve image delivery (Est savings of 31 KiB) | body > main#main > article > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/gum_disease_signs",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/gum_disease_signs",
+   "message": "Render-blocking requests (Est savings of 90 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/blog/sugar-and-teeth",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/blog/sugar-and-teeth",
+   "message": "Improve image delivery (Est savings of 37 KiB) | body > main#main > article > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/sugar-and-teeth",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/sugar-and-teeth",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/blog/healthy-snacks",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/blog/healthy-snacks",
+   "message": "Improve image delivery (Est savings of 35 KiB) | body > main#main > article > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/healthy-snacks",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/healthy-snacks",
+   "message": "Render-blocking requests (Est savings of 90 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "aria-roles",
+   "url": "/blog/electric-vs-manual-toothbrush",
+   "message": "`[role]` values are not valid | main#main > article > p > span.tag",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "agent-accessibility-tree",
+   "url": "/blog/electric-vs-manual-toothbrush",
+   "message": "Accessibility tree is not well-formed",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/blog/electric-vs-manual-toothbrush",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/blog/electric-vs-manual-toothbrush",
+   "message": "Improve image delivery (Est savings of 37 KiB) | body > main#main > article > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/electric-vs-manual-toothbrush",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/electric-vs-manual-toothbrush",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "meta-description",
+   "url": "/blog/mouthwash-guide",
+   "message": "Document does not have a meta description",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/blog/mouthwash-guide",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/blog/mouthwash-guide",
+   "message": "Improve image delivery (Est savings of 33 KiB) | body > main#main > article > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/mouthwash-guide",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/mouthwash-guide",
+   "message": "Render-blocking requests (Est savings of 120 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/blog/bad-breath-causes",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/blog/bad-breath-causes",
+   "message": "Improve image delivery (Est savings of 38 KiB) | body > main#main > article > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/bad-breath-causes",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/bad-breath-causes",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
+   "url": "/blog/dry-mouth",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "image-delivery-insight",
+   "url": "/blog/dry-mouth",
+   "message": "Improve image delivery (Est savings of 32 KiB) | body > main#main > article > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/dry-mouth",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/dry-mouth",
+   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
+   "severity": "fail"
+  }
+ ],
+ "meta": {
+  "version": "lighthouse 13.5.0",
+  "settings": {
+   "config": "default (all categories incl. agentic-browsing; mobile; simulated throttling)",
+   "chromeFlags": "--headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage",
+   "pageList": "start URL + sitemap URLs (robots.txt Sitemap lines, else /sitemap.xml), first 60",
+   "pageCap": 60,
+   "failure": "an audit is a finding when its score is below 0.9 (Lighthouse pass threshold); informative/manual/n.a. audits ignored",
+   "runs": "one page at a time, sequentially; durationMs and peakRssMb are the sum and the max over pages"
+  },
+  "durationMs": 728010,
+  "peakRssMb": 1501,
+  "pagesAudited": 60,
+  "errors": [
+   "http://127.0.0.1:38005/services/root-canal: ERRORED_DOCUMENT_REQUEST Lighthouse was unable to reliably load the page you requested. Make sure you are testing the correct URL and that the server is properly responding to all requests. (Status code: 404)"
+  ]
+ }
+}

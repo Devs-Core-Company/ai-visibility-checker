@@ -1,0 +1,3049 @@
+[
+ {
+  "id": 1,
+  "check_id": "B01",
+  "title": "4xx client errors (esp. 404)",
+  "domain": "Response codes & redirects",
+  "category": "Indexability",
+  "severity": "High",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   81,
+   87,
+   1,
+   86
+  ],
+  "why_it_matters": "Broken pages; wasted crawl; bad UX",
+  "recommended_fix": "Fix or 301-redirect; update internal links.",
+  "evidence": {
+   "status": 404,
+   "inlinks": 0
+  }
+ },
+ {
+  "id": 2,
+  "check_id": "M01",
+  "title": "Site not on HTTPS",
+  "domain": "Security",
+  "category": "Performance",
+  "severity": "Critical",
+  "tier": "FLAG",
+  "status": "open",
+  "affected_url_ids": [
+   1,
+   35,
+   36,
+   4,
+   31,
+   3,
+   37,
+   38,
+   88,
+   5,
+   2,
+   39,
+   40,
+   7,
+   42,
+   41,
+   43,
+   82,
+   44,
+   8,
+   45,
+   10,
+   9,
+   46,
+   48,
+   47,
+   12,
+   11,
+   49,
+   50,
+   51,
+   52,
+   6,
+   53,
+   54,
+   13,
+   14,
+   15,
+   55,
+   56,
+   16,
+   57,
+   58,
+   86,
+   17,
+   18,
+   83,
+   59,
+   60,
+   19,
+   61,
+   62,
+   85,
+   63,
+   64,
+   65,
+   66,
+   20,
+   67,
+   81,
+   21,
+   68,
+   69,
+   22,
+   23,
+   77,
+   70,
+   71,
+   24,
+   25,
+   26,
+   27,
+   72,
+   73,
+   28,
+   29,
+   74,
+   75,
+   30,
+   32,
+   76,
+   78,
+   79,
+   33,
+   80,
+   87,
+   34,
+   84
+  ],
+  "why_it_matters": "Ranking + trust + browser warnings",
+  "recommended_fix": "Migrate to HTTPS.",
+  "evidence": {
+   "url": "http://127.0.0.1:38005/services/root-canal"
+  }
+ },
+ {
+  "id": 3,
+  "check_id": "N04",
+  "title": "TTFB slow (>~0.8s)",
+  "domain": "Performance / Core Web Vitals",
+  "category": "Performance",
+  "severity": "High",
+  "tier": "FLAG",
+  "status": "open",
+  "affected_url_ids": [
+   1,
+   35,
+   36,
+   4,
+   31,
+   3,
+   37,
+   38,
+   88,
+   5,
+   2,
+   39,
+   40,
+   7,
+   42,
+   41,
+   43,
+   82,
+   44,
+   8,
+   45,
+   10,
+   9,
+   46,
+   48,
+   47,
+   12,
+   11,
+   49,
+   50,
+   51,
+   52,
+   6,
+   53,
+   54,
+   13,
+   14,
+   15,
+   55,
+   56,
+   16,
+   57,
+   58,
+   86,
+   17,
+   18,
+   83,
+   59,
+   60,
+   19,
+   61,
+   62,
+   85,
+   63,
+   64,
+   65,
+   66,
+   20,
+   67,
+   81,
+   21,
+   68,
+   69,
+   22,
+   23,
+   77,
+   70,
+   71,
+   24,
+   25,
+   26,
+   27,
+   72,
+   73,
+   28,
+   29,
+   74,
+   75,
+   30,
+   32,
+   76,
+   78,
+   79,
+   33,
+   80,
+   87,
+   34,
+   84
+  ],
+  "why_it_matters": "Server/host bottleneck",
+  "recommended_fix": "Investigate server performance or caching.",
+  "evidence": {
+   "ttfb": 28.141498565673828
+  }
+ },
+ {
+  "id": 4,
+  "check_id": "N05",
+  "title": "Render-blocking CSS/JS",
+  "domain": "Performance / Core Web Vitals",
+  "category": "Performance",
+  "severity": "High",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   1,
+   35,
+   36,
+   4,
+   31,
+   3,
+   37,
+   38,
+   5,
+   2,
+   39,
+   40,
+   7,
+   42,
+   41,
+   43,
+   82,
+   44,
+   8,
+   45,
+   10,
+   9,
+   46,
+   48,
+   47,
+   12,
+   11,
+   49,
+   50,
+   51,
+   52,
+   6,
+   53,
+   54,
+   13,
+   14,
+   15,
+   55,
+   56,
+   16,
+   57,
+   58,
+   86,
+   17,
+   18,
+   83,
+   59,
+   60,
+   19,
+   61,
+   62,
+   85,
+   63,
+   64,
+   65,
+   66,
+   20,
+   67,
+   81,
+   21,
+   68,
+   69,
+   22,
+   23,
+   70,
+   71,
+   24,
+   25,
+   26,
+   27,
+   72,
+   73,
+   28,
+   29,
+   74,
+   75,
+   30,
+   32,
+   76,
+   78,
+   79,
+   33,
+   80,
+   87,
+   34,
+   84
+  ],
+  "why_it_matters": "Delays first paint",
+  "recommended_fix": "Add async/defer to scripts, inline critical CSS.",
+  "evidence": {
+   "blocking_assets": [
+    "/assets/css/site.css"
+   ]
+  }
+ },
+ {
+  "id": 5,
+  "check_id": "O02",
+  "title": "Tap targets too small / too close",
+  "domain": "Mobile",
+  "category": "Performance",
+  "severity": "High",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   1,
+   35,
+   36,
+   4,
+   31,
+   3,
+   37,
+   38,
+   5,
+   2,
+   39,
+   40,
+   7,
+   42,
+   41,
+   43,
+   82,
+   44,
+   8,
+   45,
+   10,
+   9,
+   46,
+   48,
+   47,
+   12,
+   11,
+   49,
+   50,
+   51,
+   52,
+   6,
+   53,
+   54,
+   13,
+   14,
+   15,
+   55,
+   56,
+   16,
+   57,
+   58,
+   86,
+   17,
+   18,
+   83,
+   59,
+   60,
+   19,
+   61,
+   62,
+   85,
+   63,
+   64,
+   65,
+   66,
+   20,
+   67,
+   81,
+   21,
+   68,
+   69,
+   22,
+   23,
+   70,
+   71,
+   24,
+   25,
+   26,
+   27,
+   72,
+   73,
+   28,
+   29,
+   74,
+   75,
+   30,
+   32,
+   76,
+   78,
+   79,
+   33,
+   80,
+   87,
+   34,
+   84
+  ],
+  "why_it_matters": "Mobile UX; usability signal",
+  "recommended_fix": "Make tap targets at least 44x44px with adequate spacing.",
+  "evidence": {
+   "small_tap_targets": 18
+  }
+ },
+ {
+  "id": 6,
+  "check_id": "Q01",
+  "title": "Interactive element missing accessible name/label",
+  "domain": "Accessibility",
+  "category": "Performance",
+  "severity": "High",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   1,
+   35,
+   36,
+   4,
+   31,
+   3,
+   37,
+   38,
+   5,
+   2,
+   39,
+   40,
+   7,
+   42,
+   41,
+   43,
+   82,
+   44,
+   8,
+   45,
+   10,
+   9,
+   46,
+   48,
+   47,
+   12,
+   11,
+   49,
+   50,
+   51,
+   52,
+   6,
+   53,
+   54,
+   13,
+   14,
+   15,
+   55,
+   56,
+   16,
+   57,
+   58,
+   86,
+   17,
+   18,
+   83,
+   59,
+   60,
+   19,
+   61,
+   62,
+   85,
+   63,
+   64,
+   65,
+   66,
+   20,
+   67,
+   81,
+   21,
+   68,
+   69,
+   22,
+   23,
+   70,
+   71,
+   24,
+   25,
+   26,
+   27,
+   72,
+   73,
+   28,
+   29,
+   74,
+   75,
+   30,
+   32,
+   76,
+   78,
+   79,
+   33,
+   80,
+   87,
+   34,
+   84
+  ],
+  "why_it_matters": "Fails agentic a11y tree + screen readers",
+  "recommended_fix": "Provide text content or aria-label for interactive elements.",
+  "evidence": {
+   "elements": [
+    "<a href=\"/\" class=\"logo\"><img src=\"/images/logo.png\" alt=\"Harbourline Dental Studio home\" width=\"240"
+   ]
+  }
+ },
+ {
+  "id": 7,
+  "check_id": "R09",
+  "title": "Missing author + freshness signals (E-E-A-T for GEO)",
+  "domain": "AI search readiness (GEO)",
+  "category": "GEO & Config",
+  "severity": "High",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   1,
+   35,
+   36,
+   4,
+   31,
+   3,
+   37,
+   38,
+   88,
+   5,
+   2,
+   39,
+   40,
+   7,
+   42,
+   41,
+   43,
+   82,
+   44,
+   8,
+   45,
+   10,
+   9,
+   46,
+   48,
+   47,
+   12,
+   11,
+   49,
+   50,
+   51,
+   52,
+   6,
+   53,
+   54,
+   13,
+   14,
+   15,
+   55,
+   56,
+   16,
+   57,
+   58,
+   86,
+   17,
+   18,
+   83,
+   59,
+   60,
+   19,
+   61,
+   62,
+   85,
+   63,
+   64,
+   65,
+   66,
+   20,
+   67,
+   81,
+   21,
+   68,
+   69,
+   22,
+   23,
+   77,
+   70,
+   71,
+   24,
+   25,
+   26,
+   27,
+   72,
+   73,
+   28,
+   29,
+   74,
+   75,
+   30,
+   32,
+   76,
+   78,
+   79,
+   33,
+   80,
+   87,
+   34,
+   84
+  ],
+  "why_it_matters": "AI favors sourced, recent content",
+  "recommended_fix": "Add author and publish/modify date signals.",
+  "evidence": {
+   "has_author": false,
+   "has_date": false
+  }
+ },
+ {
+  "id": 8,
+  "check_id": "R10",
+  "title": "Missing/weak entity + Organization/Website schema",
+  "domain": "AI search readiness (GEO)",
+  "category": "GEO & Config",
+  "severity": "High",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   1,
+   35,
+   36,
+   4,
+   31,
+   3,
+   37,
+   38,
+   88,
+   5,
+   2,
+   39,
+   40,
+   7,
+   42,
+   41,
+   43,
+   82,
+   44,
+   8,
+   45,
+   10,
+   9,
+   46,
+   48,
+   47,
+   12,
+   11,
+   49,
+   50,
+   51,
+   52,
+   6,
+   53,
+   54,
+   13,
+   14,
+   15,
+   55,
+   56,
+   16,
+   57,
+   58,
+   86,
+   17,
+   18,
+   83,
+   59,
+   60,
+   19,
+   61,
+   62,
+   85,
+   63,
+   64,
+   65,
+   66,
+   20,
+   67,
+   81,
+   21,
+   68,
+   69,
+   22,
+   23,
+   77,
+   70,
+   71,
+   24,
+   25,
+   26,
+   27,
+   72,
+   73,
+   28,
+   29,
+   74,
+   75,
+   30,
+   32,
+   76,
+   78,
+   79,
+   33,
+   80,
+   87,
+   34,
+   84
+  ],
+  "why_it_matters": "AI can't confirm entity for citation",
+  "recommended_fix": "Add Organization or Website structured data.",
+  "evidence": {
+   "found_schemas": []
+  }
+ },
+ {
+  "id": 9,
+  "check_id": "R11",
+  "title": "Google-Agent / Google-Extended handling not set intentionally",
+  "domain": "AI search readiness (GEO)",
+  "category": "GEO & Config",
+  "severity": "High",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   1,
+   35,
+   36,
+   4,
+   31,
+   3,
+   37,
+   38,
+   88,
+   5,
+   2,
+   39,
+   40,
+   7,
+   42,
+   41,
+   43,
+   82,
+   44,
+   8,
+   45,
+   10,
+   9,
+   46,
+   48,
+   47,
+   12,
+   11,
+   49,
+   50,
+   51,
+   52,
+   6,
+   53,
+   54,
+   13,
+   14,
+   15,
+   55,
+   56,
+   16,
+   57,
+   58,
+   86,
+   17,
+   18,
+   83,
+   59,
+   60,
+   19,
+   61,
+   62,
+   85,
+   63,
+   64,
+   65,
+   66,
+   20,
+   67,
+   81,
+   21,
+   68,
+   69,
+   22,
+   23,
+   77,
+   70,
+   71,
+   24,
+   25,
+   26,
+   27,
+   72,
+   73,
+   28,
+   29,
+   74,
+   75,
+   30,
+   32,
+   76,
+   78,
+   79,
+   33,
+   80,
+   87,
+   34,
+   84
+  ],
+  "why_it_matters": "Uncontrolled AI-agent posture",
+  "recommended_fix": "Explicitly allow or block Google-Extended.",
+  "evidence": {}
+ },
+ {
+  "id": 10,
+  "check_id": "R12",
+  "title": "No first-party structured facts (pricing, FAQ, policies) exposed",
+  "domain": "AI search readiness (GEO)",
+  "category": "GEO & Config",
+  "severity": "High",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   1,
+   35,
+   36,
+   4,
+   31,
+   3,
+   37,
+   38,
+   88,
+   5,
+   2,
+   39,
+   40,
+   7,
+   42,
+   41,
+   43,
+   82,
+   44,
+   8,
+   45,
+   10,
+   9,
+   46,
+   48,
+   47,
+   12,
+   11,
+   49,
+   50,
+   51,
+   52,
+   6,
+   53,
+   54,
+   13,
+   14,
+   15,
+   55,
+   56,
+   16,
+   57,
+   58,
+   86,
+   17,
+   18,
+   83,
+   59,
+   60,
+   19,
+   61,
+   62,
+   85,
+   63,
+   64,
+   65,
+   66,
+   20,
+   67,
+   81,
+   21,
+   68,
+   69,
+   22,
+   23,
+   77,
+   70,
+   71,
+   24,
+   25,
+   26,
+   27,
+   72,
+   73,
+   28,
+   29,
+   74,
+   75,
+   30,
+   32,
+   76,
+   78,
+   79,
+   33,
+   80,
+   87,
+   34,
+   84
+  ],
+  "why_it_matters": "Misses ~44% first-party citation share",
+  "recommended_fix": "Add FAQPage, Product, or pricing schema.",
+  "evidence": {
+   "found_schemas": []
+  }
+ },
+ {
+  "id": 11,
+  "check_id": "S05",
+  "title": "Accessibility tree fails agent-centric names/labels",
+  "domain": "Agentic-web experience (Lighthouse 13.3 Agentic Browsing + beyond)",
+  "category": "GEO & Config",
+  "severity": "High",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   1,
+   35,
+   36,
+   4,
+   31,
+   3,
+   37,
+   38,
+   5,
+   2,
+   39,
+   40,
+   7,
+   42,
+   41,
+   43,
+   82,
+   44,
+   8,
+   45,
+   10,
+   9,
+   46,
+   48,
+   47,
+   12,
+   11,
+   49,
+   50,
+   51,
+   52,
+   6,
+   53,
+   54,
+   13,
+   14,
+   15,
+   55,
+   56,
+   16,
+   57,
+   58,
+   86,
+   17,
+   18,
+   83,
+   59,
+   60,
+   19,
+   61,
+   62,
+   85,
+   63,
+   64,
+   65,
+   66,
+   20,
+   67,
+   81,
+   21,
+   68,
+   69,
+   22,
+   23,
+   70,
+   71,
+   24,
+   25,
+   26,
+   27,
+   72,
+   73,
+   28,
+   29,
+   74,
+   75,
+   30,
+   32,
+   76,
+   78,
+   79,
+   33,
+   80,
+   87,
+   34,
+   84
+  ],
+  "why_it_matters": "Agents can't identify interactive elements (fails agentic audit)",
+  "recommended_fix": "Provide text content or aria-label for interactive elements.",
+  "evidence": {
+   "elements": [
+    "<a href=\"/\" class=\"logo\"><img src=\"/images/logo.png\" alt=\"Harbourline Dental Studio home\" width=\"240"
+   ]
+  }
+ },
+ {
+  "id": 12,
+  "check_id": "W01",
+  "title": "Missing/duplicate GA4 or GTM tags",
+  "domain": "Analytics, tracking & config (context, mostly info)",
+  "category": "GEO & Config",
+  "severity": "High",
+  "tier": "FLAG",
+  "status": "open",
+  "affected_url_ids": [
+   1,
+   35,
+   36,
+   4,
+   31,
+   3,
+   37,
+   38,
+   88,
+   5,
+   2,
+   39,
+   40,
+   7,
+   42,
+   41,
+   43,
+   82,
+   44,
+   8,
+   45,
+   10,
+   9,
+   46,
+   48,
+   47,
+   12,
+   11,
+   49,
+   50,
+   51,
+   52,
+   6,
+   53,
+   54,
+   13,
+   14,
+   15,
+   55,
+   56,
+   16,
+   57,
+   58,
+   86,
+   17,
+   18,
+   83,
+   59,
+   60,
+   19,
+   61,
+   62,
+   85,
+   63,
+   64,
+   65,
+   66,
+   20,
+   67,
+   81,
+   21,
+   68,
+   69,
+   22,
+   23,
+   77,
+   70,
+   71,
+   24,
+   25,
+   26,
+   27,
+   72,
+   73,
+   28,
+   29,
+   74,
+   75,
+   30,
+   32,
+   76,
+   78,
+   79,
+   33,
+   80,
+   87,
+   34,
+   84
+  ],
+  "why_it_matters": "Measurement gap",
+  "recommended_fix": "Install GA4 or GTM.",
+  "evidence": {}
+ },
+ {
+  "id": 13,
+  "check_id": "B13",
+  "title": "HTTP → HTTPS redirect missing",
+  "domain": "Response codes & redirects",
+  "category": "Indexability",
+  "severity": "High",
+  "tier": "FLAG",
+  "status": "open",
+  "affected_url_ids": [
+   35,
+   36,
+   4,
+   31,
+   3,
+   37,
+   38,
+   5,
+   2,
+   39,
+   40,
+   7,
+   42,
+   41,
+   43,
+   82,
+   44,
+   8,
+   45,
+   10,
+   9,
+   46,
+   48,
+   47,
+   11,
+   12,
+   49,
+   50,
+   51,
+   52,
+   6,
+   53,
+   54,
+   13,
+   14,
+   15,
+   55,
+   56,
+   16,
+   57,
+   58,
+   17,
+   18,
+   83,
+   59,
+   60,
+   19,
+   61,
+   62,
+   85,
+   63,
+   64,
+   65,
+   66,
+   20,
+   67,
+   21,
+   68,
+   69,
+   22,
+   23,
+   77,
+   70,
+   71,
+   24,
+   25,
+   26,
+   27,
+   72,
+   73,
+   28,
+   29,
+   74,
+   75,
+   30,
+   32,
+   76,
+   78,
+   79,
+   33,
+   80,
+   34,
+   84
+  ],
+  "why_it_matters": "Insecure access path",
+  "recommended_fix": "301-redirect all HTTP to HTTPS.",
+  "evidence": {
+   "url": "http://127.0.0.1:38005/blog/how-to-brush-your-teeth"
+  }
+ },
+ {
+  "id": 14,
+  "check_id": "D09",
+  "title": "Meta description too thin for AI",
+  "domain": "Titles, meta and headings",
+  "category": "Content & Meta",
+  "severity": "Medium",
+  "tier": "AUTO",
+  "status": "open",
+  "affected_url_ids": [
+   22,
+   60,
+   50,
+   3,
+   37,
+   2,
+   85,
+   14,
+   7,
+   15,
+   55,
+   65,
+   66,
+   56,
+   82,
+   16,
+   67,
+   58,
+   74,
+   30,
+   76,
+   17,
+   79,
+   34,
+   83,
+   84
+  ],
+  "why_it_matters": "Little context for AI assistants and searchers",
+  "recommended_fix": "Expand it into a detailed summary that names the key products, services and topics on the page, so AI and searchers understand it.",
+  "evidence": {
+   "chars": 115
+  }
+ },
+ {
+  "id": 15,
+  "check_id": "E12",
+  "title": "Missing/duplicate publish + modified dates",
+  "domain": "Content quality",
+  "category": "Content & Meta",
+  "severity": "High",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   59,
+   35,
+   60,
+   19,
+   36,
+   4,
+   31,
+   38,
+   62,
+   5,
+   39,
+   85,
+   40,
+   63,
+   42,
+   41,
+   43,
+   65,
+   20,
+   44,
+   8,
+   10,
+   9,
+   68,
+   48,
+   47,
+   11,
+   12,
+   51,
+   71,
+   6,
+   53,
+   24,
+   13,
+   54,
+   27,
+   72,
+   73,
+   57,
+   58,
+   74,
+   75,
+   76,
+   78,
+   33,
+   80,
+   84
+  ],
+  "why_it_matters": "Freshness signal weak (matters for GEO)",
+  "recommended_fix": "Expose publish and modified dates in markup.",
+  "evidence": {}
+ },
+ {
+  "id": 16,
+  "check_id": "N06",
+  "title": "Unminified CSS/JS",
+  "domain": "Performance / Core Web Vitals",
+  "category": "Performance",
+  "severity": "Low",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   15,
+   21,
+   19,
+   4,
+   27
+  ],
+  "why_it_matters": "Wasted bytes",
+  "recommended_fix": "Minify CSS/JS (e.g. a WP caching/optimization plugin).",
+  "evidence": {
+   "unminified_assets": [
+    "/assets/css/site.css",
+    "/assets/js/site.js",
+    "/assets/js/book-tools.js"
+   ]
+  }
+ },
+ {
+  "id": 17,
+  "check_id": "S09",
+  "title": "Forms lack WebMCP declarative annotations",
+  "domain": "Agentic-web experience (Lighthouse 13.3 Agentic Browsing + beyond)",
+  "category": "GEO & Config",
+  "severity": "Low",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   78,
+   54,
+   4
+  ],
+  "why_it_matters": "Agents parse pixels instead of calling tools",
+  "recommended_fix": "Add WebMCP declarative data attributes to forms.",
+  "evidence": {
+   "form_action": "/book"
+  }
+ },
+ {
+  "id": 18,
+  "check_id": "S11",
+  "title": "Key flows (checkout/booking/contact) not agent-completable",
+  "domain": "Agentic-web experience (Lighthouse 13.3 Agentic Browsing + beyond)",
+  "category": "GEO & Config",
+  "severity": "Medium",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   54,
+   4
+  ],
+  "why_it_matters": "AI-visibility leakage on money actions",
+  "recommended_fix": "Annotate key-flow forms (checkout/booking/contact) for agent completion.",
+  "evidence": {
+   "key_flow_form": true,
+   "webmcp": false
+  }
+ },
+ {
+  "id": 19,
+  "check_id": "N07",
+  "title": "No compression (gzip/brotli)",
+  "domain": "Performance / Core Web Vitals",
+  "category": "Performance",
+  "severity": "Medium",
+  "tier": "FLAG",
+  "status": "open",
+  "affected_url_ids": [
+   5
+  ],
+  "why_it_matters": "Wasted bytes",
+  "recommended_fix": "Enable gzip/brotli compression on the server/CDN.",
+  "evidence": {
+   "content_encoding": "none"
+  }
+ },
+ {
+  "id": 20,
+  "check_id": "V08",
+  "title": "Auto-generated image sizes bloating media / no WebP",
+  "domain": "WordPress-specific",
+  "category": "GEO & Config",
+  "severity": "Low",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   6,
+   71,
+   31,
+   7
+  ],
+  "why_it_matters": "Speed",
+  "recommended_fix": "Serve images as WebP/AVIF (e.g. a WP image-optimization plugin).",
+  "evidence": {
+   "legacy_format_images": 8
+  }
+ },
+ {
+  "id": 21,
+  "check_id": "W02",
+  "title": "Missing GSC verification",
+  "domain": "Analytics, tracking & config (context, mostly info)",
+  "category": "GEO & Config",
+  "severity": "Low",
+  "tier": "FLAG",
+  "status": "open",
+  "affected_url_ids": [
+   6
+  ],
+  "why_it_matters": "No Search Console data",
+  "recommended_fix": "Verify the site in Search Console (meta tag or DNS).",
+  "evidence": {
+   "google_site_verification": "missing"
+  }
+ },
+ {
+  "id": 22,
+  "check_id": "D03",
+  "title": "Title too long (>~60 chars / ~575px)",
+  "domain": "Titles, meta and headings",
+  "category": "Content & Meta",
+  "severity": "Low",
+  "tier": "AUTO",
+  "status": "open",
+  "affected_url_ids": [
+   10
+  ],
+  "why_it_matters": "Truncated in SERP",
+  "recommended_fix": "Shorten to avoid truncation.",
+  "evidence": {
+   "pixels": 1148,
+   "title": "Children's Dentistry, Fissure Sealants, Fluoride Varnish and First Dental Visits for Babies, Toddlers and Teenagers | Harbourline Dental Studio Bristol"
+  }
+ },
+ {
+  "id": 23,
+  "check_id": "D04",
+  "title": "Title too short (<~30 chars)",
+  "domain": "Titles, meta and headings",
+  "category": "Content & Meta",
+  "severity": "Low",
+  "tier": "AUTO",
+  "status": "open",
+  "affected_url_ids": [
+   12
+  ],
+  "why_it_matters": "Under-optimized",
+  "recommended_fix": "Expand the title to use available space.",
+  "evidence": {
+   "pixels": 36
+  }
+ },
+ {
+  "id": 24,
+  "check_id": "D05",
+  "title": "Multiple `<title>` elements",
+  "domain": "Titles, meta and headings",
+  "category": "Content & Meta",
+  "severity": "Medium",
+  "tier": "AUTO",
+  "status": "open",
+  "affected_url_ids": [
+   14
+  ],
+  "why_it_matters": "Invalid; ambiguous",
+  "recommended_fix": "Keep a single title tag.",
+  "evidence": {
+   "count": 2
+  }
+ },
+ {
+  "id": 25,
+  "check_id": "N03",
+  "title": "CLS > 0.1 (good) / > 0.25 (poor)",
+  "domain": "Performance / Core Web Vitals",
+  "category": "Performance",
+  "severity": "High",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   15,
+   21,
+   55,
+   27
+  ],
+  "why_it_matters": "Layout instability; also agentic-critical",
+  "recommended_fix": "Set width/height on media, reserve space for late content.",
+  "evidence": {
+   "cls": 0.102
+  }
+ },
+ {
+  "id": 26,
+  "check_id": "S08",
+  "title": "**Post-load CLS** (menus/late banners shift after settle)",
+  "domain": "Agentic-web experience (Lighthouse 13.3 Agentic Browsing + beyond)",
+  "category": "GEO & Config",
+  "severity": "Medium",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   15,
+   21,
+   55,
+   27
+  ],
+  "why_it_matters": "Agent clicks stale coordinates → task fails; lab CLS misses this",
+  "recommended_fix": "Stabilize late-shifting menus/banners after load settles.",
+  "evidence": {
+   "post_load_cls": 0.102
+  }
+ },
+ {
+  "id": 27,
+  "check_id": "Q07",
+  "title": "Missing document language attribute",
+  "domain": "Accessibility",
+  "category": "Performance",
+  "severity": "Low",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   16,
+   77
+  ],
+  "why_it_matters": "a11y + international",
+  "recommended_fix": "Add lang attribute to <html> tag.",
+  "evidence": {}
+ },
+ {
+  "id": 28,
+  "check_id": "E04",
+  "title": "Thin content (low word count / low main-content ratio)",
+  "domain": "Content quality",
+  "category": "Content & Meta",
+  "severity": "Medium",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   21,
+   18,
+   82,
+   50,
+   77,
+   83
+  ],
+  "why_it_matters": "Weak page, may not rank/be cited",
+  "recommended_fix": "Expand with useful, unique content or consolidate.",
+  "evidence": {
+   "word_count": 153
+  }
+ },
+ {
+  "id": 29,
+  "check_id": "P04",
+  "title": "Render blocked by JS error / failed resource",
+  "domain": "JavaScript rendering (response vs render)",
+  "category": "Performance",
+  "severity": "High",
+  "tier": "FLAG",
+  "status": "open",
+  "affected_url_ids": [
+   19
+  ],
+  "why_it_matters": "Blank/partial render",
+  "recommended_fix": "Fix the JavaScript errors preventing a clean render.",
+  "evidence": {
+   "js_errors": [
+    "initLightbox is not defined"
+   ]
+  }
+ },
+ {
+  "id": 30,
+  "check_id": "D07",
+  "title": "Missing meta description",
+  "domain": "Titles, meta and headings",
+  "category": "Content & Meta",
+  "severity": "Medium",
+  "tier": "AUTO",
+  "status": "open",
+  "affected_url_ids": [
+   20,
+   77
+  ],
+  "why_it_matters": "Google auto-generates; lost CTR control",
+  "recommended_fix": "Add a detailed description (about 120 to 320 characters) that summarizes the page and names its key products, services and topics, so search engines and AI assistants understand it.",
+  "evidence": {}
+ },
+ {
+  "id": 31,
+  "check_id": "D19",
+  "title": "Missing/incorrect OG + Twitter Card tags",
+  "domain": "Titles, meta and headings",
+  "category": "Content & Meta",
+  "severity": "Low",
+  "tier": "AUTO",
+  "status": "open",
+  "affected_url_ids": [
+   20,
+   77,
+   28,
+   63
+  ],
+  "why_it_matters": "Poor social/preview rendering",
+  "recommended_fix": "Add OG + Twitter Card tags for rich previews.",
+  "evidence": {
+   "missing": [
+    "og:description"
+   ]
+  }
+ },
+ {
+  "id": 32,
+  "check_id": "A09",
+  "title": "Orphan URL (in sitemap/GSC but no internal inlinks)",
+  "domain": "Crawlability & Indexability",
+  "category": "Indexability",
+  "severity": "Medium",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   21,
+   79,
+   39
+  ],
+  "why_it_matters": "Not discoverable via crawl; wasted page",
+  "recommended_fix": "Add internal links from relevant pages.",
+  "evidence": {
+   "inlinks": 0,
+   "in_sitemap": true
+  }
+ },
+ {
+  "id": 33,
+  "check_id": "D12",
+  "title": "Missing H1",
+  "domain": "Titles, meta and headings",
+  "category": "Content & Meta",
+  "severity": "Medium",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   56,
+   21,
+   77
+  ],
+  "why_it_matters": "Lost relevance signal",
+  "recommended_fix": "Add one descriptive H1.",
+  "evidence": {}
+ },
+ {
+  "id": 34,
+  "check_id": "F01",
+  "title": "Orphan pages (no internal inlinks)",
+  "domain": "Internal linking & architecture",
+  "category": "Links",
+  "severity": "Medium",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   21,
+   79,
+   39
+  ],
+  "why_it_matters": "Undiscoverable, low authority",
+  "recommended_fix": "Add relevant internal links pointing to this page.",
+  "evidence": {
+   "inlinks": 0
+  }
+ },
+ {
+  "id": 35,
+  "check_id": "R05",
+  "title": "Primary content client-side rendered (AI bots don't run JS)",
+  "domain": "AI search readiness (GEO)",
+  "category": "GEO & Config",
+  "severity": "High",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   21,
+   82
+  ],
+  "why_it_matters": "AI can't read content",
+  "recommended_fix": "Implement server-side rendering or dynamic rendering for bots.",
+  "evidence": {
+   "raw_length": 738,
+   "rendered_length": 1921
+  }
+ },
+ {
+  "id": 36,
+  "check_id": "J14",
+  "title": "Incomplete schema (missing recommended properties)",
+  "domain": "Structured data / schema",
+  "category": "Content & Meta",
+  "severity": "Low",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   23,
+   71,
+   76
+  ],
+  "why_it_matters": "Missing recommended schema properties reduce rich-result eligibility.",
+  "recommended_fix": "Add the missing properties to the structured-data block(s).",
+  "evidence": {
+   "missing": {
+    "BlogPosting": [
+     "author"
+    ]
+   }
+  }
+ },
+ {
+  "id": 37,
+  "check_id": "R07",
+  "title": "Missing answer-capsule structure (direct answer before context)",
+  "domain": "AI search readiness (GEO)",
+  "category": "GEO & Config",
+  "severity": "Low",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   63,
+   56,
+   76,
+   65,
+   59,
+   60,
+   23,
+   57
+  ],
+  "why_it_matters": "Lower extraction/citation odds",
+  "recommended_fix": "Open with a concise direct-answer paragraph before the first heading.",
+  "evidence": {
+   "lead_paragraph_chars": 19
+  }
+ },
+ {
+  "id": 38,
+  "check_id": "M06",
+  "title": "Missing security headers (CSP, X-Content-Type-Options, X-Frame-Options, Referrer-Policy)",
+  "domain": "Security",
+  "category": "Performance",
+  "severity": "Low",
+  "tier": "FLAG",
+  "status": "open",
+  "affected_url_ids": [
+   27,
+   77
+  ],
+  "why_it_matters": "Hardening + best-practice audit",
+  "recommended_fix": "Add the missing security headers (CSP, X-Content-Type-Options, X-Frame-Options, Referrer-Policy).",
+  "evidence": {
+   "missing_headers": [
+    "content-security-policy",
+    "referrer-policy",
+    "x-content-type-options",
+    "x-frame-options"
+   ]
+  }
+ },
+ {
+  "id": 39,
+  "check_id": "Q05",
+  "title": "Content interactive but hidden from a11y tree",
+  "domain": "Accessibility",
+  "category": "Performance",
+  "severity": "Medium",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   27
+  ],
+  "why_it_matters": "Agent can't perceive actionable element",
+  "recommended_fix": "Remove aria-hidden from interactive elements or make them non-interactive.",
+  "evidence": {
+   "elements": [
+    "<a href=\"/finance\">See interest-free finance</a>"
+   ]
+  }
+ },
+ {
+  "id": 40,
+  "check_id": "S07",
+  "title": "Interactive-but-invisible-to-a11y-tree elements",
+  "domain": "Agentic-web experience (Lighthouse 13.3 Agentic Browsing + beyond)",
+  "category": "GEO & Config",
+  "severity": "Medium",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   27
+  ],
+  "why_it_matters": "Agent can't act on them",
+  "recommended_fix": "Remove aria-hidden from interactive elements or make them non-interactive.",
+  "evidence": {
+   "elements": [
+    "<a href=\"/finance\">See interest-free finance</a>"
+   ]
+  }
+ },
+ {
+  "id": 41,
+  "check_id": "A13",
+  "title": "Nofollowed internal links to important pages",
+  "domain": "Crawlability & Indexability",
+  "category": "Indexability",
+  "severity": "Medium",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   28
+  ],
+  "why_it_matters": "Blocks equity/discovery internally",
+  "recommended_fix": "Remove nofollow from internal links you want crawled.",
+  "evidence": {
+   "targets": [
+    "/services/invisalign"
+   ]
+  }
+ },
+ {
+  "id": 42,
+  "check_id": "F09",
+  "title": "Internal `nofollow` sculpting (unintended)",
+  "domain": "Internal linking & architecture",
+  "category": "Links",
+  "severity": "Low",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   28
+  ],
+  "why_it_matters": "Blocks equity flow",
+  "recommended_fix": "Remove nofollow from internal links you want crawled.",
+  "evidence": {
+   "targets": [
+    "/services/invisalign"
+   ]
+  }
+ },
+ {
+  "id": 43,
+  "check_id": "V02",
+  "title": "Tag/author/date archives indexed & thin/duplicate",
+  "domain": "WordPress-specific",
+  "category": "GEO & Config",
+  "severity": "Medium",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   29,
+   51
+  ],
+  "why_it_matters": "Index bloat",
+  "recommended_fix": "Noindex archives if not needed.",
+  "evidence": {
+   "path": "/blog/tag/whitening"
+  }
+ },
+ {
+  "id": 44,
+  "check_id": "F05",
+  "title": "Broken/empty anchor text",
+  "domain": "Internal linking & architecture",
+  "category": "Links",
+  "severity": "Low",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   31
+  ],
+  "why_it_matters": "Lost relevance context",
+  "recommended_fix": "Add descriptive anchor text (or alt text if image links).",
+  "evidence": {
+   "targets": [
+    "/book"
+   ]
+  }
+ },
+ {
+  "id": 45,
+  "check_id": "N01",
+  "title": "LCP > 2.5s (good) / > 4s (poor)",
+  "domain": "Performance / Core Web Vitals",
+  "category": "Performance",
+  "severity": "Medium",
+  "tier": "FLAG",
+  "status": "open",
+  "affected_url_ids": [
+   31
+  ],
+  "why_it_matters": "Slow perceived load; Core Web Vital",
+  "recommended_fix": "Optimize the LCP element (image, hosting, render-blocking).",
+  "evidence": {
+   "lcp_s": 2.65
+  }
+ },
+ {
+  "id": 46,
+  "check_id": "P05",
+  "title": "Long render/hydration time",
+  "domain": "JavaScript rendering (response vs render)",
+  "category": "Performance",
+  "severity": "Medium",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   31
+  ],
+  "why_it_matters": "Slow indexing + agentic latency",
+  "recommended_fix": "Reduce hydration/render time (code-split, defer non-critical JS).",
+  "evidence": {
+   "render_ms": 3239
+  }
+ },
+ {
+  "id": 47,
+  "check_id": "C09",
+  "title": "Canonical uses relative / protocol-relative / non-absolute URL",
+  "domain": "Canonicalization",
+  "category": "Indexability",
+  "severity": "Low",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   33
+  ],
+  "why_it_matters": "Fragile, misparsed",
+  "recommended_fix": "Use an absolute canonical inside <head>.",
+  "evidence": {
+   "problems": [
+    "relative"
+   ],
+   "raw": "/legal/terms"
+  }
+ },
+ {
+  "id": 48,
+  "check_id": "D11",
+  "title": "Multiple meta descriptions",
+  "domain": "Titles, meta and headings",
+  "category": "Content & Meta",
+  "severity": "Low",
+  "tier": "AUTO",
+  "status": "open",
+  "affected_url_ids": [
+   34
+  ],
+  "why_it_matters": "Ambiguous",
+  "recommended_fix": "Ensure only one meta description exists.",
+  "evidence": {
+   "count": 2
+  }
+ },
+ {
+  "id": 49,
+  "check_id": "A05",
+  "title": "X-Robots-Tag `noindex` (header)",
+  "domain": "Crawlability & Indexability",
+  "category": "Indexability",
+  "severity": "Critical",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   37
+  ],
+  "why_it_matters": "Header-level noindex, easy to miss",
+  "recommended_fix": "Remove noindex from the X-Robots-Tag response header.",
+  "evidence": {
+   "x_robots": [
+    "noindex"
+   ]
+  }
+ },
+ {
+  "id": 50,
+  "check_id": "A12",
+  "title": "Non-indexable page receiving internal links",
+  "domain": "Crawlability & Indexability",
+  "category": "Indexability",
+  "severity": "Low",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   37,
+   73
+  ],
+  "why_it_matters": "Link equity leaking to dead ends",
+  "recommended_fix": "Remove internal links to non-indexable pages, or make the page indexable.",
+  "evidence": {
+   "inlinks": 2,
+   "reason": "x_robots_noindex"
+  }
+ },
+ {
+  "id": 51,
+  "check_id": "M08",
+  "title": "Server/software version leakage in headers",
+  "domain": "Security",
+  "category": "Performance",
+  "severity": "Low",
+  "tier": "FLAG",
+  "status": "open",
+  "affected_url_ids": [
+   38
+  ],
+  "why_it_matters": "Info disclosure",
+  "recommended_fix": "Strip version numbers from Server / X-Powered-By headers.",
+  "evidence": {
+   "version_leaks": {
+    "server": "Apache/2.4.29 (Ubuntu)",
+    "x-powered-by": "PHP/7.2.24"
+   }
+  }
+ },
+ {
+  "id": 52,
+  "check_id": "Q02",
+  "title": "Invalid/unsupported ARIA attributes",
+  "domain": "Accessibility",
+  "category": "Performance",
+  "severity": "Medium",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   40
+  ],
+  "why_it_matters": "Breaks a11y tree (fails agentic audit)",
+  "recommended_fix": "Use valid ARIA attributes.",
+  "evidence": {
+   "invalid_attributes": [
+    "aria-expandd on button"
+   ]
+  }
+ },
+ {
+  "id": 53,
+  "check_id": "C05",
+  "title": "Multiple conflicting canonicals on one page",
+  "domain": "Canonicalization",
+  "category": "Indexability",
+  "severity": "High",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   41
+  ],
+  "why_it_matters": "Google may ignore all",
+  "recommended_fix": "Keep exactly one canonical.",
+  "evidence": {
+   "count": 2
+  }
+ },
+ {
+  "id": 54,
+  "check_id": "F02",
+  "title": "Pages with only 1 internal inlink",
+  "domain": "Internal linking & architecture",
+  "category": "Links",
+  "severity": "Low",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   53,
+   41,
+   88,
+   82,
+   44,
+   77,
+   83
+  ],
+  "why_it_matters": "Weak internal authority",
+  "recommended_fix": "Add contextual internal links from related pages.",
+  "evidence": {
+   "inlinks": 1
+  }
+ },
+ {
+  "id": 55,
+  "check_id": "V07",
+  "title": "Missing/duplicate canonical from theme + plugin both emitting",
+  "domain": "WordPress-specific",
+  "category": "GEO & Config",
+  "severity": "Medium",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   41
+  ],
+  "why_it_matters": "Double canonical",
+  "recommended_fix": "Fix theme to not output canonical.",
+  "evidence": {
+   "canonicals": 2
+  }
+ },
+ {
+  "id": 56,
+  "check_id": "N09",
+  "title": "Excessive DOM size (agentic + perf)",
+  "domain": "Performance / Core Web Vitals",
+  "category": "Performance",
+  "severity": "Medium",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   42
+  ],
+  "why_it_matters": "Slow render, harder machine parse",
+  "recommended_fix": "Reduce DOM complexity.",
+  "evidence": {
+   "dom_elements_count": 3472
+  }
+ },
+ {
+  "id": 57,
+  "check_id": "R13",
+  "title": "Hard-to-read content (low readability)",
+  "domain": "AI search readiness (GEO)",
+  "category": "GEO & Config",
+  "severity": "Low",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   42
+  ],
+  "why_it_matters": "Dense prose lowers comprehension and AI passage extraction.",
+  "recommended_fix": "Shorten sentences, simplify wording; target a Flesch score of 60+ (plain English).",
+  "evidence": {
+   "flesch_reading_ease": 15.7,
+   "word_count": 5230
+  }
+ },
+ {
+  "id": 58,
+  "check_id": "A14",
+  "title": "Meta robots `nosnippet`/`noarchive`/`max-snippet` unexpected",
+  "domain": "Crawlability & Indexability",
+  "category": "Indexability",
+  "severity": "Low",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   62,
+   43
+  ],
+  "why_it_matters": "Suppresses SERP display features",
+  "recommended_fix": "Confirm you intend to suppress snippet/preview features.",
+  "evidence": {
+   "directives": [
+    "max-snippet:0"
+   ]
+  }
+ },
+ {
+  "id": 59,
+  "check_id": "C02",
+  "title": "Non-self-referential canonical (unintended)",
+  "domain": "Canonicalization",
+  "category": "Indexability",
+  "severity": "High",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   61,
+   84,
+   45
+  ],
+  "why_it_matters": "Page canonicalizes away, may drop from index",
+  "recommended_fix": "Point the canonical at this URL unless consolidation is intended.",
+  "evidence": {
+   "canonical": "http://127.0.0.1:38005/blog/whitening-myths-old",
+   "page": "http://127.0.0.1:38005/blog/whitening-myths"
+  }
+ },
+ {
+  "id": 60,
+  "check_id": "F07",
+  "title": "Internal links to non-canonical / redirected URLs",
+  "domain": "Internal linking & architecture",
+  "category": "Links",
+  "severity": "Medium",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   61,
+   84,
+   45
+  ],
+  "why_it_matters": "Equity misdirected",
+  "recommended_fix": "Link directly to the canonical URL.",
+  "evidence": {
+   "status": 200,
+   "inlink_count": 3
+  }
+ },
+ {
+  "id": 61,
+  "check_id": "D13",
+  "title": "Multiple H1s",
+  "domain": "Titles, meta and headings",
+  "category": "Content & Meta",
+  "severity": "Low",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   48
+  ],
+  "why_it_matters": "Diluted primary topic (context-dependent)",
+  "recommended_fix": "Prefer a single H1 (context-dependent).",
+  "evidence": {
+   "count": 2
+  }
+ },
+ {
+  "id": 62,
+  "check_id": "T09",
+  "title": "Underscores instead of hyphens as word separators",
+  "domain": "URL structure & hygiene",
+  "category": "Links",
+  "severity": "Low",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   52
+  ],
+  "why_it_matters": "Legacy convention",
+  "recommended_fix": "Use hyphens.",
+  "evidence": {
+   "path": "/blog/gum_disease_signs"
+  }
+ },
+ {
+  "id": 63,
+  "check_id": "Q03",
+  "title": "Form field without associated label",
+  "domain": "Accessibility",
+  "category": "Performance",
+  "severity": "Medium",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   54
+  ],
+  "why_it_matters": "Agents/screen readers can't operate",
+  "recommended_fix": "Add <label> elements or aria-label attributes to form fields.",
+  "evidence": {
+   "elements": [
+    "<input name=\"email\" type=\"email\" required=\"\">"
+   ]
+  }
+ },
+ {
+  "id": 64,
+  "check_id": "D15",
+  "title": "Broken heading order (skips H2→H4)",
+  "domain": "Titles, meta and headings",
+  "category": "Content & Meta",
+  "severity": "Low",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   55
+  ],
+  "why_it_matters": "Accessibility + structure signal",
+  "recommended_fix": "Keep heading hierarchy sequential.",
+  "evidence": {}
+ },
+ {
+  "id": 65,
+  "check_id": "E08",
+  "title": "Lorem ipsum / placeholder text detected",
+  "domain": "Content quality",
+  "category": "Content & Meta",
+  "severity": "Medium",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   60
+  ],
+  "why_it_matters": "Unfinished content shipped",
+  "recommended_fix": "Replace placeholder text before launch.",
+  "evidence": {
+   "match": "Lorem ipsum"
+  }
+ },
+ {
+  "id": 66,
+  "check_id": "D01",
+  "title": "Missing page title",
+  "domain": "Titles, meta and headings",
+  "category": "Content & Meta",
+  "severity": "High",
+  "tier": "AUTO",
+  "status": "open",
+  "affected_url_ids": [
+   63,
+   77
+  ],
+  "why_it_matters": "No primary relevance/CTR signal",
+  "recommended_fix": "Add a unique, descriptive title tag.",
+  "evidence": {}
+ },
+ {
+  "id": 67,
+  "check_id": "U05",
+  "title": "Missing 'view-all' or crawl path for deep lists",
+  "domain": "Pagination",
+  "category": "Links",
+  "severity": "Low",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   68,
+   84,
+   85
+  ],
+  "why_it_matters": "Deep items uncrawled",
+  "recommended_fix": "Offer a 'view all' page or a crawl path to deep list items.",
+  "evidence": {
+   "paginated": true,
+   "view_all": false
+  }
+ },
+ {
+  "id": 68,
+  "check_id": "T01",
+  "title": "Uppercase characters in URL",
+  "domain": "URL structure & hygiene",
+  "category": "Links",
+  "severity": "Low",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   69
+  ],
+  "why_it_matters": "Case-duplication risk",
+  "recommended_fix": "Use lowercase URLs.",
+  "evidence": {
+   "path": "/blog/Top-10-Brushing-Mistakes"
+  }
+ },
+ {
+  "id": 69,
+  "check_id": "D20",
+  "title": "Missing viewport meta",
+  "domain": "Titles, meta and headings",
+  "category": "Content & Meta",
+  "severity": "High",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   72,
+   77
+  ],
+  "why_it_matters": "Mobile rendering broken",
+  "recommended_fix": "Add <meta name=viewport content='width=device-width, initial-scale=1'>.",
+  "evidence": {}
+ },
+ {
+  "id": 70,
+  "check_id": "O01",
+  "title": "Missing/incorrect viewport meta",
+  "domain": "Mobile",
+  "category": "Performance",
+  "severity": "High",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   72,
+   77,
+   88
+  ],
+  "why_it_matters": "Not mobile-usable",
+  "recommended_fix": "Add a <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> tag to the <head>.",
+  "evidence": {
+   "viewport_meta": "Missing"
+  }
+ },
+ {
+  "id": 71,
+  "check_id": "A04",
+  "title": "Meta robots `noindex` on key page",
+  "domain": "Crawlability & Indexability",
+  "category": "Indexability",
+  "severity": "Critical",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   73
+  ],
+  "why_it_matters": "Page dropped from index",
+  "recommended_fix": "Remove noindex if this page should rank.",
+  "evidence": {
+   "meta_robots": [
+    "noindex",
+    "follow"
+   ]
+  }
+ },
+ {
+  "id": 72,
+  "check_id": "C01",
+  "title": "Missing canonical",
+  "domain": "Canonicalization",
+  "category": "Indexability",
+  "severity": "Medium",
+  "tier": "AUTO",
+  "status": "open",
+  "affected_url_ids": [
+   77,
+   85
+  ],
+  "why_it_matters": "No consolidation signal on dup-prone URLs",
+  "recommended_fix": "Add a self-referential canonical.",
+  "evidence": {}
+ },
+ {
+  "id": 73,
+  "check_id": "F11",
+  "title": "No breadcrumb / weak hierarchical linking",
+  "domain": "Internal linking & architecture",
+  "category": "Links",
+  "severity": "Low",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   81,
+   88,
+   87,
+   86,
+   77,
+   83
+  ],
+  "why_it_matters": "Structure + rich-result loss",
+  "recommended_fix": "Add breadcrumbs with BreadcrumbList schema.",
+  "evidence": {
+   "depth": 2
+  }
+ },
+ {
+  "id": 74,
+  "check_id": "Q09",
+  "title": "Missing skip links / landmark regions",
+  "domain": "Accessibility",
+  "category": "Performance",
+  "severity": "Low",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   77,
+   88
+  ],
+  "why_it_matters": "Navigation structure",
+  "recommended_fix": "Add semantic landmark regions like <main> and <nav>.",
+  "evidence": {}
+ },
+ {
+  "id": 75,
+  "check_id": "S02",
+  "title": "`llms.txt` present but missing H1 / too short / no links",
+  "domain": "Agentic-web experience (Lighthouse 13.3 Agentic Browsing + beyond)",
+  "category": "GEO & Config",
+  "severity": "Low",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   6,
+   77
+  ],
+  "why_it_matters": "Fails Lighthouse llms.txt sub-checks",
+  "recommended_fix": "Ensure llms.txt has a primary H1, adequate content, and links.",
+  "evidence": {
+   "has_h1": false,
+   "length": 1343,
+   "link_count": 0
+  }
+ },
+ {
+  "id": 76,
+  "check_id": "W03",
+  "title": "Favicon missing / broken",
+  "domain": "Analytics, tracking & config (context, mostly info)",
+  "category": "GEO & Config",
+  "severity": "Low",
+  "tier": "AUTO",
+  "status": "open",
+  "affected_url_ids": [
+   77,
+   88
+  ],
+  "why_it_matters": "Branding + SERP display",
+  "recommended_fix": "Add a favicon.",
+  "evidence": {}
+ },
+ {
+  "id": 77,
+  "check_id": "B12",
+  "title": "Meta-refresh / JS redirect",
+  "domain": "Response codes & redirects",
+  "category": "Indexability",
+  "severity": "Low",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   82
+  ],
+  "why_it_matters": "Non-standard redirect; weaker signal",
+  "recommended_fix": "Replace with a server-side 301.",
+  "evidence": {}
+ },
+ {
+  "id": 78,
+  "check_id": "C07",
+  "title": "Canonical changed/added/removed by JS (response vs render)",
+  "domain": "Canonicalization",
+  "category": "Indexability",
+  "severity": "High",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   82
+  ],
+  "why_it_matters": "Render-dependent canonical",
+  "recommended_fix": "Emit the final canonical in server HTML.",
+  "evidence": {
+   "render_diff": "modified"
+  }
+ },
+ {
+  "id": 79,
+  "check_id": "D17",
+  "title": "Title/description created or modified by JS only",
+  "domain": "Titles, meta and headings",
+  "category": "Content & Meta",
+  "severity": "Medium",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   82
+  ],
+  "why_it_matters": "Render-dependent metadata",
+  "recommended_fix": "Render metadata server-side.",
+  "evidence": {
+   "changed": [
+    "title",
+    "meta_desc"
+   ]
+  }
+ },
+ {
+  "id": 80,
+  "check_id": "P03",
+  "title": "Title/meta/canonical/robots differ response vs render",
+  "domain": "JavaScript rendering (response vs render)",
+  "category": "Performance",
+  "severity": "High",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   82
+  ],
+  "why_it_matters": "Indexing ambiguity",
+  "recommended_fix": "Ensure title, meta description, robots, and canonical tags match exactly between raw and rendered HTML.",
+  "evidence": {
+   "diffs": {
+    "title": {
+     "raw": "Summer Whitening Offer | Harbourline Dental Studio",
+     "rendered": "Professional Teeth Whitening | Harbourline Dental Studio"
+    },
+    "meta_description": {
+     "raw": "Our summer whitening offer has moved to the teeth whitening page.",
+     "rendered": "Dentist-supervised home whitening with custom trays. Safe peroxide strengths, a shade check before and after, and advice on keeping results."
+    },
+    "canonical": {
+     "raw": "http://127.0.0.1:38005/whitening-offer",
+     "rendered": "http://127.0.0.1:38005/services/teeth-whitening"
+    }
+   }
+  }
+ },
+ {
+  "id": 81,
+  "check_id": "S12",
+  "title": "Dynamic JS tool/element registration timing issues",
+  "domain": "Agentic-web experience (Lighthouse 13.3 Agentic Browsing + beyond)",
+  "category": "GEO & Config",
+  "severity": "Low",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   82
+  ],
+  "why_it_matters": "Agents miss elements during snapshot",
+  "recommended_fix": "Register interactive elements/links server-side or early in load.",
+  "evidence": {
+   "js_added_links": "modified"
+  }
+ },
+ {
+  "id": 82,
+  "check_id": "B03",
+  "title": "Soft 404 (200 status, \"not found\" content)",
+  "domain": "Response codes & redirects",
+  "category": "Indexability",
+  "severity": "Medium",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   83
+  ],
+  "why_it_matters": "Thin/empty page indexed as valid",
+  "recommended_fix": "Return a real 404/410, or restore/replace the content.",
+  "evidence": {
+   "word_count": 136,
+   "title": "Page not found | Harbourline Dental Studio"
+  }
+ },
+ {
+  "id": 83,
+  "check_id": "C11",
+  "title": "Paginated page 2+ canonicalized to page 1 (anti-pattern)",
+  "domain": "Canonicalization",
+  "category": "Indexability",
+  "severity": "Medium",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   84
+  ],
+  "why_it_matters": "Google drops component pages",
+  "recommended_fix": "Use self-referential canonicals on paginated URLs.",
+  "evidence": {
+   "canonical": "http://127.0.0.1:38005/blog"
+  }
+ },
+ {
+  "id": 84,
+  "check_id": "U03",
+  "title": "Page 2+ canonicalized to page 1",
+  "domain": "Pagination",
+  "category": "Links",
+  "severity": "Medium",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   84
+  ],
+  "why_it_matters": "Component pages dropped",
+  "recommended_fix": "Self-canonicalize paginated pages.",
+  "evidence": {
+   "canonical": "http://127.0.0.1:38005/blog"
+  }
+ },
+ {
+  "id": 85,
+  "check_id": "B11",
+  "title": "Redirect to 4xx/5xx (broken redirect target)",
+  "domain": "Response codes & redirects",
+  "category": "Indexability",
+  "severity": "High",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   86
+  ],
+  "why_it_matters": "Dead redirect",
+  "recommended_fix": "Redirect to a working 200 URL.",
+  "evidence": {
+   "final_status": 404,
+   "chain": [
+    "http://127.0.0.1:38005/old-prices"
+   ]
+  }
+ },
+ {
+  "id": 86,
+  "check_id": "B02",
+  "title": "5xx server errors",
+  "domain": "Response codes & redirects",
+  "category": "Indexability",
+  "severity": "Critical",
+  "tier": "FLAG",
+  "status": "open",
+  "affected_url_ids": [
+   88
+  ],
+  "why_it_matters": "Server failing; severe if on key/many pages",
+  "recommended_fix": "Investigate server logs; restore 200.",
+  "evidence": {
+   "status": 500
+  }
+ },
+ {
+  "id": 87,
+  "check_id": "D02",
+  "title": "Duplicate titles (across URLs)",
+  "domain": "Titles, meta and headings",
+  "category": "Content & Meta",
+  "severity": "High",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   23,
+   76
+  ],
+  "why_it_matters": "Cannibalization, unclear target",
+  "recommended_fix": "",
+  "evidence": {
+   "title": "healthy eating for healthy teeth | harbourline dental studio",
+   "shared_with": [
+    "http://127.0.0.1:38005/blog/healthy-snacks"
+   ]
+  }
+ },
+ {
+  "id": 88,
+  "check_id": "D08",
+  "title": "Duplicate meta descriptions",
+  "domain": "Titles, meta and headings",
+  "category": "Content & Meta",
+  "severity": "Medium",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   67,
+   17
+  ],
+  "why_it_matters": "Weak differentiation",
+  "recommended_fix": "",
+  "evidence": {
+   "meta_desc": "common causes of bad breath and dry mouth, and practical steps that help. when to see a dentist or a doctor.",
+   "shared_with": [
+    "http://127.0.0.1:38005/blog/bad-breath-causes"
+   ]
+  }
+ },
+ {
+  "id": 89,
+  "check_id": "D14",
+  "title": "Duplicate H1 across URLs",
+  "domain": "Titles, meta and headings",
+  "category": "Content & Meta",
+  "severity": "Low",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   19,
+   29
+  ],
+  "why_it_matters": "Cannibalization",
+  "recommended_fix": "",
+  "evidence": {
+   "h1": "cosmetic dentistry",
+   "shared_with": [
+    "http://127.0.0.1:38005/blog/tag/whitening"
+   ]
+  }
+ },
+ {
+  "id": 90,
+  "check_id": "I01",
+  "title": "Missing return (reciprocal) hreflang",
+  "domain": "Hreflang / international",
+  "category": "Content & Meta",
+  "severity": "High",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   39
+  ],
+  "why_it_matters": "Cluster invalid",
+  "recommended_fix": "",
+  "evidence": {
+   "missing_return_from": [
+    "http://127.0.0.1:38005/us/invisalign-guide"
+   ]
+  }
+ },
+ {
+  "id": 91,
+  "check_id": "K02",
+  "title": "Sitemap contains non-200 URLs",
+  "domain": "XML sitemaps",
+  "category": "Indexability",
+  "severity": "Medium",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   1
+  ],
+  "why_it_matters": "Dirty sitemap; wasted crawl",
+  "recommended_fix": "",
+  "evidence": {
+   "status": 404
+  }
+ },
+ {
+  "id": 92,
+  "check_id": "K03",
+  "title": "Sitemap contains noindex / canonicalized-away URLs",
+  "domain": "XML sitemaps",
+  "category": "Indexability",
+  "severity": "Medium",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   37,
+   1,
+   73,
+   61,
+   45
+  ],
+  "why_it_matters": "Conflicting signals",
+  "recommended_fix": "",
+  "evidence": {
+   "indexable": false,
+   "canonical": null
+  }
+ },
+ {
+  "id": 93,
+  "check_id": "K05",
+  "title": "Indexable pages missing from sitemap",
+  "domain": "XML sitemaps",
+  "category": "Indexability",
+  "severity": "Medium",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   82,
+   77,
+   83,
+   84,
+   85
+  ],
+  "why_it_matters": "Discovery gap",
+  "recommended_fix": "",
+  "evidence": {
+   "in_sitemap": false
+  }
+ },
+ {
+  "id": 94,
+  "check_id": "L01",
+  "title": "`Disallow: /` (whole site blocked)",
+  "domain": "Robots directives (file-level)",
+  "category": "Indexability",
+  "severity": "Critical",
+  "tier": "FLAG",
+  "status": "open",
+  "affected_url_ids": [
+   6
+  ],
+  "why_it_matters": "Catastrophic; usually staging leak",
+  "recommended_fix": "",
+  "evidence": {
+   "disallow": "/"
+  }
+ },
+ {
+  "id": 95,
+  "check_id": "R01",
+  "title": "AI training crawlers blocked in robots.txt (GPTBot, ClaudeBot, CCBot, Google-Extended)",
+  "domain": "AI search readiness (GEO)",
+  "category": "GEO & Config",
+  "severity": "Info",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   6
+  ],
+  "why_it_matters": "Excluded from AI training/knowledge (a *choice*, but flag it)",
+  "recommended_fix": "",
+  "evidence": {
+   "blocked": true
+  }
+ },
+ {
+  "id": 96,
+  "check_id": "R02",
+  "title": "AI **search** crawlers blocked (OAI-SearchBot, Claude-SearchBot, PerplexityBot)",
+  "domain": "AI search readiness (GEO)",
+  "category": "GEO & Config",
+  "severity": "High",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   6
+  ],
+  "why_it_matters": "Excluded from AI search answers → visibility loss",
+  "recommended_fix": "",
+  "evidence": {
+   "blocked": true
+  }
+ },
+ {
+  "id": 97,
+  "check_id": "B04",
+  "title": "Broken internal links (→4xx/5xx)",
+  "domain": "Response codes & redirects",
+  "category": "Indexability",
+  "severity": "High",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   81,
+   1,
+   87,
+   86,
+   3,
+   84,
+   75
+  ],
+  "why_it_matters": "Equity loss + UX",
+  "recommended_fix": "Fix or remove internal links pointing to 4xx/5xx pages.",
+  "evidence": {
+   "broken_targets": [
+    "http://127.0.0.1:38005/services/root-canal"
+   ]
+  }
+ },
+ {
+  "id": 98,
+  "check_id": "S04",
+  "title": "Optional `llms-full.txt` absent (large-doc sites)",
+  "domain": "Agentic-web experience (Lighthouse 13.3 Agentic Browsing + beyond)",
+  "category": "GEO & Config",
+  "severity": "Info",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   6
+  ],
+  "why_it_matters": "Full-content AI index missing",
+  "recommended_fix": "Consider adding llms-full.txt for large-doc sites.",
+  "evidence": {
+   "llms_full": "absent"
+  }
+ },
+ {
+  "id": 99,
+  "check_id": "C03",
+  "title": "Canonical to non-indexable (noindex) URL",
+  "domain": "Canonicalization",
+  "category": "Indexability",
+  "severity": "High",
+  "tier": "REVIEW",
+  "status": "open",
+  "affected_url_ids": [
+   37,
+   73
+  ],
+  "why_it_matters": "Canonical target is noindex",
+  "recommended_fix": "Point the canonical at an indexable URL.",
+  "evidence": {
+   "canonical": "http://127.0.0.1:38005/blog/fluoride-facts"
+  }
+ }
+]

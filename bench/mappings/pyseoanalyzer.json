@@ -1,0 +1,156 @@
+{
+ "tool": "pyseoanalyzer",
+ "source": "every warn() string in pyseoanalyzer/page.py plus duplicate_pages (catalogues/pyseoanalyzer.json); ids assigned by runners/pyseoanalyzer.mjs",
+ "version": "pyseoanalyzer 2025.4.3",
+ "rule": "A native id is mapped to a ground-truth type (or alt_type) when its finding clearly names the same problem. Written from the tool catalogue, not from run output. Same standard for every tool.",
+ "map": {
+  "missing-title": [
+   "missing-title"
+  ],
+  "title-too-short": [
+   "title-too-short"
+  ],
+  "title-too-long": [
+   "title-too-long"
+  ],
+  "missing-description": [
+   "missing-meta-description"
+  ],
+  "description-too-short": [
+   "meta-description-too-short"
+  ],
+  "description-too-long": [
+   "meta-description-too-long"
+  ],
+  "missing-og-title": [
+   "missing-open-graph"
+  ],
+  "missing-og-description": [
+   "missing-open-graph"
+  ],
+  "missing-og-image": [
+   "missing-open-graph"
+  ],
+  "image-missing-alt": [
+   "img-missing-alt"
+  ],
+  "missing-h1": [
+   "missing-h1"
+  ],
+  "anchor-generic-text": [
+   "non-descriptive-link-text"
+  ],
+  "http-error": [
+   "http-404",
+   "http-410",
+   "http-4xx",
+   "http-5xx"
+  ],
+  "duplicate-pages": [
+   "duplicate-content"
+  ]
+ },
+ "groundTruthTypesWithNoMapping": [
+  "soft-404",
+  "sitemap-contains-noindex",
+  "redirect-chain",
+  "multiple-canonicals",
+  "slow-server-response",
+  "broken-image",
+  "temporary-redirect",
+  "canonical-to-redirect",
+  "canonical-to-4xx",
+  "image-missing-dimensions",
+  "redirect-to-4xx",
+  "x-robots-noindex",
+  "url-uppercase",
+  "url-underscores",
+  "orphan-page",
+  "pagination-canonical-to-first-page",
+  "missing-canonical",
+  "missing-charset",
+  "no-text-compression",
+  "console-error",
+  "redirect-loop",
+  "meta-refresh-redirect",
+  "missing-doctype",
+  "image-oversized-file",
+  "missing-security-headers",
+  "hreflang-invalid-code",
+  "hreflang-missing-return-link",
+  "excessive-dom-size",
+  "server-version-disclosure",
+  "canonical-relative-url",
+  "missing-viewport",
+  "robots-blocks-resources",
+  "sitemap-contains-redirect",
+  "sitemap-invalid-xml",
+  "sitemap-invalid-lastmod",
+  "security-txt-invalid",
+  "img-alt-keyword-stuffed",
+  "multiple-h1",
+  "thin-content",
+  "placeholder-text",
+  "internal-link-to-redirect",
+  "duplicate-title",
+  "multiple-titles",
+  "duplicate-meta-description",
+  "multiple-meta-descriptions",
+  "empty-heading",
+  "nofollow-internal-link",
+  "uncrawlable-link",
+  "duplicate-h1",
+  "list-invalid-children",
+  "aria-invalid-attribute",
+  "link-missing-name",
+  "html-lang-invalid",
+  "viewport-blocks-zoom",
+  "frame-missing-title",
+  "low-contrast-text",
+  "heading-order",
+  "aria-invalid-role",
+  "html-missing-lang",
+  "missing-main-landmark",
+  "form-input-missing-label",
+  "tabindex-positive",
+  "aria-hidden-focusable",
+  "button-missing-name",
+  "nosnippet-key-page",
+  "markdown-alternate-broken",
+  "robots-blocks-ai-training-bot",
+  "robots-blocks-ai-search-bot",
+  "robots-blocks-ai-user-agent",
+  "robots-blocks-ai-bot-path",
+  "llms-txt-missing-h1",
+  "llms-txt-broken-link",
+  "waf-blocks-ai-bot",
+  "schema-unknown-type",
+  "schema-content-not-visible",
+  "schema-conflicting-entity",
+  "self-serving-review-markup",
+  "nap-inconsistent",
+  "missing-localbusiness-schema",
+  "json-ld-syntax-error",
+  "missing-author",
+  "missing-publish-date",
+  "missing-article-schema",
+  "schema-invalid-date",
+  "no-subheadings",
+  "schema-invalid-value",
+  "date-modified-before-published",
+  "schema-missing-required-property",
+  "non-semantic-button",
+  "layout-shift",
+  "custom-widget-missing-roles",
+  "webmcp-tool-missing-description",
+  "webmcp-schema-invalid",
+  "autocomplete-invalid",
+  "a2a-card-invalid",
+  "a2a-endpoint-unreachable",
+  "mcp-server-card-invalid",
+  "mcp-endpoint-unreachable",
+  "oauth-metadata-issuer-mismatch",
+  "oauth-protected-resource-invalid",
+  "api-catalog-broken-link"
+ ]
+}

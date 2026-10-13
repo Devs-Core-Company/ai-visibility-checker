@@ -1,0 +1,96 @@
+{
+ "crawl_id": 1,
+ "target_url": "http://127.0.0.1:38005/",
+ "started_at": "2026-10-13T11:50:17.700967",
+ "health_score": 28,
+ "totals": {
+  "urls": 88,
+  "indexable": 82,
+  "non_indexable": 6,
+  "broken": 5,
+  "redirects": 0,
+  "avg_depth": 1.1,
+  "issues": 99
+ },
+ "indexable_pct": 93,
+ "status_classes": {
+  "2xx": 83,
+  "3xx": 0,
+  "4xx": 4,
+  "5xx": 1,
+  "other": 0
+ },
+ "severity": {
+  "Critical": 5,
+  "High": 29,
+  "Medium": 31,
+  "Low": 32,
+  "Info": 2
+ },
+ "tiers": {
+  "AUTO": 10,
+  "REVIEW": 77,
+  "FLAG": 12
+ },
+ "issue_categories": [
+  {
+   "category": "Indexability",
+   "count": 24
+  },
+  {
+   "category": "GEO & Config",
+   "count": 23
+  },
+  {
+   "category": "Performance",
+   "count": 21
+  },
+  {
+   "category": "Content & Meta",
+   "count": 21
+  },
+  {
+   "category": "Links",
+   "count": 10
+  }
+ ],
+ "segments": [],
+ "depth_histogram": [
+  {
+   "depth": 0,
+   "count": 1
+  },
+  {
+   "depth": 1,
+   "count": 78
+  },
+  {
+   "depth": 2,
+   "count": 8
+  },
+  {
+   "depth": 3,
+   "count": 1
+  }
+ ],
+ "indexability_reasons": [
+  {
+   "reason": "meta_robots_noindex",
+   "count": 5
+  },
+  {
+   "reason": "x_robots_noindex",
+   "count": 1
+  }
+ ],
+ "content": {
+  "avg_words": 448,
+  "thin_pages": 6,
+  "avg_readability": 47.3
+ },
+ "cwv": {
+  "avg_lcp_s": 0.16,
+  "avg_cls": 0.012,
+  "samples": 87
+ }
+}

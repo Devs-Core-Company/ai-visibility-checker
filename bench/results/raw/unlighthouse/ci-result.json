@@ -1,0 +1,2889 @@
+{
+  "summary": {
+    "score": 0.99,
+    "categories": {
+      "performance": {
+        "score": 1,
+        "scores": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0.98,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0.77,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0.78,
+          0.92,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0.93,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "averageScore": 0.99
+      },
+      "accessibility": {
+        "score": 1,
+        "scores": [
+          1,
+          1,
+          1,
+          1,
+          0.98,
+          1,
+          1,
+          0.94,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0.98,
+          0.94,
+          1,
+          0.9,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0.95,
+          0.93,
+          1,
+          0.99,
+          1,
+          0.95,
+          1,
+          0.95,
+          1,
+          1,
+          1,
+          0.94,
+          1,
+          1,
+          1,
+          0.95,
+          0.93,
+          0.95,
+          0.95,
+          1,
+          1,
+          1
+        ],
+        "averageScore": 0.98
+      },
+      "best-practices": {
+        "score": 1,
+        "scores": [
+          1,
+          1,
+          1,
+          0.96,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0.96,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0.96,
+          1,
+          1
+        ],
+        "averageScore": 1
+      },
+      "seo": {
+        "score": 1,
+        "scores": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          0.92,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0.92,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0.69,
+          1,
+          1,
+          0.92,
+          0.92,
+          1,
+          1,
+          1,
+          1
+        ],
+        "averageScore": 0.99
+      }
+    },
+    "metrics": {
+      "largest-contentful-paint": {
+        "numericValue": 76.518,
+        "displayValue": "0.1 s",
+        "numericValues": [
+          271.008,
+          330.068,
+          95.345,
+          118.251,
+          87.33,
+          92.982,
+          126.039,
+          115.126,
+          95.832,
+          148.216,
+          104.236,
+          141.631,
+          85.908,
+          90.682,
+          96.906,
+          111.566,
+          155.277,
+          162.512,
+          116.03,
+          128.26,
+          108.776,
+          80.504,
+          173.295,
+          123.334,
+          84.555,
+          72.659,
+          187.909,
+          105.56,
+          232.69,
+          173.123,
+          179.247,
+          165.84,
+          135.006,
+          109.118,
+          108.641,
+          123.179,
+          124.089,
+          98.994,
+          148.361,
+          120.606,
+          152.847,
+          121.667,
+          139.601,
+          96.516,
+          2650.306,
+          148.145,
+          131.327,
+          170.759,
+          99.793,
+          83.663,
+          76.518
+        ],
+        "averageNumericValue": 180.39
+      },
+      "cumulative-layout-shift": {
+        "numericValue": 0,
+        "displayValue": "0",
+        "numericValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.08591366312970591,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.6622335967787778,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.6233292831105711,
+          0.1787743435318687,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "averageNumericValue": 0.03
+      },
+      "first-contentful-paint": {
+        "numericValue": 76.518,
+        "displayValue": "0.1 s",
+        "numericValues": [
+          271.008,
+          330.068,
+          95.345,
+          118.251,
+          87.33,
+          92.982,
+          92.41,
+          115.126,
+          95.832,
+          148.216,
+          104.236,
+          116.612,
+          85.908,
+          90.682,
+          85.109,
+          88.202,
+          155.277,
+          162.512,
+          116.03,
+          128.26,
+          108.776,
+          80.504,
+          173.295,
+          123.334,
+          84.555,
+          72.659,
+          187.909,
+          105.56,
+          131.338,
+          130.407,
+          179.247,
+          165.84,
+          135.006,
+          109.118,
+          108.641,
+          123.179,
+          124.089,
+          98.994,
+          113.096,
+          94.067,
+          137.352,
+          95.911,
+          125.358,
+          96.516,
+          2617.441,
+          133.994,
+          104.416,
+          138.414,
+          99.793,
+          83.663,
+          76.518
+        ],
+        "averageNumericValue": 171.34
+      },
+      "total-blocking-time": {
+        "numericValue": 0,
+        "displayValue": "0 ms",
+        "numericValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          27.625,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "averageNumericValue": 0.54
+      },
+      "max-potential-fid": {
+        "numericValue": 16,
+        "displayValue": "20 ms",
+        "numericValues": [
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          79.59,
+          16,
+          19.885,
+          17.522,
+          16,
+          16,
+          16,
+          16,
+          19.5,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16
+        ],
+        "averageNumericValue": 17.42
+      },
+      "interactive": {
+        "numericValue": 76.518,
+        "displayValue": "0.1 s",
+        "numericValues": [
+          271.008,
+          330.068,
+          95.345,
+          118.251,
+          87.33,
+          92.982,
+          92.41,
+          115.126,
+          95.832,
+          148.216,
+          104.236,
+          116.612,
+          85.908,
+          90.682,
+          85.109,
+          88.202,
+          155.277,
+          162.512,
+          116.03,
+          128.26,
+          108.776,
+          80.504,
+          173.295,
+          123.334,
+          84.555,
+          72.659,
+          265.534,
+          105.56,
+          131.338,
+          130.407,
+          179.247,
+          165.84,
+          135.006,
+          109.118,
+          108.641,
+          123.179,
+          124.089,
+          98.994,
+          113.096,
+          94.067,
+          137.352,
+          95.911,
+          125.358,
+          96.516,
+          2617.441,
+          133.994,
+          104.416,
+          138.414,
+          99.793,
+          83.663,
+          76.518
+        ],
+        "averageNumericValue": 172.86
+      }
+    }
+  },
+  "routes": [
+    {
+      "path": "/",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 271.008,
+          "displayValue": "0.3 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 271.008,
+          "displayValue": "0.3 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 271.008,
+          "displayValue": "0.3 s"
+        }
+      }
+    },
+    {
+      "path": "/about",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 330.068,
+          "displayValue": "0.3 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 330.068,
+          "displayValue": "0.3 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 330.068,
+          "displayValue": "0.3 s"
+        }
+      }
+    },
+    {
+      "path": "/blog",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 95.345,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 95.345,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 95.345,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/blog/category/cosmetic",
+      "score": 0.99,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 0.96
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 118.251,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 118.251,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 118.251,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/blog/category/news",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 0.98
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 87.33,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 87.33,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 87.33,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/blog/category/oral-health",
+      "score": 0.98,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 0.92
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 92.982,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 92.982,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 92.982,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/blog/choosing-a-toothpaste",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 126.039,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 92.41,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 92.41,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/blog/electric-vs-manual-toothbrush",
+      "score": 0.99,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 0.94
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 115.126,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 115.126,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 115.126,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/blog/history-of-dentistry",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 95.832,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 95.832,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 95.832,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/blog/kids-first-visit",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 148.216,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 148.216,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 148.216,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/blog/open-evening-november",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 104.236,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 104.236,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 104.236,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/blog/sugar-and-teeth",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 141.631,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 116.612,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 116.612,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/blog/tag/kids",
+      "score": 0.99,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 0.96
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 85.908,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 85.908,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 85.908,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/blog/tag/whitening",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 90.682,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 90.682,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 90.682,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/blog/Top-10-Brushing-Mistakes",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 96.906,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 85.109,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 85.109,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/blog/what-to-expect-implants",
+      "score": 0.99,
+      "categories": {
+        "performance": {
+          "score": 0.98
+        },
+        "accessibility": {
+          "score": 0.98
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 111.566,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0.08591366312970591,
+          "displayValue": "0.086"
+        },
+        "first-contentful-paint": {
+          "numericValue": 88.202,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 88.202,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/book",
+      "score": 0.99,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 0.94
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 155.277,
+          "displayValue": "0.2 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 155.277,
+          "displayValue": "0.2 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 155.277,
+          "displayValue": "0.2 s"
+        }
+      }
+    },
+    {
+      "path": "/careers",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 162.512,
+          "displayValue": "0.2 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 162.512,
+          "displayValue": "0.2 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 162.512,
+          "displayValue": "0.2 s"
+        }
+      }
+    },
+    {
+      "path": "/contact",
+      "score": 0.98,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 0.9
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 116.03,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 116.03,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 116.03,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/developers",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 128.26,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 128.26,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 128.26,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/faq",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 108.776,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 108.776,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 108.776,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/finance",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 80.504,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 80.504,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 80.504,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/invisalign-guide",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 173.295,
+          "displayValue": "0.2 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 173.295,
+          "displayValue": "0.2 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 173.295,
+          "displayValue": "0.2 s"
+        }
+      }
+    },
+    {
+      "path": "/legal/accessibility",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 123.334,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 123.334,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 123.334,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/legal/complaints",
+      "score": 0.94,
+      "categories": {
+        "performance": {
+          "score": 0.77
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 84.555,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0.6622335967787778,
+          "displayValue": "0.662"
+        },
+        "first-contentful-paint": {
+          "numericValue": 84.555,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 84.555,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/legal/cookies",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 72.659,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 72.659,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 72.659,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/legal/privacy",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 187.909,
+          "displayValue": "0.2 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 187.909,
+          "displayValue": "0.2 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 27.625,
+          "displayValue": "30 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 79.59,
+          "displayValue": "80 ms"
+        },
+        "interactive": {
+          "numericValue": 265.534,
+          "displayValue": "0.3 s"
+        }
+      }
+    },
+    {
+      "path": "/legal/terms",
+      "score": 0.98,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 0.92
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 105.56,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 105.56,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 105.56,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/locations",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 232.69,
+          "displayValue": "0.2 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 131.338,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 19.885,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 131.338,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/locations/bath",
+      "score": 0.99,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 0.95
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 173.123,
+          "displayValue": "0.2 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 130.407,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 17.522,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 130.407,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/locations/bristol",
+      "score": 0.98,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 0.93
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 179.247,
+          "displayValue": "0.2 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 179.247,
+          "displayValue": "0.2 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 179.247,
+          "displayValue": "0.2 s"
+        }
+      }
+    },
+    {
+      "path": "/locations/leeds",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 165.84,
+          "displayValue": "0.2 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 165.84,
+          "displayValue": "0.2 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 165.84,
+          "displayValue": "0.2 s"
+        }
+      }
+    },
+    {
+      "path": "/new-patients",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 0.99
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 135.006,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 135.006,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 135.006,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/patient-stories",
+      "score": 0.95,
+      "categories": {
+        "performance": {
+          "score": 0.78
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 109.118,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0.6233292831105711,
+          "displayValue": "0.623"
+        },
+        "first-contentful-paint": {
+          "numericValue": 109.118,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 109.118,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/pricing",
+      "score": 0.97,
+      "categories": {
+        "performance": {
+          "score": 0.92
+        },
+        "accessibility": {
+          "score": 0.95
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 108.641,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0.1787743435318687,
+          "displayValue": "0.179"
+        },
+        "first-contentful-paint": {
+          "numericValue": 108.641,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 19.5,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 108.641,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/referrals",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 123.179,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 123.179,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 123.179,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/services",
+      "score": 0.99,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 0.95
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 124.089,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 124.089,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 124.089,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/services/childrens-dentistry",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 98.994,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 98.994,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 98.994,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/services/dental-implants",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 148.361,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 113.096,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 113.096,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/services/emergency-dentist",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 120.606,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 94.067,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 94.067,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/services/general-dentistry",
+      "score": 0.99,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 0.94
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 152.847,
+          "displayValue": "0.2 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 137.352,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 137.352,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/services/hygiene",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 121.667,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 95.911,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 95.911,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/services/invisalign",
+      "score": 0.92,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 0.69
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 139.601,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 125.358,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 125.358,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/services/teeth-whitening",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 96.516,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 96.516,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 96.516,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/team",
+      "score": 0.97,
+      "categories": {
+        "performance": {
+          "score": 0.93
+        },
+        "accessibility": {
+          "score": 0.95
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 2650.306,
+          "displayValue": "2.7 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 2617.441,
+          "displayValue": "2.6 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 2617.441,
+          "displayValue": "2.6 s"
+        }
+      }
+    },
+    {
+      "path": "/team/dr-amelia-hart",
+      "score": 0.96,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 0.93
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 0.92
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 148.145,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 133.994,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 133.994,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/team/dr-rohan-mehta",
+      "score": 0.97,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 0.95
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 0.92
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 131.327,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 104.416,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 104.416,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/team/dr-sophie-lang",
+      "score": 0.99,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 0.95
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 170.759,
+          "displayValue": "0.2 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 138.414,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 138.414,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/team/priya-shah",
+      "score": 0.99,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 0.96
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 99.793,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 99.793,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 99.793,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/team/tom-ellis",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 83.663,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 83.663,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 83.663,
+          "displayValue": "0.1 s"
+        }
+      }
+    },
+    {
+      "path": "/us/invisalign-guide",
+      "score": 1,
+      "categories": {
+        "performance": {
+          "score": 1
+        },
+        "accessibility": {
+          "score": 1
+        },
+        "best-practices": {
+          "score": 1
+        },
+        "seo": {
+          "score": 1
+        }
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "numericValue": 76.518,
+          "displayValue": "0.1 s"
+        },
+        "cumulative-layout-shift": {
+          "numericValue": 0,
+          "displayValue": "0"
+        },
+        "first-contentful-paint": {
+          "numericValue": 76.518,
+          "displayValue": "0.1 s"
+        },
+        "total-blocking-time": {
+          "numericValue": 0,
+          "displayValue": "0 ms"
+        },
+        "max-potential-fid": {
+          "numericValue": 16,
+          "displayValue": "20 ms"
+        },
+        "interactive": {
+          "numericValue": 76.518,
+          "displayValue": "0.1 s"
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "metrics": {
+      "largest-contentful-paint": {
+        "id": "largest-contentful-paint",
+        "title": "Largest Contentful Paint",
+        "description": "Largest Contentful Paint marks the time at which the largest text or image is painted. [Learn more about the Largest Contentful Paint metric](https://developer.chrome.com/docs/lighthouse/performance/lighthouse-largest-contentful-paint/)",
+        "numericUnit": "millisecond"
+      },
+      "cumulative-layout-shift": {
+        "id": "cumulative-layout-shift",
+        "title": "Cumulative Layout Shift",
+        "description": "Cumulative Layout Shift measures the movement of visible elements within the viewport. [Learn more about the Cumulative Layout Shift metric](https://web.dev/articles/cls).",
+        "numericUnit": "unitless"
+      },
+      "first-contentful-paint": {
+        "id": "first-contentful-paint",
+        "title": "First Contentful Paint",
+        "description": "First Contentful Paint marks the time at which the first text or image is painted. [Learn more about the First Contentful Paint metric](https://developer.chrome.com/docs/lighthouse/performance/first-contentful-paint/).",
+        "numericUnit": "millisecond"
+      },
+      "total-blocking-time": {
+        "id": "total-blocking-time",
+        "title": "Total Blocking Time",
+        "description": "Sum of all time periods between FCP and Time to Interactive, when task length exceeded 50ms, expressed in milliseconds. [Learn more about the Total Blocking Time metric](https://developer.chrome.com/docs/lighthouse/performance/lighthouse-total-blocking-time/).",
+        "numericUnit": "millisecond"
+      },
+      "max-potential-fid": {
+        "id": "max-potential-fid",
+        "title": "Max Potential First Input Delay",
+        "description": "The maximum potential First Input Delay that your users could experience is the duration of the longest task. [Learn more about the Maximum Potential First Input Delay metric](https://developer.chrome.com/docs/lighthouse/performance/lighthouse-max-potential-fid/).",
+        "numericUnit": "millisecond"
+      },
+      "interactive": {
+        "id": "interactive",
+        "title": "Time to Interactive",
+        "description": "Time to Interactive is the amount of time it takes for the page to become fully interactive. [Learn more about the Time to Interactive metric](https://developer.chrome.com/docs/lighthouse/performance/interactive/).",
+        "numericUnit": "millisecond"
+      }
+    },
+    "categories": {
+      "performance": {
+        "id": "performance",
+        "title": "Performance"
+      },
+      "accessibility": {
+        "id": "accessibility",
+        "title": "Accessibility"
+      },
+      "best-practices": {
+        "id": "best-practices",
+        "title": "Best Practices"
+      },
+      "seo": {
+        "id": "seo",
+        "title": "SEO"
+      }
+    }
+  }
+}

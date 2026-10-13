@@ -1,0 +1,391 @@
+{
+ "tool": "scrawly",
+ "source": "Scrawly check registry (load_all_checks + site-level checks) and agentic probe ids (catalogues/scrawly.json); failed agentic probes are site-wide findings",
+ "version": "sentinelseo 1.0.0, git 8fdebcf",
+ "rule": "A native id is mapped to a ground-truth type (or alt_type) when its finding clearly names the same problem. Written from the tool catalogue, not from run output. Same standard for every tool.",
+ "map": {
+  "A02": [
+   "robots-blocks-resources"
+  ],
+  "L03": [
+   "robots-blocks-resources"
+  ],
+  "A04": [
+   "noindex-page"
+  ],
+  "A05": [
+   "x-robots-noindex",
+   "noindex-page"
+  ],
+  "A09": [
+   "orphan-page"
+  ],
+  "A12": [
+   "noindex-page-linked"
+  ],
+  "A14": [
+   "nosnippet-key-page"
+  ],
+  "B01": [
+   "http-404",
+   "http-410",
+   "http-4xx"
+  ],
+  "B02": [
+   "http-5xx"
+  ],
+  "B03": [
+   "soft-404"
+  ],
+  "B04": [
+   "broken-internal-link"
+  ],
+  "B06": [
+   "redirect-chain"
+  ],
+  "B07": [
+   "redirect-loop"
+  ],
+  "B08": [
+   "temporary-redirect"
+  ],
+  "B09": [
+   "internal-link-to-redirect"
+  ],
+  "B10": [
+   "canonical-to-redirect"
+  ],
+  "B11": [
+   "redirect-to-4xx"
+  ],
+  "B12": [
+   "meta-refresh-redirect"
+  ],
+  "C01": [
+   "missing-canonical"
+  ],
+  "C02": [
+   "canonical-mismatch"
+  ],
+  "C03": [
+   "canonical-mismatch"
+  ],
+  "C04": [
+   "canonical-to-4xx",
+   "canonical-to-redirect"
+  ],
+  "C05": [
+   "multiple-canonicals"
+  ],
+  "C09": [
+   "canonical-relative-url"
+  ],
+  "C11": [
+   "pagination-canonical-to-first-page"
+  ],
+  "U03": [
+   "pagination-canonical-to-first-page"
+  ],
+  "D01": [
+   "missing-title"
+  ],
+  "D02": [
+   "duplicate-title"
+  ],
+  "D03": [
+   "title-too-long"
+  ],
+  "D04": [
+   "title-too-short"
+  ],
+  "D05": [
+   "multiple-titles"
+  ],
+  "V15": [
+   "multiple-titles"
+  ],
+  "D07": [
+   "missing-meta-description"
+  ],
+  "D08": [
+   "duplicate-meta-description"
+  ],
+  "D09": [
+   "meta-description-too-short"
+  ],
+  "D10": [
+   "meta-description-too-short"
+  ],
+  "D11": [
+   "multiple-meta-descriptions"
+  ],
+  "D12": [
+   "missing-h1"
+  ],
+  "D13": [
+   "multiple-h1"
+  ],
+  "D14": [
+   "duplicate-h1"
+  ],
+  "D15": [
+   "heading-order"
+  ],
+  "D16": [
+   "empty-heading"
+  ],
+  "D19": [
+   "missing-open-graph"
+  ],
+  "D20": [
+   "missing-viewport"
+  ],
+  "O01": [
+   "missing-viewport",
+   "viewport-blocks-zoom"
+  ],
+  "E01": [
+   "duplicate-content"
+  ],
+  "E02": [
+   "duplicate-content"
+  ],
+  "E04": [
+   "thin-content"
+  ],
+  "E08": [
+   "placeholder-text"
+  ],
+  "E12": [
+   "missing-publish-date"
+  ],
+  "F01": [
+   "orphan-page"
+  ],
+  "K09": [
+   "orphan-page"
+  ],
+  "F05": [
+   "link-missing-name"
+  ],
+  "F06": [
+   "non-descriptive-link-text"
+  ],
+  "F07": [
+   "internal-link-to-redirect",
+   "internal-link-to-non-canonical"
+  ],
+  "F08": [
+   "uncrawlable-link",
+   "non-semantic-button"
+  ],
+  "F09": [
+   "nofollow-internal-link"
+  ],
+  "H01": [
+   "img-missing-alt"
+  ],
+  "H03": [
+   "img-alt-keyword-stuffed"
+  ],
+  "H04": [
+   "image-oversized-file"
+  ],
+  "H10": [
+   "image-oversized-file"
+  ],
+  "H05": [
+   "image-missing-dimensions"
+  ],
+  "H06": [
+   "broken-image"
+  ],
+  "I01": [
+   "hreflang-missing-return-link"
+  ],
+  "I03": [
+   "hreflang-invalid-code"
+  ],
+  "J01": [
+   "schema-missing-required-property"
+  ],
+  "J03": [
+   "json-ld-syntax-error"
+  ],
+  "J06": [
+   "schema-conflicting-entity"
+  ],
+  "J07": [
+   "missing-localbusiness-schema"
+  ],
+  "J09": [
+   "missing-article-schema",
+   "missing-author",
+   "missing-publish-date"
+  ],
+  "J11": [
+   "nap-inconsistent"
+  ],
+  "J12": [
+   "self-serving-review-markup"
+  ],
+  "K02": [
+   "sitemap-contains-4xx"
+  ],
+  "K03": [
+   "sitemap-contains-noindex",
+   "sitemap-contains-non-canonical"
+  ],
+  "K04": [
+   "sitemap-contains-redirect"
+  ],
+  "K07": [
+   "sitemap-invalid-xml"
+  ],
+  "K08": [
+   "sitemap-invalid-lastmod"
+  ],
+  "M06": [
+   "missing-security-headers"
+  ],
+  "M08": [
+   "server-version-disclosure"
+  ],
+  "N03": [
+   "layout-shift"
+  ],
+  "S08": [
+   "layout-shift"
+  ],
+  "N04": [
+   "slow-server-response"
+  ],
+  "N07": [
+   "no-text-compression"
+  ],
+  "N09": [
+   "excessive-dom-size"
+  ],
+  "P01": [
+   "client-side-rendered-content"
+  ],
+  "R05": [
+   "client-side-rendered-content"
+  ],
+  "P04": [
+   "console-error"
+  ],
+  "Q01": [
+   "link-missing-name",
+   "button-missing-name"
+  ],
+  "S05": [
+   "link-missing-name",
+   "button-missing-name"
+  ],
+  "Q02": [
+   "aria-invalid-attribute",
+   "aria-invalid-role"
+  ],
+  "Q03": [
+   "form-input-missing-label"
+  ],
+  "Q04": [
+   "low-contrast-text"
+  ],
+  "Q05": [
+   "aria-hidden-focusable"
+  ],
+  "S07": [
+   "aria-hidden-focusable",
+   "non-semantic-button",
+   "custom-widget-missing-roles"
+  ],
+  "Q06": [
+   "list-invalid-children",
+   "custom-widget-missing-roles"
+  ],
+  "S06": [
+   "list-invalid-children",
+   "custom-widget-missing-roles",
+   "aria-invalid-role"
+  ],
+  "Q07": [
+   "html-missing-lang"
+  ],
+  "V14": [
+   "html-missing-lang"
+  ],
+  "Q08": [
+   "non-semantic-button",
+   "custom-widget-missing-roles"
+  ],
+  "Q09": [
+   "missing-main-landmark"
+  ],
+  "S10": [
+   "webmcp-schema-invalid",
+   "webmcp-tool-missing-description"
+  ],
+  "S02": [
+   "llms-txt-missing-h1"
+  ],
+  "R01": [
+   "robots-blocks-ai-training-bot"
+  ],
+  "R02": [
+   "robots-blocks-ai-search-bot"
+  ],
+  "R03": [
+   "robots-blocks-ai-user-agent"
+  ],
+  "R04": [
+   "waf-blocks-ai-bot"
+  ],
+  "T01": [
+   "url-uppercase"
+  ],
+  "T09": [
+   "url-underscores"
+  ],
+  "V13": [
+   "missing-doctype"
+  ],
+  "V16": [
+   "missing-charset"
+  ],
+  "AGT.LLMS_TXT": [
+   "llms-txt-missing-h1"
+  ],
+  "AGT.A2A_CARD": [
+   "a2a-card-invalid"
+  ],
+  "AGT.MCP_CARD": [
+   "mcp-server-card-invalid"
+  ],
+  "AGT.OAUTH_PR": [
+   "oauth-protected-resource-invalid"
+  ]
+ },
+ "groundTruthTypesWithNoMapping": [
+  "security-txt-invalid",
+  "meta-description-too-long",
+  "html-lang-invalid",
+  "frame-missing-title",
+  "tabindex-positive",
+  "markdown-alternate-broken",
+  "robots-blocks-ai-bot-path",
+  "llms-txt-broken-link",
+  "schema-unknown-type",
+  "schema-content-not-visible",
+  "schema-invalid-date",
+  "no-subheadings",
+  "schema-invalid-value",
+  "date-modified-before-published",
+  "autocomplete-invalid",
+  "a2a-endpoint-unreachable",
+  "mcp-endpoint-unreachable",
+  "oauth-metadata-issuer-mismatch",
+  "api-catalog-broken-link"
+ ]
+}

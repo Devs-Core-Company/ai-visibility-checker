@@ -1,0 +1,1357 @@
+{
+ "A01": {
+  "title": "Important URL blocked by robots.txt",
+  "domain": "Crawlability & Indexability",
+  "severity": "Critical"
+ },
+ "A02": {
+  "title": "Robots.txt disallows CSS/JS",
+  "domain": "Crawlability & Indexability",
+  "severity": "High"
+ },
+ "A03": {
+  "title": "Robots.txt missing / returns 5xx",
+  "domain": "Crawlability & Indexability",
+  "severity": "Critical"
+ },
+ "A04": {
+  "title": "Meta robots `noindex` on key page",
+  "domain": "Crawlability & Indexability",
+  "severity": "Critical"
+ },
+ "A05": {
+  "title": "X-Robots-Tag `noindex` (header)",
+  "domain": "Crawlability & Indexability",
+  "severity": "Critical"
+ },
+ "A06": {
+  "title": "`noindex` + `follow` vs `noindex,nofollow` mismatch",
+  "domain": "Crawlability & Indexability",
+  "severity": "Medium"
+ },
+ "A07": {
+  "title": "Conflicting index signals (meta vs header vs canonical)",
+  "domain": "Crawlability & Indexability",
+  "severity": "High"
+ },
+ "A08": {
+  "title": "`noindex` present in response but removed by JS (or vice-versa)",
+  "domain": "Crawlability & Indexability",
+  "severity": "High"
+ },
+ "A09": {
+  "title": "Orphan URL (in sitemap/GSC but no internal inlinks)",
+  "domain": "Crawlability & Indexability",
+  "severity": "Medium"
+ },
+ "A10": {
+  "title": "Excessive crawl depth (>4 clicks from home)",
+  "domain": "Crawlability & Indexability",
+  "severity": "Medium"
+ },
+ "A11": {
+  "title": "Crawl-budget waste: many low-value indexable URLs (params, faceted)",
+  "domain": "Crawlability & Indexability",
+  "severity": "High"
+ },
+ "A12": {
+  "title": "Non-indexable page receiving internal links",
+  "domain": "Crawlability & Indexability",
+  "severity": "Low"
+ },
+ "A13": {
+  "title": "Nofollowed internal links to important pages",
+  "domain": "Crawlability & Indexability",
+  "severity": "Medium"
+ },
+ "A14": {
+  "title": "Meta robots `nosnippet`/`noarchive`/`max-snippet` unexpected",
+  "domain": "Crawlability & Indexability",
+  "severity": "Low"
+ },
+ "A15": {
+  "title": "Disallowed URL still internally linked",
+  "domain": "Crawlability & Indexability",
+  "severity": "Low"
+ },
+ "AGT.A2A_CARD": {
+  "title": "agentic probe",
+  "domain": "Agentic",
+  "severity": "n/a"
+ },
+ "AGT.ACP": {
+  "title": "agentic probe",
+  "domain": "Agentic",
+  "severity": "n/a"
+ },
+ "AGT.AGENT_SKILLS": {
+  "title": "agentic probe",
+  "domain": "Agentic",
+  "severity": "n/a"
+ },
+ "AGT.AI_BOTS": {
+  "title": "agentic probe",
+  "domain": "Agentic",
+  "severity": "n/a"
+ },
+ "AGT.AI_PLUGIN": {
+  "title": "agentic probe",
+  "domain": "Agentic",
+  "severity": "n/a"
+ },
+ "AGT.API_CATALOG": {
+  "title": "agentic probe",
+  "domain": "Agentic",
+  "severity": "n/a"
+ },
+ "AGT.AUTH_MD": {
+  "title": "agentic probe",
+  "domain": "Agentic",
+  "severity": "n/a"
+ },
+ "AGT.CONTENT_SIGNALS": {
+  "title": "agentic probe",
+  "domain": "Agentic",
+  "severity": "n/a"
+ },
+ "AGT.DNS_AID": {
+  "title": "agentic probe",
+  "domain": "Agentic",
+  "severity": "n/a"
+ },
+ "AGT.LINK_HEADERS": {
+  "title": "agentic probe",
+  "domain": "Agentic",
+  "severity": "n/a"
+ },
+ "AGT.LLMS_TXT": {
+  "title": "agentic probe",
+  "domain": "Agentic",
+  "severity": "n/a"
+ },
+ "AGT.MARKDOWN": {
+  "title": "agentic probe",
+  "domain": "Agentic",
+  "severity": "n/a"
+ },
+ "AGT.MCP_CARD": {
+  "title": "agentic probe",
+  "domain": "Agentic",
+  "severity": "n/a"
+ },
+ "AGT.MPP": {
+  "title": "agentic probe",
+  "domain": "Agentic",
+  "severity": "n/a"
+ },
+ "AGT.OAUTH_DISCOVERY": {
+  "title": "agentic probe",
+  "domain": "Agentic",
+  "severity": "n/a"
+ },
+ "AGT.OAUTH_PR": {
+  "title": "agentic probe",
+  "domain": "Agentic",
+  "severity": "n/a"
+ },
+ "AGT.ROBOTS": {
+  "title": "agentic probe",
+  "domain": "Agentic",
+  "severity": "n/a"
+ },
+ "AGT.SITEMAP": {
+  "title": "agentic probe",
+  "domain": "Agentic",
+  "severity": "n/a"
+ },
+ "AGT.UCP": {
+  "title": "agentic probe",
+  "domain": "Agentic",
+  "severity": "n/a"
+ },
+ "AGT.WEB_BOT_AUTH": {
+  "title": "agentic probe",
+  "domain": "Agentic",
+  "severity": "n/a"
+ },
+ "AGT.X402": {
+  "title": "agentic probe",
+  "domain": "Agentic",
+  "severity": "n/a"
+ },
+ "B01": {
+  "title": "4xx client errors (esp. 404)",
+  "domain": "Response codes & redirects",
+  "severity": "High"
+ },
+ "B02": {
+  "title": "5xx server errors",
+  "domain": "Response codes & redirects",
+  "severity": "Critical"
+ },
+ "B03": {
+  "title": "Soft 404 (200 status, \"not found\" content)",
+  "domain": "Response codes & redirects",
+  "severity": "Medium"
+ },
+ "B04": {
+  "title": "Broken internal links (\u2192 4xx/5xx)",
+  "domain": "Response codes & redirects",
+  "severity": "High"
+ },
+ "B05": {
+  "title": "Broken external (outbound) links",
+  "domain": "Response codes & redirects",
+  "severity": "Medium"
+ },
+ "B06": {
+  "title": "Redirect chains (A\u2192B\u2192C\u2026)",
+  "domain": "Response codes & redirects",
+  "severity": "High"
+ },
+ "B07": {
+  "title": "Redirect loops",
+  "domain": "Response codes & redirects",
+  "severity": "Critical"
+ },
+ "B08": {
+  "title": "Temporary redirect (302/307) that should be 301/308",
+  "domain": "Response codes & redirects",
+  "severity": "Medium"
+ },
+ "B09": {
+  "title": "Internal links pointing to redirects",
+  "domain": "Response codes & redirects",
+  "severity": "Medium"
+ },
+ "B10": {
+  "title": "Canonical points to a redirected URL",
+  "domain": "Response codes & redirects",
+  "severity": "High"
+ },
+ "B11": {
+  "title": "Redirect to 4xx/5xx (broken redirect target)",
+  "domain": "Response codes & redirects",
+  "severity": "High"
+ },
+ "B12": {
+  "title": "Meta-refresh / JS redirect",
+  "domain": "Response codes & redirects",
+  "severity": "Low"
+ },
+ "B13": {
+  "title": "HTTP \u2192 HTTPS redirect missing",
+  "domain": "Response codes & redirects",
+  "severity": "High"
+ },
+ "B14": {
+  "title": "Mixed redirect status across templates (migration check)",
+  "domain": "Response codes & redirects",
+  "severity": "High"
+ },
+ "C01": {
+  "title": "Missing canonical",
+  "domain": "Canonicalization",
+  "severity": "Medium"
+ },
+ "C02": {
+  "title": "Non-self-referential canonical (unintended)",
+  "domain": "Canonicalization",
+  "severity": "High"
+ },
+ "C03": {
+  "title": "Canonical to a non-indexable URL",
+  "domain": "Canonicalization",
+  "severity": "High"
+ },
+ "C04": {
+  "title": "Canonical to 4xx/5xx/redirect",
+  "domain": "Canonicalization",
+  "severity": "High"
+ },
+ "C05": {
+  "title": "Multiple conflicting canonicals on one page",
+  "domain": "Canonicalization",
+  "severity": "High"
+ },
+ "C06": {
+  "title": "Canonical set only in HTTP header vs HTML mismatch",
+  "domain": "Canonicalization",
+  "severity": "Medium"
+ },
+ "C07": {
+  "title": "Canonical changed/added/removed by JS (response vs render)",
+  "domain": "Canonicalization",
+  "severity": "High"
+ },
+ "C08": {
+  "title": "Cross-domain canonical (unintended)",
+  "domain": "Canonicalization",
+  "severity": "High"
+ },
+ "C09": {
+  "title": "Canonical uses relative / protocol-relative / non-absolute URL",
+  "domain": "Canonicalization",
+  "severity": "Low"
+ },
+ "C10": {
+  "title": "Parameterized URL not canonicalized to clean URL",
+  "domain": "Canonicalization",
+  "severity": "Medium"
+ },
+ "C11": {
+  "title": "Paginated page 2+ canonicalized to page 1 (anti-pattern)",
+  "domain": "Canonicalization",
+  "severity": "Medium"
+ },
+ "D01": {
+  "title": "Missing page title",
+  "domain": "Titles, meta and headings",
+  "severity": "High"
+ },
+ "D02": {
+  "title": "Duplicate titles",
+  "domain": "On-page",
+  "severity": "High"
+ },
+ "D03": {
+  "title": "Title too long (>~60 chars / ~575px)",
+  "domain": "Titles, meta and headings",
+  "severity": "Low"
+ },
+ "D04": {
+  "title": "Title too short (<~30 chars)",
+  "domain": "Titles, meta and headings",
+  "severity": "Low"
+ },
+ "D05": {
+  "title": "Multiple `<title>` elements",
+  "domain": "Titles, meta and headings",
+  "severity": "Medium"
+ },
+ "D06": {
+  "title": "Title same as H1",
+  "domain": "On-page",
+  "severity": "Low"
+ },
+ "D07": {
+  "title": "Missing meta description",
+  "domain": "Titles, meta and headings",
+  "severity": "Medium"
+ },
+ "D08": {
+  "title": "Duplicate meta descriptions",
+  "domain": "On-page",
+  "severity": "Medium"
+ },
+ "D09": {
+  "title": "Meta description too thin for AI",
+  "domain": "Titles, meta and headings",
+  "severity": "Low"
+ },
+ "D10": {
+  "title": "Meta description too short",
+  "domain": "Titles, meta and headings",
+  "severity": "Low"
+ },
+ "D11": {
+  "title": "Multiple meta descriptions",
+  "domain": "Titles, meta and headings",
+  "severity": "Low"
+ },
+ "D12": {
+  "title": "Missing H1",
+  "domain": "Titles, meta and headings",
+  "severity": "Medium"
+ },
+ "D13": {
+  "title": "Multiple H1s",
+  "domain": "Titles, meta and headings",
+  "severity": "Low"
+ },
+ "D14": {
+  "title": "Duplicate H1",
+  "domain": "On-page",
+  "severity": "Low"
+ },
+ "D15": {
+  "title": "Broken heading order (skips H2\u2192H4)",
+  "domain": "Titles, meta and headings",
+  "severity": "Low"
+ },
+ "D16": {
+  "title": "Empty heading tags",
+  "domain": "Titles, meta and headings",
+  "severity": "Low"
+ },
+ "D17": {
+  "title": "Title/description created or modified by JS only",
+  "domain": "Titles, meta and headings",
+  "severity": "Medium"
+ },
+ "D18": {
+  "title": "Meta keywords tag present",
+  "domain": "Titles, meta and headings",
+  "severity": "Low"
+ },
+ "D19": {
+  "title": "Missing/incorrect OG + Twitter Card tags",
+  "domain": "Titles, meta and headings",
+  "severity": "Low"
+ },
+ "D20": {
+  "title": "Missing viewport meta",
+  "domain": "Titles, meta and headings",
+  "severity": "High"
+ },
+ "D21": {
+  "title": "Heading over 70 characters",
+  "domain": "Titles, meta and headings",
+  "severity": "Low"
+ },
+ "E01": {
+  "title": "Exact duplicate",
+  "domain": "Content",
+  "severity": "High"
+ },
+ "E02": {
+  "title": "Near duplicate",
+  "domain": "Content",
+  "severity": "Medium"
+ },
+ "E03": {
+  "title": "URL pattern duplicate",
+  "domain": "Content",
+  "severity": "Medium"
+ },
+ "E04": {
+  "title": "Thin content (low word count / low main-content ratio)",
+  "domain": "Content quality",
+  "severity": "Medium"
+ },
+ "E05": {
+  "title": "Duplicate title + meta description pair",
+  "domain": "Content",
+  "severity": "Medium"
+ },
+ "E06": {
+  "title": "Keyword cannibalization (same title + H1)",
+  "domain": "Content",
+  "severity": "Medium"
+ },
+ "E07": {
+  "title": "Boilerplate-heavy pages (nav/footer >> main content)",
+  "domain": "Content quality",
+  "severity": "Low"
+ },
+ "E08": {
+  "title": "Lorem ipsum / placeholder text detected",
+  "domain": "Content quality",
+  "severity": "Medium"
+ },
+ "E09": {
+  "title": "Spelling/grammar density anomalies (optional, LLM)",
+  "domain": "Content quality",
+  "severity": "Low"
+ },
+ "E10": {
+  "title": "Low text-to-HTML ratio",
+  "domain": "Content quality",
+  "severity": "Low"
+ },
+ "E11": {
+  "title": "Content hidden behind tabs/accordions/JS interactions",
+  "domain": "Content quality",
+  "severity": "Medium"
+ },
+ "E12": {
+  "title": "Missing/duplicate publish + modified dates",
+  "domain": "Content quality",
+  "severity": "Low"
+ },
+ "F01": {
+  "title": "Orphan pages (no internal inlinks)",
+  "domain": "Internal linking & architecture",
+  "severity": "Medium"
+ },
+ "F02": {
+  "title": "Pages with only 1 internal inlink",
+  "domain": "Internal linking & architecture",
+  "severity": "Low"
+ },
+ "F03": {
+  "title": "Excessive on-page links (>~100\u2013150)",
+  "domain": "Internal linking & architecture",
+  "severity": "Low"
+ },
+ "F04": {
+  "title": "Deep pages (>3\u20134 clicks from home)",
+  "domain": "Internal linking & architecture",
+  "severity": "Medium"
+ },
+ "F05": {
+  "title": "Broken/empty anchor text",
+  "domain": "Internal linking & architecture",
+  "severity": "Low"
+ },
+ "F06": {
+  "title": "Generic anchors (\"click here\", \"read more\") at scale",
+  "domain": "Internal linking & architecture",
+  "severity": "Low"
+ },
+ "F07": {
+  "title": "Internal links to non-canonical / redirected URLs",
+  "domain": "Internal linking & architecture",
+  "severity": "Medium"
+ },
+ "F08": {
+  "title": "Uncrawlable links (JS onclick, buttons, no `href`)",
+  "domain": "Internal linking & architecture",
+  "severity": "Medium"
+ },
+ "F09": {
+  "title": "Internal `nofollow` sculpting (unintended)",
+  "domain": "Internal linking & architecture",
+  "severity": "Low"
+ },
+ "F10": {
+  "title": "Links created/removed only by JS (response vs render)",
+  "domain": "Internal linking & architecture",
+  "severity": "Medium"
+ },
+ "F11": {
+  "title": "No breadcrumb / weak hierarchical linking",
+  "domain": "Internal linking & architecture",
+  "severity": "Low"
+ },
+ "F12": {
+  "title": "Internal link to HTTP (from HTTPS page)",
+  "domain": "Internal linking & architecture",
+  "severity": "Medium"
+ },
+ "G01": {
+  "title": "Broken outbound links (4xx/5xx)",
+  "domain": "External / outbound links",
+  "severity": "Medium"
+ },
+ "G02": {
+  "title": "Outbound links to redirecting URLs",
+  "domain": "External / outbound links",
+  "severity": "Low"
+ },
+ "G03": {
+  "title": "Links to non-secure (HTTP) external resources",
+  "domain": "External / outbound links",
+  "severity": "Low"
+ },
+ "G04": {
+  "title": "Missing `rel` on sponsored/UGC links",
+  "domain": "External / outbound links",
+  "severity": "Low"
+ },
+ "G05": {
+  "title": "Outbound links to malware/spam domains (optional API)",
+  "domain": "External / outbound links",
+  "severity": "Medium"
+ },
+ "G06": {
+  "title": "`target=_blank` without `rel=noopener`",
+  "domain": "External / outbound links",
+  "severity": "Low"
+ },
+ "H01": {
+  "title": "Missing alt text (non-decorative)",
+  "domain": "Images & media",
+  "severity": "Medium"
+ },
+ "H02": {
+  "title": "Decorative image missing empty `alt=\"\"`",
+  "domain": "Images & media",
+  "severity": "Low"
+ },
+ "H03": {
+  "title": "Alt text too long / keyword-stuffed",
+  "domain": "Images & media",
+  "severity": "Low"
+ },
+ "H04": {
+  "title": "Images >100KB (unoptimized)",
+  "domain": "Images & media",
+  "severity": "Medium"
+ },
+ "H05": {
+  "title": "Images missing width/height (CLS risk)",
+  "domain": "Images & media",
+  "severity": "Medium"
+ },
+ "H06": {
+  "title": "Broken image src (4xx)",
+  "domain": "Images & media",
+  "severity": "Medium"
+ },
+ "H07": {
+  "title": "Next-gen format not used (no WebP/AVIF)",
+  "domain": "Images & media",
+  "severity": "Low"
+ },
+ "H08": {
+  "title": "Missing lazy-loading below the fold",
+  "domain": "Images & media",
+  "severity": "Low"
+ },
+ "H09": {
+  "title": "Missing `fetchpriority` on LCP image",
+  "domain": "Images & media",
+  "severity": "Low"
+ },
+ "H10": {
+  "title": "Oversized images (rendered << natural dimensions)",
+  "domain": "Images & media",
+  "severity": "Low"
+ },
+ "H11": {
+  "title": "Missing image sitemap entries",
+  "domain": "Images & media",
+  "severity": "Low"
+ },
+ "I01": {
+  "title": "Missing return hreflang",
+  "domain": "Internationalization",
+  "severity": "High"
+ },
+ "I02": {
+  "title": "hreflang to non-canonical / non-200 URL",
+  "domain": "Hreflang / international",
+  "severity": "High"
+ },
+ "I03": {
+  "title": "Invalid language/region codes",
+  "domain": "Hreflang / international",
+  "severity": "Medium"
+ },
+ "I04": {
+  "title": "Missing `x-default`",
+  "domain": "Hreflang / international",
+  "severity": "Low"
+ },
+ "I05": {
+  "title": "hreflang + canonical conflict (canonical to different lang)",
+  "domain": "Hreflang / international",
+  "severity": "High"
+ },
+ "I06": {
+  "title": "Multiple/duplicate hreflang entries for same locale",
+  "domain": "Hreflang / international",
+  "severity": "Medium"
+ },
+ "I07": {
+  "title": "hreflang in HTML vs sitemap vs header inconsistency",
+  "domain": "Hreflang / international",
+  "severity": "Medium"
+ },
+ "I08": {
+  "title": "Self-referential hreflang missing",
+  "domain": "Hreflang / international",
+  "severity": "Medium"
+ },
+ "J01": {
+  "title": "Missing required property (per type)",
+  "domain": "Structured data / schema",
+  "severity": "High"
+ },
+ "J02": {
+  "title": "Missing recommended property",
+  "domain": "Structured data / schema",
+  "severity": "Medium"
+ },
+ "J03": {
+  "title": "Invalid JSON-LD syntax",
+  "domain": "Structured data / schema",
+  "severity": "High"
+ },
+ "J04": {
+  "title": "Legacy Microdata/RDFa where JSON-LD expected",
+  "domain": "Structured data / schema",
+  "severity": "Low"
+ },
+ "J05": {
+  "title": "Schema type mismatch with page content",
+  "domain": "Structured data / schema",
+  "severity": "Medium"
+ },
+ "J06": {
+  "title": "Duplicate/conflicting `@id` references",
+  "domain": "Structured data / schema",
+  "severity": "Medium"
+ },
+ "J07": {
+  "title": "Missing Organization / LocalBusiness / Website schema",
+  "domain": "Structured data / schema",
+  "severity": "Medium"
+ },
+ "J08": {
+  "title": "Missing Breadcrumb schema",
+  "domain": "Structured data / schema",
+  "severity": "Low"
+ },
+ "J09": {
+  "title": "Missing Article/author/date schema (E-E-A-T, GEO)",
+  "domain": "Structured data / schema",
+  "severity": "Medium"
+ },
+ "J10": {
+  "title": "Missing FAQ/HowTo/Product/Review schema where applicable",
+  "domain": "Structured data / schema",
+  "severity": "Medium"
+ },
+ "J11": {
+  "title": "NAP in schema inconsistent with GBP/site (local)",
+  "domain": "Structured data / schema",
+  "severity": "High"
+ },
+ "J12": {
+  "title": "ratingValue/reviewCount fabricated or self-serving",
+  "domain": "Structured data / schema",
+  "severity": "High"
+ },
+ "J13": {
+  "title": "Schema present in response vs render mismatch",
+  "domain": "Structured data / schema",
+  "severity": "Medium"
+ },
+ "J14": {
+  "title": "Incomplete schema (missing recommended properties)",
+  "domain": "Structured data / schema",
+  "severity": "Low"
+ },
+ "J15": {
+  "title": "Microdata/RDFa used without JSON-LD",
+  "domain": "Structured data / schema",
+  "severity": "Low"
+ },
+ "K01": {
+  "title": "Sitemap missing or not in robots.txt",
+  "domain": "Sitemap",
+  "severity": "Medium"
+ },
+ "K02": {
+  "title": "Sitemap contains non-200 URLs",
+  "domain": "Sitemap",
+  "severity": "Medium"
+ },
+ "K03": {
+  "title": "Sitemap contains noindex or canonicalized-away URLs",
+  "domain": "Sitemap",
+  "severity": "Medium"
+ },
+ "K04": {
+  "title": "Sitemap contains redirects",
+  "domain": "Sitemap",
+  "severity": "Low"
+ },
+ "K05": {
+  "title": "Indexable pages missing from sitemap",
+  "domain": "Sitemap",
+  "severity": "Medium"
+ },
+ "K06": {
+  "title": "Sitemap exceeds 50k URLs or 50MB",
+  "domain": "Sitemap",
+  "severity": "Medium"
+ },
+ "K07": {
+  "title": "Invalid XML / malformed sitemap",
+  "domain": "XML sitemaps",
+  "severity": "High"
+ },
+ "K08": {
+  "title": "`<lastmod>` missing or clearly inaccurate",
+  "domain": "XML sitemaps",
+  "severity": "Low"
+ },
+ "K09": {
+  "title": "Orphan sitemap URLs (in sitemap, no inlinks)",
+  "domain": "XML sitemaps",
+  "severity": "Low"
+ },
+ "K10": {
+  "title": "Sitemap not auto-updating (stale vs new content)",
+  "domain": "XML sitemaps",
+  "severity": "Low"
+ },
+ "L01": {
+  "title": "Disallow: / (whole site blocked)",
+  "domain": "Robots",
+  "severity": "Critical"
+ },
+ "L02": {
+  "title": "Important directories disallowed",
+  "domain": "Robots directives (file-level)",
+  "severity": "High"
+ },
+ "L03": {
+  "title": "CSS/JS/asset paths disallowed",
+  "domain": "Robots directives (file-level)",
+  "severity": "High"
+ },
+ "L04": {
+  "title": "Wildcard/pattern errors",
+  "domain": "Robots directives (file-level)",
+  "severity": "Medium"
+ },
+ "L05": {
+  "title": "robots.txt wrong location or content-type",
+  "domain": "Robots",
+  "severity": "Medium"
+ },
+ "L06": {
+  "title": "Sitemap directive missing",
+  "domain": "Robots directives (file-level)",
+  "severity": "Low"
+ },
+ "L07": {
+  "title": "High crawl-delay",
+  "domain": "Robots",
+  "severity": "Low"
+ },
+ "M01": {
+  "title": "Site not on HTTPS",
+  "domain": "Security",
+  "severity": "Critical"
+ },
+ "M02": {
+  "title": "Mixed content (HTTPS page loads HTTP assets)",
+  "domain": "Security",
+  "severity": "High"
+ },
+ "M03": {
+  "title": "Missing HSTS header",
+  "domain": "Security",
+  "severity": "Medium"
+ },
+ "M04": {
+  "title": "Expired or soon-expiring TLS certificate",
+  "domain": "Security",
+  "severity": "Critical"
+ },
+ "M05": {
+  "title": "Protocol-relative resource links (`//host`)",
+  "domain": "Security",
+  "severity": "Low"
+ },
+ "M06": {
+  "title": "Missing security headers (CSP, X-Content-Type-Options, X-Frame-Options, Referrer-Policy)",
+  "domain": "Security",
+  "severity": "Low"
+ },
+ "M07": {
+  "title": "`target=_blank` tabnabbing (noopener)",
+  "domain": "Security",
+  "severity": "Low"
+ },
+ "M08": {
+  "title": "Server/software version leakage in headers",
+  "domain": "Security",
+  "severity": "Low"
+ },
+ "M09": {
+  "title": "WordPress version exposed (generator meta / readme.html)",
+  "domain": "Security",
+  "severity": "Low"
+ },
+ "M10": {
+  "title": "XML-RPC / REST user enumeration open",
+  "domain": "Security",
+  "severity": "Medium"
+ },
+ "N01": {
+  "title": "LCP > 2.5s (good) / > 4s (poor)",
+  "domain": "Performance / Core Web Vitals",
+  "severity": "High"
+ },
+ "N02": {
+  "title": "INP > 200ms (good) / > 500ms (poor)",
+  "domain": "Performance / Core Web Vitals",
+  "severity": "High"
+ },
+ "N03": {
+  "title": "CLS > 0.1 (good) / > 0.25 (poor)",
+  "domain": "Performance / Core Web Vitals",
+  "severity": "High"
+ },
+ "N04": {
+  "title": "TTFB slow (>~0.8s)",
+  "domain": "Performance / Core Web Vitals",
+  "severity": "Medium"
+ },
+ "N05": {
+  "title": "Render-blocking CSS/JS",
+  "domain": "Performance / Core Web Vitals",
+  "severity": "Medium"
+ },
+ "N06": {
+  "title": "Unminified CSS/JS",
+  "domain": "Performance / Core Web Vitals",
+  "severity": "Low"
+ },
+ "N07": {
+  "title": "No compression (gzip/brotli)",
+  "domain": "Performance / Core Web Vitals",
+  "severity": "Medium"
+ },
+ "N08": {
+  "title": "No/short cache headers on static assets",
+  "domain": "Performance / Core Web Vitals",
+  "severity": "Low"
+ },
+ "N09": {
+  "title": "Excessive DOM size (agentic + perf)",
+  "domain": "Performance / Core Web Vitals",
+  "severity": "Medium"
+ },
+ "N10": {
+  "title": "Large total page weight (>~2\u20133MB)",
+  "domain": "Performance / Core Web Vitals",
+  "severity": "Medium"
+ },
+ "N11": {
+  "title": "Excessive HTTP requests",
+  "domain": "Performance / Core Web Vitals",
+  "severity": "Low"
+ },
+ "N12": {
+  "title": "Missing preconnect/preload for critical origins",
+  "domain": "Performance / Core Web Vitals",
+  "severity": "Low"
+ },
+ "N13": {
+  "title": "Font loading causes FOIT/FOUT / no font-display",
+  "domain": "Performance / Core Web Vitals",
+  "severity": "Low"
+ },
+ "N14": {
+  "title": "Third-party script bloat (analytics/chat/ads)",
+  "domain": "Performance / Core Web Vitals",
+  "severity": "Medium"
+ },
+ "O01": {
+  "title": "Missing/incorrect viewport meta",
+  "domain": "Mobile",
+  "severity": "High"
+ },
+ "O02": {
+  "title": "Tap targets too small / too close",
+  "domain": "Mobile",
+  "severity": "Medium"
+ },
+ "O03": {
+  "title": "Content wider than viewport (horizontal scroll)",
+  "domain": "Mobile",
+  "severity": "Medium"
+ },
+ "O04": {
+  "title": "Font size too small on mobile",
+  "domain": "Mobile",
+  "severity": "Low"
+ },
+ "O05": {
+  "title": "Mobile vs desktop content parity gap (mobile-first index)",
+  "domain": "Mobile",
+  "severity": "High"
+ },
+ "O06": {
+  "title": "Intrusive interstitials/pop-ups on mobile",
+  "domain": "Mobile",
+  "severity": "Medium"
+ },
+ "O07": {
+  "title": "Blocked resources on mobile UA only",
+  "domain": "Mobile",
+  "severity": "High"
+ },
+ "P01": {
+  "title": "Primary content only in rendered DOM (not in response HTML)",
+  "domain": "JavaScript rendering (response vs render)",
+  "severity": "High"
+ },
+ "P02": {
+  "title": "Internal links injected only by JS",
+  "domain": "JavaScript rendering (response vs render)",
+  "severity": "Medium"
+ },
+ "P03": {
+  "title": "Title/meta/canonical/robots differ response vs render",
+  "domain": "JavaScript rendering (response vs render)",
+  "severity": "High"
+ },
+ "P04": {
+  "title": "Render blocked by JS error / failed resource",
+  "domain": "JavaScript rendering (response vs render)",
+  "severity": "High"
+ },
+ "P05": {
+  "title": "Long render/hydration time",
+  "domain": "JavaScript rendering (response vs render)",
+  "severity": "Medium"
+ },
+ "P06": {
+  "title": "Client-side-only routing without SSR/prerender",
+  "domain": "JavaScript rendering (response vs render)",
+  "severity": "High"
+ },
+ "Q01": {
+  "title": "Interactive element missing accessible name/label",
+  "domain": "Accessibility",
+  "severity": "Medium"
+ },
+ "Q02": {
+  "title": "Invalid/unsupported ARIA attributes",
+  "domain": "Accessibility",
+  "severity": "Medium"
+ },
+ "Q03": {
+  "title": "Form field without associated label",
+  "domain": "Accessibility",
+  "severity": "Medium"
+ },
+ "Q04": {
+  "title": "Insufficient color contrast",
+  "domain": "Accessibility",
+  "severity": "Low"
+ },
+ "Q05": {
+  "title": "Content interactive but hidden from a11y tree",
+  "domain": "Accessibility",
+  "severity": "Medium"
+ },
+ "Q06": {
+  "title": "Improper role/parent-child nesting (tree integrity)",
+  "domain": "Accessibility",
+  "severity": "Medium"
+ },
+ "Q07": {
+  "title": "Missing document language attribute",
+  "domain": "Accessibility",
+  "severity": "Low"
+ },
+ "Q08": {
+  "title": "Non-semantic markup for interactive controls (div-as-button)",
+  "domain": "Accessibility",
+  "severity": "Medium"
+ },
+ "Q09": {
+  "title": "Missing skip links / landmark regions",
+  "domain": "Accessibility",
+  "severity": "Low"
+ },
+ "R01": {
+  "title": "AI training crawlers blocked",
+  "domain": "Crawlers",
+  "severity": "Info"
+ },
+ "R02": {
+  "title": "AI search crawlers blocked",
+  "domain": "Crawlers",
+  "severity": "High"
+ },
+ "R03": {
+  "title": "AI user-fetch agents blocked (ChatGPT-User, Claude-User, Perplexity-User)",
+  "domain": "AI search readiness (GEO)",
+  "severity": "Medium"
+ },
+ "R04": {
+  "title": "CDN/WAF silently blocks AI bots despite robots.txt allow",
+  "domain": "Crawlers",
+  "severity": "High"
+ },
+ "R05": {
+  "title": "Primary content client-side rendered (AI bots don't run JS)",
+  "domain": "AI search readiness (GEO)",
+  "severity": "High"
+ },
+ "R06": {
+  "title": "Content behind login/paywall/interaction",
+  "domain": "AI search readiness (GEO)",
+  "severity": "Medium"
+ },
+ "R07": {
+  "title": "Missing answer-capsule structure (direct answer before context)",
+  "domain": "AI search readiness (GEO)",
+  "severity": "Low"
+ },
+ "R08": {
+  "title": "Weak heading hierarchy / not scannable (one topic per section)",
+  "domain": "AI search readiness (GEO)",
+  "severity": "Low"
+ },
+ "R09": {
+  "title": "Missing author + freshness signals (E-E-A-T for GEO)",
+  "domain": "AI search readiness (GEO)",
+  "severity": "Medium"
+ },
+ "R10": {
+  "title": "Missing/weak entity + Organization/Website schema",
+  "domain": "AI search readiness (GEO)",
+  "severity": "Medium"
+ },
+ "R11": {
+  "title": "Google-Agent / Google-Extended handling not set intentionally",
+  "domain": "AI search readiness (GEO)",
+  "severity": "Low"
+ },
+ "R12": {
+  "title": "No first-party structured facts (pricing, FAQ, policies) exposed",
+  "domain": "AI search readiness (GEO)",
+  "severity": "Low"
+ },
+ "R13": {
+  "title": "Hard-to-read content (low readability)",
+  "domain": "AI search readiness (GEO)",
+  "severity": "Low"
+ },
+ "S01": {
+  "title": "Missing llms.txt",
+  "domain": "LLMs",
+  "severity": "Info"
+ },
+ "S02": {
+  "title": "llms.txt malformed",
+  "domain": "LLMs",
+  "severity": "Low"
+ },
+ "S03": {
+  "title": "llms.txt is an unsorted link dump",
+  "domain": "LLMs",
+  "severity": "Low"
+ },
+ "S04": {
+  "title": "Optional llms-full.txt absent",
+  "domain": "LLMs",
+  "severity": "Info"
+ },
+ "S05": {
+  "title": "Accessibility tree fails agent-centric names/labels",
+  "domain": "Agentic-web experience (Lighthouse 13.3 Agentic Browsing + beyond)",
+  "severity": "Medium"
+ },
+ "S06": {
+  "title": "Accessibility tree integrity fail (roles/relationships)",
+  "domain": "Agentic-web experience (Lighthouse 13.3 Agentic Browsing + beyond)",
+  "severity": "Medium"
+ },
+ "S07": {
+  "title": "Interactive-but-invisible-to-a11y-tree elements",
+  "domain": "Agentic-web experience (Lighthouse 13.3 Agentic Browsing + beyond)",
+  "severity": "Medium"
+ },
+ "S08": {
+  "title": "**Post-load CLS** (menus/late banners shift after settle)",
+  "domain": "Agentic-web experience (Lighthouse 13.3 Agentic Browsing + beyond)",
+  "severity": "Medium"
+ },
+ "S09": {
+  "title": "Forms lack WebMCP declarative annotations",
+  "domain": "Agentic-web experience (Lighthouse 13.3 Agentic Browsing + beyond)",
+  "severity": "Low"
+ },
+ "S10": {
+  "title": "WebMCP tool schema invalid / incomplete (if registered)",
+  "domain": "Agentic-web experience (Lighthouse 13.3 Agentic Browsing + beyond)",
+  "severity": "Low"
+ },
+ "S11": {
+  "title": "Key flows (checkout/booking/contact) not agent-completable",
+  "domain": "Agentic-web experience (Lighthouse 13.3 Agentic Browsing + beyond)",
+  "severity": "Medium"
+ },
+ "S12": {
+  "title": "Dynamic JS tool/element registration timing issues",
+  "domain": "Agentic-web experience (Lighthouse 13.3 Agentic Browsing + beyond)",
+  "severity": "Low"
+ },
+ "S13": {
+  "title": "No AI-assistant traffic channel/attribution set up (GA4)",
+  "domain": "Agentic-web experience (Lighthouse 13.3 Agentic Browsing + beyond)",
+  "severity": "Info"
+ },
+ "T01": {
+  "title": "Uppercase characters in URL",
+  "domain": "URL structure & hygiene",
+  "severity": "Low"
+ },
+ "T02": {
+  "title": "Whitespace / unsafe / non-ASCII chars",
+  "domain": "URL structure & hygiene",
+  "severity": "Low"
+ },
+ "T03": {
+  "title": "Double slashes / repetitive path segments",
+  "domain": "URL structure & hygiene",
+  "severity": "Low"
+ },
+ "T04": {
+  "title": "Excessive URL length (>~115 chars)",
+  "domain": "URL structure & hygiene",
+  "severity": "Low"
+ },
+ "T05": {
+  "title": "Session IDs / tracking params in indexable URLs",
+  "domain": "URL structure & hygiene",
+  "severity": "Medium"
+ },
+ "T06": {
+  "title": "Deep/over-nested path structure",
+  "domain": "URL structure & hygiene",
+  "severity": "Low"
+ },
+ "T07": {
+  "title": "Non-descriptive URLs (`?p=123`)",
+  "domain": "URL structure & hygiene",
+  "severity": "Low"
+ },
+ "T08": {
+  "title": "Trailing-slash inconsistency",
+  "domain": "URLs",
+  "severity": "Medium"
+ },
+ "T09": {
+  "title": "Underscores instead of hyphens as word separators",
+  "domain": "URL structure & hygiene",
+  "severity": "Low"
+ },
+ "U01": {
+  "title": "Paginated pages `noindex`'d",
+  "domain": "Pagination",
+  "severity": "Medium"
+ },
+ "U02": {
+  "title": "Multiple rel=next/prev on one page",
+  "domain": "Pagination",
+  "severity": "Low"
+ },
+ "U03": {
+  "title": "Page 2+ canonicalized to page 1",
+  "domain": "Pagination",
+  "severity": "Medium"
+ },
+ "U04": {
+  "title": "Infinite scroll with no paginated URLs",
+  "domain": "Pagination",
+  "severity": "Medium"
+ },
+ "U05": {
+  "title": "Missing 'view-all' or crawl path for deep lists",
+  "domain": "Pagination",
+  "severity": "Low"
+ },
+ "V01": {
+  "title": "Default 'Uncategorized' category indexed",
+  "domain": "WordPress-specific",
+  "severity": "Low"
+ },
+ "V02": {
+  "title": "Tag/author/date archives indexed & thin/duplicate",
+  "domain": "WordPress-specific",
+  "severity": "Medium"
+ },
+ "V03": {
+  "title": "Attachment (media) pages indexed",
+  "domain": "WordPress-specific",
+  "severity": "Medium"
+ },
+ "V04": {
+  "title": "Paginated comment URLs (`/comment-page-`) indexed",
+  "domain": "WordPress-specific",
+  "severity": "Low"
+ },
+ "V05": {
+  "title": "Search results pages (`?s=`) indexable",
+  "domain": "WordPress-specific",
+  "severity": "Medium"
+ },
+ "V06": {
+  "title": "Both SEO plugins active (Yoast + RankMath)",
+  "domain": "WordPress-specific",
+  "severity": "High"
+ },
+ "V07": {
+  "title": "Missing/duplicate canonical from theme + plugin both emitting",
+  "domain": "WordPress-specific",
+  "severity": "Medium"
+ },
+ "V08": {
+  "title": "Auto-generated image sizes bloating media / no WebP",
+  "domain": "WordPress-specific",
+  "severity": "Low"
+ },
+ "V09": {
+  "title": "`?replytocom` / feed / trackback URLs crawlable",
+  "domain": "WordPress-specific",
+  "severity": "Low"
+ },
+ "V10": {
+  "title": "Staging/dev site indexable",
+  "domain": "Staging",
+  "severity": "Critical"
+ },
+ "V11": {
+  "title": "Heavy plugin count inflating render/requests",
+  "domain": "WordPress-specific",
+  "severity": "Medium"
+ },
+ "V12": {
+  "title": "REST API / feeds exposing more than intended",
+  "domain": "WordPress-specific",
+  "severity": "Low"
+ },
+ "V13": {
+  "title": "Missing or misplaced DOCTYPE",
+  "domain": "Validation",
+  "severity": "Low"
+ },
+ "V14": {
+  "title": "Missing <html lang> attribute",
+  "domain": "Validation",
+  "severity": "Low"
+ },
+ "V15": {
+  "title": "Multiple <title> elements",
+  "domain": "Validation",
+  "severity": "Low"
+ },
+ "V16": {
+  "title": "Missing character-encoding declaration",
+  "domain": "Validation",
+  "severity": "Low"
+ },
+ "V17": {
+  "title": "Invalid element in <head>",
+  "domain": "Validation",
+  "severity": "Low"
+ },
+ "W01": {
+  "title": "Missing/duplicate GA4 or GTM tags",
+  "domain": "Analytics, tracking & config (context, mostly info)",
+  "severity": "Low"
+ },
+ "W02": {
+  "title": "Missing GSC verification",
+  "domain": "Analytics, tracking & config (context, mostly info)",
+  "severity": "Low"
+ },
+ "W03": {
+  "title": "Favicon missing / broken",
+  "domain": "Analytics, tracking & config (context, mostly info)",
+  "severity": "Low"
+ },
+ "W04": {
+  "title": "Missing / unhelpful 404 template",
+  "domain": "WWW",
+  "severity": "Low"
+ },
+ "W05": {
+  "title": "Multiple homepage versions resolve 200",
+  "domain": "WWW",
+  "severity": "Medium"
+ }
+}

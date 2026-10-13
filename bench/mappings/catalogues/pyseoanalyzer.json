@@ -1,0 +1,63 @@
+{
+ "version": "2025.4.3",
+ "source": "pyseoanalyzer/page.py warn() calls and analyzer.py duplicate_pages",
+ "warnings": {
+  "missing-title": {
+   "pattern": "^Missing title tag"
+  },
+  "title-too-short": {
+   "pattern": "^Title tag is too short"
+  },
+  "title-too-long": {
+   "pattern": "^Title tag is too long"
+  },
+  "missing-description": {
+   "pattern": "^Missing description"
+  },
+  "description-too-short": {
+   "pattern": "^Description is too short"
+  },
+  "description-too-long": {
+   "pattern": "^Description is too long"
+  },
+  "missing-og-title": {
+   "pattern": "^Missing og:title"
+  },
+  "missing-og-description": {
+   "pattern": "^Missing og:description"
+  },
+  "missing-og-image": {
+   "pattern": "^Missing og:image"
+  },
+  "image-missing-alt": {
+   "pattern": "^Image missing alt tag"
+  },
+  "missing-h1": {
+   "pattern": "^Each page should have at least one h1 tag"
+  },
+  "anchor-missing-title": {
+   "pattern": "^Anchor missing title tag"
+  },
+  "anchor-generic-text": {
+   "pattern": "^Anchor text contains generic text"
+  },
+  "meta-keywords": {
+   "pattern": "^Keywords should be avoided"
+  },
+  "http-error": {
+   "pattern": "^Returned "
+  },
+  "unreadable-encoding": {
+   "pattern": "^Can not read "
+  },
+  "invalid-protocol": {
+   "pattern": "does not appear to have a valid protocol"
+  },
+  "off-domain": {
+   "pattern": "is not part of "
+  },
+  "duplicate-pages": {
+   "pattern": "(site-level duplicate_pages: identical content hash)"
+  }
+ }
+}

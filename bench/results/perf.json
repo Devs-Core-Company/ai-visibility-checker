@@ -1,0 +1,108 @@
+{
+ "generatedAt": "2026-10-13T12:34:25.299Z",
+ "pages": 1000,
+ "sample": 50,
+ "runs": [
+  {
+   "tool": "avc",
+   "note": "full site (1000 pages generated)",
+   "meta": {
+    "version": "avc 1.0.0",
+    "settings": {
+     "command": "avc audit <url> --format json --out <dir> --render --max-pages 0",
+     "env": {
+      "AVC_PSI": "off",
+      "AVC_LLM_MOCK": "1",
+      "AVC_DATA_DIR": "<tmp>",
+      "AVC_CHROME_PATH": "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
+     },
+     "note": "Defaults otherwise (depth 10). --max-pages 0 lifts the default 500-page cap so the whole site is audited. AVC_DATA_DIR is a throwaway folder deleted after the run."
+    },
+    "durationMs": 96552,
+    "peakRssMb": 1118,
+    "pagesAudited": 1006,
+    "errors": []
+   },
+   "findings": 9241
+  },
+  {
+   "tool": "scrawly",
+   "note": "full site (1000 pages generated)",
+   "meta": {
+    "version": "sentinelseo 1.0.0 (git 8fdebcf)",
+    "settings": {
+     "route": "local engine HTTP API (uvicorn sentinelseo.web.api:app), as scripts/scheduled_audit.py uses it",
+     "crawl": {
+      "max_depth": 10,
+      "max_pages": 5000,
+      "note": "all other crawl settings are Scrawly defaults (js_render on, respect_robots on, discover_sitemap on)"
+     },
+     "env": {
+      "SCRAWLY_AUTO_UPDATE": "0",
+      "PLAYWRIGHT_BROWSERS_PATH": "/opt/pw-browsers"
+     },
+     "localhost": "no private-IP/localhost blocking exists in the crawler; nothing had to be enabled"
+    },
+    "durationMs": 265785,
+    "peakRssMb": 1543,
+    "pagesAudited": 1006,
+    "errors": []
+   },
+   "findings": 14835
+  },
+  {
+   "tool": "lighthouse",
+   "note": "sample capped at 50 pages (Lighthouse-based)",
+   "meta": {
+    "version": "lighthouse 13.5.0",
+    "settings": {
+     "config": "default (all categories incl. agentic-browsing; mobile; simulated throttling)",
+     "chromeFlags": "--headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage",
+     "pageList": "start URL + sitemap URLs (robots.txt Sitemap lines, else /sitemap.xml), first 50",
+     "pageCap": 50,
+     "failure": "an audit is a finding when its score is below 0.9 (Lighthouse pass threshold); informative/manual/n.a. audits ignored",
+     "runs": "one page at a time, sequentially; durationMs and peakRssMb are the sum and the max over pages"
+    },
+    "durationMs": 615717,
+    "peakRssMb": 1407,
+    "pagesAudited": 50,
+    "errors": []
+   },
+   "findings": 244
+  },
+  {
+   "tool": "unlighthouse",
+   "note": "sample capped at 50 pages (Lighthouse-based); its default dynamic sampling (8 per route group) picked 28",
+   "meta": {
+    "version": "@unlighthouse/cli 0.19.1 (lighthouse 13.5.0)",
+    "settings": {
+     "command": "unlighthouse-ci --site <url> --reporter jsonExpanded --no-cache (config scanner.maxRoutes=50)",
+     "defaults": "crawler + robots.txt + sitemap, dynamicSampling 8, maxRoutes 200, mobile, 4 categories (no agentic-browsing by default)",
+     "failure": "audit score < 0.9 in the per-route Lighthouse report"
+    },
+    "durationMs": 300603,
+    "peakRssMb": 3184,
+    "pagesAudited": 28,
+    "errors": []
+   },
+   "findings": 104
+  },
+  {
+   "tool": "pyseoanalyzer",
+   "note": "full site (1000 pages generated)",
+   "meta": {
+    "version": "pyseoanalyzer 2025.4.3",
+    "settings": {
+     "command": "python-seo-analyzer <url> --output-format json --sitemap <robots.txt sitemap>",
+     "sitemap": "http://127.0.0.1:33187/sitemap.xml",
+     "note": "follow links is the default; --analyze-headings/--analyze-extra-tags only add data, not warnings, so they were left off"
+    },
+    "durationMs": 37561,
+    "peakRssMb": 204,
+    "pagesAudited": 1007,
+    "errors": []
+   },
+   "findings": 39734
+  }
+ ]
+}

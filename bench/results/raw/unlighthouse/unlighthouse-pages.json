@@ -1,0 +1,1700 @@
+{
+ "version": "0.19.1",
+ "pages": [
+  {
+   "requestedUrl": "http://127.0.0.1:38005/about",
+   "finalUrl": "http://127.0.0.1:38005/about",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 551 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/blog/Top-10-Brushing-Mistakes",
+   "finalUrl": "http://127.0.0.1:38005/blog/Top-10-Brushing-Mistakes",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 35 KiB",
+     "items": "body > main#main > article > img"
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/blog/category/cosmetic",
+   "finalUrl": "http://127.0.0.1:38005/blog/category/cosmetic",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 0.96,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "errors-in-console",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/blog/category/news",
+   "finalUrl": "http://127.0.0.1:38005/blog/category/news",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 0.98,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "landmark-one-main",
+     "score": 0,
+     "displayValue": null,
+     "items": "html"
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/blog/category/oral-health",
+   "finalUrl": "http://127.0.0.1:38005/blog/category/oral-health",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 0.92
+   },
+   "failing": [
+    {
+     "id": "crawlable-anchors",
+     "score": 0,
+     "displayValue": null,
+     "items": "body > main#main > p > a"
+    },
+    {
+     "id": "document-latency-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 7 KiB",
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/blog/choosing-a-toothpaste",
+   "finalUrl": "http://127.0.0.1:38005/blog/choosing-a-toothpaste",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 29 KiB",
+     "items": "body > main#main > article > img"
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/blog/electric-vs-manual-toothbrush",
+   "finalUrl": "http://127.0.0.1:38005/blog/electric-vs-manual-toothbrush",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 0.94,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "aria-roles",
+     "score": 0,
+     "displayValue": null,
+     "items": "main#main > article > p > span.tag"
+    },
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 37 KiB",
+     "items": "body > main#main > article > img"
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/blog/history-of-dentistry",
+   "finalUrl": "http://127.0.0.1:38005/blog/history-of-dentistry",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 37 KiB",
+     "items": "body > main#main > article > img"
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/blog/kids-first-visit",
+   "finalUrl": "http://127.0.0.1:38005/blog/kids-first-visit",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 34 KiB",
+     "items": "body > main#main > article > img"
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/blog",
+   "finalUrl": "http://127.0.0.1:38005/blog",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/blog/open-evening-november",
+   "finalUrl": "http://127.0.0.1:38005/blog/open-evening-november",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 33 KiB",
+     "items": "body > main#main > article > img"
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/blog/sugar-and-teeth",
+   "finalUrl": "http://127.0.0.1:38005/blog/sugar-and-teeth",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 37 KiB",
+     "items": "body > main#main > article > img"
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/blog/tag/kids",
+   "finalUrl": "http://127.0.0.1:38005/blog/tag/kids",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 0.96,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "doctype",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/blog/tag/whitening",
+   "finalUrl": "http://127.0.0.1:38005/blog/tag/whitening",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/blog/what-to-expect-implants",
+   "finalUrl": "http://127.0.0.1:38005/blog/what-to-expect-implants",
+   "runtimeError": null,
+   "categories": {
+    "performance": 0.98,
+    "accessibility": 0.98,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "unsized-images",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "body > main#main > article > img"
+    },
+    {
+     "id": "heading-order",
+     "score": 0,
+     "displayValue": null,
+     "items": "body > main#main > article > h4"
+    },
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 34 KiB",
+     "items": "body > main#main > article > img"
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/book",
+   "finalUrl": "http://127.0.0.1:38005/book",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 0.94,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "button-name",
+     "score": 0,
+     "displayValue": null,
+     "items": "main#main > form.form > p > button.icon-btn"
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/careers",
+   "finalUrl": "http://127.0.0.1:38005/careers",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/contact",
+   "finalUrl": "http://127.0.0.1:38005/contact",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 0.9,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "label",
+     "score": 0,
+     "displayValue": null,
+     "items": "main#main > form.form > p > input"
+    },
+    {
+     "id": "tabindex",
+     "score": 0,
+     "displayValue": null,
+     "items": "main#main > form.form > p > input#c-phone"
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/developers",
+   "finalUrl": "http://127.0.0.1:38005/developers",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/faq",
+   "finalUrl": "http://127.0.0.1:38005/faq",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/finance",
+   "finalUrl": "http://127.0.0.1:38005/finance",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/invisalign-guide",
+   "finalUrl": "http://127.0.0.1:38005/invisalign-guide",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/legal/accessibility",
+   "finalUrl": "http://127.0.0.1:38005/legal/accessibility",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/legal/complaints",
+   "finalUrl": "http://127.0.0.1:38005/legal/complaints",
+   "runtimeError": null,
+   "categories": {
+    "performance": 0.77,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "cumulative-layout-shift",
+     "score": 0.08,
+     "displayValue": "0.662",
+     "items": ""
+    },
+    {
+     "id": "layout-shifts",
+     "score": 0,
+     "displayValue": "1 layout shift found",
+     "items": "body > main#main"
+    },
+    {
+     "id": "cls-culprits-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    },
+    {
+     "id": "viewport-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": ""
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/legal/cookies",
+   "finalUrl": "http://127.0.0.1:38005/legal/cookies",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/legal/privacy",
+   "finalUrl": "http://127.0.0.1:38005/legal/privacy",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/legal/terms",
+   "finalUrl": "http://127.0.0.1:38005/legal/terms",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 0.92
+   },
+   "failing": [
+    {
+     "id": "canonical",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/",
+   "finalUrl": "http://127.0.0.1:38005/",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 185 KiB",
+     "items": "ul.cards > li > a > img, ul.cards > li > a > img, ul.cards > li > a > img, ul.cards > li > a > img, body > main#main > section.hero > img"
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/locations/bath",
+   "finalUrl": "http://127.0.0.1:38005/locations/bath",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 0.95,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "frame-title",
+     "score": 0,
+     "displayValue": null,
+     "items": "body > main#main > iframe"
+    },
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 36 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/locations/bristol",
+   "finalUrl": "http://127.0.0.1:38005/locations/bristol",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 0.93,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "meta-viewport",
+     "score": 0,
+     "displayValue": null,
+     "items": "head > meta"
+    },
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 37 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/locations/leeds",
+   "finalUrl": "http://127.0.0.1:38005/locations/leeds",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 40 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/locations",
+   "finalUrl": "http://127.0.0.1:38005/locations",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 114 KiB",
+     "items": "ul.cards > li > a > img, ul.cards > li > a > img, ul.cards > li > a > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/new-patients",
+   "finalUrl": "http://127.0.0.1:38005/new-patients",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 0.99,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "autocomplete-valid",
+     "score": 0,
+     "displayValue": null,
+     "items": "main#main > form.form > p > input#np-email, main#main > form.form > p > input#np-tel"
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/patient-stories",
+   "finalUrl": "http://127.0.0.1:38005/patient-stories",
+   "runtimeError": null,
+   "categories": {
+    "performance": 0.78,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "cumulative-layout-shift",
+     "score": 0.1,
+     "displayValue": "0.623",
+     "items": ""
+    },
+    {
+     "id": "layout-shifts",
+     "score": 0,
+     "displayValue": "1 layout shift found",
+     "items": "body > footer.site-footer"
+    },
+    {
+     "id": "cls-culprits-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/pricing",
+   "finalUrl": "http://127.0.0.1:38005/pricing",
+   "runtimeError": null,
+   "categories": {
+    "performance": 0.92,
+    "accessibility": 0.95,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "cumulative-layout-shift",
+     "score": 0.68,
+     "displayValue": "0.179",
+     "items": ""
+    },
+    {
+     "id": "layout-shifts",
+     "score": 0,
+     "displayValue": "1 layout shift found",
+     "items": "body > main#main > p"
+    },
+    {
+     "id": "aria-hidden-focus",
+     "score": 0,
+     "displayValue": null,
+     "items": "body > main#main > div.promo"
+    },
+    {
+     "id": "cls-culprits-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/referrals",
+   "finalUrl": "http://127.0.0.1:38005/referrals",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/services/childrens-dentistry",
+   "finalUrl": "http://127.0.0.1:38005/services/childrens-dentistry",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 41 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/services/dental-implants",
+   "finalUrl": "http://127.0.0.1:38005/services/dental-implants",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 37 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/services/emergency-dentist",
+   "finalUrl": "http://127.0.0.1:38005/services/emergency-dentist",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 41 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/services/general-dentistry",
+   "finalUrl": "http://127.0.0.1:38005/services/general-dentistry",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 0.94,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "aria-valid-attr",
+     "score": 0,
+     "displayValue": null,
+     "items": "body > main#main > p > button.toggle"
+    },
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 39 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/services/hygiene",
+   "finalUrl": "http://127.0.0.1:38005/services/hygiene",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 40 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/services/invisalign",
+   "finalUrl": "http://127.0.0.1:38005/services/invisalign",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 0.69
+   },
+   "failing": [
+    {
+     "id": "is-crawlable",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 34 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/services",
+   "finalUrl": "http://127.0.0.1:38005/services",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 0.95,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "list",
+     "score": 0,
+     "displayValue": null,
+     "items": "body > main#main > ul.service-list"
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/services/teeth-whitening",
+   "finalUrl": "http://127.0.0.1:38005/services/teeth-whitening",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 37 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/team/dr-amelia-hart",
+   "finalUrl": "http://127.0.0.1:38005/team/dr-amelia-hart",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 0.93,
+    "best-practices": 1,
+    "seo": 0.92
+   },
+   "failing": [
+    {
+     "id": "image-alt",
+     "score": 0,
+     "displayValue": null,
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/team/dr-rohan-mehta",
+   "finalUrl": "http://127.0.0.1:38005/team/dr-rohan-mehta",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 0.95,
+    "best-practices": 1,
+    "seo": 0.92
+   },
+   "failing": [
+    {
+     "id": "document-title",
+     "score": 0,
+     "displayValue": null,
+     "items": "html"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/team/dr-sophie-lang",
+   "finalUrl": "http://127.0.0.1:38005/team/dr-sophie-lang",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 0.95,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "html-lang-valid",
+     "score": 0,
+     "displayValue": null,
+     "items": "html"
+    },
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 5 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/team",
+   "finalUrl": "http://127.0.0.1:38005/team",
+   "runtimeError": null,
+   "categories": {
+    "performance": 0.93,
+    "accessibility": 0.95,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "first-contentful-paint",
+     "score": 0.63,
+     "displayValue": "2.6 s",
+     "items": ""
+    },
+    {
+     "id": "largest-contentful-paint",
+     "score": 0.86,
+     "displayValue": "2.7 s",
+     "items": ""
+    },
+    {
+     "id": "server-response-time",
+     "score": 0,
+     "displayValue": "Root document took 2,500 ms",
+     "items": "http://127.0.0.1:38005/team"
+    },
+    {
+     "id": "link-name",
+     "score": 0,
+     "displayValue": null,
+     "items": "body > main#main > p > a.icon-link"
+    },
+    {
+     "id": "document-latency-insight",
+     "score": 0,
+     "displayValue": "Est savings of 2,400 ms",
+     "items": ""
+    },
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 10 KiB",
+     "items": "ul.cards > li > a > img, ul.cards > li > a > img"
+    },
+    {
+     "id": "lcp-breakdown-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/team/priya-shah",
+   "finalUrl": "http://127.0.0.1:38005/team/priya-shah",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 0.96,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "errors-in-console",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/team/tom-ellis",
+   "finalUrl": "http://127.0.0.1:38005/team/tom-ellis",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 5 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:38005/us/invisalign-guide",
+   "finalUrl": "http://127.0.0.1:38005/us/invisalign-guide",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:38005/assets/css/site.css"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,17 @@
+{
+ "status": "Complete",
+ "progress": 100,
+ "phase": "complete",
+ "crawled": 1006,
+ "discovered": 1006,
+ "queue": 0,
+ "status_tally": {
+  "2xx": 1000,
+  "4xx": 6
+ },
+ "max_pages": 5000,
+ "target": "http://127.0.0.1:33187",
+ "robots_seed_blocked": false,
+ "elapsed_s": 263.1,
+ "pages_per_sec": 3.82
+}

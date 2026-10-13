@@ -1,0 +1,1027 @@
+{
+ "available": true,
+ "origin": "http://127.0.0.1:33187",
+ "stack": "",
+ "is_commerce": false,
+ "score": 25,
+ "level": "Level 1",
+ "level_label": "Basic web presence",
+ "passed": 4,
+ "scored": 16,
+ "duration_ms": 4425,
+ "categories": [
+  {
+   "category": "discoverability",
+   "label": "Discoverability",
+   "passed": 3,
+   "total": 4,
+   "score": 75
+  },
+  {
+   "category": "content",
+   "label": "Content Accessibility",
+   "passed": 1,
+   "total": 2,
+   "score": 50
+  },
+  {
+   "category": "bot_control",
+   "label": "Bot Access Control",
+   "passed": 0,
+   "total": 2,
+   "score": 0
+  },
+  {
+   "category": "api_auth_mcp",
+   "label": "API, Auth, MCP & Skill Discovery",
+   "passed": 0,
+   "total": 7,
+   "score": 0
+  },
+  {
+   "category": "agent_runtime",
+   "label": "Agent Runtime & Interaction",
+   "passed": 0,
+   "total": 1,
+   "score": 0
+  },
+  {
+   "category": "commerce",
+   "label": "Agentic Commerce",
+   "passed": 0,
+   "total": 0,
+   "score": null
+  }
+ ],
+ "results": [
+  {
+   "probe_id": "AGT.DNS_AID",
+   "title": "DNS for AI Discovery (DNS-AID)",
+   "category": "discoverability",
+   "category_label": "Discoverability",
+   "goal": "Publish DNS-AID records for DNS-based agent discovery",
+   "status": "fail",
+   "conclusion": "DNS-AID well-known entrypoint records not found",
+   "steps": [
+    {
+     "action": "DoH SVCB _index._agents.127.0.0.1",
+     "detail": "DNS query failed",
+     "status": null,
+     "request_headers": {},
+     "response_headers": {},
+     "body_excerpt": "",
+     "ok": false
+    },
+    {
+     "action": "DoH HTTPS _index._agents.127.0.0.1",
+     "detail": "DNS query failed",
+     "status": null,
+     "request_headers": {},
+     "response_headers": {},
+     "body_excerpt": "",
+     "ok": false
+    },
+    {
+     "action": "DoH SVCB _a2a._agents.127.0.0.1",
+     "detail": "DNS query failed",
+     "status": null,
+     "request_headers": {},
+     "response_headers": {},
+     "body_excerpt": "",
+     "ok": false
+    },
+    {
+     "action": "DoH HTTPS _a2a._agents.127.0.0.1",
+     "detail": "DNS query failed",
+     "status": null,
+     "request_headers": {},
+     "response_headers": {},
+     "body_excerpt": "",
+     "ok": false
+    },
+    {
+     "action": "DoH SVCB _mcp._agents.127.0.0.1",
+     "detail": "DNS query failed",
+     "status": null,
+     "request_headers": {},
+     "response_headers": {},
+     "body_excerpt": "",
+     "ok": false
+    },
+    {
+     "action": "DoH HTTPS _mcp._agents.127.0.0.1",
+     "detail": "DNS query failed",
+     "status": null,
+     "request_headers": {},
+     "response_headers": {},
+     "body_excerpt": "",
+     "ok": false
+    },
+    {
+     "action": "DoH TXT _index._agents.127.0.0.1",
+     "detail": "DNS query failed",
+     "status": null,
+     "request_headers": {},
+     "response_headers": {},
+     "body_excerpt": "",
+     "ok": false
+    },
+    {
+     "action": "Parse DNS-AID SVCB/HTTPS records",
+     "detail": "No DNS-AID SVCB or HTTPS records found at well-known entrypoints",
+     "status": null,
+     "request_headers": {},
+     "response_headers": {},
+     "body_excerpt": "",
+     "ok": false
+    }
+   ],
+   "evidence": {},
+   "remediation": "Publish DNS-AID records under your domain (e.g. `_index._agents.example.com`, `_a2a._agents.example.com`) as ServiceMode SVCB/HTTPS records with `alpn` and endpoint params, and sign the zone with DNSSEC.",
+   "spec_urls": [
+    "https://www.rfc-editor.org/rfc/rfc9460.html"
+   ],
+   "duration_ms": 0,
+   "fix_prompt": "You are working on http://127.0.0.1:33187 (detected stack: Generic / unknown stack).\n\n## Task\nPublish DNS-AID records for DNS-based agent discovery\n\n## Problem\nNo DNS for AI Discovery records exist at the well-known entrypoints, so agents cannot discover your agent endpoints without already knowing your URLs.\n\n## What we observed\n- (no additional evidence captured)\n\n## Where to make the change (Generic / unknown stack)\nyour web server or CDN response-header configuration\n\n### Platform notes\n- Identify how static files at the document root are served before creating any file, and confirm the framework does not generate the same path dynamically (a generated route always wins over a static file).\n\n## Required result\nPublish ServiceMode SVCB/HTTPS records (RFC 9460) under `_index._agents.<domain>`, and per-protocol entrypoints such as `_a2a._agents.<domain>` / `_mcp._agents.<domain>`, with `alpn` and endpoint parameters. Sign the zone with DNSSEC so validating resolvers return authenticated data.\n\n## Acceptance criteria\n- SVCB or HTTPS records resolve at _index._agents.<domain>\n- Records point at endpoints that are actually reachable\n- The zone is DNSSEC-signed\n\n## Verify\n```bash\ndig +short SVCB _index._agents.127.0.0.1:33187\ndig +short HTTPS _mcp._agents.127.0.0.1:33187\n```\n\n## Constraints\n- This changes DNS. Make the change in the DNS provider's zone editor and confirm each record before/after.\n- Make the smallest change that satisfies the acceptance criteria.\n- Do not delete or rewrite unrelated files, routes, or configuration.\n- Do not modify DNS, billing, user accounts, or access control unless this task explicitly requires it.\n- Never commit secrets, API keys, or credentials.\n- If the required change conflicts with an existing plugin, framework route, or CDN setting, stop and report the conflict instead of forcing it.\n\nReport exactly which files you changed and paste the verification output."
+  },
+  {
+   "probe_id": "AGT.LINK_HEADERS",
+   "title": "Link headers",
+   "category": "discoverability",
+   "category_label": "Discoverability",
+   "goal": "Include Link response headers for agent discovery (RFC 8288)",
+   "status": "pass",
+   "conclusion": "Link header present (1 relation(s))",
+   "steps": [
+    {
+     "action": "GET /",
+     "detail": "Link header present",
+     "status": 200,
+     "request_headers": {},
+     "response_headers": {
+      "content-type": "text/html; charset=utf-8",
+      "link": "</.well-known/api-catalog>; rel=\"api-catalog\"",
+      "cache-control": "public, max-age=300",
+      "vary": "Accept-Encoding",
+      "content-length": "1456"
+     },
+     "body_excerpt": "",
+     "ok": true
+    },
+    {
+     "action": "Parse Link relations",
+     "detail": "Relations advertised: api-catalog",
+     "status": null,
+     "request_headers": {},
+     "response_headers": {},
+     "body_excerpt": "",
+     "ok": true
+    }
+   ],
+   "evidence": {
+    "rels": [
+     "api-catalog"
+    ],
+    "link": "</.well-known/api-catalog>; rel=\"api-catalog\""
+   },
+   "remediation": "",
+   "spec_urls": [
+    "https://www.rfc-editor.org/rfc/rfc8288.html",
+    "https://www.rfc-editor.org/rfc/rfc9727.html"
+   ],
+   "duration_ms": 0,
+   "fix_prompt": ""
+  },
+  {
+   "probe_id": "AGT.ROBOTS",
+   "title": "robots.txt",
+   "category": "discoverability",
+   "category_label": "Discoverability",
+   "goal": "Publish /robots.txt with clear crawl rules",
+   "status": "pass",
+   "conclusion": "robots.txt exists with valid format",
+   "steps": [
+    {
+     "action": "GET /robots.txt",
+     "detail": "Fetched robots.txt",
+     "status": 200,
+     "request_headers": {},
+     "response_headers": {
+      "content-type": "text/plain; charset=utf-8",
+      "cache-control": "public, max-age=300",
+      "vary": "Accept-Encoding",
+      "content-length": "68"
+     },
+     "body_excerpt": "User-agent: *\nAllow: /\n\nSitemap: http://127.0.0.1:33187/sitemap.xml\n",
+     "ok": true
+    },
+    {
+     "action": "Validate robots.txt structure",
+     "detail": "Contains valid User-agent directive(s)",
+     "status": null,
+     "request_headers": {},
+     "response_headers": {},
+     "body_excerpt": "",
+     "ok": true
+    }
+   ],
+   "evidence": {
+    "bytes": 68
+   },
+   "remediation": "",
+   "spec_urls": [
+    "https://www.rfc-editor.org/rfc/rfc9309.html"
+   ],
+   "duration_ms": 0,
+   "fix_prompt": ""
+  },
+  {
+   "probe_id": "AGT.SITEMAP",
+   "title": "Sitemap",
+   "category": "discoverability",
+   "category_label": "Discoverability",
+   "goal": "Publish a sitemap and reference it from robots.txt",
+   "status": "pass",
+   "conclusion": "sitemap.xml exists with valid structure",
+   "steps": [
+    {
+     "action": "Extract Sitemap directives from robots.txt",
+     "detail": "Found 1 Sitemap directive(s) in robots.txt",
+     "status": null,
+     "request_headers": {},
+     "response_headers": {},
+     "body_excerpt": "",
+     "ok": true
+    },
+    {
+     "action": "GET http://127.0.0.1:33187/sitemap.xml",
+     "detail": "Found valid xml sitemap at http://127.0.0.1:33187/sitemap.xml",
+     "status": 200,
+     "request_headers": {},
+     "response_headers": {
+      "content-type": "application/xml",
+      "cache-control": "public, max-age=300",
+      "vary": "Accept-Encoding",
+      "content-length": "8669"
+     },
+     "body_excerpt": "",
+     "ok": true
+    }
+   ],
+   "evidence": {
+    "sitemap": "http://127.0.0.1:33187/sitemap.xml",
+    "type": "urlset",
+    "declared_in_robots": true
+   },
+   "remediation": "",
+   "spec_urls": [
+    "https://www.sitemaps.org/protocol.html"
+   ],
+   "duration_ms": 0,
+   "fix_prompt": ""
+  },
+  {
+   "probe_id": "AGT.LLMS_TXT",
+   "title": "llms.txt",
+   "category": "content",
+   "category_label": "Content Accessibility",
+   "goal": "Publish /llms.txt as a curated map of your content for LLMs",
+   "status": "pass",
+   "conclusion": "llms.txt present and structured (21 links)",
+   "steps": [
+    {
+     "action": "GET /llms.txt",
+     "detail": "Found llms.txt",
+     "status": 200,
+     "request_headers": {},
+     "response_headers": {
+      "content-type": "text/plain; charset=utf-8",
+      "cache-control": "public, max-age=300",
+      "vary": "Accept-Encoding",
+      "content-length": "434"
+     },
+     "body_excerpt": "",
+     "ok": true
+    },
+    {
+     "action": "Validate llms.txt structure",
+     "detail": "H1: yes; 21 markdown link(s)",
+     "status": null,
+     "request_headers": {},
+     "response_headers": {},
+     "body_excerpt": "",
+     "ok": true
+    }
+   ],
+   "evidence": {
+    "links": 21
+   },
+   "remediation": "",
+   "spec_urls": [
+    "https://llmstxt.org/"
+   ],
+   "duration_ms": 0,
+   "fix_prompt": ""
+  },
+  {
+   "probe_id": "AGT.MARKDOWN",
+   "title": "Markdown negotiation",
+   "category": "content",
+   "category_label": "Content Accessibility",
+   "goal": "Return HTML responses as markdown when agents request it",
+   "status": "fail",
+   "conclusion": "Site does not support Markdown for Agents",
+   "steps": [
+    {
+     "action": "GET homepage (Accept: text/markdown)",
+     "detail": "Response content-type is text/html, not text/markdown — site does not support markdown content negotiation",
+     "status": 200,
+     "request_headers": {
+      "Accept": "text/markdown"
+     },
+     "response_headers": {
+      "content-type": "text/html; charset=utf-8",
+      "link": "</.well-known/api-catalog>; rel=\"api-catalog\"",
+      "cache-control": "public, max-age=300",
+      "vary": "Accept-Encoding",
+      "content-length": "1456"
+     },
+     "body_excerpt": "",
+     "ok": false
+    }
+   ],
+   "evidence": {},
+   "remediation": "Content-negotiate on `Accept: text/markdown`: return a markdown rendering of the page (`Content-Type: text/markdown`) while HTML stays the default for browsers. Markdown costs an LLM far fewer tokens than HTML and removes parsing ambiguity.",
+   "spec_urls": [
+    "https://developers.cloudflare.com/ai-crawl-control/"
+   ],
+   "duration_ms": 0,
+   "fix_prompt": "You are working on http://127.0.0.1:33187 (detected stack: Generic / unknown stack).\n\n## Task\nServe markdown to agents via content negotiation\n\n## Problem\nRequests sending `Accept: text/markdown` still receive HTML. Agents must then strip markup, which wastes tokens and introduces parsing errors.\n\n## What we observed\n- (no additional evidence captured)\n\n## Where to make the change (Generic / unknown stack)\nyour web server or CDN response-header configuration\n\n### Platform notes\n- Identify how static files at the document root are served before creating any file, and confirm the framework does not generate the same path dynamically (a generated route always wins over a static file).\n\n## Required result\nContent-negotiate on the `Accept` request header: when it prefers `text/markdown`, return a markdown rendering of the same page with `Content-Type: text/markdown; charset=utf-8`. HTML stays the default for browsers. Add `Vary: Accept` so caches do not mix the two.\n\n## Acceptance criteria\n- GET / with `Accept: text/markdown` returns Content-Type: text/markdown\n- GET / with a normal browser Accept header still returns HTML\n- Responses include `Vary: Accept`\n- The markdown reflects the same main content as the HTML page\n\n## Verify\n```bash\ncurl -sSI -H 'Accept: text/markdown' https://127.0.0.1:33187/ | grep -i content-type\ncurl -sSI https://127.0.0.1:33187/ | grep -i -E 'content-type|vary'\n```\n\n## Constraints\n- Make the smallest change that satisfies the acceptance criteria.\n- Do not delete or rewrite unrelated files, routes, or configuration.\n- Do not modify DNS, billing, user accounts, or access control unless this task explicitly requires it.\n- Never commit secrets, API keys, or credentials.\n- If the required change conflicts with an existing plugin, framework route, or CDN setting, stop and report the conflict instead of forcing it.\n\nReport exactly which files you changed and paste the verification output."
+  },
+  {
+   "probe_id": "AGT.AI_BOTS",
+   "title": "AI bot rules in robots.txt",
+   "category": "bot_control",
+   "category_label": "Bot Access Control",
+   "goal": "Declare explicit User-agent rules for AI crawlers",
+   "status": "fail",
+   "conclusion": "No AI bot rules found in robots.txt",
+   "steps": [
+    {
+     "action": "GET /robots.txt",
+     "detail": "Fetched robots.txt",
+     "status": 200,
+     "request_headers": {},
+     "response_headers": {
+      "content-type": "text/plain; charset=utf-8",
+      "cache-control": "public, max-age=300",
+      "vary": "Accept-Encoding",
+      "content-length": "68"
+     },
+     "body_excerpt": "",
+     "ok": true
+    },
+    {
+     "action": "Scan for AI bot User-agent directives",
+     "detail": "No AI-bot-specific User-agent directives found",
+     "status": null,
+     "request_headers": {},
+     "response_headers": {},
+     "body_excerpt": "",
+     "ok": false
+    }
+   ],
+   "evidence": {},
+   "remediation": "Add explicit groups so AI access is intentional rather than accidental, e.g. `User-agent: GPTBot` / `Allow: /`. Decide separately for training bots (GPTBot, ClaudeBot, CCBot, Google-Extended) vs search/answer bots (OAI-SearchBot, PerplexityBot) — blocking the latter removes you from AI answers.",
+   "spec_urls": [
+    "https://www.rfc-editor.org/rfc/rfc9309.html"
+   ],
+   "duration_ms": 0,
+   "fix_prompt": "You are working on http://127.0.0.1:33187 (detected stack: Generic / unknown stack).\n\n## Task\nDeclare explicit robots.txt rules for AI crawlers\n\n## Problem\nrobots.txt has no AI-crawler-specific groups, so AI access is accidental rather than intentional — you have not decided whether these bots may use your content.\n\n## What we observed\n- (no additional evidence captured)\n\n## Where to make the change (Generic / unknown stack)\nthe file served at /robots.txt\n\n### Platform notes\n- Identify how static files at the document root are served before creating any file, and confirm the framework does not generate the same path dynamically (a generated route always wins over a static file).\n\n## Required result\nAdd explicit groups, deciding separately for the two classes:\n\n- **Training crawlers** (GPTBot, ClaudeBot, CCBot, Google-Extended) — blocking these keeps your content out of model training.\n- **Search/answer crawlers** (OAI-SearchBot, Claude-SearchBot, PerplexityBot) — blocking these removes you from AI answers and citations, which usually costs you traffic.\n\nExample:\n```\nUser-agent: GPTBot\nDisallow: /\n\nUser-agent: OAI-SearchBot\nAllow: /\n```\n\n## Acceptance criteria\n- robots.txt contains explicit User-agent groups for AI crawlers\n- Training vs search/answer bots are handled as deliberate, separate decisions\n- No AI bot is blocked by accident via an over-broad wildcard rule\n\n## Verify\n```bash\ncurl -sS https://127.0.0.1:33187/robots.txt\n```\n\n## Constraints\n- Make the smallest change that satisfies the acceptance criteria.\n- Do not delete or rewrite unrelated files, routes, or configuration.\n- Do not modify DNS, billing, user accounts, or access control unless this task explicitly requires it.\n- Never commit secrets, API keys, or credentials.\n- If the required change conflicts with an existing plugin, framework route, or CDN setting, stop and report the conflict instead of forcing it.\n\nReport exactly which files you changed and paste the verification output."
+  },
+  {
+   "probe_id": "AGT.CONTENT_SIGNALS",
+   "title": "Content Signals in robots.txt",
+   "category": "bot_control",
+   "category_label": "Bot Access Control",
+   "goal": "Declare AI content-usage preferences with Content Signals",
+   "status": "fail",
+   "conclusion": "No Content Signals found in robots.txt",
+   "steps": [
+    {
+     "action": "GET /robots.txt",
+     "detail": "Fetched robots.txt",
+     "status": 200,
+     "request_headers": {},
+     "response_headers": {
+      "content-type": "text/plain; charset=utf-8",
+      "cache-control": "public, max-age=300",
+      "vary": "Accept-Encoding",
+      "content-length": "68"
+     },
+     "body_excerpt": "",
+     "ok": true
+    },
+    {
+     "action": "Parse Content-Signal directives",
+     "detail": "No Content-Signal directives found in robots.txt",
+     "status": null,
+     "request_headers": {},
+     "response_headers": {},
+     "body_excerpt": "",
+     "ok": false
+    }
+   ],
+   "evidence": {},
+   "remediation": "Add a `Content-Signal:` line to your robots.txt declaring preferences for `search`, `ai-input` and `ai-train`, e.g. `Content-Signal: search=yes, ai-train=no, ai-input=yes`. It states your reuse terms in machine-readable form (a preference signal, not an enforcement mechanism — pair it with bot management).",
+   "spec_urls": [
+    "https://contentsignals.org/"
+   ],
+   "duration_ms": 0,
+   "fix_prompt": "You are working on http://127.0.0.1:33187 (detected stack: Generic / unknown stack).\n\n## Task\nDeclare AI usage preferences with Content Signals\n\n## Problem\nrobots.txt carries no `Content-Signal` directives, so your reuse terms for search, AI answers and AI training are not stated in machine-readable form.\n\n## What we observed\n- (no additional evidence captured)\n\n## Where to make the change (Generic / unknown stack)\nthe file served at /robots.txt\n\n### Platform notes\n- Identify how static files at the document root are served before creating any file, and confirm the framework does not generate the same path dynamically (a generated route always wins over a static file).\n\n## Required result\nAdd a `Content-Signal` line inside the relevant User-agent group, using comma-separated `yes`/`no` values for `search`, `ai-input` and `ai-train`:\n\n```\nUser-agent: *\nContent-Signal: search=yes, ai-input=yes, ai-train=no\nAllow: /\n```\n\nOmit a key entirely to express no preference.\n\n## Acceptance criteria\n- robots.txt contains a `Content-Signal:` directive\n- Only the keys search / ai-input / ai-train are used, with yes|no values\n- The stated preferences match the site owner's actual policy\n\n## Verify\n```bash\ncurl -sS https://127.0.0.1:33187/robots.txt | grep -i content-signal\n```\n\n## Constraints\n- Content Signals express preferences and are not an enforcement mechanism — do not present them as blocking.\n- Make the smallest change that satisfies the acceptance criteria.\n- Do not delete or rewrite unrelated files, routes, or configuration.\n- Do not modify DNS, billing, user accounts, or access control unless this task explicitly requires it.\n- Never commit secrets, API keys, or credentials.\n- If the required change conflicts with an existing plugin, framework route, or CDN setting, stop and report the conflict instead of forcing it.\n\nReport exactly which files you changed and paste the verification output."
+  },
+  {
+   "probe_id": "AGT.WEB_BOT_AUTH",
+   "title": "Web Bot Auth request signing",
+   "category": "bot_control",
+   "category_label": "Bot Access Control",
+   "goal": "Let your site identify itself as a bot with Web Bot Auth",
+   "status": "info",
+   "conclusion": "Web Bot Auth directory not found (informational)",
+   "steps": [
+    {
+     "action": "GET /.well-known/http-message-signatures-directory",
+     "detail": "Server returned 404 — Web Bot Auth directory not found",
+     "status": 404,
+     "request_headers": {},
+     "response_headers": {
+      "content-type": "text/html; charset=utf-8",
+      "cache-control": "no-cache",
+      "vary": "Accept-Encoding",
+      "content-length": "232"
+     },
+     "body_excerpt": "",
+     "ok": false
+    }
+   ],
+   "evidence": {},
+   "remediation": "If your site makes outbound bot/agent requests, publish a JWKS at `/.well-known/http-message-signatures-directory` so receiving sites can cryptographically verify your signed requests.",
+   "spec_urls": [
+    "https://datatracker.ietf.org/wg/httpbis/documents/"
+   ],
+   "duration_ms": 0,
+   "fix_prompt": "You are working on http://127.0.0.1:33187 (detected stack: Generic / unknown stack).\n\n## Task\nPublish a Web Bot Auth key directory\n\n## Problem\nNo JWKS is published at `/.well-known/http-message-signatures-directory`, so when this site makes outbound agent requests, receivers cannot verify them.\n\n## What we observed\n- (no additional evidence captured)\n\n## Where to make the change (Generic / unknown stack)\na `.well-known/` directory at the document root\n\n### Platform notes\n- Identify how static files at the document root are served before creating any file, and confirm the framework does not generate the same path dynamically (a generated route always wins over a static file).\n\n## Required result\nPublish a JWKS document at `/.well-known/http-message-signatures-directory` containing the public keys used to sign your outbound bot requests, served as `application/json`.\n\n## Acceptance criteria\n- GET /.well-known/http-message-signatures-directory returns 200 JSON\n- The document contains a `keys` array of public JWKs\n- Only PUBLIC keys are published\n\n## Verify\n```bash\ncurl -sS https://127.0.0.1:33187/.well-known/http-message-signatures-directory\n```\n\n## Constraints\n- Publish public keys only. Never place a private key in a web-served file or in version control.\n- Make the smallest change that satisfies the acceptance criteria.\n- Do not delete or rewrite unrelated files, routes, or configuration.\n- Do not modify DNS, billing, user accounts, or access control unless this task explicitly requires it.\n- Never commit secrets, API keys, or credentials.\n- If the required change conflicts with an existing plugin, framework route, or CDN setting, stop and report the conflict instead of forcing it.\n\nReport exactly which files you changed and paste the verification output."
+  },
+  {
+   "probe_id": "AGT.A2A_CARD",
+   "title": "A2A Agent Card",
+   "category": "api_auth_mcp",
+   "category_label": "API, Auth, MCP & Skill Discovery",
+   "goal": "Publish an A2A Agent Card describing your agent's capabilities",
+   "status": "fail",
+   "conclusion": "A2A Agent Card not found",
+   "steps": [
+    {
+     "action": "GET /.well-known/agent-card.json",
+     "detail": "Returned 404",
+     "status": 404,
+     "request_headers": {},
+     "response_headers": {
+      "content-type": "text/html; charset=utf-8",
+      "cache-control": "no-cache",
+      "vary": "Accept-Encoding",
+      "content-length": "232"
+     },
+     "body_excerpt": "",
+     "ok": false
+    },
+    {
+     "action": "GET /.well-known/agent.json",
+     "detail": "Returned 404",
+     "status": 404,
+     "request_headers": {},
+     "response_headers": {
+      "content-type": "text/html; charset=utf-8",
+      "cache-control": "no-cache",
+      "vary": "Accept-Encoding",
+      "content-length": "232"
+     },
+     "body_excerpt": "",
+     "ok": false
+    }
+   ],
+   "evidence": {},
+   "remediation": "If you expose an agent, serve `/.well-known/agent-card.json` with `name`, `description`, `url`, `version`, `capabilities` and a `skills` array, so other agents can discover what yours can do.",
+   "spec_urls": [
+    "https://a2a-protocol.org/latest/topics/agent-discovery/"
+   ],
+   "duration_ms": 0,
+   "fix_prompt": "You are working on http://127.0.0.1:33187 (detected stack: Generic / unknown stack).\n\n## Task\nPublish an A2A Agent Card\n\n## Problem\nNo A2A Agent Card is served, so other agents cannot discover what your agent does or how to call it.\n\n## What we observed\n- (no additional evidence captured)\n\n## Where to make the change (Generic / unknown stack)\na `.well-known/` directory at the document root\n\n### Platform notes\n- Identify how static files at the document root are served before creating any file, and confirm the framework does not generate the same path dynamically (a generated route always wins over a static file).\n\n## Required result\nServe `/.well-known/agent-card.json` (RFC 8615 well-known path):\n\n```json\n{\n  \"name\": \"<Agent name>\",\n  \"description\": \"What this agent does\",\n  \"url\": \"https://<domain>/a2a\",\n  \"version\": \"1.0.0\",\n  \"capabilities\": {\"streaming\": true},\n  \"skills\": [{\"id\": \"search\", \"name\": \"Search\", \"description\": \"Search the catalogue\"}]\n}\n```\n\nAdd `Cache-Control` and an `ETag` so clients can revalidate cheaply.\n\n## Acceptance criteria\n- GET /.well-known/agent-card.json returns 200 JSON\n- It contains name, description, url, version and a skills array\n- The `url` endpoint actually serves A2A\n\n## Verify\n```bash\ncurl -sS https://127.0.0.1:33187/.well-known/agent-card.json\n```\n\n## Constraints\n- Make the smallest change that satisfies the acceptance criteria.\n- Do not delete or rewrite unrelated files, routes, or configuration.\n- Do not modify DNS, billing, user accounts, or access control unless this task explicitly requires it.\n- Never commit secrets, API keys, or credentials.\n- If the required change conflicts with an existing plugin, framework route, or CDN setting, stop and report the conflict instead of forcing it.\n\nReport exactly which files you changed and paste the verification output."
+  },
+  {
+   "probe_id": "AGT.AGENT_SKILLS",
+   "title": "Agent Skills index",
+   "category": "api_auth_mcp",
+   "category_label": "API, Auth, MCP & Skill Discovery",
+   "goal": "Publish an agent skills discovery index",
+   "status": "fail",
+   "conclusion": "Agent Skills index not found",
+   "steps": [
+    {
+     "action": "GET /.well-known/agent-skills/index.json",
+     "detail": "Returned 404",
+     "status": 404,
+     "request_headers": {},
+     "response_headers": {
+      "content-type": "text/html; charset=utf-8",
+      "cache-control": "no-cache",
+      "vary": "Accept-Encoding",
+      "content-length": "232"
+     },
+     "body_excerpt": "",
+     "ok": false
+    },
+    {
+     "action": "GET /.well-known/skills/index.json",
+     "detail": "Returned 404",
+     "status": 404,
+     "request_headers": {},
+     "response_headers": {
+      "content-type": "text/html; charset=utf-8",
+      "cache-control": "no-cache",
+      "vary": "Accept-Encoding",
+      "content-length": "232"
+     },
+     "body_excerpt": "",
+     "ok": false
+    }
+   ],
+   "evidence": {},
+   "remediation": "Publish `/.well-known/agent-skills/index.json` with a `$schema` field and a `skills` array where each entry has `name`, `type`, `description`, `url` and a `sha256` digest, so agents can discover and verify the skills your site offers.",
+   "spec_urls": [
+    "https://github.com/cloudflare/agent-skills-discovery-rfc"
+   ],
+   "duration_ms": 0,
+   "fix_prompt": "You are working on http://127.0.0.1:33187 (detected stack: Generic / unknown stack).\n\n## Task\nPublish an Agent Skills discovery index\n\n## Problem\nNo Agent Skills index is served, so agents cannot discover or integrity-check the skills your site offers.\n\n## What we observed\n- (no additional evidence captured)\n\n## Where to make the change (Generic / unknown stack)\na `.well-known/` directory at the document root\n\n### Platform notes\n- Identify how static files at the document root are served before creating any file, and confirm the framework does not generate the same path dynamically (a generated route always wins over a static file).\n\n## Required result\nServe `/.well-known/agent-skills/index.json` (Agent Skills Discovery RFC v0.2.0):\n\n```json\n{\n  \"$schema\": \"https://agentskills.io/schema/v0.2.0/index.json\",\n  \"skills\": [\n    {\n      \"name\": \"example-skill\",\n      \"type\": \"prompt\",\n      \"description\": \"What it does\",\n      \"url\": \"https://<domain>/skills/example.md\",\n      \"sha256\": \"<digest of the skill file>\"\n    }\n  ]\n}\n```\n\nThe `sha256` must be the real digest of the fetched skill file.\n\n## Acceptance criteria\n- GET /.well-known/agent-skills/index.json returns 200 JSON\n- It has a `$schema` and a `skills` array\n- Each skill has name, type, description, url and a correct sha256\n- Each skill `url` resolves to 200\n\n## Verify\n```bash\ncurl -sS https://127.0.0.1:33187/.well-known/agent-skills/index.json\n```\n\n## Constraints\n- Make the smallest change that satisfies the acceptance criteria.\n- Do not delete or rewrite unrelated files, routes, or configuration.\n- Do not modify DNS, billing, user accounts, or access control unless this task explicitly requires it.\n- Never commit secrets, API keys, or credentials.\n- If the required change conflicts with an existing plugin, framework route, or CDN setting, stop and report the conflict instead of forcing it.\n\nReport exactly which files you changed and paste the verification output."
+  },
+  {
+   "probe_id": "AGT.AI_PLUGIN",
+   "title": "AI plugin manifest",
+   "category": "api_auth_mcp",
+   "category_label": "API, Auth, MCP & Skill Discovery",
+   "goal": "Expose a machine-readable plugin/tool manifest",
+   "status": "info",
+   "conclusion": "No AI plugin manifest (superseded by MCP — informational)",
+   "steps": [
+    {
+     "action": "GET /.well-known/ai-plugin.json",
+     "detail": "Returned 404",
+     "status": 404,
+     "request_headers": {},
+     "response_headers": {
+      "content-type": "text/html; charset=utf-8",
+      "cache-control": "no-cache",
+      "vary": "Accept-Encoding",
+      "content-length": "232"
+     },
+     "body_excerpt": "",
+     "ok": false
+    }
+   ],
+   "evidence": {},
+   "remediation": "Optional/legacy. Prefer an MCP Server Card; only add `/.well-known/ai-plugin.json` for compatibility with older plugin-style integrations.",
+   "spec_urls": [
+    "https://www.rfc-editor.org/rfc/rfc8615.html"
+   ],
+   "duration_ms": 0,
+   "fix_prompt": "You are working on http://127.0.0.1:33187 (detected stack: Generic / unknown stack).\n\n## Task\n(Optional) Publish a legacy AI plugin manifest\n\n## Problem\nNo `/.well-known/ai-plugin.json` is served. This is a legacy discovery format largely superseded by MCP.\n\n## What we observed\n- (no additional evidence captured)\n\n## Where to make the change (Generic / unknown stack)\na `.well-known/` directory at the document root\n\n### Platform notes\n- Identify how static files at the document root are served before creating any file, and confirm the framework does not generate the same path dynamically (a generated route always wins over a static file).\n\n## Required result\nOnly add this for compatibility with older plugin-style clients. Prefer an MCP Server Card as the primary integration point.\n\n## Acceptance criteria\n- If published, GET /.well-known/ai-plugin.json returns 200 JSON\n- Its `api.url` points at a real OpenAPI document\n\n## Verify\n```bash\ncurl -sS https://127.0.0.1:33187/.well-known/ai-plugin.json\n```\n\n## Constraints\n- Make the smallest change that satisfies the acceptance criteria.\n- Do not delete or rewrite unrelated files, routes, or configuration.\n- Do not modify DNS, billing, user accounts, or access control unless this task explicitly requires it.\n- Never commit secrets, API keys, or credentials.\n- If the required change conflicts with an existing plugin, framework route, or CDN setting, stop and report the conflict instead of forcing it.\n\nReport exactly which files you changed and paste the verification output."
+  },
+  {
+   "probe_id": "AGT.API_CATALOG",
+   "title": "API Catalog",
+   "category": "api_auth_mcp",
+   "category_label": "API, Auth, MCP & Skill Discovery",
+   "goal": "Publish an API catalog for automated API discovery (RFC 9727)",
+   "status": "fail",
+   "conclusion": "API Catalog not found",
+   "steps": [
+    {
+     "action": "GET /.well-known/api-catalog",
+     "detail": "Returned 404",
+     "status": 404,
+     "request_headers": {
+      "Accept": "application/linkset+json, application/json"
+     },
+     "response_headers": {
+      "content-type": "text/html; charset=utf-8",
+      "cache-control": "no-cache",
+      "vary": "Accept-Encoding",
+      "content-length": "232"
+     },
+     "body_excerpt": "",
+     "ok": false
+    }
+   ],
+   "evidence": {},
+   "remediation": "Serve `/.well-known/api-catalog` as `application/linkset+json` with a `linkset` array. Each entry needs an `anchor` URL plus relations for `service-desc` (OpenAPI spec), `service-doc` (docs) and `status` (health). See RFC 9727 Appendix A.",
+   "spec_urls": [
+    "https://www.rfc-editor.org/rfc/rfc9727.html",
+    "https://www.rfc-editor.org/rfc/rfc9264.html"
+   ],
+   "duration_ms": 0,
+   "fix_prompt": "You are working on http://127.0.0.1:33187 (detected stack: Generic / unknown stack).\n\n## Task\nPublish an API catalog (RFC 9727)\n\n## Problem\n`/.well-known/api-catalog` is absent, so agents cannot programmatically discover your APIs, their specs or their docs.\n\n## What we observed\n- (no additional evidence captured)\n\n## Where to make the change (Generic / unknown stack)\na `.well-known/` directory at the document root\n\n### Platform notes\n- Identify how static files at the document root are served before creating any file, and confirm the framework does not generate the same path dynamically (a generated route always wins over a static file).\n\n## Required result\nServe `/.well-known/api-catalog` as `application/linkset+json`:\n\n```json\n{\n  \"linkset\": [\n    {\n      \"anchor\": \"https://<domain>/api/v1\",\n      \"service-desc\": [{\"href\": \"https://<domain>/openapi.json\", \"type\": \"application/openapi+json\"}],\n      \"service-doc\":  [{\"href\": \"https://<domain>/docs/api\", \"type\": \"text/html\"}],\n      \"status\":       [{\"href\": \"https://<domain>/api/health\"}]\n    }\n  ]\n}\n```\n\n## Acceptance criteria\n- GET /.well-known/api-catalog returns 200 with Content-Type: application/linkset+json\n- The body has a `linkset` array; each entry has an `anchor`\n- Every href in the catalog resolves to 200\n\n## Verify\n```bash\ncurl -sS -H 'Accept: application/linkset+json' https://127.0.0.1:33187/.well-known/api-catalog\n```\n\n## Constraints\n- Make the smallest change that satisfies the acceptance criteria.\n- Do not delete or rewrite unrelated files, routes, or configuration.\n- Do not modify DNS, billing, user accounts, or access control unless this task explicitly requires it.\n- Never commit secrets, API keys, or credentials.\n- If the required change conflicts with an existing plugin, framework route, or CDN setting, stop and report the conflict instead of forcing it.\n\nReport exactly which files you changed and paste the verification output."
+  },
+  {
+   "probe_id": "AGT.AUTH_MD",
+   "title": "Auth.md agent registration",
+   "category": "api_auth_mcp",
+   "category_label": "API, Auth, MCP & Skill Discovery",
+   "goal": "Publish Auth.md metadata for agent registration",
+   "status": "fail",
+   "conclusion": "auth.md not found",
+   "steps": [
+    {
+     "action": "GET /auth.md",
+     "detail": "Server returned 404 — auth.md not found",
+     "status": 404,
+     "request_headers": {
+      "Accept": "text/markdown, text/plain, */*"
+     },
+     "response_headers": {
+      "content-type": "text/html; charset=utf-8",
+      "cache-control": "no-cache",
+      "vary": "Accept-Encoding",
+      "content-length": "232"
+     },
+     "body_excerpt": "",
+     "ok": false
+    }
+   ],
+   "evidence": {},
+   "remediation": "Serve `/auth.md` at the site root describing how agents register and authenticate, and pair it with `/.well-known/oauth-protected-resource` plus an `agent_auth` block (register_uri, identity/credential types) in your authorization server metadata.",
+   "spec_urls": [
+    "https://github.com/workos/auth.md"
+   ],
+   "duration_ms": 0,
+   "fix_prompt": "You are working on http://127.0.0.1:33187 (detected stack: Generic / unknown stack).\n\n## Task\nPublish /auth.md for agent registration\n\n## Problem\n`/auth.md` is absent, so an agent cannot read, in plain language, how to register and obtain credentials for this site.\n\n## What we observed\n- (no additional evidence captured)\n\n## Where to make the change (Generic / unknown stack)\nthe document root served at /\n\n### Platform notes\n- Identify how static files at the document root are served before creating any file, and confirm the framework does not generate the same path dynamically (a generated route always wins over a static file).\n\n## Required result\nServe `/auth.md` as markdown describing: how an agent registers, which identity and credential types you accept, the scopes available, rate limits, and revocation/contact details. Pair it with `/.well-known/oauth-protected-resource` and, where applicable, an `agent_auth` block in your authorization-server metadata.\n\n## Acceptance criteria\n- GET /auth.md returns 200 and is markdown (not an HTML 404 page)\n- It documents registration, credential types, scopes and revocation\n- Any URLs it references resolve\n\n## Verify\n```bash\ncurl -sS -H 'Accept: text/markdown' https://127.0.0.1:33187/auth.md | head -40\n```\n\n## Constraints\n- Make the smallest change that satisfies the acceptance criteria.\n- Do not delete or rewrite unrelated files, routes, or configuration.\n- Do not modify DNS, billing, user accounts, or access control unless this task explicitly requires it.\n- Never commit secrets, API keys, or credentials.\n- If the required change conflicts with an existing plugin, framework route, or CDN setting, stop and report the conflict instead of forcing it.\n\nReport exactly which files you changed and paste the verification output."
+  },
+  {
+   "probe_id": "AGT.MCP_CARD",
+   "title": "MCP Server Card",
+   "category": "api_auth_mcp",
+   "category_label": "API, Auth, MCP & Skill Discovery",
+   "goal": "Publish an MCP Server Card so agents can discover your MCP server",
+   "status": "fail",
+   "conclusion": "MCP Server Card not found at any candidate path",
+   "steps": [
+    {
+     "action": "GET /.well-known/mcp/server-card.json",
+     "detail": "Returned 404",
+     "status": 404,
+     "request_headers": {},
+     "response_headers": {
+      "content-type": "text/html; charset=utf-8",
+      "cache-control": "no-cache",
+      "vary": "Accept-Encoding",
+      "content-length": "232"
+     },
+     "body_excerpt": "",
+     "ok": false
+    },
+    {
+     "action": "GET /.well-known/mcp.json",
+     "detail": "Returned 404",
+     "status": 404,
+     "request_headers": {},
+     "response_headers": {
+      "content-type": "text/html; charset=utf-8",
+      "cache-control": "no-cache",
+      "vary": "Accept-Encoding",
+      "content-length": "232"
+     },
+     "body_excerpt": "",
+     "ok": false
+    },
+    {
+     "action": "GET /.well-known/mcp/server-cards.json",
+     "detail": "Returned 404",
+     "status": 404,
+     "request_headers": {},
+     "response_headers": {
+      "content-type": "text/html; charset=utf-8",
+      "cache-control": "no-cache",
+      "vary": "Accept-Encoding",
+      "content-length": "232"
+     },
+     "body_excerpt": "",
+     "ok": false
+    }
+   ],
+   "evidence": {},
+   "remediation": "Serve an MCP Server Card at `/.well-known/mcp/server-card.json` with `serverInfo` (name, version), a transport `endpoint` and your `capabilities`, so agents can find and connect to your MCP server without out-of-band configuration.",
+   "spec_urls": [
+    "https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2127"
+   ],
+   "duration_ms": 0,
+   "fix_prompt": "You are working on http://127.0.0.1:33187 (detected stack: Generic / unknown stack).\n\n## Task\nPublish an MCP Server Card\n\n## Problem\nNo MCP Server Card was found, so agents cannot discover or connect to your MCP server without manual configuration.\n\n## What we observed\n- (no additional evidence captured)\n\n## Where to make the change (Generic / unknown stack)\na `.well-known/` directory at the document root\n\n### Platform notes\n- Identify how static files at the document root are served before creating any file, and confirm the framework does not generate the same path dynamically (a generated route always wins over a static file).\n\n## Required result\nServe `/.well-known/mcp/server-card.json`:\n\n```json\n{\n  \"serverInfo\": {\"name\": \"<site> MCP\", \"version\": \"1.0.0\"},\n  \"endpoint\": \"https://<domain>/mcp\",\n  \"transport\": \"streamable-http\",\n  \"capabilities\": {\"tools\": {}, \"resources\": {}}\n}\n```\n\nOnly publish this if an MCP server is actually running at `endpoint`.\n\n## Acceptance criteria\n- GET /.well-known/mcp/server-card.json returns 200 JSON\n- It contains `serverInfo` (name, version) and a transport `endpoint`\n- The `endpoint` is reachable and speaks MCP\n\n## Verify\n```bash\ncurl -sS https://127.0.0.1:33187/.well-known/mcp/server-card.json\n```\n\n## Constraints\n- Make the smallest change that satisfies the acceptance criteria.\n- Do not delete or rewrite unrelated files, routes, or configuration.\n- Do not modify DNS, billing, user accounts, or access control unless this task explicitly requires it.\n- Never commit secrets, API keys, or credentials.\n- If the required change conflicts with an existing plugin, framework route, or CDN setting, stop and report the conflict instead of forcing it.\n\nReport exactly which files you changed and paste the verification output."
+  },
+  {
+   "probe_id": "AGT.OAUTH_DISCOVERY",
+   "title": "OAuth / OIDC discovery",
+   "category": "api_auth_mcp",
+   "category_label": "API, Auth, MCP & Skill Discovery",
+   "goal": "Publish OAuth/OIDC discovery metadata so agents can authenticate",
+   "status": "fail",
+   "conclusion": "No OAuth/OIDC discovery metadata found",
+   "steps": [
+    {
+     "action": "GET /.well-known/openid-configuration",
+     "detail": "Returned 404",
+     "status": 404,
+     "request_headers": {},
+     "response_headers": {
+      "content-type": "text/html; charset=utf-8",
+      "cache-control": "no-cache",
+      "vary": "Accept-Encoding",
+      "content-length": "232"
+     },
+     "body_excerpt": "",
+     "ok": false
+    },
+    {
+     "action": "GET /.well-known/oauth-authorization-server",
+     "detail": "Returned 404",
+     "status": 404,
+     "request_headers": {},
+     "response_headers": {
+      "content-type": "text/html; charset=utf-8",
+      "cache-control": "no-cache",
+      "vary": "Accept-Encoding",
+      "content-length": "232"
+     },
+     "body_excerpt": "",
+     "ok": false
+    }
+   ],
+   "evidence": {},
+   "remediation": "If you expose protected APIs, publish `/.well-known/openid-configuration` (OIDC) or `/.well-known/oauth-authorization-server` (OAuth 2.0) with `issuer`, `authorization_endpoint`, `token_endpoint`, `jwks_uri` and `grant_types_supported`.",
+   "spec_urls": [
+    "https://openid.net/specs/openid-connect-discovery-1_0.html",
+    "https://www.rfc-editor.org/rfc/rfc8414.html"
+   ],
+   "duration_ms": 0,
+   "fix_prompt": "You are working on http://127.0.0.1:33187 (detected stack: Generic / unknown stack).\n\n## Task\nPublish OAuth/OIDC discovery metadata\n\n## Problem\nNeither `/.well-known/openid-configuration` nor `/.well-known/oauth-authorization-server` is served, so agents cannot discover how to authenticate against your APIs.\n\n## What we observed\n- (no additional evidence captured)\n\n## Where to make the change (Generic / unknown stack)\na `.well-known/` directory at the document root\n\n### Platform notes\n- Identify how static files at the document root are served before creating any file, and confirm the framework does not generate the same path dynamically (a generated route always wins over a static file).\n\n## Required result\nPublish discovery metadata containing at minimum `issuer`, `authorization_endpoint`, `token_endpoint`, `jwks_uri` and `grant_types_supported`. Use `/.well-known/openid-configuration` for OIDC or `/.well-known/oauth-authorization-server` for plain OAuth 2.0. If you use a hosted IdP (Auth0, Clerk, WorkOS, Okta, Keycloak), the correct action is usually to proxy or link to ITS discovery document rather than hand-writing one.\n\n## Acceptance criteria\n- The discovery document returns 200 JSON\n- `issuer` exactly matches the URL it is served from (per spec)\n- `jwks_uri` resolves and returns a valid key set\n\n## Verify\n```bash\ncurl -sS https://127.0.0.1:33187/.well-known/openid-configuration | head -40\n```\n\n## Constraints\n- Only publish this if the site genuinely exposes protected APIs — advertising an auth server that does not exist is worse than publishing nothing.\n- Make the smallest change that satisfies the acceptance criteria.\n- Do not delete or rewrite unrelated files, routes, or configuration.\n- Do not modify DNS, billing, user accounts, or access control unless this task explicitly requires it.\n- Never commit secrets, API keys, or credentials.\n- If the required change conflicts with an existing plugin, framework route, or CDN setting, stop and report the conflict instead of forcing it.\n\nReport exactly which files you changed and paste the verification output."
+  },
+  {
+   "probe_id": "AGT.OAUTH_PR",
+   "title": "OAuth Protected Resource",
+   "category": "api_auth_mcp",
+   "category_label": "API, Auth, MCP & Skill Discovery",
+   "goal": "Publish OAuth Protected Resource Metadata (RFC 9728)",
+   "status": "fail",
+   "conclusion": "No OAuth Protected Resource Metadata found",
+   "steps": [
+    {
+     "action": "GET /.well-known/oauth-protected-resource",
+     "detail": "Returned 404",
+     "status": 404,
+     "request_headers": {},
+     "response_headers": {
+      "content-type": "text/html; charset=utf-8",
+      "cache-control": "no-cache",
+      "vary": "Accept-Encoding",
+      "content-length": "232"
+     },
+     "body_excerpt": "",
+     "ok": false
+    },
+    {
+     "action": "GET /",
+     "detail": "Homepage returned no WWW-Authenticate header",
+     "status": 200,
+     "request_headers": {},
+     "response_headers": {
+      "content-type": "text/html; charset=utf-8",
+      "link": "</.well-known/api-catalog>; rel=\"api-catalog\"",
+      "cache-control": "public, max-age=300",
+      "vary": "Accept-Encoding",
+      "content-length": "1456"
+     },
+     "body_excerpt": "",
+     "ok": false
+    }
+   ],
+   "evidence": {},
+   "remediation": "Publish `/.well-known/oauth-protected-resource` with your `resource` identifier, `authorization_servers` (issuers that can mint tokens for it) and `scopes_supported`, so agents can discover how to get an access token for your protected APIs.",
+   "spec_urls": [
+    "https://www.rfc-editor.org/rfc/rfc9728.html"
+   ],
+   "duration_ms": 0,
+   "fix_prompt": "You are working on http://127.0.0.1:33187 (detected stack: Generic / unknown stack).\n\n## Task\nPublish OAuth Protected Resource Metadata (RFC 9728)\n\n## Problem\n`/.well-known/oauth-protected-resource` is absent, so an agent holding no token cannot learn which authorization server issues tokens for this resource.\n\n## What we observed\n- (no additional evidence captured)\n\n## Where to make the change (Generic / unknown stack)\na `.well-known/` directory at the document root\n\n### Platform notes\n- Identify how static files at the document root are served before creating any file, and confirm the framework does not generate the same path dynamically (a generated route always wins over a static file).\n\n## Required result\nServe `/.well-known/oauth-protected-resource`:\n\n```json\n{\n  \"resource\": \"https://<domain>\",\n  \"authorization_servers\": [\"https://auth.<domain>\"],\n  \"scopes_supported\": [\"read\", \"write\"],\n  \"bearer_methods_supported\": [\"header\"]\n}\n```\n\nAlso return `WWW-Authenticate: Bearer resource_metadata=\"…\"` on 401 responses from protected endpoints.\n\n## Acceptance criteria\n- GET /.well-known/oauth-protected-resource returns 200 JSON\n- `authorization_servers` lists reachable issuer URLs\n- Protected endpoints return WWW-Authenticate pointing at this metadata\n\n## Verify\n```bash\ncurl -sS https://127.0.0.1:33187/.well-known/oauth-protected-resource\ncurl -sSI https://127.0.0.1:33187/api/ | grep -i www-authenticate\n```\n\n## Constraints\n- Make the smallest change that satisfies the acceptance criteria.\n- Do not delete or rewrite unrelated files, routes, or configuration.\n- Do not modify DNS, billing, user accounts, or access control unless this task explicitly requires it.\n- Never commit secrets, API keys, or credentials.\n- If the required change conflicts with an existing plugin, framework route, or CDN setting, stop and report the conflict instead of forcing it.\n\nReport exactly which files you changed and paste the verification output."
+  },
+  {
+   "probe_id": "AGT.WEBMCP",
+   "title": "WebMCP",
+   "category": "agent_runtime",
+   "category_label": "Agent Runtime & Interaction",
+   "goal": "Expose site actions to agents via the WebMCP browser API",
+   "status": "fail",
+   "conclusion": "No WebMCP tools detected on page load",
+   "steps": [
+    {
+     "action": "WebMCP detection",
+     "detail": "Checking page for WebMCP tool registrations",
+     "status": null,
+     "request_headers": {},
+     "response_headers": {},
+     "body_excerpt": "",
+     "ok": null
+    },
+    {
+     "action": "Navigate to http://127.0.0.1:33187",
+     "detail": "Loading page to detect WebMCP tool registrations",
+     "status": null,
+     "request_headers": {},
+     "response_headers": {},
+     "body_excerpt": "",
+     "ok": null
+    },
+    {
+     "action": "Check imperative WebMCP API",
+     "detail": "No tools registered via navigator.modelContext",
+     "status": null,
+     "request_headers": {},
+     "response_headers": {},
+     "body_excerpt": "",
+     "ok": false
+    }
+   ],
+   "evidence": {},
+   "remediation": "Call `navigator.modelContext.provideContext()` with tool definitions that expose your key actions to agents. Each tool needs a `name`, `description`, JSON-Schema `inputSchema`, and an `execute` callback — it lets an agent invoke your functionality directly instead of scraping and guessing at your UI.",
+   "spec_urls": [
+    "https://webmachinelearning.github.io/webmcp/",
+    "https://developer.chrome.com/docs/ai/webmcp"
+   ],
+   "duration_ms": 0,
+   "fix_prompt": "You are working on http://127.0.0.1:33187 (detected stack: Generic / unknown stack).\n\n## Task\nExpose site actions to agents with WebMCP\n\n## Problem\nNo WebMCP tools are registered, so an in-browser agent must reverse-engineer your UI — clicking around and guessing at selectors — instead of calling your functionality directly.\n\n## What we observed\n- (no additional evidence captured)\n\n## Where to make the change (Generic / unknown stack)\nthe document root served at /\n\n### Platform notes\n- Identify how static files at the document root are served before creating any file, and confirm the framework does not generate the same path dynamically (a generated route always wins over a static file).\n\n## Required result\nRegister your key actions on page load:\n\n```js\nif (navigator.modelContext) {\n  navigator.modelContext.provideContext({\n    tools: [{\n      name: 'search_products',\n      description: 'Search the catalogue by keyword',\n      inputSchema: { type: 'object',\n        properties: { query: { type: 'string' } },\n        required: ['query'] },\n      async execute({ query }) {\n        const r = await fetch(`/api/search?q=${encodeURIComponent(query)}`);\n        return { content: [{ type: 'text', text: await r.text() }] };\n      }\n    }]\n  });\n}\n```\n\nStart with the 3-5 actions that matter most (search, add to cart, book, contact). Feature-detect so browsers without WebMCP are unaffected.\n\n## Acceptance criteria\n- navigator.modelContext.provideContext() is called on page load\n- Each tool has name, description, a valid JSON-Schema inputSchema and execute()\n- Tools call real endpoints and return useful content\n- The code is feature-detected and breaks nothing without WebMCP\n\n## Verify\n```bash\n# In the browser console on the homepage:\nnavigator.modelContext ? 'WebMCP available' : 'not supported'\n```\n\n## Constraints\n- Make the smallest change that satisfies the acceptance criteria.\n- Do not delete or rewrite unrelated files, routes, or configuration.\n- Do not modify DNS, billing, user accounts, or access control unless this task explicitly requires it.\n- Never commit secrets, API keys, or credentials.\n- If the required change conflicts with an existing plugin, framework route, or CDN setting, stop and report the conflict instead of forcing it.\n\nReport exactly which files you changed and paste the verification output."
+  },
+  {
+   "probe_id": "AGT.ACP",
+   "title": "ACP (Agentic Commerce Protocol)",
+   "category": "commerce",
+   "category_label": "Agentic Commerce",
+   "goal": "Publish ACP discovery metadata",
+   "status": "not_applicable",
+   "conclusion": "ACP (Agentic Commerce Protocol) not detected (no e-commerce signals detected)",
+   "steps": [
+    {
+     "action": "GET /.well-known/acp.json",
+     "detail": "Returned 404",
+     "status": 404,
+     "request_headers": {},
+     "response_headers": {
+      "content-type": "text/html; charset=utf-8",
+      "cache-control": "no-cache",
+      "vary": "Accept-Encoding",
+      "content-length": "232"
+     },
+     "body_excerpt": "",
+     "ok": false
+    }
+   ],
+   "evidence": {},
+   "remediation": "Serve `/.well-known/acp.json` at the origin root with `protocol.name` \"acp\", `protocol.version`, `api_base_url`, supported transports and `capabilities.services`.",
+   "spec_urls": [
+    "https://agenticcommerce.dev/"
+   ],
+   "duration_ms": 0,
+   "fix_prompt": ""
+  },
+  {
+   "probe_id": "AGT.MPP",
+   "title": "MPP (Machine Payment Protocol)",
+   "category": "commerce",
+   "category_label": "Agentic Commerce",
+   "goal": "Support MPP for agent-native HTTP payments",
+   "status": "not_applicable",
+   "conclusion": "MPP (Machine Payment Protocol) not detected (no e-commerce signals detected)",
+   "steps": [
+    {
+     "action": "GET /openapi.json",
+     "detail": "Returned 404",
+     "status": 404,
+     "request_headers": {},
+     "response_headers": {
+      "content-type": "text/html; charset=utf-8",
+      "cache-control": "no-cache",
+      "vary": "Accept-Encoding",
+      "content-length": "232"
+     },
+     "body_excerpt": "",
+     "ok": false
+    }
+   ],
+   "evidence": {},
+   "remediation": "Publish `/openapi.json` with `x-payment-info` extensions on payable operations, declaring `intent`, `method`, `amount` and `currency`.",
+   "spec_urls": [
+    "https://mpp.dev/"
+   ],
+   "duration_ms": 0,
+   "fix_prompt": ""
+  },
+  {
+   "probe_id": "AGT.UCP",
+   "title": "Universal Commerce Protocol",
+   "category": "commerce",
+   "category_label": "Agentic Commerce",
+   "goal": "Enable agent commerce via UCP",
+   "status": "not_applicable",
+   "conclusion": "Universal Commerce Protocol not detected (no e-commerce signals detected)",
+   "steps": [
+    {
+     "action": "GET /.well-known/ucp",
+     "detail": "Returned 404",
+     "status": 404,
+     "request_headers": {},
+     "response_headers": {
+      "content-type": "text/html; charset=utf-8",
+      "cache-control": "no-cache",
+      "vary": "Accept-Encoding",
+      "content-length": "232"
+     },
+     "body_excerpt": "",
+     "ok": false
+    }
+   ],
+   "evidence": {},
+   "remediation": "Serve `/.well-known/ucp` with protocol version, services, capabilities and endpoints.",
+   "spec_urls": [
+    "https://ucp.dev/"
+   ],
+   "duration_ms": 0,
+   "fix_prompt": ""
+  },
+  {
+   "probe_id": "AGT.X402",
+   "title": "x402 Protocol",
+   "category": "commerce",
+   "category_label": "Agentic Commerce",
+   "goal": "Support x402 for agent-native HTTP payments",
+   "status": "not_applicable",
+   "conclusion": "x402 payment protocol not detected (no e-commerce signals detected)",
+   "steps": [
+    {
+     "action": "GET /api/v1",
+     "detail": "/api/v1 returned 404 (not 402)",
+     "status": 404,
+     "request_headers": {},
+     "response_headers": {
+      "content-type": "text/html; charset=utf-8",
+      "cache-control": "no-cache",
+      "vary": "Accept-Encoding",
+      "content-length": "232"
+     },
+     "body_excerpt": "",
+     "ok": false
+    },
+    {
+     "action": "GET /api",
+     "detail": "/api returned 404 (not 402)",
+     "status": 404,
+     "request_headers": {},
+     "response_headers": {
+      "content-type": "text/html; charset=utf-8",
+      "cache-control": "no-cache",
+      "vary": "Accept-Encoding",
+      "content-length": "232"
+     },
+     "body_excerpt": "",
+     "ok": false
+    },
+    {
+     "action": "GET /",
+     "detail": "/ returned 200 (not 402)",
+     "status": 200,
+     "request_headers": {},
+     "response_headers": {
+      "content-type": "text/html; charset=utf-8",
+      "link": "</.well-known/api-catalog>; rel=\"api-catalog\"",
+      "cache-control": "public, max-age=300",
+      "vary": "Accept-Encoding",
+      "content-length": "1456"
+     },
+     "body_excerpt": "",
+     "ok": false
+    }
+   ],
+   "evidence": {},
+   "remediation": "Add x402 middleware to your paid API routes so agents can pay over HTTP: protected routes return `402` with machine-readable payment requirements the agent can satisfy automatically.",
+   "spec_urls": [
+    "https://x402.org/",
+    "https://github.com/coinbase/x402"
+   ],
+   "duration_ms": 0,
+   "fix_prompt": ""
+  }
+ ]
+}

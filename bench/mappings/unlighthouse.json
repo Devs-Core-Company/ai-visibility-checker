@@ -1,0 +1,233 @@
+{
+ "tool": "unlighthouse",
+ "source": "Same Lighthouse 13.5.0 audit ids as mappings/lighthouse.json (Unlighthouse runs Lighthouse per route; agentic-browsing is not in its default categories)",
+ "version": "@unlighthouse/cli 0.19.1 (lighthouse 13.5.0)",
+ "rule": "A native id is mapped to a ground-truth type (or alt_type) when its finding clearly names the same problem. Written from the tool catalogue, not from run output. Same standard for every tool.",
+ "map": {
+  "is-crawlable": [
+   "noindex-page"
+  ],
+  "document-title": [
+   "missing-title"
+  ],
+  "meta-description": [
+   "missing-meta-description"
+  ],
+  "http-status-code": [
+   "http-404",
+   "http-410",
+   "http-4xx",
+   "http-5xx"
+  ],
+  "link-text": [
+   "non-descriptive-link-text"
+  ],
+  "crawlable-anchors": [
+   "uncrawlable-link"
+  ],
+  "image-alt": [
+   "img-missing-alt"
+  ],
+  "hreflang": [
+   "hreflang-invalid-code"
+  ],
+  "canonical": [
+   "multiple-canonicals",
+   "canonical-relative-url"
+  ],
+  "errors-in-console": [
+   "console-error"
+  ],
+  "charset": [
+   "missing-charset"
+  ],
+  "doctype": [
+   "missing-doctype"
+  ],
+  "unsized-images": [
+   "image-missing-dimensions"
+  ],
+  "server-response-time": [
+   "slow-server-response"
+  ],
+  "document-latency-insight": [
+   "slow-server-response",
+   "no-text-compression"
+  ],
+  "redirects": [
+   "redirect-chain"
+  ],
+  "dom-size-insight": [
+   "excessive-dom-size"
+  ],
+  "cumulative-layout-shift": [
+   "layout-shift"
+  ],
+  "layout-shifts": [
+   "layout-shift"
+  ],
+  "cls-culprits-insight": [
+   "layout-shift"
+  ],
+  "image-delivery-insight": [
+   "image-oversized-file"
+  ],
+  "viewport-insight": [
+   "missing-viewport"
+  ],
+  "aria-allowed-attr": [
+   "aria-invalid-attribute"
+  ],
+  "aria-valid-attr": [
+   "aria-invalid-attribute"
+  ],
+  "aria-roles": [
+   "aria-invalid-role"
+  ],
+  "aria-hidden-focus": [
+   "aria-hidden-focusable"
+  ],
+  "button-name": [
+   "button-missing-name"
+  ],
+  "link-name": [
+   "link-missing-name"
+  ],
+  "aria-command-name": [
+   "button-missing-name",
+   "link-missing-name"
+  ],
+  "color-contrast": [
+   "low-contrast-text"
+  ],
+  "empty-heading": [
+   "empty-heading"
+  ],
+  "frame-title": [
+   "frame-missing-title"
+  ],
+  "heading-order": [
+   "heading-order"
+  ],
+  "html-has-lang": [
+   "html-missing-lang"
+  ],
+  "html-lang-valid": [
+   "html-lang-invalid"
+  ],
+  "valid-lang": [
+   "html-lang-invalid"
+  ],
+  "label": [
+   "form-input-missing-label"
+  ],
+  "landmark-one-main": [
+   "missing-main-landmark"
+  ],
+  "list": [
+   "list-invalid-children"
+  ],
+  "meta-viewport": [
+   "viewport-blocks-zoom"
+  ],
+  "tabindex": [
+   "tabindex-positive"
+  ],
+  "meta-refresh": [
+   "meta-refresh-redirect"
+  ],
+  "autocomplete-valid": [
+   "autocomplete-invalid"
+  ],
+  "agent-accessibility-tree": [
+   "button-missing-name",
+   "link-missing-name",
+   "form-input-missing-label",
+   "aria-invalid-attribute",
+   "aria-invalid-role",
+   "aria-hidden-focusable",
+   "tabindex-positive",
+   "autocomplete-invalid"
+  ],
+  "webmcp-schema-validity": [
+   "webmcp-schema-invalid",
+   "webmcp-tool-missing-description"
+  ],
+  "llms-txt": [
+   "llms-txt-missing-h1"
+  ]
+ },
+ "groundTruthTypesWithNoMapping": [
+  "soft-404",
+  "broken-image",
+  "temporary-redirect",
+  "canonical-to-redirect",
+  "canonical-to-4xx",
+  "redirect-to-4xx",
+  "url-uppercase",
+  "url-underscores",
+  "orphan-page",
+  "pagination-canonical-to-first-page",
+  "missing-canonical",
+  "redirect-loop",
+  "missing-security-headers",
+  "hreflang-missing-return-link",
+  "server-version-disclosure",
+  "robots-blocks-resources",
+  "sitemap-contains-redirect",
+  "sitemap-invalid-xml",
+  "sitemap-invalid-lastmod",
+  "security-txt-invalid",
+  "img-alt-keyword-stuffed",
+  "multiple-h1",
+  "thin-content",
+  "title-too-long",
+  "meta-description-too-short",
+  "placeholder-text",
+  "internal-link-to-redirect",
+  "title-too-short",
+  "duplicate-title",
+  "multiple-titles",
+  "duplicate-meta-description",
+  "multiple-meta-descriptions",
+  "missing-h1",
+  "duplicate-content",
+  "missing-open-graph",
+  "nofollow-internal-link",
+  "duplicate-h1",
+  "meta-description-too-long",
+  "nosnippet-key-page",
+  "markdown-alternate-broken",
+  "client-side-rendered-content",
+  "robots-blocks-ai-training-bot",
+  "robots-blocks-ai-search-bot",
+  "robots-blocks-ai-user-agent",
+  "robots-blocks-ai-bot-path",
+  "llms-txt-broken-link",
+  "waf-blocks-ai-bot",
+  "schema-unknown-type",
+  "schema-content-not-visible",
+  "schema-conflicting-entity",
+  "self-serving-review-markup",
+  "nap-inconsistent",
+  "missing-localbusiness-schema",
+  "json-ld-syntax-error",
+  "missing-author",
+  "missing-publish-date",
+  "missing-article-schema",
+  "schema-invalid-date",
+  "no-subheadings",
+  "schema-invalid-value",
+  "date-modified-before-published",
+  "schema-missing-required-property",
+  "non-semantic-button",
+  "custom-widget-missing-roles",
+  "a2a-card-invalid",
+  "a2a-endpoint-unreachable",
+  "mcp-server-card-invalid",
+  "mcp-endpoint-unreachable",
+  "oauth-metadata-issuer-mismatch",
+  "oauth-protected-resource-invalid",
+  "api-catalog-broken-link"
+ ]
+}

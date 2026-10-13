@@ -1,0 +1,1222 @@
+{
+ "tool": "unlighthouse",
+ "site": "bench/site",
+ "findings": [
+  {
+   "tool": "unlighthouse",
+   "type": "image-delivery-insight",
+   "url": "/about",
+   "message": "Improve image delivery (Est savings of 551 KiB) | body > main#main > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "lcp-discovery-insight",
+   "url": "/about",
+   "message": "LCP request discovery",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/about",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/about",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "image-delivery-insight",
+   "url": "/blog/Top-10-Brushing-Mistakes",
+   "message": "Improve image delivery (Est savings of 35 KiB) | body > main#main > article > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/Top-10-Brushing-Mistakes",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/Top-10-Brushing-Mistakes",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "errors-in-console",
+   "url": "/blog/category/cosmetic",
+   "message": "Browser errors were logged to the console",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/category/cosmetic",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/category/cosmetic",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "landmark-one-main",
+   "url": "/blog/category/news",
+   "message": "Document does not have a main landmark. | html",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/category/news",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/category/news",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "crawlable-anchors",
+   "url": "/blog/category/oral-health",
+   "message": "Links are not crawlable | body > main#main > p > a",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "document-latency-insight",
+   "url": "/blog/category/oral-health",
+   "message": "Document request latency (Est savings of 7 KiB)",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/category/oral-health",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/category/oral-health",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "image-delivery-insight",
+   "url": "/blog/choosing-a-toothpaste",
+   "message": "Improve image delivery (Est savings of 29 KiB) | body > main#main > article > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/choosing-a-toothpaste",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/choosing-a-toothpaste",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "aria-roles",
+   "url": "/blog/electric-vs-manual-toothbrush",
+   "message": "`[role]` values are not valid | main#main > article > p > span.tag",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "image-delivery-insight",
+   "url": "/blog/electric-vs-manual-toothbrush",
+   "message": "Improve image delivery (Est savings of 37 KiB) | body > main#main > article > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/electric-vs-manual-toothbrush",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/electric-vs-manual-toothbrush",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "image-delivery-insight",
+   "url": "/blog/history-of-dentistry",
+   "message": "Improve image delivery (Est savings of 37 KiB) | body > main#main > article > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/history-of-dentistry",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/history-of-dentistry",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "image-delivery-insight",
+   "url": "/blog/kids-first-visit",
+   "message": "Improve image delivery (Est savings of 34 KiB) | body > main#main > article > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/kids-first-visit",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/kids-first-visit",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "image-delivery-insight",
+   "url": "/blog/open-evening-november",
+   "message": "Improve image delivery (Est savings of 33 KiB) | body > main#main > article > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/open-evening-november",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/open-evening-november",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "image-delivery-insight",
+   "url": "/blog/sugar-and-teeth",
+   "message": "Improve image delivery (Est savings of 37 KiB) | body > main#main > article > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/sugar-and-teeth",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/sugar-and-teeth",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "doctype",
+   "url": "/blog/tag/kids",
+   "message": "Page lacks the HTML doctype, thus triggering quirks-mode",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/tag/kids",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/tag/kids",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/tag/whitening",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/tag/whitening",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "unsized-images",
+   "url": "/blog/what-to-expect-implants",
+   "message": "Image elements do not have explicit `width` and `height` | body > main#main > article > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "heading-order",
+   "url": "/blog/what-to-expect-implants",
+   "message": "Heading elements are not in a sequentially-descending order | body > main#main > article > h4",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "image-delivery-insight",
+   "url": "/blog/what-to-expect-implants",
+   "message": "Improve image delivery (Est savings of 34 KiB) | body > main#main > article > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/what-to-expect-implants",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/what-to-expect-implants",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "button-name",
+   "url": "/book",
+   "message": "Buttons do not have an accessible name | main#main > form.form > p > button.icon-btn",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/book",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/book",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/careers",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/careers",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "label",
+   "url": "/contact",
+   "message": "Form elements do not have associated labels | main#main > form.form > p > input",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "tabindex",
+   "url": "/contact",
+   "message": "Some elements have a `[tabindex]` value greater than 0 | main#main > form.form > p > input#c-phone",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/contact",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/contact",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/developers",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/developers",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/faq",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/faq",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/finance",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/finance",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/invisalign-guide",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/invisalign-guide",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/legal/accessibility",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/legal/accessibility",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "cumulative-layout-shift",
+   "url": "/legal/complaints",
+   "message": "Cumulative Layout Shift (0.662)",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "layout-shifts",
+   "url": "/legal/complaints",
+   "message": "Avoid large layout shifts (1 layout shift found) | body > main#main",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "cls-culprits-insight",
+   "url": "/legal/complaints",
+   "message": "Layout shift culprits",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/legal/complaints",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/legal/complaints",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "viewport-insight",
+   "url": "/legal/complaints",
+   "message": "Optimize viewport for mobile",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/legal/cookies",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/legal/cookies",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/legal/privacy",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/legal/privacy",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "canonical",
+   "url": "/legal/terms",
+   "message": "Document does not have a valid `rel=canonical`",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/legal/terms",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/legal/terms",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "image-delivery-insight",
+   "url": "/",
+   "message": "Improve image delivery (Est savings of 185 KiB) | ul.cards > li > a > img, ul.cards > li > a > img, ul.cards > li > a > img, ul.cards > li > a > img, body > main#main > section.hero > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "frame-title",
+   "url": "/locations/bath",
+   "message": "`<frame>` or `<iframe>` elements do not have a title | body > main#main > iframe",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "image-delivery-insight",
+   "url": "/locations/bath",
+   "message": "Improve image delivery (Est savings of 36 KiB) | body > main#main > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/locations/bath",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/locations/bath",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "meta-viewport",
+   "url": "/locations/bristol",
+   "message": "`[user-scalable=\"no\"]` is used in the `<meta name=\"viewport\">` element or the `[maximum-scale]` attribute is less than 5. | head > meta",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "image-delivery-insight",
+   "url": "/locations/bristol",
+   "message": "Improve image delivery (Est savings of 37 KiB) | body > main#main > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/locations/bristol",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/locations/bristol",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "image-delivery-insight",
+   "url": "/locations/leeds",
+   "message": "Improve image delivery (Est savings of 40 KiB) | body > main#main > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/locations/leeds",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/locations/leeds",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "image-delivery-insight",
+   "url": "/locations",
+   "message": "Improve image delivery (Est savings of 114 KiB) | ul.cards > li > a > img, ul.cards > li > a > img, ul.cards > li > a > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "lcp-discovery-insight",
+   "url": "/locations",
+   "message": "LCP request discovery",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/locations",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/locations",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "autocomplete-valid",
+   "url": "/new-patients",
+   "message": "`autocomplete` attributes are not used correctly | main#main > form.form > p > input#np-email, main#main > form.form > p > input#np-tel",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/new-patients",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/new-patients",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "cumulative-layout-shift",
+   "url": "/patient-stories",
+   "message": "Cumulative Layout Shift (0.623)",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "layout-shifts",
+   "url": "/patient-stories",
+   "message": "Avoid large layout shifts (1 layout shift found) | body > footer.site-footer",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "cls-culprits-insight",
+   "url": "/patient-stories",
+   "message": "Layout shift culprits",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/patient-stories",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/patient-stories",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "cumulative-layout-shift",
+   "url": "/pricing",
+   "message": "Cumulative Layout Shift (0.179)",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "layout-shifts",
+   "url": "/pricing",
+   "message": "Avoid large layout shifts (1 layout shift found) | body > main#main > p",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "aria-hidden-focus",
+   "url": "/pricing",
+   "message": "`[aria-hidden=\"true\"]` elements contain focusable descendents | body > main#main > div.promo",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "cls-culprits-insight",
+   "url": "/pricing",
+   "message": "Layout shift culprits",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/pricing",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/pricing",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/referrals",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/referrals",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "image-delivery-insight",
+   "url": "/services/childrens-dentistry",
+   "message": "Improve image delivery (Est savings of 41 KiB) | body > main#main > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/services/childrens-dentistry",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/services/childrens-dentistry",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "image-delivery-insight",
+   "url": "/services/dental-implants",
+   "message": "Improve image delivery (Est savings of 37 KiB) | body > main#main > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/services/dental-implants",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/services/dental-implants",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "image-delivery-insight",
+   "url": "/services/emergency-dentist",
+   "message": "Improve image delivery (Est savings of 41 KiB) | body > main#main > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/services/emergency-dentist",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/services/emergency-dentist",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "aria-valid-attr",
+   "url": "/services/general-dentistry",
+   "message": "`[aria-*]` attributes are not valid or misspelled | body > main#main > p > button.toggle",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "image-delivery-insight",
+   "url": "/services/general-dentistry",
+   "message": "Improve image delivery (Est savings of 39 KiB) | body > main#main > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/services/general-dentistry",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/services/general-dentistry",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "image-delivery-insight",
+   "url": "/services/hygiene",
+   "message": "Improve image delivery (Est savings of 40 KiB) | body > main#main > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/services/hygiene",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/services/hygiene",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "is-crawlable",
+   "url": "/services/invisalign",
+   "message": "Page is blocked from indexing",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "image-delivery-insight",
+   "url": "/services/invisalign",
+   "message": "Improve image delivery (Est savings of 34 KiB) | body > main#main > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/services/invisalign",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/services/invisalign",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "list",
+   "url": "/services",
+   "message": "Lists do not contain only `<li>` elements and script supporting elements (`<script>` and `<template>`). | body > main#main > ul.service-list",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/services",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/services",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "image-delivery-insight",
+   "url": "/services/teeth-whitening",
+   "message": "Improve image delivery (Est savings of 37 KiB) | body > main#main > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/services/teeth-whitening",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/services/teeth-whitening",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "image-alt",
+   "url": "/team/dr-amelia-hart",
+   "message": "Image elements do not have `[alt]` attributes | body > main#main > img",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "lcp-discovery-insight",
+   "url": "/team/dr-amelia-hart",
+   "message": "LCP request discovery",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/team/dr-amelia-hart",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/team/dr-amelia-hart",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "document-title",
+   "url": "/team/dr-rohan-mehta",
+   "message": "Document doesn't have a `<title>` element | html",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "lcp-discovery-insight",
+   "url": "/team/dr-rohan-mehta",
+   "message": "LCP request discovery",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/team/dr-rohan-mehta",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/team/dr-rohan-mehta",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "html-lang-valid",
+   "url": "/team/dr-sophie-lang",
+   "message": "`<html>` element does not have a valid value for its `[lang]` attribute. | html",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "image-delivery-insight",
+   "url": "/team/dr-sophie-lang",
+   "message": "Improve image delivery (Est savings of 5 KiB) | body > main#main > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "lcp-discovery-insight",
+   "url": "/team/dr-sophie-lang",
+   "message": "LCP request discovery",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/team/dr-sophie-lang",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/team/dr-sophie-lang",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "first-contentful-paint",
+   "url": "/team",
+   "message": "First Contentful Paint (2.6 s)",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "largest-contentful-paint",
+   "url": "/team",
+   "message": "Largest Contentful Paint (2.7 s)",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "server-response-time",
+   "url": "/team",
+   "message": "Reduce initial server response time (Root document took 2,500 ms) | /team",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "link-name",
+   "url": "/team",
+   "message": "Links do not have a discernible name | body > main#main > p > a.icon-link",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "document-latency-insight",
+   "url": "/team",
+   "message": "Document request latency (Est savings of 2,400 ms)",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "image-delivery-insight",
+   "url": "/team",
+   "message": "Improve image delivery (Est savings of 10 KiB) | ul.cards > li > a > img, ul.cards > li > a > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "lcp-breakdown-insight",
+   "url": "/team",
+   "message": "LCP breakdown",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "lcp-discovery-insight",
+   "url": "/team",
+   "message": "LCP request discovery",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/team",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/team",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "errors-in-console",
+   "url": "/team/priya-shah",
+   "message": "Browser errors were logged to the console",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/team/priya-shah",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/team/priya-shah",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "image-delivery-insight",
+   "url": "/team/tom-ellis",
+   "message": "Improve image delivery (Est savings of 5 KiB) | body > main#main > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "lcp-discovery-insight",
+   "url": "/team/tom-ellis",
+   "message": "LCP request discovery",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/team/tom-ellis",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/team/tom-ellis",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/us/invisalign-guide",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/us/invisalign-guide",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  }
+ ],
+ "meta": {
+  "version": "@unlighthouse/cli 0.19.1 (lighthouse 13.5.0)",
+  "settings": {
+   "command": "unlighthouse-ci --site <url> --reporter jsonExpanded --no-cache",
+   "defaults": "crawler + robots.txt + sitemap, dynamicSampling 8, maxRoutes 200, mobile, 4 categories (no agentic-browsing by default)",
+   "failure": "audit score < 0.9 in the per-route Lighthouse report"
+  },
+  "durationMs": 541374,
+  "peakRssMb": 3205,
+  "pagesAudited": 51,
+  "errors": []
+ }
+}

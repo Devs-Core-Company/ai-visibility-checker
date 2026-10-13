@@ -1,0 +1,1135 @@
+{
+ "lighthouseVersion": "13.5.0",
+ "audits": {
+  "is-on-https": {
+   "title": "Uses HTTPS",
+   "categories": [
+    "best-practices"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "redirects-http": {
+   "title": "Redirects HTTP traffic to HTTPS",
+   "categories": [
+    "best-practices"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "first-contentful-paint": {
+   "title": "First Contentful Paint",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "numeric"
+  },
+  "largest-contentful-paint": {
+   "title": "Largest Contentful Paint",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "numeric"
+  },
+  "speed-index": {
+   "title": "Speed Index",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "numeric"
+  },
+  "screenshot-thumbnails": {
+   "title": "Screenshot Thumbnails",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "informative"
+  },
+  "final-screenshot": {
+   "title": "Final Screenshot",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "informative"
+  },
+  "total-blocking-time": {
+   "title": "Total Blocking Time",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "numeric"
+  },
+  "max-potential-fid": {
+   "title": "Max Potential First Input Delay",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "numeric"
+  },
+  "cumulative-layout-shift": {
+   "title": "Cumulative Layout Shift",
+   "categories": [
+    "performance",
+    "agentic-browsing"
+   ],
+   "scoreDisplayMode": "numeric"
+  },
+  "errors-in-console": {
+   "title": "No browser errors logged to the console",
+   "categories": [
+    "best-practices"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "server-response-time": {
+   "title": "Initial server response time was short",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "metricSavings"
+  },
+  "interactive": {
+   "title": "Time to Interactive",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "numeric"
+  },
+  "user-timings": {
+   "title": "User Timing marks and measures",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "redirects": {
+   "title": "Avoid multiple page redirects",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "metricSavings"
+  },
+  "image-aspect-ratio": {
+   "title": "Displays images with correct aspect ratio",
+   "categories": [
+    "best-practices"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "image-size-responsive": {
+   "title": "Serves images with low resolution",
+   "categories": [
+    "best-practices"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "deprecations": {
+   "title": "Avoids deprecated APIs",
+   "categories": [
+    "best-practices"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "third-party-cookies": {
+   "title": "Avoids third-party cookies",
+   "categories": [
+    "best-practices"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "mainthread-work-breakdown": {
+   "title": "Minimizes main-thread work",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "metricSavings"
+  },
+  "bootup-time": {
+   "title": "JavaScript execution time",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "metricSavings"
+  },
+  "diagnostics": {
+   "title": "Diagnostics",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "informative"
+  },
+  "network-requests": {
+   "title": "Network Requests",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "informative"
+  },
+  "network-rtt": {
+   "title": "Network Round Trip Times",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "informative"
+  },
+  "network-server-latency": {
+   "title": "Server Backend Latencies",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "informative"
+  },
+  "main-thread-tasks": {
+   "title": "Tasks",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "informative"
+  },
+  "metrics": {
+   "title": "Metrics",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "informative"
+  },
+  "resource-summary": {
+   "title": "Resources Summary",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "informative"
+  },
+  "layout-shifts": {
+   "title": "Avoid large layout shifts",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "long-tasks": {
+   "title": "Avoid long main-thread tasks",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "non-composited-animations": {
+   "title": "Avoid non-composited animations",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "unsized-images": {
+   "title": "Image elements have explicit `width` and `height`",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "metricSavings"
+  },
+  "valid-source-maps": {
+   "title": "Page has valid source maps",
+   "categories": [
+    "best-practices"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "csp-xss": {
+   "title": "Ensure CSP is effective against XSS attacks",
+   "categories": [
+    "best-practices"
+   ],
+   "scoreDisplayMode": "informative"
+  },
+  "has-hsts": {
+   "title": "Use a strong HSTS policy",
+   "categories": [
+    "best-practices"
+   ],
+   "scoreDisplayMode": "informative"
+  },
+  "origin-isolation": {
+   "title": "Ensure proper origin isolation with COOP",
+   "categories": [
+    "best-practices"
+   ],
+   "scoreDisplayMode": "informative"
+  },
+  "clickjacking-mitigation": {
+   "title": "Mitigate clickjacking with XFO or CSP",
+   "categories": [
+    "best-practices"
+   ],
+   "scoreDisplayMode": "informative"
+  },
+  "trusted-types-xss": {
+   "title": "Mitigate DOM-based XSS with Trusted Types",
+   "categories": [
+    "best-practices"
+   ],
+   "scoreDisplayMode": "informative"
+  },
+  "script-treemap-data": {
+   "title": "Script Treemap Data",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "informative"
+  },
+  "accesskeys": {
+   "title": "`[accesskey]` values are unique",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "aria-allowed-attr": {
+   "title": "`[aria-*]` attributes match their roles",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "aria-allowed-role": {
+   "title": "Uses ARIA roles only on compatible elements",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "aria-command-name": {
+   "title": "`button`, `link`, and `menuitem` elements have accessible names",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "aria-conditional-attr": {
+   "title": "ARIA attributes are used as specified for the element's role",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "aria-deprecated-role": {
+   "title": "Deprecated ARIA roles were not used",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "aria-dialog-name": {
+   "title": "Elements with `role=\"dialog\"` or `role=\"alertdialog\"` have accessible names.",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "aria-hidden-body": {
+   "title": "`[aria-hidden=\"true\"]` is not present on the document `<body>`",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "aria-hidden-focus": {
+   "title": "`[aria-hidden=\"true\"]` elements do not contain focusable descendents",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "aria-input-field-name": {
+   "title": "ARIA input fields have accessible names",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "aria-meter-name": {
+   "title": "ARIA `meter` elements have accessible names",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "aria-progressbar-name": {
+   "title": "ARIA `progressbar` elements have accessible names",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "aria-prohibited-attr": {
+   "title": "Elements use only permitted ARIA attributes",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "aria-required-attr": {
+   "title": "`[role]`s have all required `[aria-*]` attributes",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "aria-required-children": {
+   "title": "Elements with an ARIA `[role]` that require children to contain a specific `[role]` have all required children.",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "aria-required-parent": {
+   "title": "`[role]`s are contained by their required parent element",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "aria-roles": {
+   "title": "`[role]` values are valid",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "aria-text": {
+   "title": "Elements with the `role=text` attribute do not have focusable descendents.",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "aria-toggle-field-name": {
+   "title": "ARIA toggle fields have accessible names",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "aria-tooltip-name": {
+   "title": "ARIA `tooltip` elements have accessible names",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "aria-treeitem-name": {
+   "title": "ARIA `treeitem` elements have accessible names",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "aria-valid-attr-value": {
+   "title": "`[aria-*]` attributes have valid values",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "aria-valid-attr": {
+   "title": "`[aria-*]` attributes are valid and not misspelled",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "button-name": {
+   "title": "Buttons have an accessible name",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "bypass": {
+   "title": "The page contains a heading, skip link, or landmark region",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "color-contrast": {
+   "title": "Background and foreground colors have a sufficient contrast ratio",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "definition-list": {
+   "title": "`<dl>`'s contain only properly-ordered `<dt>` and `<dd>` groups, `<script>`, `<template>` or `<div>` elements.",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "dlitem": {
+   "title": "Definition list items are wrapped in `<dl>` elements",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "document-title": {
+   "title": "Document has a `<title>` element",
+   "categories": [
+    "accessibility",
+    "seo"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "duplicate-id-aria": {
+   "title": "ARIA IDs are unique",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "empty-heading": {
+   "title": "All heading elements contain content.",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "form-field-multiple-labels": {
+   "title": "No form fields have multiple labels",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "frame-title": {
+   "title": "`<frame>` or `<iframe>` elements have a title",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "heading-order": {
+   "title": "Heading elements appear in a sequentially-descending order",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "html-has-lang": {
+   "title": "`<html>` element has a `[lang]` attribute",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "html-lang-valid": {
+   "title": "`<html>` element has a valid value for its `[lang]` attribute",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "html-xml-lang-mismatch": {
+   "title": "`<html>` element has an `[xml:lang]` attribute with the same base language as the `[lang]` attribute.",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "identical-links-same-purpose": {
+   "title": "Identical links have the same purpose.",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "image-alt": {
+   "title": "Image elements have `[alt]` attributes",
+   "categories": [
+    "accessibility",
+    "seo"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "image-redundant-alt": {
+   "title": "Image elements do not have `[alt]` attributes that are redundant text.",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "input-button-name": {
+   "title": "Input buttons have discernible text.",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "input-image-alt": {
+   "title": "`<input type=\"image\">` elements have `[alt]` text",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "label-content-name-mismatch": {
+   "title": "Elements with visible text labels have matching accessible names.",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "label": {
+   "title": "Form elements do not have associated labels",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "landmark-one-main": {
+   "title": "Document has a main landmark.",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "link-name": {
+   "title": "Links have a discernible name",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "link-in-text-block": {
+   "title": "Links are distinguishable without relying on color.",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "list": {
+   "title": "Lists contain only `<li>` elements and script supporting elements (`<script>` and `<template>`).",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "listitem": {
+   "title": "List items (`<li>`) are contained within `<ul>`, `<ol>` or `<menu>` parent elements",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "meta-refresh": {
+   "title": "The document does not use `<meta http-equiv=\"refresh\">`",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "meta-viewport": {
+   "title": "`[user-scalable=\"no\"]` is not used in the `<meta name=\"viewport\">` element and the `[maximum-scale]` attribute is not less than 5.",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "object-alt": {
+   "title": "`<object>` elements have alternate text",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "select-name": {
+   "title": "Select elements have associated label elements.",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "skip-link": {
+   "title": "Skip links are focusable.",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "tabindex": {
+   "title": "No element has a `[tabindex]` value greater than 0",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "table-duplicate-name": {
+   "title": "Tables have different content in the summary attribute and `<caption>`.",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "table-fake-caption": {
+   "title": "Tables use `<caption>` instead of cells with the `[colspan]` attribute to indicate a caption.",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "target-size": {
+   "title": "Touch targets do not have sufficient size or spacing.",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "td-has-header": {
+   "title": "`<td>` elements in a large `<table>` have one or more table headers.",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "td-headers-attr": {
+   "title": "Cells in a `<table>` element that use the `[headers]` attribute refer to table cells within the same table.",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "th-has-data-cells": {
+   "title": "`<th>` elements and elements with `[role=\"columnheader\"/\"rowheader\"]` have data cells they describe.",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "valid-lang": {
+   "title": "`[lang]` attributes have a valid value",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "video-caption": {
+   "title": "`<video>` elements contain a `<track>` element with `[kind=\"captions\"]`",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "custom-controls-labels": {
+   "title": "Custom controls have associated labels",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "manual"
+  },
+  "custom-controls-roles": {
+   "title": "Custom controls have ARIA roles",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "manual"
+  },
+  "focus-traps": {
+   "title": "User focus is not accidentally trapped in a region",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "manual"
+  },
+  "focusable-controls": {
+   "title": "Interactive controls are keyboard focusable",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "manual"
+  },
+  "interactive-element-affordance": {
+   "title": "Interactive elements indicate their purpose and state",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "manual"
+  },
+  "logical-tab-order": {
+   "title": "The page has a logical tab order",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "manual"
+  },
+  "managed-focus": {
+   "title": "The user's focus is directed to new content added to the page",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "manual"
+  },
+  "offscreen-content-hidden": {
+   "title": "Offscreen content is hidden from assistive technology",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "manual"
+  },
+  "use-landmarks": {
+   "title": "HTML5 landmark elements are used to improve navigation",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "manual"
+  },
+  "visual-order-follows-dom": {
+   "title": "Visual order on the page follows DOM order",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "manual"
+  },
+  "autocomplete-valid": {
+   "title": "`autocomplete` attributes are used correctly",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "presentation-role-conflict": {
+   "title": "Elements with `role=\"none\"` or `role=\"presentation\"` do not have conflicts",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "svg-img-alt": {
+   "title": "SVG elements with an `img` role have an accessible text alternative",
+   "categories": [
+    "accessibility"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "total-byte-weight": {
+   "title": "Avoids enormous network payloads",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "metricSavings"
+  },
+  "unminified-css": {
+   "title": "Minify CSS",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "metricSavings"
+  },
+  "unminified-javascript": {
+   "title": "Minify JavaScript",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "metricSavings"
+  },
+  "unused-css-rules": {
+   "title": "Reduce unused CSS",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "metricSavings"
+  },
+  "unused-javascript": {
+   "title": "Reduce unused JavaScript",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "metricSavings"
+  },
+  "doctype": {
+   "title": "Page has the HTML doctype",
+   "categories": [
+    "best-practices"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "charset": {
+   "title": "Properly defines charset",
+   "categories": [
+    "best-practices"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "geolocation-on-start": {
+   "title": "Avoids requesting the geolocation permission on page load",
+   "categories": [
+    "best-practices"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "inspector-issues": {
+   "title": "No issues in the `Issues` panel in Chrome Devtools",
+   "categories": [
+    "best-practices"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "js-libraries": {
+   "title": "Detected JavaScript libraries",
+   "categories": [
+    "best-practices"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "notification-on-start": {
+   "title": "Avoids requesting the notification permission on page load",
+   "categories": [
+    "best-practices"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "paste-preventing-inputs": {
+   "title": "Allows users to paste into input fields",
+   "categories": [
+    "best-practices"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "baseline": {
+   "title": "Baseline Features",
+   "categories": [
+    "best-practices"
+   ],
+   "scoreDisplayMode": "informative"
+  },
+  "meta-description": {
+   "title": "Document has a meta description",
+   "categories": [
+    "seo"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "http-status-code": {
+   "title": "Page has successful HTTP status code",
+   "categories": [
+    "seo"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "link-text": {
+   "title": "Links have descriptive text",
+   "categories": [
+    "seo"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "crawlable-anchors": {
+   "title": "Links are crawlable",
+   "categories": [
+    "seo"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "is-crawlable": {
+   "title": "Page isn’t blocked from indexing",
+   "categories": [
+    "seo"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "robots-txt": {
+   "title": "robots.txt is valid",
+   "categories": [
+    "seo"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "hreflang": {
+   "title": "Document has a valid `hreflang`",
+   "categories": [
+    "seo"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "canonical": {
+   "title": "Document has a valid `rel=canonical`",
+   "categories": [
+    "seo"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "structured-data": {
+   "title": "Structured data is valid",
+   "categories": [
+    "seo"
+   ],
+   "scoreDisplayMode": "manual"
+  },
+  "agent-accessibility-tree": {
+   "title": "Accessibility tree is not well-formed",
+   "categories": [
+    "agentic-browsing"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "webmcp-registered-tools": {
+   "title": "WebMCP tools registered",
+   "categories": [
+    "agentic-browsing"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "webmcp-form-coverage": {
+   "title": "WebMCP form coverage",
+   "categories": [
+    "agentic-browsing"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "webmcp-schema-validity": {
+   "title": "WebMCP schemas are valid",
+   "categories": [
+    "agentic-browsing"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "llms-txt": {
+   "title": "llms.txt follows recommendations",
+   "categories": [
+    "agentic-browsing"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "ard-schema": {
+   "title": "`ai-catalog.json` schema is valid",
+   "categories": [
+    "agentic-browsing"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "bf-cache": {
+   "title": "Page didn't prevent back/forward cache restoration",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "binary"
+  },
+  "cache-insight": {
+   "title": "Use efficient cache lifetimes",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "metricSavings"
+  },
+  "cls-culprits-insight": {
+   "title": "Layout shift culprits",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "numeric"
+  },
+  "document-latency-insight": {
+   "title": "Document request latency",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "metricSavings"
+  },
+  "dom-size-insight": {
+   "title": "Optimize DOM size",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "numeric"
+  },
+  "duplicated-javascript-insight": {
+   "title": "Duplicated JavaScript",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "metricSavings"
+  },
+  "font-display-insight": {
+   "title": "Font display",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "metricSavings"
+  },
+  "forced-reflow-insight": {
+   "title": "Forced reflow",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "numeric"
+  },
+  "image-delivery-insight": {
+   "title": "Improve image delivery",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "metricSavings"
+  },
+  "inp-breakdown-insight": {
+   "title": "INP breakdown",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "lcp-breakdown-insight": {
+   "title": "LCP breakdown",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "informative"
+  },
+  "lcp-discovery-insight": {
+   "title": "LCP request discovery",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "notApplicable"
+  },
+  "legacy-javascript-insight": {
+   "title": "Legacy JavaScript",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "metricSavings"
+  },
+  "modern-http-insight": {
+   "title": "Modern HTTP",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "metricSavings"
+  },
+  "network-dependency-tree-insight": {
+   "title": "Network dependency tree",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "numeric"
+  },
+  "render-blocking-insight": {
+   "title": "Render-blocking requests",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "metricSavings"
+  },
+  "third-parties-insight": {
+   "title": "3rd parties",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "numeric"
+  },
+  "viewport-insight": {
+   "title": "Optimize viewport for mobile",
+   "categories": [
+    "performance"
+   ],
+   "scoreDisplayMode": "numeric"
+  }
+ }
+}

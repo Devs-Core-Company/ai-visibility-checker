@@ -1,0 +1,4163 @@
+{
+ "source": "avc checks --json",
+ "checks": {
+  "crawlability.noindex": {
+   "title": "Page is set to noindex",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "low",
+   "scope": "page"
+  },
+  "crawlability.noindex-header": {
+   "title": "Noindex sent in the X-Robots-Tag header",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "crawlability.robots-conflict": {
+   "title": "Conflicting robots directives",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "crawlability.noindex-canonical": {
+   "title": "Noindex combined with a canonical to another URL",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "crawlability.nofollow-page": {
+   "title": "Indexable page tells crawlers not to follow its links",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "crawlability.snippet-restricted": {
+   "title": "Snippets restricted by nosnippet or max-snippet",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "crawlability.image-preview-restricted": {
+   "title": "Large image previews not allowed",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "low",
+   "scope": "page"
+  },
+  "crawlability.unavailable-after-past": {
+   "title": "unavailable_after date has passed",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "high",
+   "scope": "page"
+  },
+  "crawlability.head-broken": {
+   "title": "Invalid element in <head> hides later SEO tags",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "high",
+   "scope": "page"
+  },
+  "crawlability.robots-meta-in-body": {
+   "title": "Robots meta tag placed in <body>",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "crawlability.blocked-but-linked": {
+   "title": "Internally linked URL is blocked by robots.txt",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "crawlability.deep-page": {
+   "title": "Page is many clicks from the home page",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "low",
+   "scope": "page"
+  },
+  "crawlability.homepage-noindex": {
+   "title": "Home page is set to noindex",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "critical",
+   "scope": "site"
+  },
+  "crawlability.noindex-linked": {
+   "title": "Noindex pages receive many internal links",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "low",
+   "scope": "site"
+  },
+  "crawlability.crawl-incomplete": {
+   "title": "Crawl stopped at the page limit",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "info",
+   "scope": "site"
+  },
+  "crawlability.single-page-found": {
+   "title": "Crawler could not find links beyond the start page",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "high",
+   "scope": "site"
+  },
+  "crawlability.parameter-waste": {
+   "title": "Many indexable URLs with query parameters",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "crawlability.low-indexable-share": {
+   "title": "Most crawled pages are not indexable",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "crawlability.staging-indexable": {
+   "title": "Staging or development host is indexable",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "high",
+   "scope": "site"
+  },
+  "crawlability.robots-txt-missing": {
+   "title": "No robots.txt file",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "low",
+   "scope": "site"
+  },
+  "crawlability.robots-txt-server-error": {
+   "title": "robots.txt returns a server error",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "critical",
+   "scope": "site"
+  },
+  "crawlability.robots-txt-unreachable": {
+   "title": "robots.txt could not be fetched",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "high",
+   "scope": "site"
+  },
+  "crawlability.robots-blocks-all": {
+   "title": "robots.txt blocks the whole site",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "critical",
+   "scope": "site"
+  },
+  "crawlability.robots-blocks-home": {
+   "title": "Home page blocked by robots.txt",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "critical",
+   "scope": "site"
+  },
+  "crawlability.robots-blocks-resources": {
+   "title": "robots.txt blocks CSS or JavaScript",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "high",
+   "scope": "site"
+  },
+  "crawlability.robots-blocks-linked-pages": {
+   "title": "robots.txt blocks pages linked from the home page",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "high",
+   "scope": "site"
+  },
+  "crawlability.robots-no-sitemap": {
+   "title": "robots.txt does not list a sitemap",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "low",
+   "scope": "site"
+  },
+  "crawlability.robots-sitemap-invalid": {
+   "title": "Sitemap line in robots.txt is not an absolute URL",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "crawlability.robots-crawl-delay": {
+   "title": "High Crawl-delay in robots.txt",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "low",
+   "scope": "site"
+  },
+  "crawlability.robots-unsupported-rules": {
+   "title": "robots.txt uses rules Google does not support",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "crawlability.robots-syntax": {
+   "title": "robots.txt has lines crawlers cannot parse",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "crawlability.robots-too-large": {
+   "title": "robots.txt is larger than 500 KiB",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "crawlability.robots-is-html": {
+   "title": "robots.txt returns an HTML page",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "high",
+   "scope": "site"
+  },
+  "crawlability.gsc-impressions-not-crawled": {
+   "title": "Pages earning impressions were not found by the crawl",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "crawlability.gsc-not-indexed": {
+   "title": "Google reports the page is not indexed",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "high",
+   "scope": "site"
+  },
+  "crawlability.gsc-crawled-not-indexed": {
+   "title": "Crawled but not indexed by Google",
+   "pillar": "content",
+   "category": "crawlability",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "crawlability.gsc-discovered-not-indexed": {
+   "title": "Discovered but not yet crawled by Google",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "crawlability.gsc-canonical-mismatch": {
+   "title": "Google chose a different canonical",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "crawlability.gsc-noindex-with-impressions": {
+   "title": "Noindex page still earning search impressions",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "high",
+   "scope": "site"
+  },
+  "crawlability.gsc-low-ctr": {
+   "title": "High impressions, low click-through rate",
+   "pillar": "content",
+   "category": "crawlability",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "crawlability.gsc-striking-distance": {
+   "title": "Pages ranking just off page one",
+   "pillar": "content",
+   "category": "crawlability",
+   "severity": "info",
+   "scope": "site"
+  },
+  "crawlability.gsc-stale-crawl": {
+   "title": "Google has not crawled the page recently",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "low",
+   "scope": "site"
+  },
+  "crawlability.gsc-no-impressions": {
+   "title": "Indexable pages with no search impressions",
+   "pillar": "content",
+   "category": "crawlability",
+   "severity": "info",
+   "scope": "site"
+  },
+  "response.client-error": {
+   "title": "Internal URL returns a 4xx error",
+   "pillar": "technical",
+   "category": "response",
+   "severity": "high",
+   "scope": "page"
+  },
+  "response.server-error": {
+   "title": "Internal URL returns a 5xx error",
+   "pillar": "technical",
+   "category": "response",
+   "severity": "critical",
+   "scope": "page"
+  },
+  "response.forbidden": {
+   "title": "Crawler received 401 or 403",
+   "pillar": "technical",
+   "category": "response",
+   "severity": "high",
+   "scope": "page"
+  },
+  "response.rate-limited": {
+   "title": "Crawler was rate limited (429)",
+   "pillar": "technical",
+   "category": "response",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "response.network-error": {
+   "title": "Request failed or timed out",
+   "pillar": "technical",
+   "category": "response",
+   "severity": "high",
+   "scope": "page"
+  },
+  "response.soft-404": {
+   "title": "Error page returned with status 200 (soft 404)",
+   "pillar": "technical",
+   "category": "response",
+   "severity": "high",
+   "scope": "page"
+  },
+  "response.empty-body": {
+   "title": "HTML page with an empty body",
+   "pillar": "technical",
+   "category": "response",
+   "severity": "high",
+   "scope": "page"
+  },
+  "response.content-type-missing": {
+   "title": "HTML served without a text/html content type",
+   "pillar": "technical",
+   "category": "response",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "response.charset-missing": {
+   "title": "Character encoding not declared",
+   "pillar": "technical",
+   "category": "response",
+   "severity": "low",
+   "scope": "page"
+  },
+  "response.charset-late": {
+   "title": "Charset declared too late in the document",
+   "pillar": "technical",
+   "category": "response",
+   "severity": "low",
+   "scope": "page"
+  },
+  "response.homepage-error": {
+   "title": "Start URL does not return 200",
+   "pillar": "technical",
+   "category": "response",
+   "severity": "critical",
+   "scope": "site"
+  },
+  "response.error-rate": {
+   "title": "High share of crawled URLs return errors",
+   "pillar": "technical",
+   "category": "response",
+   "severity": "high",
+   "scope": "site"
+  },
+  "response.missing-page-returns-200": {
+   "title": "Non-existent URLs return 200",
+   "pillar": "technical",
+   "category": "response",
+   "severity": "high",
+   "scope": "site"
+  },
+  "response.missing-page-redirects": {
+   "title": "Non-existent URLs redirect to another page",
+   "pillar": "technical",
+   "category": "response",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "response.404-page-unhelpful": {
+   "title": "404 page offers no way forward",
+   "pillar": "content",
+   "category": "response",
+   "severity": "low",
+   "scope": "site"
+  },
+  "response.homepage-duplicates": {
+   "title": "Home page reachable at several URLs",
+   "pillar": "technical",
+   "category": "response",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "redirects.chain": {
+   "title": "Redirect chain",
+   "pillar": "technical",
+   "category": "redirects",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "redirects.loop": {
+   "title": "Redirect loop",
+   "pillar": "technical",
+   "category": "redirects",
+   "severity": "high",
+   "scope": "page"
+  },
+  "redirects.temporary": {
+   "title": "Temporary redirect used",
+   "pillar": "technical",
+   "category": "redirects",
+   "severity": "low",
+   "scope": "page"
+  },
+  "redirects.to-error": {
+   "title": "Redirect ends at an error",
+   "pillar": "technical",
+   "category": "redirects",
+   "severity": "high",
+   "scope": "page"
+  },
+  "redirects.meta-refresh": {
+   "title": "Meta refresh or Refresh header redirect",
+   "pillar": "technical",
+   "category": "redirects",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "redirects.javascript": {
+   "title": "Page appears to redirect with JavaScript",
+   "pillar": "technical",
+   "category": "redirects",
+   "severity": "low",
+   "scope": "page"
+  },
+  "redirects.https-to-http": {
+   "title": "Redirect downgrades from HTTPS to HTTP",
+   "pillar": "technical",
+   "category": "redirects",
+   "severity": "high",
+   "scope": "page"
+  },
+  "redirects.off-site": {
+   "title": "Internal URL redirects to another domain",
+   "pillar": "technical",
+   "category": "redirects",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "redirects.linked-internally": {
+   "title": "Redirecting URL is still linked internally",
+   "pillar": "technical",
+   "category": "redirects",
+   "severity": "low",
+   "scope": "page"
+  },
+  "redirects.many-to-homepage": {
+   "title": "Many URLs redirect to the home page",
+   "pillar": "technical",
+   "category": "redirects",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "redirects.http-not-redirected": {
+   "title": "HTTP version of the site does not redirect to HTTPS",
+   "pillar": "technical",
+   "category": "redirects",
+   "severity": "high",
+   "scope": "site"
+  },
+  "redirects.http-temporary": {
+   "title": "HTTP to HTTPS redirect is temporary",
+   "pillar": "technical",
+   "category": "redirects",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "redirects.host-variants": {
+   "title": "Both www and non-www hosts serve the site",
+   "pillar": "technical",
+   "category": "redirects",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "redirects.trailing-slash-duplicates": {
+   "title": "URLs work with and without a trailing slash",
+   "pillar": "technical",
+   "category": "redirects",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "redirects.case-duplicates": {
+   "title": "Upper-case URL variants return 200",
+   "pillar": "technical",
+   "category": "redirects",
+   "severity": "low",
+   "scope": "site"
+  },
+  "onpage.title-missing": {
+   "title": "Missing or empty title",
+   "pillar": "content",
+   "category": "onpage",
+   "severity": "high",
+   "scope": "page"
+  },
+  "onpage.title-multiple": {
+   "title": "More than one title element",
+   "pillar": "content",
+   "category": "onpage",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "onpage.title-too-long": {
+   "title": "Title is likely to be cut off",
+   "pillar": "content",
+   "category": "onpage",
+   "severity": "low",
+   "scope": "page"
+  },
+  "onpage.title-too-short": {
+   "title": "Title is very short",
+   "pillar": "content",
+   "category": "onpage",
+   "severity": "low",
+   "scope": "page"
+  },
+  "onpage.title-generic": {
+   "title": "Generic or placeholder title",
+   "pillar": "content",
+   "category": "onpage",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "onpage.title-repeated-words": {
+   "title": "Title repeats the same word",
+   "pillar": "content",
+   "category": "onpage",
+   "severity": "low",
+   "scope": "page"
+  },
+  "onpage.title-all-caps": {
+   "title": "Title written in capitals",
+   "pillar": "content",
+   "category": "onpage",
+   "severity": "low",
+   "scope": "page"
+  },
+  "onpage.title-h1-mismatch": {
+   "title": "Title and H1 share no words",
+   "pillar": "content",
+   "category": "onpage",
+   "severity": "low",
+   "scope": "page"
+  },
+  "onpage.title-duplicate": {
+   "title": "Duplicate titles",
+   "pillar": "content",
+   "category": "onpage",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "onpage.description-missing": {
+   "title": "Missing meta description",
+   "pillar": "content",
+   "category": "onpage",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "onpage.description-multiple": {
+   "title": "More than one meta description",
+   "pillar": "content",
+   "category": "onpage",
+   "severity": "low",
+   "scope": "page"
+  },
+  "onpage.description-too-long": {
+   "title": "Meta description likely to be cut off",
+   "pillar": "content",
+   "category": "onpage",
+   "severity": "low",
+   "scope": "page"
+  },
+  "onpage.description-too-short": {
+   "title": "Meta description is very short",
+   "pillar": "content",
+   "category": "onpage",
+   "severity": "low",
+   "scope": "page"
+  },
+  "onpage.description-same-as-title": {
+   "title": "Meta description repeats the title",
+   "pillar": "content",
+   "category": "onpage",
+   "severity": "low",
+   "scope": "page"
+  },
+  "onpage.description-placeholder": {
+   "title": "Placeholder meta description",
+   "pillar": "content",
+   "category": "onpage",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "onpage.description-duplicate": {
+   "title": "Duplicate meta descriptions",
+   "pillar": "content",
+   "category": "onpage",
+   "severity": "low",
+   "scope": "site"
+  },
+  "onpage.meta-keywords": {
+   "title": "Meta keywords tag present",
+   "pillar": "content",
+   "category": "onpage",
+   "severity": "info",
+   "scope": "page"
+  },
+  "onpage.og-missing": {
+   "title": "Open Graph tags missing",
+   "pillar": "content",
+   "category": "onpage",
+   "severity": "low",
+   "scope": "page"
+  },
+  "onpage.og-image-invalid": {
+   "title": "og:image is not an absolute URL",
+   "pillar": "content",
+   "category": "onpage",
+   "severity": "low",
+   "scope": "page"
+  },
+  "onpage.og-url-mismatch": {
+   "title": "og:url differs from the canonical",
+   "pillar": "content",
+   "category": "onpage",
+   "severity": "low",
+   "scope": "page"
+  },
+  "onpage.twitter-card-missing": {
+   "title": "No Twitter/X card type",
+   "pillar": "content",
+   "category": "onpage",
+   "severity": "info",
+   "scope": "page"
+  },
+  "onpage.favicon-missing": {
+   "title": "No favicon declared",
+   "pillar": "content",
+   "category": "onpage",
+   "severity": "low",
+   "scope": "site"
+  },
+  "headings.h1-missing": {
+   "title": "No H1 heading",
+   "pillar": "content",
+   "category": "headings",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "headings.h1-empty": {
+   "title": "Empty H1",
+   "pillar": "content",
+   "category": "headings",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "headings.h1-multiple": {
+   "title": "Several H1 headings",
+   "pillar": "content",
+   "category": "headings",
+   "severity": "low",
+   "scope": "page"
+  },
+  "headings.h1-too-long": {
+   "title": "H1 is very long",
+   "pillar": "content",
+   "category": "headings",
+   "severity": "low",
+   "scope": "page"
+  },
+  "headings.h1-image-only": {
+   "title": "H1 contains only an image",
+   "pillar": "content",
+   "category": "headings",
+   "severity": "low",
+   "scope": "page"
+  },
+  "headings.not-first": {
+   "title": "Content headings appear before the H1",
+   "pillar": "content",
+   "category": "headings",
+   "severity": "low",
+   "scope": "page"
+  },
+  "headings.skipped-level": {
+   "title": "Heading levels are skipped",
+   "pillar": "content",
+   "category": "headings",
+   "severity": "low",
+   "scope": "page"
+  },
+  "headings.empty": {
+   "title": "Empty headings",
+   "pillar": "content",
+   "category": "headings",
+   "severity": "low",
+   "scope": "page"
+  },
+  "headings.no-subheadings": {
+   "title": "Long page without subheadings",
+   "pillar": "content",
+   "category": "headings",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "headings.duplicate-in-page": {
+   "title": "Same subheading repeated on a page",
+   "pillar": "content",
+   "category": "headings",
+   "severity": "low",
+   "scope": "page"
+  },
+  "headings.overused": {
+   "title": "Headings used for styling",
+   "pillar": "content",
+   "category": "headings",
+   "severity": "low",
+   "scope": "page"
+  },
+  "headings.h1-duplicate": {
+   "title": "Duplicate H1 across pages",
+   "pillar": "content",
+   "category": "headings",
+   "severity": "low",
+   "scope": "site"
+  },
+  "content.thin": {
+   "title": "Thin content",
+   "pillar": "content",
+   "category": "content",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "content.low-text-ratio": {
+   "title": "Very little text for a heavy page",
+   "pillar": "content",
+   "category": "content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "content.lorem-ipsum": {
+   "title": "Lorem ipsum text on the page",
+   "pillar": "content",
+   "category": "content",
+   "severity": "high",
+   "scope": "page"
+  },
+  "content.placeholder": {
+   "title": "Placeholder or unfinished text",
+   "pillar": "content",
+   "category": "content",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "content.template-leak": {
+   "title": "Template code or broken values shown as text",
+   "pillar": "content",
+   "category": "content",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "content.broken-encoding": {
+   "title": "Garbled characters (encoding errors)",
+   "pillar": "content",
+   "category": "content",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "content.double-escaped": {
+   "title": "Double-escaped HTML entities in text",
+   "pillar": "content",
+   "category": "content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "content.keyword-stuffing": {
+   "title": "One word is repeated unnaturally often",
+   "pillar": "content",
+   "category": "content",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "content.hard-to-read": {
+   "title": "Text is hard to read",
+   "pillar": "content",
+   "category": "content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "content.long-sentences": {
+   "title": "Sentences are long on average",
+   "pillar": "content",
+   "category": "content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "content.long-paragraphs": {
+   "title": "Very long paragraphs",
+   "pillar": "content",
+   "category": "content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "content.repeated-paragraph": {
+   "title": "Same paragraph repeated on the page",
+   "pillar": "content",
+   "category": "content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "content.boilerplate-heavy": {
+   "title": "Navigation and footer outweigh the main content",
+   "pillar": "content",
+   "category": "content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "content.copyright-outdated": {
+   "title": "Copyright year is out of date",
+   "pillar": "content",
+   "category": "content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "content.outdated-year-in-title": {
+   "title": "Title or H1 names a past year",
+   "pillar": "content",
+   "category": "content",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "content.article-date-missing": {
+   "title": "Article has no published or updated date",
+   "pillar": "content",
+   "category": "content",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "content.article-author-missing": {
+   "title": "Article has no author",
+   "pillar": "content",
+   "category": "content",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "content.date-in-future": {
+   "title": "Article date is in the future",
+   "pillar": "content",
+   "category": "content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "content.modified-before-published": {
+   "title": "Modified date is earlier than published date",
+   "pillar": "content",
+   "category": "content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "content.stale-article": {
+   "title": "Article not updated in a long time",
+   "pillar": "content",
+   "category": "content",
+   "severity": "info",
+   "scope": "page"
+  },
+  "duplicates.exact": {
+   "title": "Exact duplicate pages",
+   "pillar": "content",
+   "category": "duplicates",
+   "severity": "high",
+   "scope": "site"
+  },
+  "duplicates.near": {
+   "title": "Near-duplicate pages",
+   "pillar": "content",
+   "category": "duplicates",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "duplicates.url-variants": {
+   "title": "Same page indexable at several URL variants",
+   "pillar": "technical",
+   "category": "duplicates",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "duplicates.shared-intro": {
+   "title": "Many pages open with the same text",
+   "pillar": "content",
+   "category": "duplicates",
+   "severity": "low",
+   "scope": "site"
+  },
+  "duplicates.title-and-description": {
+   "title": "Pages share both title and description",
+   "pillar": "content",
+   "category": "duplicates",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "canonical.missing": {
+   "title": "No canonical URL declared",
+   "pillar": "technical",
+   "category": "canonical",
+   "severity": "low",
+   "scope": "page"
+  },
+  "canonical.multiple": {
+   "title": "Several canonical tags",
+   "pillar": "technical",
+   "category": "canonical",
+   "severity": "high",
+   "scope": "page"
+  },
+  "canonical.empty": {
+   "title": "Canonical tag has an empty or invalid href",
+   "pillar": "technical",
+   "category": "canonical",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "canonical.relative": {
+   "title": "Canonical uses a relative URL",
+   "pillar": "technical",
+   "category": "canonical",
+   "severity": "low",
+   "scope": "page"
+  },
+  "canonical.has-fragment": {
+   "title": "Canonical contains a # fragment",
+   "pillar": "technical",
+   "category": "canonical",
+   "severity": "low",
+   "scope": "page"
+  },
+  "canonical.outside-head": {
+   "title": "Canonical tag placed in <body>",
+   "pillar": "technical",
+   "category": "canonical",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "canonical.header-mismatch": {
+   "title": "Canonical tag and Link header disagree",
+   "pillar": "technical",
+   "category": "canonical",
+   "severity": "high",
+   "scope": "page"
+  },
+  "canonical.points-elsewhere": {
+   "title": "Page canonicalises to another URL",
+   "pillar": "technical",
+   "category": "canonical",
+   "severity": "info",
+   "scope": "page"
+  },
+  "canonical.to-error": {
+   "title": "Canonical points to an error page",
+   "pillar": "technical",
+   "category": "canonical",
+   "severity": "high",
+   "scope": "page"
+  },
+  "canonical.to-redirect": {
+   "title": "Canonical points to a redirect",
+   "pillar": "technical",
+   "category": "canonical",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "canonical.to-noindex": {
+   "title": "Canonical points to a noindex page",
+   "pillar": "technical",
+   "category": "canonical",
+   "severity": "high",
+   "scope": "page"
+  },
+  "canonical.to-blocked": {
+   "title": "Canonical points to a URL blocked by robots.txt",
+   "pillar": "technical",
+   "category": "canonical",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "canonical.chain": {
+   "title": "Canonical chain or loop",
+   "pillar": "technical",
+   "category": "canonical",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "canonical.cross-domain": {
+   "title": "Canonical points to another domain",
+   "pillar": "technical",
+   "category": "canonical",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "canonical.host-or-protocol-variant": {
+   "title": "Canonical uses the wrong host or protocol",
+   "pillar": "technical",
+   "category": "canonical",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "canonical.keeps-parameters": {
+   "title": "Canonical keeps tracking or session parameters",
+   "pillar": "technical",
+   "category": "canonical",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "canonical.parameter-self": {
+   "title": "Parameter URL canonicalises to itself",
+   "pillar": "technical",
+   "category": "canonical",
+   "severity": "low",
+   "scope": "page"
+  },
+  "canonical.all-to-homepage": {
+   "title": "Many pages canonicalise to the home page",
+   "pillar": "technical",
+   "category": "canonical",
+   "severity": "critical",
+   "scope": "site"
+  },
+  "links-internal.broken": {
+   "title": "Links to broken internal pages",
+   "pillar": "technical",
+   "category": "links-internal",
+   "severity": "high",
+   "scope": "page"
+  },
+  "links-internal.to-redirect": {
+   "title": "Links to internal redirects",
+   "pillar": "technical",
+   "category": "links-internal",
+   "severity": "low",
+   "scope": "page"
+  },
+  "links-internal.to-canonicalised": {
+   "title": "Links to non-canonical URLs",
+   "pillar": "technical",
+   "category": "links-internal",
+   "severity": "low",
+   "scope": "page"
+  },
+  "links-internal.nofollow": {
+   "title": "Internal links marked nofollow",
+   "pillar": "technical",
+   "category": "links-internal",
+   "severity": "low",
+   "scope": "page"
+  },
+  "links-internal.to-blocked": {
+   "title": "Links to URLs blocked by robots.txt",
+   "pillar": "technical",
+   "category": "links-internal",
+   "severity": "low",
+   "scope": "page"
+  },
+  "links-internal.insecure": {
+   "title": "Internal links use http://",
+   "pillar": "technical",
+   "category": "links-internal",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "links-internal.tracking-parameters": {
+   "title": "Internal links carry tracking parameters",
+   "pillar": "technical",
+   "category": "links-internal",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "links-internal.missing-protocol": {
+   "title": "Link missing http(s):// is treated as a relative path",
+   "pillar": "technical",
+   "category": "links-internal",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "links-internal.uncrawlable": {
+   "title": "Links that crawlers cannot follow",
+   "pillar": "technical",
+   "category": "links-internal",
+   "severity": "low",
+   "scope": "page"
+  },
+  "links-internal.generic-anchors": {
+   "title": "Generic anchor text",
+   "pillar": "content",
+   "category": "links-internal",
+   "severity": "low",
+   "scope": "page"
+  },
+  "links-internal.long-anchor": {
+   "title": "Very long anchor text",
+   "pillar": "content",
+   "category": "links-internal",
+   "severity": "info",
+   "scope": "page"
+  },
+  "links-internal.too-many": {
+   "title": "Very many links on one page",
+   "pillar": "technical",
+   "category": "links-internal",
+   "severity": "low",
+   "scope": "page"
+  },
+  "links-internal.dead-end": {
+   "title": "Page has no internal links",
+   "pillar": "technical",
+   "category": "links-internal",
+   "severity": "low",
+   "scope": "page"
+  },
+  "links-internal.single-inlink": {
+   "title": "Page has only one internal link pointing to it",
+   "pillar": "technical",
+   "category": "links-internal",
+   "severity": "low",
+   "scope": "page"
+  },
+  "links-internal.low-link-score": {
+   "title": "Weak internal link score",
+   "pillar": "technical",
+   "category": "links-internal",
+   "severity": "low",
+   "scope": "page"
+  },
+  "links-internal.orphan": {
+   "title": "Orphan pages (in the sitemap, not linked)",
+   "pillar": "technical",
+   "category": "links-internal",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "links-internal.navigation-only": {
+   "title": "Pages linked only from menus and footers",
+   "pillar": "content",
+   "category": "links-internal",
+   "severity": "low",
+   "scope": "site"
+  },
+  "links-internal.concentration": {
+   "title": "Internal links concentrated on a few pages",
+   "pillar": "technical",
+   "category": "links-internal",
+   "severity": "low",
+   "scope": "site"
+  },
+  "links-internal.hashbang": {
+   "title": "Navigation uses #! or # routes",
+   "pillar": "technical",
+   "category": "links-internal",
+   "severity": "high",
+   "scope": "site"
+  },
+  "links-external.broken": {
+   "title": "Broken outbound links",
+   "pillar": "content",
+   "category": "links-external",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "links-external.redirecting": {
+   "title": "Outbound links that redirect",
+   "pillar": "content",
+   "category": "links-external",
+   "severity": "info",
+   "scope": "page"
+  },
+  "links-external.insecure": {
+   "title": "Outbound links use http://",
+   "pillar": "content",
+   "category": "links-external",
+   "severity": "low",
+   "scope": "page"
+  },
+  "links-external.dev-host": {
+   "title": "Links to localhost or private network addresses",
+   "pillar": "technical",
+   "category": "links-external",
+   "severity": "high",
+   "scope": "page"
+  },
+  "links-external.sponsored-unqualified": {
+   "title": "Affiliate links without rel=\"sponsored\"",
+   "pillar": "content",
+   "category": "links-external",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "links-external.noopener": {
+   "title": "target=\"_blank\" links without rel=\"noopener\"",
+   "pillar": "technical",
+   "category": "links-external",
+   "severity": "info",
+   "scope": "page"
+  },
+  "links-external.too-many": {
+   "title": "Very many outbound links",
+   "pillar": "content",
+   "category": "links-external",
+   "severity": "low",
+   "scope": "page"
+  },
+  "images.alt-missing": {
+   "title": "Images without an alt attribute",
+   "pillar": "content",
+   "category": "images",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "images.alt-unhelpful": {
+   "title": "Alt text is a file name or a generic word",
+   "pillar": "content",
+   "category": "images",
+   "severity": "low",
+   "scope": "page"
+  },
+  "images.alt-too-long": {
+   "title": "Alt text is very long",
+   "pillar": "content",
+   "category": "images",
+   "severity": "low",
+   "scope": "page"
+  },
+  "images.alt-stuffed": {
+   "title": "Alt text looks keyword-stuffed",
+   "pillar": "content",
+   "category": "images",
+   "severity": "low",
+   "scope": "page"
+  },
+  "images.dimensions-missing": {
+   "title": "Images without width and height",
+   "pillar": "technical",
+   "category": "images",
+   "severity": "low",
+   "scope": "page"
+  },
+  "images.large": {
+   "title": "Heavy image files",
+   "pillar": "technical",
+   "category": "images",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "images.legacy-format": {
+   "title": "Large images in JPEG, PNG or GIF",
+   "pillar": "technical",
+   "category": "images",
+   "severity": "low",
+   "scope": "page"
+  },
+  "images.no-srcset": {
+   "title": "Large images without responsive sizes",
+   "pillar": "technical",
+   "category": "images",
+   "severity": "low",
+   "scope": "page"
+  },
+  "images.lazy-above-fold": {
+   "title": "First images are lazy-loaded",
+   "pillar": "technical",
+   "category": "images",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "images.no-lazy-loading": {
+   "title": "Many images and none lazy-loaded",
+   "pillar": "technical",
+   "category": "images",
+   "severity": "low",
+   "scope": "page"
+  },
+  "images.lcp-priority": {
+   "title": "Hero image is not prioritised",
+   "pillar": "technical",
+   "category": "images",
+   "severity": "info",
+   "scope": "page"
+  },
+  "images.broken": {
+   "title": "Broken images",
+   "pillar": "content",
+   "category": "images",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "images.wrong-content-type": {
+   "title": "Image URL does not return an image",
+   "pillar": "technical",
+   "category": "images",
+   "severity": "low",
+   "scope": "page"
+  },
+  "images.empty-src": {
+   "title": "Images with an empty src",
+   "pillar": "technical",
+   "category": "images",
+   "severity": "low",
+   "scope": "page"
+  },
+  "images.inline-data-heavy": {
+   "title": "Large images embedded as data URIs",
+   "pillar": "technical",
+   "category": "images",
+   "severity": "low",
+   "scope": "page"
+  },
+  "images.too-many": {
+   "title": "Very many images on one page",
+   "pillar": "technical",
+   "category": "images",
+   "severity": "low",
+   "scope": "page"
+  },
+  "schema.invalid-json": {
+   "title": "JSON-LD block cannot be parsed",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "high",
+   "scope": "page"
+  },
+  "schema.missing-context": {
+   "title": "JSON-LD without a schema.org @context",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "schema.missing-type": {
+   "title": "JSON-LD block without @type",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "schema.type-misspelled": {
+   "title": "Schema type misspelled or wrong case",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "high",
+   "scope": "page"
+  },
+  "schema.date-format": {
+   "title": "Dates not in ISO 8601 format",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "schema.relative-urls": {
+   "title": "Relative URLs in structured data",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "low",
+   "scope": "page"
+  },
+  "schema.empty-values": {
+   "title": "Empty values in structured data",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "low",
+   "scope": "page"
+  },
+  "schema.conflicting-ids": {
+   "title": "Same @id used for different things",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "low",
+   "scope": "page"
+  },
+  "schema.sameas-invalid": {
+   "title": "sameAs values are not profile URLs",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "low",
+   "scope": "page"
+  },
+  "schema.microdata-only": {
+   "title": "Structured data only in Microdata or RDFa",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "info",
+   "scope": "page"
+  },
+  "schema.organization-incomplete": {
+   "title": "Organization markup is missing properties",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "schema.localbusiness-incomplete": {
+   "title": "LocalBusiness markup is missing properties",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "high",
+   "scope": "page"
+  },
+  "schema.article-incomplete": {
+   "title": "Article markup is missing properties",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "schema.headline-too-long": {
+   "title": "Article headline is very long",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "low",
+   "scope": "page"
+  },
+  "schema.headline-mismatch": {
+   "title": "Article headline does not match the page",
+   "pillar": "content",
+   "category": "schema",
+   "severity": "low",
+   "scope": "page"
+  },
+  "schema.product-incomplete": {
+   "title": "Product markup is missing properties",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "high",
+   "scope": "page"
+  },
+  "schema.offer-incomplete": {
+   "title": "Offer markup is missing properties",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "schema.faq-incomplete": {
+   "title": "FAQPage markup is missing properties",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "schema.faq-not-visible": {
+   "title": "FAQ markup questions are not on the page",
+   "pillar": "content",
+   "category": "schema",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "schema.howto-incomplete": {
+   "title": "HowTo markup is missing properties",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "low",
+   "scope": "page"
+  },
+  "schema.breadcrumb-incomplete": {
+   "title": "BreadcrumbList markup is missing properties",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "schema.website-incomplete": {
+   "title": "WebSite markup is missing properties",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "low",
+   "scope": "page"
+  },
+  "schema.event-incomplete": {
+   "title": "Event markup is missing properties",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "schema.review-incomplete": {
+   "title": "Review markup is missing properties",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "schema.rating-invalid": {
+   "title": "AggregateRating markup is missing properties",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "schema.video-incomplete": {
+   "title": "VideoObject markup is missing properties",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "schema.person-incomplete": {
+   "title": "Person markup is missing properties",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "low",
+   "scope": "page"
+  },
+  "schema.jobposting-incomplete": {
+   "title": "JobPosting markup is missing properties",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "schema.self-serving-reviews": {
+   "title": "Business rates itself in its own markup",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "low",
+   "scope": "page"
+  },
+  "schema.price-not-visible": {
+   "title": "Marked-up price not shown on the page",
+   "pillar": "content",
+   "category": "schema",
+   "severity": "low",
+   "scope": "page"
+  },
+  "schema.article-missing": {
+   "title": "Article page without Article markup",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "low",
+   "scope": "page"
+  },
+  "schema.organization-missing": {
+   "title": "No Organization or LocalBusiness markup",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "schema.website-missing": {
+   "title": "No WebSite markup on the home page",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "low",
+   "scope": "site"
+  },
+  "schema.breadcrumbs-missing": {
+   "title": "Deeper pages without breadcrumb markup",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "low",
+   "scope": "site"
+  },
+  "schema.organization-inconsistent": {
+   "title": "Organization details differ between pages",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "hreflang.invalid-code": {
+   "title": "Invalid hreflang language or region code",
+   "pillar": "technical",
+   "category": "hreflang",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "hreflang.missing-self": {
+   "title": "hreflang set has no self-reference",
+   "pillar": "technical",
+   "category": "hreflang",
+   "severity": "low",
+   "scope": "page"
+  },
+  "hreflang.missing-x-default": {
+   "title": "No x-default hreflang",
+   "pillar": "technical",
+   "category": "hreflang",
+   "severity": "low",
+   "scope": "page"
+  },
+  "hreflang.duplicate-code": {
+   "title": "Same hreflang code points to different URLs",
+   "pillar": "technical",
+   "category": "hreflang",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "hreflang.single-entry": {
+   "title": "hreflang lists only the page itself",
+   "pillar": "technical",
+   "category": "hreflang",
+   "severity": "low",
+   "scope": "page"
+  },
+  "hreflang.relative-url": {
+   "title": "hreflang uses relative URLs",
+   "pillar": "technical",
+   "category": "hreflang",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "hreflang.lang-mismatch": {
+   "title": "Self hreflang language differs from the page language",
+   "pillar": "technical",
+   "category": "hreflang",
+   "severity": "low",
+   "scope": "page"
+  },
+  "hreflang.canonical-conflict": {
+   "title": "Canonical points to another language version",
+   "pillar": "technical",
+   "category": "hreflang",
+   "severity": "high",
+   "scope": "page"
+  },
+  "hreflang.target-problem": {
+   "title": "hreflang points to a URL that is not indexable",
+   "pillar": "technical",
+   "category": "hreflang",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "hreflang.on-non-indexable": {
+   "title": "hreflang on a page that is not indexable",
+   "pillar": "technical",
+   "category": "hreflang",
+   "severity": "low",
+   "scope": "page"
+  },
+  "hreflang.missing-return": {
+   "title": "hreflang return links missing",
+   "pillar": "technical",
+   "category": "hreflang",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "hreflang.source-conflict": {
+   "title": "HTML and sitemap hreflang disagree",
+   "pillar": "technical",
+   "category": "hreflang",
+   "severity": "low",
+   "scope": "site"
+  },
+  "mobile.viewport-missing": {
+   "title": "No viewport meta tag",
+   "pillar": "technical",
+   "category": "mobile",
+   "severity": "high",
+   "scope": "page"
+  },
+  "mobile.viewport-not-responsive": {
+   "title": "Viewport is not set to the device width",
+   "pillar": "technical",
+   "category": "mobile",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "mobile.zoom-disabled": {
+   "title": "Pinch-zoom is disabled",
+   "pillar": "content",
+   "category": "mobile",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "mobile.viewport-multiple": {
+   "title": "More than one viewport tag",
+   "pillar": "technical",
+   "category": "mobile",
+   "severity": "low",
+   "scope": "page"
+  },
+  "mobile.plugins": {
+   "title": "Content needs a browser plugin",
+   "pillar": "technical",
+   "category": "mobile",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "mobile.fixed-width": {
+   "title": "Elements with fixed widths wider than a phone",
+   "pillar": "technical",
+   "category": "mobile",
+   "severity": "low",
+   "scope": "page"
+  },
+  "mobile.small-text": {
+   "title": "Text set below 12px",
+   "pillar": "content",
+   "category": "mobile",
+   "severity": "low",
+   "scope": "page"
+  },
+  "mobile.input-types": {
+   "title": "Email or phone fields use a plain text input",
+   "pillar": "content",
+   "category": "mobile",
+   "severity": "low",
+   "scope": "page"
+  },
+  "mobile.separate-mobile-urls": {
+   "title": "Separate mobile URLs (m-dot) in use",
+   "pillar": "technical",
+   "category": "mobile",
+   "severity": "low",
+   "scope": "page"
+  },
+  "mobile.touch-icon-missing": {
+   "title": "No apple-touch-icon",
+   "pillar": "content",
+   "category": "mobile",
+   "severity": "info",
+   "scope": "site"
+  },
+  "performance.html-heavy": {
+   "title": "HTML document is very large",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "performance.ttfb-slow": {
+   "title": "Slow server response (TTFB)",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "performance.slow-download": {
+   "title": "HTML takes a long time to download",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "low",
+   "scope": "page"
+  },
+  "performance.no-compression": {
+   "title": "HTML is not compressed",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "performance.render-blocking-scripts": {
+   "title": "Render-blocking scripts in <head>",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "performance.render-blocking-css": {
+   "title": "Many stylesheets block rendering",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "low",
+   "scope": "page"
+  },
+  "performance.too-many-scripts": {
+   "title": "Many external scripts",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "low",
+   "scope": "page"
+  },
+  "performance.too-many-requests": {
+   "title": "Page makes many requests",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "low",
+   "scope": "page"
+  },
+  "performance.third-party-heavy": {
+   "title": "Scripts from many third-party hosts",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "low",
+   "scope": "page"
+  },
+  "performance.duplicate-scripts": {
+   "title": "Same script loaded twice",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "low",
+   "scope": "page"
+  },
+  "performance.image-weight": {
+   "title": "Images on the page are very heavy in total",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "performance.script-weight": {
+   "title": "Large amount of JavaScript",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "performance.page-weight": {
+   "title": "Total page weight is high",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "performance.inline-script-heavy": {
+   "title": "Large inline scripts",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "low",
+   "scope": "page"
+  },
+  "performance.inline-style-heavy": {
+   "title": "Large inline styles",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "low",
+   "scope": "page"
+  },
+  "performance.unminified-inline": {
+   "title": "Inline code is not minified",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "low",
+   "scope": "page"
+  },
+  "performance.dom-size": {
+   "title": "Very large DOM",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "low",
+   "scope": "page"
+  },
+  "performance.no-preconnect": {
+   "title": "Critical third-party origins without preconnect",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "low",
+   "scope": "page"
+  },
+  "performance.font-display": {
+   "title": "Web fonts may hide text while loading",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "low",
+   "scope": "page"
+  },
+  "performance.html-no-validators": {
+   "title": "HTML has no caching or revalidation headers",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "low",
+   "scope": "page"
+  },
+  "performance.asset-cache-short": {
+   "title": "Static assets have short or no cache lifetime",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "low",
+   "scope": "site"
+  },
+  "performance.slow-pages-share": {
+   "title": "Server is slow across much of the site",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "performance.lcp": {
+   "title": "Largest Contentful Paint is slow",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "performance.cls": {
+   "title": "Layout shifts while loading (CLS)",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "performance.inp": {
+   "title": "Slow response to interactions (INP)",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "performance.tbt": {
+   "title": "Main thread blocked for long periods (TBT)",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "performance.fcp": {
+   "title": "First Contentful Paint is slow",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "low",
+   "scope": "site"
+  },
+  "performance.psi-score": {
+   "title": "Low Lighthouse performance score",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "performance.psi-opportunities": {
+   "title": "Large savings available according to PageSpeed Insights",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "info",
+   "scope": "site"
+  },
+  "performance.rendered-lcp": {
+   "title": "Slow LCP in a local browser test",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "low",
+   "scope": "page"
+  },
+  "performance.rendered-cls": {
+   "title": "Layout shift in a local browser test",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "low",
+   "scope": "page"
+  },
+  "performance.rendered-tbt": {
+   "title": "Long main-thread blocking in a local browser test",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "low",
+   "scope": "page"
+  },
+  "performance.rendered-load-slow": {
+   "title": "Page takes a long time to finish loading",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "low",
+   "scope": "page"
+  },
+  "security.not-https": {
+   "title": "Page served over plain HTTP",
+   "pillar": "technical",
+   "category": "security",
+   "severity": "high",
+   "scope": "page"
+  },
+  "security.mixed-content": {
+   "title": "HTTPS page loads HTTP resources",
+   "pillar": "technical",
+   "category": "security",
+   "severity": "high",
+   "scope": "page"
+  },
+  "security.insecure-form": {
+   "title": "Form submits over HTTP",
+   "pillar": "technical",
+   "category": "security",
+   "severity": "high",
+   "scope": "page"
+  },
+  "security.protocol-relative": {
+   "title": "Protocol-relative resource URLs",
+   "pillar": "technical",
+   "category": "security",
+   "severity": "info",
+   "scope": "page"
+  },
+  "security.cookie-not-secure": {
+   "title": "Cookies set without the Secure flag",
+   "pillar": "technical",
+   "category": "security",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "security.cookie-not-httponly": {
+   "title": "Session cookie readable by JavaScript",
+   "pillar": "technical",
+   "category": "security",
+   "severity": "low",
+   "scope": "page"
+  },
+  "security.debug-output": {
+   "title": "Server errors or debug output shown on the page",
+   "pillar": "technical",
+   "category": "security",
+   "severity": "high",
+   "scope": "page"
+  },
+  "security.directory-listing": {
+   "title": "Directory listing enabled",
+   "pillar": "technical",
+   "category": "security",
+   "severity": "high",
+   "scope": "page"
+  },
+  "security.sri-missing": {
+   "title": "CDN scripts loaded without integrity checks",
+   "pillar": "technical",
+   "category": "security",
+   "severity": "low",
+   "scope": "page"
+  },
+  "security.hsts-missing": {
+   "title": "No HSTS header",
+   "pillar": "technical",
+   "category": "security",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "security.hsts-short": {
+   "title": "HSTS max-age is short",
+   "pillar": "technical",
+   "category": "security",
+   "severity": "low",
+   "scope": "site"
+  },
+  "security.csp-missing": {
+   "title": "No Content-Security-Policy",
+   "pillar": "technical",
+   "category": "security",
+   "severity": "low",
+   "scope": "site"
+  },
+  "security.csp-unsafe": {
+   "title": "CSP allows unsafe inline scripts or eval",
+   "pillar": "technical",
+   "category": "security",
+   "severity": "low",
+   "scope": "site"
+  },
+  "security.nosniff-missing": {
+   "title": "No X-Content-Type-Options: nosniff",
+   "pillar": "technical",
+   "category": "security",
+   "severity": "low",
+   "scope": "site"
+  },
+  "security.frame-protection-missing": {
+   "title": "Pages can be framed by any site",
+   "pillar": "technical",
+   "category": "security",
+   "severity": "low",
+   "scope": "site"
+  },
+  "security.referrer-policy-missing": {
+   "title": "No Referrer-Policy",
+   "pillar": "technical",
+   "category": "security",
+   "severity": "info",
+   "scope": "site"
+  },
+  "security.version-disclosure": {
+   "title": "Server software versions exposed in headers",
+   "pillar": "technical",
+   "category": "security",
+   "severity": "low",
+   "scope": "site"
+  },
+  "security.exposed-files": {
+   "title": "Sensitive files are publicly readable",
+   "pillar": "technical",
+   "category": "security",
+   "severity": "critical",
+   "scope": "site"
+  },
+  "security.http-pages": {
+   "title": "Some pages still served over HTTP",
+   "pillar": "technical",
+   "category": "security",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "urls.uppercase": {
+   "title": "URL contains upper-case letters",
+   "pillar": "technical",
+   "category": "urls",
+   "severity": "low",
+   "scope": "page"
+  },
+  "urls.underscores": {
+   "title": "Underscores used to separate words",
+   "pillar": "technical",
+   "category": "urls",
+   "severity": "low",
+   "scope": "page"
+  },
+  "urls.too-long": {
+   "title": "Very long URL",
+   "pillar": "technical",
+   "category": "urls",
+   "severity": "low",
+   "scope": "page"
+  },
+  "urls.unsafe-characters": {
+   "title": "Spaces or unsafe characters in the URL",
+   "pillar": "technical",
+   "category": "urls",
+   "severity": "low",
+   "scope": "page"
+  },
+  "urls.double-slash": {
+   "title": "Double slash in the path",
+   "pillar": "technical",
+   "category": "urls",
+   "severity": "low",
+   "scope": "page"
+  },
+  "urls.repeated-segment": {
+   "title": "Repeated folder in the URL",
+   "pillar": "technical",
+   "category": "urls",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "urls.session-id": {
+   "title": "Session ID in the URL",
+   "pillar": "technical",
+   "category": "urls",
+   "severity": "high",
+   "scope": "page"
+  },
+  "urls.tracking-parameters": {
+   "title": "Indexable URL with tracking parameters",
+   "pillar": "technical",
+   "category": "urls",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "urls.many-parameters": {
+   "title": "Indexable URL with many parameters",
+   "pillar": "technical",
+   "category": "urls",
+   "severity": "low",
+   "scope": "page"
+  },
+  "urls.deep-path": {
+   "title": "Deeply nested URL path",
+   "pillar": "technical",
+   "category": "urls",
+   "severity": "low",
+   "scope": "page"
+  },
+  "urls.non-descriptive": {
+   "title": "URL has no readable words",
+   "pillar": "technical",
+   "category": "urls",
+   "severity": "low",
+   "scope": "page"
+  },
+  "urls.internal-search-indexable": {
+   "title": "Internal search results are indexable",
+   "pillar": "technical",
+   "category": "urls",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "urls.index-file": {
+   "title": "URL ends in index.html or index.php",
+   "pillar": "technical",
+   "category": "urls",
+   "severity": "low",
+   "scope": "page"
+  },
+  "urls.case-duplicates": {
+   "title": "URLs that differ only by letter case",
+   "pillar": "technical",
+   "category": "urls",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "urls.trailing-slash-mixed": {
+   "title": "Mixed trailing-slash style",
+   "pillar": "technical",
+   "category": "urls",
+   "severity": "low",
+   "scope": "site"
+  },
+  "sitemaps.missing": {
+   "title": "No XML sitemap found",
+   "pillar": "technical",
+   "category": "sitemaps",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "sitemaps.not-in-robots": {
+   "title": "Sitemap not declared in robots.txt",
+   "pillar": "technical",
+   "category": "sitemaps",
+   "severity": "low",
+   "scope": "site"
+  },
+  "sitemaps.unreachable": {
+   "title": "Declared sitemap cannot be fetched",
+   "pillar": "technical",
+   "category": "sitemaps",
+   "severity": "high",
+   "scope": "site"
+  },
+  "sitemaps.parse-errors": {
+   "title": "Sitemap has XML or format errors",
+   "pillar": "technical",
+   "category": "sitemaps",
+   "severity": "high",
+   "scope": "site"
+  },
+  "sitemaps.empty": {
+   "title": "Sitemap lists no URLs",
+   "pillar": "technical",
+   "category": "sitemaps",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "sitemaps.too-large": {
+   "title": "Sitemap exceeds the size limits",
+   "pillar": "technical",
+   "category": "sitemaps",
+   "severity": "high",
+   "scope": "site"
+  },
+  "sitemaps.error-urls": {
+   "title": "Sitemap lists URLs that return errors",
+   "pillar": "technical",
+   "category": "sitemaps",
+   "severity": "high",
+   "scope": "site"
+  },
+  "sitemaps.redirect-urls": {
+   "title": "Sitemap lists redirecting URLs",
+   "pillar": "technical",
+   "category": "sitemaps",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "sitemaps.noindex-urls": {
+   "title": "Sitemap lists noindex pages",
+   "pillar": "technical",
+   "category": "sitemaps",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "sitemaps.canonicalised-urls": {
+   "title": "Sitemap lists non-canonical URLs",
+   "pillar": "technical",
+   "category": "sitemaps",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "sitemaps.blocked-urls": {
+   "title": "Sitemap lists URLs blocked by robots.txt",
+   "pillar": "technical",
+   "category": "sitemaps",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "sitemaps.foreign-urls": {
+   "title": "Sitemap lists URLs on another host or protocol",
+   "pillar": "technical",
+   "category": "sitemaps",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "sitemaps.duplicate-urls": {
+   "title": "Same URL listed more than once",
+   "pillar": "technical",
+   "category": "sitemaps",
+   "severity": "low",
+   "scope": "site"
+  },
+  "sitemaps.indexable-missing": {
+   "title": "Indexable pages missing from the sitemap",
+   "pillar": "technical",
+   "category": "sitemaps",
+   "severity": "low",
+   "scope": "site"
+  },
+  "sitemaps.lastmod-invalid": {
+   "title": "Invalid lastmod dates",
+   "pillar": "technical",
+   "category": "sitemaps",
+   "severity": "low",
+   "scope": "site"
+  },
+  "sitemaps.lastmod-future": {
+   "title": "lastmod dates in the future",
+   "pillar": "technical",
+   "category": "sitemaps",
+   "severity": "low",
+   "scope": "site"
+  },
+  "sitemaps.lastmod-uniform": {
+   "title": "Every URL has the same lastmod",
+   "pillar": "technical",
+   "category": "sitemaps",
+   "severity": "low",
+   "scope": "site"
+  },
+  "sitemaps.lastmod-missing": {
+   "title": "Sitemap has no lastmod dates",
+   "pillar": "technical",
+   "category": "sitemaps",
+   "severity": "low",
+   "scope": "site"
+  },
+  "sitemaps.stale": {
+   "title": "Sitemap has not changed in over a year",
+   "pillar": "technical",
+   "category": "sitemaps",
+   "severity": "low",
+   "scope": "site"
+  },
+  "pagination.canonical-to-first": {
+   "title": "Page 2+ canonicalises to page 1",
+   "pillar": "technical",
+   "category": "pagination",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "pagination.noindex": {
+   "title": "Paginated pages are noindex",
+   "pillar": "technical",
+   "category": "pagination",
+   "severity": "low",
+   "scope": "page"
+  },
+  "pagination.next-broken": {
+   "title": "rel=\"next\" or rel=\"prev\" points to an error",
+   "pillar": "technical",
+   "category": "pagination",
+   "severity": "low",
+   "scope": "page"
+  },
+  "pagination.sequence-mismatch": {
+   "title": "rel=\"next\" target does not point back with rel=\"prev\"",
+   "pillar": "technical",
+   "category": "pagination",
+   "severity": "info",
+   "scope": "page"
+  },
+  "pagination.multiple-rel": {
+   "title": "Several rel=\"next\" or rel=\"prev\" tags",
+   "pillar": "technical",
+   "category": "pagination",
+   "severity": "low",
+   "scope": "page"
+  },
+  "pagination.page-one-duplicate": {
+   "title": "Links to \"page 1\" create a duplicate URL",
+   "pillar": "technical",
+   "category": "pagination",
+   "severity": "low",
+   "scope": "page"
+  },
+  "pagination.load-more-only": {
+   "title": "\"Load more\" or infinite scroll without page links",
+   "pillar": "technical",
+   "category": "pagination",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "pagination.fragment": {
+   "title": "Pagination uses # fragments",
+   "pillar": "technical",
+   "category": "pagination",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "pagination.out-of-range-200": {
+   "title": "Out-of-range page numbers return 200",
+   "pillar": "technical",
+   "category": "pagination",
+   "severity": "low",
+   "scope": "site"
+  },
+  "accessibility.lang-missing": {
+   "title": "Page language not declared",
+   "pillar": "content",
+   "category": "accessibility",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "accessibility.lang-invalid": {
+   "title": "Invalid page language code",
+   "pillar": "content",
+   "category": "accessibility",
+   "severity": "low",
+   "scope": "page"
+  },
+  "accessibility.form-label-missing": {
+   "title": "Form fields without labels",
+   "pillar": "content",
+   "category": "accessibility",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "accessibility.link-name-missing": {
+   "title": "Links without an accessible name",
+   "pillar": "content",
+   "category": "accessibility",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "accessibility.button-name-missing": {
+   "title": "Buttons without an accessible name",
+   "pillar": "content",
+   "category": "accessibility",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "accessibility.clickable-div": {
+   "title": "Clickable elements that are not buttons or links",
+   "pillar": "content",
+   "category": "accessibility",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "accessibility.main-landmark-missing": {
+   "title": "No main landmark",
+   "pillar": "content",
+   "category": "accessibility",
+   "severity": "low",
+   "scope": "page"
+  },
+  "accessibility.main-landmark-multiple": {
+   "title": "More than one main landmark",
+   "pillar": "content",
+   "category": "accessibility",
+   "severity": "low",
+   "scope": "page"
+  },
+  "accessibility.skip-link-missing": {
+   "title": "No skip link before a long navigation",
+   "pillar": "content",
+   "category": "accessibility",
+   "severity": "info",
+   "scope": "page"
+  },
+  "accessibility.duplicate-ids": {
+   "title": "Duplicate id attributes",
+   "pillar": "content",
+   "category": "accessibility",
+   "severity": "low",
+   "scope": "page"
+  },
+  "accessibility.positive-tabindex": {
+   "title": "Positive tabindex values",
+   "pillar": "content",
+   "category": "accessibility",
+   "severity": "low",
+   "scope": "page"
+  },
+  "accessibility.iframe-title-missing": {
+   "title": "Iframes without a title",
+   "pillar": "content",
+   "category": "accessibility",
+   "severity": "low",
+   "scope": "page"
+  },
+  "accessibility.autoplay-audio": {
+   "title": "Media that plays sound automatically",
+   "pillar": "content",
+   "category": "accessibility",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "accessibility.video-captions-missing": {
+   "title": "Videos without captions",
+   "pillar": "content",
+   "category": "accessibility",
+   "severity": "low",
+   "scope": "page"
+  },
+  "accessibility.aria-hidden-focusable": {
+   "title": "Focusable elements hidden from assistive technology",
+   "pillar": "content",
+   "category": "accessibility",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "accessibility.invalid-role": {
+   "title": "Unknown ARIA role values",
+   "pillar": "content",
+   "category": "accessibility",
+   "severity": "low",
+   "scope": "page"
+  },
+  "accessibility.invalid-aria-attribute": {
+   "title": "Misspelled or unknown aria-* attributes",
+   "pillar": "content",
+   "category": "accessibility",
+   "severity": "low",
+   "scope": "page"
+  },
+  "accessibility.broken-aria-reference": {
+   "title": "Labels or ARIA references point at missing ids",
+   "pillar": "content",
+   "category": "accessibility",
+   "severity": "low",
+   "scope": "page"
+  },
+  "accessibility.svg-no-name": {
+   "title": "Meaningful SVG images without a name",
+   "pillar": "content",
+   "category": "accessibility",
+   "severity": "low",
+   "scope": "page"
+  },
+  "accessibility.table-headers-missing": {
+   "title": "Data tables without header cells",
+   "pillar": "content",
+   "category": "accessibility",
+   "severity": "low",
+   "scope": "page"
+  },
+  "accessibility.list-structure": {
+   "title": "List items outside a list",
+   "pillar": "content",
+   "category": "accessibility",
+   "severity": "low",
+   "scope": "page"
+  },
+  "accessibility.obsolete-motion": {
+   "title": "Blinking or scrolling text elements",
+   "pillar": "content",
+   "category": "accessibility",
+   "severity": "low",
+   "scope": "page"
+  },
+  "accessibility.low-contrast-inline": {
+   "title": "Low colour contrast in inline styles",
+   "pillar": "content",
+   "category": "accessibility",
+   "severity": "low",
+   "scope": "page"
+  },
+  "js-rendering.client-only": {
+   "title": "Content only appears after JavaScript runs",
+   "pillar": "technical",
+   "category": "js-rendering",
+   "severity": "critical",
+   "scope": "page"
+  },
+  "js-rendering.content-gap": {
+   "title": "Much of the content depends on JavaScript",
+   "pillar": "technical",
+   "category": "js-rendering",
+   "severity": "high",
+   "scope": "page"
+  },
+  "js-rendering.content-removed": {
+   "title": "JavaScript removes content after load",
+   "pillar": "technical",
+   "category": "js-rendering",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "js-rendering.links-only-rendered": {
+   "title": "Links added only by JavaScript",
+   "pillar": "technical",
+   "category": "js-rendering",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "js-rendering.title-changed": {
+   "title": "JavaScript changes or adds the title",
+   "pillar": "technical",
+   "category": "js-rendering",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "js-rendering.h1-only-rendered": {
+   "title": "H1 appears only after JavaScript",
+   "pillar": "technical",
+   "category": "js-rendering",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "js-rendering.schema-only-rendered": {
+   "title": "Structured data added only by JavaScript",
+   "pillar": "technical",
+   "category": "js-rendering",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "js-rendering.canonical-changed": {
+   "title": "JavaScript changes the canonical",
+   "pillar": "technical",
+   "category": "js-rendering",
+   "severity": "high",
+   "scope": "page"
+  },
+  "js-rendering.robots-changed": {
+   "title": "JavaScript changes the robots meta tag",
+   "pillar": "technical",
+   "category": "js-rendering",
+   "severity": "high",
+   "scope": "page"
+  },
+  "js-rendering.description-changed": {
+   "title": "JavaScript changes the meta description",
+   "pillar": "technical",
+   "category": "js-rendering",
+   "severity": "low",
+   "scope": "page"
+  },
+  "js-rendering.console-errors": {
+   "title": "JavaScript errors while rendering",
+   "pillar": "technical",
+   "category": "js-rendering",
+   "severity": "low",
+   "scope": "page"
+  },
+  "js-rendering.failed-requests": {
+   "title": "Resources failed to load during rendering",
+   "pillar": "technical",
+   "category": "js-rendering",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "analytics.inventory": {
+   "title": "Analytics and tracking tools detected",
+   "pillar": "technical",
+   "category": "analytics",
+   "severity": "info",
+   "scope": "site"
+  },
+  "analytics.none": {
+   "title": "No analytics detected",
+   "pillar": "technical",
+   "category": "analytics",
+   "severity": "low",
+   "scope": "site"
+  },
+  "analytics.duplicate-ga4": {
+   "title": "Same GA4 measurement ID loaded twice",
+   "pillar": "technical",
+   "category": "analytics",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "analytics.duplicate-gtm": {
+   "title": "Same Tag Manager container loaded twice",
+   "pillar": "technical",
+   "category": "analytics",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "analytics.multiple-ga4-properties": {
+   "title": "Several GA4 properties on one page",
+   "pillar": "technical",
+   "category": "analytics",
+   "severity": "info",
+   "scope": "page"
+  },
+  "analytics.universal-analytics": {
+   "title": "Retired Universal Analytics code still on the site",
+   "pillar": "technical",
+   "category": "analytics",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "analytics.inconsistent": {
+   "title": "Analytics missing on some pages",
+   "pillar": "technical",
+   "category": "analytics",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "analytics.consent-not-detected": {
+   "title": "Tracking tags without a detectable consent tool",
+   "pillar": "technical",
+   "category": "analytics",
+   "severity": "info",
+   "scope": "site"
+  },
+  "analytics.gtm-noscript-misplaced": {
+   "title": "Tag Manager noscript iframe placed in <head>",
+   "pillar": "technical",
+   "category": "analytics",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "analytics.verification-missing": {
+   "title": "No search engine verification tags on the home page",
+   "pillar": "technical",
+   "category": "analytics",
+   "severity": "info",
+   "scope": "site"
+  },
+  "cms.wp-version-exposed": {
+   "title": "WordPress version is published",
+   "pillar": "technical",
+   "category": "cms",
+   "severity": "low",
+   "scope": "site"
+  },
+  "cms.wp-readme-exposed": {
+   "title": "WordPress readme.html is public",
+   "pillar": "technical",
+   "category": "cms",
+   "severity": "low",
+   "scope": "site"
+  },
+  "cms.wp-xmlrpc-enabled": {
+   "title": "XML-RPC endpoint is enabled",
+   "pillar": "technical",
+   "category": "cms",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "cms.wp-user-enumeration": {
+   "title": "Usernames can be listed through ?author=",
+   "pillar": "technical",
+   "category": "cms",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "cms.wp-rest-users-exposed": {
+   "title": "REST API lists user accounts",
+   "pillar": "technical",
+   "category": "cms",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "cms.wp-attachment-page": {
+   "title": "Media attachment pages are indexable",
+   "pillar": "content",
+   "category": "cms",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "cms.wp-thin-archive": {
+   "title": "Thin tag, author or date archive is indexable",
+   "pillar": "content",
+   "category": "cms",
+   "severity": "low",
+   "scope": "page"
+  },
+  "cms.wp-uncategorized": {
+   "title": "Default \"Uncategorized\" category is in use",
+   "pillar": "content",
+   "category": "cms",
+   "severity": "low",
+   "scope": "page"
+  },
+  "cms.wp-default-content": {
+   "title": "WordPress sample content still published",
+   "pillar": "content",
+   "category": "cms",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "cms.wp-seo-plugin-conflict": {
+   "title": "Two SEO plugins output tags on the same page",
+   "pillar": "technical",
+   "category": "cms",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "cms.wp-replytocom": {
+   "title": "Comment reply links create duplicate URLs",
+   "pillar": "technical",
+   "category": "cms",
+   "severity": "low",
+   "scope": "page"
+  },
+  "cms.wp-comment-pages": {
+   "title": "Paginated comment pages are indexable",
+   "pillar": "content",
+   "category": "cms",
+   "severity": "low",
+   "scope": "page"
+  },
+  "cms.wp-emoji-script": {
+   "title": "WordPress emoji script is loaded",
+   "pillar": "technical",
+   "category": "cms",
+   "severity": "info",
+   "scope": "page"
+  },
+  "cms.wp-many-plugins": {
+   "title": "Many plugins load assets on the page",
+   "pillar": "technical",
+   "category": "cms",
+   "severity": "low",
+   "scope": "page"
+  },
+  "cms.shopify-collection-product-urls": {
+   "title": "Product links go through /collections/…/products/",
+   "pillar": "technical",
+   "category": "cms",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "cms.shopify-tracking-params": {
+   "title": "Shopify recommendation tracking parameters in links",
+   "pillar": "technical",
+   "category": "cms",
+   "severity": "low",
+   "scope": "site"
+  },
+  "cms.shopify-vendor-type-pages": {
+   "title": "Automatic vendor or type collection pages are indexable",
+   "pillar": "content",
+   "category": "cms",
+   "severity": "low",
+   "scope": "page"
+  },
+  "cms.platform-subdomain-links": {
+   "title": "Links or canonicals point to the platform’s default domain",
+   "pillar": "technical",
+   "category": "cms",
+   "severity": "high",
+   "scope": "page"
+  },
+  "cms.default-title": {
+   "title": "Platform default title or site name",
+   "pillar": "content",
+   "category": "cms",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "cms.search-results-crawlable": {
+   "title": "Internal search pages are linked and crawlable",
+   "pillar": "technical",
+   "category": "cms",
+   "severity": "low",
+   "scope": "site"
+  },
+  "cms.thin-taxonomy-share": {
+   "title": "Tag and category archives make up much of the index",
+   "pillar": "content",
+   "category": "cms",
+   "severity": "low",
+   "scope": "site"
+  },
+  "ai-crawlers.search-bots-blocked": {
+   "title": "AI search crawlers blocked in robots.txt",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "high",
+   "scope": "site"
+  },
+  "ai-crawlers.user-fetchers-blocked": {
+   "title": "AI user-triggered fetchers blocked in robots.txt",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "high",
+   "scope": "site"
+  },
+  "ai-crawlers.training-bots-blocked": {
+   "title": "AI training crawlers blocked in robots.txt",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "info",
+   "scope": "site"
+  },
+  "ai-crawlers.googlebot-blocked": {
+   "title": "Googlebot blocked from the site",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "critical",
+   "scope": "site"
+  },
+  "ai-crawlers.bingbot-blocked": {
+   "title": "Bingbot blocked from the site",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "high",
+   "scope": "site"
+  },
+  "ai-crawlers.key-pages-blocked": {
+   "title": "Key pages blocked for AI search or user bots",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "high",
+   "scope": "site"
+  },
+  "ai-crawlers.wildcard-catches-ai": {
+   "title": "A User-agent: * rule blocks AI bots that have no group of their own",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "ai-crawlers.duplicate-groups": {
+   "title": "The same AI bot is named in more than one robots.txt group",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "ai-crawlers.misspelt-tokens": {
+   "title": "robots.txt names an AI bot with a misspelt token",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "ai-crawlers.legacy-tokens-only": {
+   "title": "Anthropic blocked only through retired tokens",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "low",
+   "scope": "site"
+  },
+  "ai-crawlers.extended-optout-scope": {
+   "title": "Google-Extended or Applebot-Extended opt-out: know what it does not cover",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "info",
+   "scope": "site"
+  },
+  "ai-crawlers.backwards-policy": {
+   "title": "Training allowed but search blocked for the same AI company",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "ai-crawlers.user-fetcher-robots-ineffective": {
+   "title": "robots.txt rules aimed at fetchers that do not apply them",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "info",
+   "scope": "site"
+  },
+  "ai-crawlers.robots-server-error": {
+   "title": "robots.txt returns a server error",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "critical",
+   "scope": "site"
+  },
+  "ai-crawlers.robots-missing": {
+   "title": "No robots.txt",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "info",
+   "scope": "site"
+  },
+  "ai-crawlers.robots-not-text": {
+   "title": "robots.txt is served as an HTML page",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "ai-crawlers.robots-too-large": {
+   "title": "robots.txt is larger than crawlers read",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "low",
+   "scope": "site"
+  },
+  "ai-crawlers.sitemap-not-in-robots": {
+   "title": "robots.txt does not list a sitemap",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "low",
+   "scope": "site"
+  },
+  "ai-crawlers.sitemap-not-found": {
+   "title": "No XML sitemap could be found",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "ai-crawlers.crawl-delay-high": {
+   "title": "Crawl-delay slows AI crawlers to a trickle",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "ai-crawlers.firewall-challenge": {
+   "title": "Firewall or CDN challenges AI bots",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "critical",
+   "scope": "site"
+  },
+  "ai-crawlers.live-blocked": {
+   "title": "AI bots refused by the server",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "high",
+   "scope": "site"
+  },
+  "ai-crawlers.live-differs": {
+   "title": "AI bots receive less content than a browser",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "ai-crawlers.live-inconclusive": {
+   "title": "Live bot test inconclusive: the browser request was blocked too",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "info",
+   "scope": "site"
+  },
+  "ai-crawlers.slow-for-bots": {
+   "title": "AI bots are served much more slowly than a browser",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "low",
+   "scope": "site"
+  },
+  "ai-crawlers.bot-missing-schema": {
+   "title": "AI bots receive the page without its structured data",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "ai-crawlers.bot-title-differs": {
+   "title": "AI bots see a different page title",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "ai-crawlers.sample-pages-blocked": {
+   "title": "AI bots blocked on key pages",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "high",
+   "scope": "site"
+  },
+  "ai-crawlers.sample-pages-differ": {
+   "title": "AI bots get thinner key pages than a browser",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "ai-crawlers.page-noai": {
+   "title": "Page carries noai / noimageai",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "ai-crawlers.page-nosnippet": {
+   "title": "Page forbids snippets (nosnippet or max-snippet:0)",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "high",
+   "scope": "page"
+  },
+  "ai-crawlers.page-max-snippet-low": {
+   "title": "max-snippet is too short to quote an answer",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "ai-crawlers.bot-specific-meta": {
+   "title": "Robots meta tag aimed at a specific AI bot",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "ai-crawlers.x-robots-tag-bot": {
+   "title": "X-Robots-Tag header restricts an AI bot",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "ai-crawlers.data-nosnippet-main": {
+   "title": "Most of the main content is marked data-nosnippet",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "ai-crawlers.empty-shell": {
+   "title": "Page HTML is an empty JavaScript app shell",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "high",
+   "scope": "page"
+  },
+  "ai-crawlers.js-gap": {
+   "title": "Much of the content appears only after JavaScript runs",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "high",
+   "scope": "page"
+  },
+  "ai-crawlers.rendered-headings-missing": {
+   "title": "Headings exist only after JavaScript runs",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "low",
+   "scope": "page"
+  },
+  "ai-crawlers.hidden-content": {
+   "title": "Much of the content is hidden in tabs or collapsed panels",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "low",
+   "scope": "page"
+  },
+  "ai-crawlers.iframe-content": {
+   "title": "Main content is loaded in an iframe",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "low",
+   "scope": "page"
+  },
+  "ai-crawlers.common-crawl": {
+   "title": "Site not found in the latest Common Crawl",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "info",
+   "scope": "site"
+  },
+  "ai-crawlers.bing-webmaster": {
+   "title": "No sign the site is verified in Bing Webmaster Tools",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "info",
+   "scope": "site"
+  },
+  "llms-txt.missing": {
+   "title": "No /llms.txt",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "low",
+   "scope": "site"
+  },
+  "llms-txt.served-as-html": {
+   "title": "/llms.txt returns an HTML page",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "llms-txt.no-h1": {
+   "title": "llms.txt does not start with an H1",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "llms-txt.multiple-h1": {
+   "title": "llms.txt has more than one H1",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "low",
+   "scope": "site"
+  },
+  "llms-txt.no-summary": {
+   "title": "llms.txt has no blockquote summary",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "low",
+   "scope": "site"
+  },
+  "llms-txt.no-sections": {
+   "title": "llms.txt has no H2 sections",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "llms-txt.no-links": {
+   "title": "llms.txt lists no links",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "llms-txt.malformed-items": {
+   "title": "llms.txt list items are not markdown links",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "low",
+   "scope": "site"
+  },
+  "llms-txt.relative-links": {
+   "title": "llms.txt uses relative links",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "low",
+   "scope": "site"
+  },
+  "llms-txt.duplicate-links": {
+   "title": "llms.txt lists the same URL more than once",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "low",
+   "scope": "site"
+  },
+  "llms-txt.empty-link-notes": {
+   "title": "Most llms.txt links have no description",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "info",
+   "scope": "site"
+  },
+  "llms-txt.broken-links": {
+   "title": "llms.txt links to pages that fail",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "high",
+   "scope": "site"
+  },
+  "llms-txt.redirecting-links": {
+   "title": "llms.txt links redirect",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "low",
+   "scope": "site"
+  },
+  "llms-txt.links-not-indexable": {
+   "title": "llms.txt points to noindex or non-canonical pages",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "llms-txt.links-blocked-by-robots": {
+   "title": "llms.txt links to pages AI bots are disallowed from",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "llms-txt.mostly-offsite": {
+   "title": "Most llms.txt links point to other sites",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "info",
+   "scope": "site"
+  },
+  "llms-txt.missing-key-pages": {
+   "title": "llms.txt leaves out key pages",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "llms-txt.key-pages-in-optional": {
+   "title": "Key pages listed under ## Optional",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "low",
+   "scope": "site"
+  },
+  "llms-txt.link-dump": {
+   "title": "llms.txt is too large to be useful",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "llms-txt.too-thin": {
+   "title": "llms.txt lists very few pages",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "low",
+   "scope": "site"
+  },
+  "llms-txt.content-type": {
+   "title": "llms.txt served with an unexpected content type",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "low",
+   "scope": "site"
+  },
+  "llms-txt.quality-grade": {
+   "title": "llms.txt quality below good",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "low",
+   "scope": "site"
+  },
+  "llms-txt.full-missing": {
+   "title": "No /llms-full.txt on a content-heavy site",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "info",
+   "scope": "site"
+  },
+  "llms-txt.full-too-large": {
+   "title": "llms-full.txt is very large",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "low",
+   "scope": "site"
+  },
+  "llms-txt.full-stale": {
+   "title": "llms-full.txt is older than your content",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "low",
+   "scope": "site"
+  },
+  "llms-txt.full-is-html": {
+   "title": "/llms-full.txt returns an HTML page",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "low",
+   "scope": "site"
+  },
+  "llms-txt.no-markdown-variants": {
+   "title": "Pages listed in llms.txt have no markdown versions",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "info",
+   "scope": "site"
+  },
+  "geo-content.no-answer-first": {
+   "title": "Page does not open with a direct answer",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "geo-content.no-question-headings": {
+   "title": "No subheadings phrased as questions",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "geo-content.answer-buried": {
+   "title": "Answers under question headings are long-winded",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "geo-content.faq-without-schema": {
+   "title": "FAQ content without FAQPage markup",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "geo-content.faq-schema-mismatch": {
+   "title": "FAQPage markup does not match the visible page",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "geo-content.faq-answers-thin": {
+   "title": "FAQ answers are too short to be useful",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "info",
+   "scope": "page"
+  },
+  "geo-content.no-lists-or-tables": {
+   "title": "Long page with no lists or tables",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "geo-content.howto-without-steps": {
+   "title": "“How to” page without numbered steps",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "geo-content.no-specifics": {
+   "title": "No concrete figures on the page",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "geo-content.stats-without-sources": {
+   "title": "Statistics without sources",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "geo-content.no-citations": {
+   "title": "Long article cites no outside sources",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "geo-content.quotes-unattributed": {
+   "title": "Quotations without attribution",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "info",
+   "scope": "page"
+  },
+  "geo-content.no-author": {
+   "title": "Article has no author",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "geo-content.author-not-in-schema": {
+   "title": "Byline shown but no author in the schema",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "geo-content.author-no-credentials": {
+   "title": "Author markup has only a name",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "info",
+   "scope": "page"
+  },
+  "geo-content.no-visible-date": {
+   "title": "Article shows no date",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "geo-content.no-schema-dates": {
+   "title": "Article schema without datePublished or dateModified",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "geo-content.date-invalid": {
+   "title": "Schema dates are invalid or contradictory",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "geo-content.stale": {
+   "title": "Article not updated in over 18 months",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "geo-content.long-sections": {
+   "title": "Sections too long to stand alone",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "geo-content.wall-of-text": {
+   "title": "Very long paragraphs",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "geo-content.too-few-headings": {
+   "title": "Too few headings for the length",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "geo-content.heading-noise": {
+   "title": "More headings than content",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "info",
+   "scope": "page"
+  },
+  "geo-content.vague-language": {
+   "title": "Marketing language instead of specifics",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "geo-content.no-summary": {
+   "title": "Long article with no summary up front",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "info",
+   "scope": "page"
+  },
+  "geo-content.no-definition": {
+   "title": "“What is” page without a definition sentence",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "geo-content.comparison-no-table": {
+   "title": "Comparison page without a comparison table",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "info",
+   "scope": "page"
+  },
+  "geo-content.low-entity-density": {
+   "title": "Few named things on the page",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "info",
+   "scope": "page"
+  },
+  "geo-content.no-first-hand-evidence": {
+   "title": "Long article with no first-hand evidence",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "info",
+   "scope": "page"
+  },
+  "geo-content.missing-article-schema": {
+   "title": "Article without Article schema",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "geo-content.isolated-article": {
+   "title": "Article barely linked from the rest of the site",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "geo-content.no-related-links": {
+   "title": "Article links to no related content",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "info",
+   "scope": "page"
+  },
+  "geo-content.boilerplate-lead": {
+   "title": "Same opening text on many pages",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "geo-content.low-geo-score": {
+   "title": "Low GEO readiness score for the page",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "geo-content.site-geo-score": {
+   "title": "Site-wide GEO readiness is low",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "geo-entity.no-organization": {
+   "title": "No Organization or LocalBusiness schema",
+   "pillar": "geo",
+   "category": "geo-entity",
+   "severity": "high",
+   "scope": "site"
+  },
+  "geo-entity.org-incomplete": {
+   "title": "Organization schema missing core properties",
+   "pillar": "geo",
+   "category": "geo-entity",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "geo-entity.org-no-sameas": {
+   "title": "Organization has no sameAs links",
+   "pillar": "geo",
+   "category": "geo-entity",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "geo-entity.sameas-thin": {
+   "title": "sameAs misses major profiles",
+   "pillar": "geo",
+   "category": "geo-entity",
+   "severity": "low",
+   "scope": "site"
+  },
+  "geo-entity.no-wikidata": {
+   "title": "No Wikidata entry linked",
+   "pillar": "geo",
+   "category": "geo-entity",
+   "severity": "info",
+   "scope": "site"
+  },
+  "geo-entity.sameas-invalid": {
+   "title": "sameAs contains invalid or self links",
+   "pillar": "geo",
+   "category": "geo-entity",
+   "severity": "low",
+   "scope": "site"
+  },
+  "geo-entity.social-not-in-sameas": {
+   "title": "Profiles linked on the site are missing from sameAs",
+   "pillar": "geo",
+   "category": "geo-entity",
+   "severity": "low",
+   "scope": "site"
+  },
+  "geo-entity.org-no-contact": {
+   "title": "Organization schema has no contact details",
+   "pillar": "geo",
+   "category": "geo-entity",
+   "severity": "low",
+   "scope": "site"
+  },
+  "geo-entity.local-no-address": {
+   "title": "Local business schema without address or hours",
+   "pillar": "geo",
+   "category": "geo-entity",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "geo-entity.org-no-description": {
+   "title": "Organization schema has no description",
+   "pillar": "geo",
+   "category": "geo-entity",
+   "severity": "low",
+   "scope": "site"
+  },
+  "geo-entity.org-no-background": {
+   "title": "Organization schema lacks founding facts",
+   "pillar": "geo",
+   "category": "geo-entity",
+   "severity": "info",
+   "scope": "site"
+  },
+  "geo-entity.org-no-expertise": {
+   "title": "Organization schema does not say what you do",
+   "pillar": "geo",
+   "category": "geo-entity",
+   "severity": "info",
+   "scope": "site"
+  },
+  "geo-entity.org-no-id": {
+   "title": "Organization schema has no @id",
+   "pillar": "geo",
+   "category": "geo-entity",
+   "severity": "low",
+   "scope": "site"
+  },
+  "geo-entity.org-name-conflict": {
+   "title": "Different organisation names across pages",
+   "pillar": "geo",
+   "category": "geo-entity",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "geo-entity.brand-inconsistent": {
+   "title": "Brand name differs between title, og:site_name and schema",
+   "pillar": "geo",
+   "category": "geo-entity",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "geo-entity.no-og-site-name": {
+   "title": "No og:site_name on the home page",
+   "pillar": "geo",
+   "category": "geo-entity",
+   "severity": "low",
+   "scope": "site"
+  },
+  "geo-entity.no-website-schema": {
+   "title": "No WebSite schema on the home page",
+   "pillar": "geo",
+   "category": "geo-entity",
+   "severity": "low",
+   "scope": "site"
+  },
+  "geo-entity.publisher-mismatch": {
+   "title": "Article publisher differs from the organisation",
+   "pillar": "geo",
+   "category": "geo-entity",
+   "severity": "low",
+   "scope": "site"
+  },
+  "geo-entity.logo-not-image": {
+   "title": "Organization logo is not an image URL",
+   "pillar": "geo",
+   "category": "geo-entity",
+   "severity": "low",
+   "scope": "site"
+  },
+  "geo-entity.nap-inconsistent": {
+   "title": "Phone numbers differ across pages",
+   "pillar": "geo",
+   "category": "geo-entity",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "geo-entity.no-about-page": {
+   "title": "No About page found",
+   "pillar": "geo",
+   "category": "geo-entity",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "geo-entity.about-not-linked": {
+   "title": "About page not linked from the home page",
+   "pillar": "geo",
+   "category": "geo-entity",
+   "severity": "low",
+   "scope": "site"
+  },
+  "geo-entity.no-contact-page": {
+   "title": "No Contact page found",
+   "pillar": "geo",
+   "category": "geo-entity",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "geo-entity.no-author-pages": {
+   "title": "Authors have no profile pages",
+   "pillar": "geo",
+   "category": "geo-entity",
+   "severity": "low",
+   "scope": "site"
+  },
+  "geo-entity.duplicate-org-nodes": {
+   "title": "Several conflicting Organization nodes on one page",
+   "pillar": "geo",
+   "category": "geo-entity",
+   "severity": "low",
+   "scope": "page"
+  },
+  "agentic.no-agent-discovery": {
+   "title": "No agent discovery documents",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "info",
+   "scope": "site"
+  },
+  "agentic.mcp-card-missing": {
+   "title": "API or sign-in present but no MCP discovery document",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "info",
+   "scope": "site"
+  },
+  "agentic.mcp-card-invalid": {
+   "title": "MCP discovery document is invalid",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "agentic.mcp-card-incomplete": {
+   "title": "MCP discovery document lacks useful detail",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "site"
+  },
+  "agentic.mcp-auth-no-prm": {
+   "title": "MCP server needs auth but no protected resource metadata",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "agentic.a2a-card-invalid": {
+   "title": "A2A agent card is invalid",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "agentic.a2a-card-incomplete": {
+   "title": "A2A agent card lacks recommended detail",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "site"
+  },
+  "agentic.a2a-legacy-path": {
+   "title": "A2A card only at the old /.well-known/agent.json path",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "site"
+  },
+  "agentic.oauth-as-invalid": {
+   "title": "OAuth authorisation server metadata is invalid",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "agentic.oauth-issuer-mismatch": {
+   "title": "OAuth or OpenID issuer does not match where it is served",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "agentic.oauth-no-pkce": {
+   "title": "Authorisation server does not advertise PKCE S256",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "agentic.oauth-no-registration": {
+   "title": "No way for new AI clients to register",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "info",
+   "scope": "site"
+  },
+  "agentic.prm-invalid": {
+   "title": "Protected resource metadata is invalid",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "agentic.prm-as-unreachable": {
+   "title": "The authorisation server named in resource metadata has no metadata",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "agentic.openid-invalid": {
+   "title": "OpenID configuration is missing required fields",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "site"
+  },
+  "agentic.api-catalog-missing": {
+   "title": "API description found but no API catalog",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "info",
+   "scope": "site"
+  },
+  "agentic.api-catalog-invalid": {
+   "title": "API catalog is invalid",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "site"
+  },
+  "agentic.openapi-invalid": {
+   "title": "OpenAPI description is invalid",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "site"
+  },
+  "agentic.openapi-undescribed": {
+   "title": "API operations lack descriptions",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "info",
+   "scope": "site"
+  },
+  "agentic.web-bot-auth-invalid": {
+   "title": "Web Bot Auth key directory has problems",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "site"
+  },
+  "agentic.markdown-negotiation-missing": {
+   "title": "No markdown version of pages for agents",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "info",
+   "scope": "site"
+  },
+  "agentic.markdown-no-vary": {
+   "title": "Markdown negotiation without Vary: Accept",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "site"
+  },
+  "agentic.markdown-is-html": {
+   "title": "Markdown response is really HTML",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "site"
+  },
+  "agentic.webmcp-not-used": {
+   "title": "Key forms are not exposed as WebMCP tools",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "info",
+   "scope": "site"
+  },
+  "agentic.webmcp-form-incomplete": {
+   "title": "WebMCP form tool is incomplete",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "page"
+  },
+  "agentic.webmcp-tool-incomplete": {
+   "title": "Script-registered WebMCP tool lacks description or schema",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "page"
+  },
+  "agentic.form-unlabelled": {
+   "title": "Form fields an agent cannot identify",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "page"
+  },
+  "agentic.form-no-autocomplete": {
+   "title": "Contact fields without autocomplete hints",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "page"
+  },
+  "agentic.captcha-only-form": {
+   "title": "Captcha-protected form is the only way to get in touch",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "page"
+  },
+  "agentic.icon-only-controls": {
+   "title": "Buttons and links without accessible names",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "page"
+  },
+  "agentic.div-buttons": {
+   "title": "Clickable elements that are not buttons or links",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "page"
+  },
+  "agentic.no-search-action": {
+   "title": "Site search not described with SearchAction",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "info",
+   "scope": "site"
+  },
+  "agentic.search-action-invalid": {
+   "title": "SearchAction markup cannot be used",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "site"
+  },
+  "agentic.business-actions-missing": {
+   "title": "Bookable business without action markup",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "info",
+   "scope": "site"
+  },
+  "agentic.nlweb-error": {
+   "title": "Natural-language /ask endpoint returns errors",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "site"
+  },
+  "agentic.ai-preferences-missing": {
+   "title": "No AI usage preferences in robots.txt",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "info",
+   "scope": "site"
+  },
+  "agentic.ai-preferences-invalid": {
+   "title": "AI preference lines are malformed",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "site"
+  },
+  "agentic.ai-preferences-conflict": {
+   "title": "AI preferences contradict robots.txt rules",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "agentic.ai-txt-only": {
+   "title": "AI restrictions only in ai.txt",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "site"
+  },
+  "agentic.ai-plugin-legacy": {
+   "title": "Legacy ChatGPT plugin manifest still published",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "site"
+  },
+  "agentic.feed-missing": {
+   "title": "Articles but no RSS or Atom feed",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "site"
+  },
+  "agentic.feed-invalid": {
+   "title": "Feed has no items",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "site"
+  },
+  "agentic.wellknown-wrong-type": {
+   "title": "Discovery documents served with the wrong content type",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "site"
+  },
+  "agentic.wellknown-no-cors": {
+   "title": "Discovery documents not readable from browsers",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "site"
+  },
+  "agentic.wellknown-redirect-offsite": {
+   "title": "Discovery documents redirect to another host",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "site"
+  },
+  "agentic.discovery-blocked-by-robots": {
+   "title": "robots.txt blocks AI bots from llms.txt or /.well-known",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "agentic-commerce.product-no-identifier": {
+   "title": "Product without a stable identifier",
+   "pillar": "agentic",
+   "category": "agentic-commerce",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "agentic-commerce.offer-incomplete": {
+   "title": "Product offer missing price, currency or availability",
+   "pillar": "agentic",
+   "category": "agentic-commerce",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "agentic-commerce.no-policies": {
+   "title": "Offers without shipping or returns information",
+   "pillar": "agentic",
+   "category": "agentic-commerce",
+   "severity": "low",
+   "scope": "page"
+  },
+  "agentic-commerce.unstable-product-url": {
+   "title": "Product reachable only through a parameterised URL",
+   "pillar": "agentic",
+   "category": "agentic-commerce",
+   "severity": "low",
+   "scope": "page"
+  },
+  "agentic-commerce.no-checkout-protocol": {
+   "title": "Shop with no agent checkout protocol",
+   "pillar": "agentic",
+   "category": "agentic-commerce",
+   "severity": "info",
+   "scope": "site"
+  },
+  "agentic-commerce.ucp-invalid": {
+   "title": "UCP business profile is invalid",
+   "pillar": "agentic",
+   "category": "agentic-commerce",
+   "severity": "low",
+   "scope": "site"
+  },
+  "agentic-commerce.x402-invalid": {
+   "title": "x402 payment endpoint is misconfigured",
+   "pillar": "agentic",
+   "category": "agentic-commerce",
+   "severity": "low",
+   "scope": "site"
+  },
+  "agentic-commerce.products-without-schema": {
+   "title": "Shop pages without Product markup",
+   "pillar": "agentic",
+   "category": "agentic-commerce",
+   "severity": "medium",
+   "scope": "site"
+  }
+ }
+}

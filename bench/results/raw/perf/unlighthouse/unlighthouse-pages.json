@@ -1,0 +1,993 @@
+{
+ "version": "0.19.1",
+ "pages": [
+  {
+   "requestedUrl": "http://127.0.0.1:33187/about",
+   "finalUrl": "http://127.0.0.1:33187/about",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 0.96,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "errors-in-console",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/c/bulbs",
+   "finalUrl": "http://127.0.0.1:33187/c/bulbs",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 21 KiB",
+     "items": "ul.grid > li > a > img, ul.grid > li > a > img, ul.grid > li > a > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/c/garden-furniture",
+   "finalUrl": "http://127.0.0.1:33187/c/garden-furniture",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 21 KiB",
+     "items": "ul.grid > li > a > img, ul.grid > li > a > img, ul.grid > li > a > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/c/hand-tools",
+   "finalUrl": "http://127.0.0.1:33187/c/hand-tools",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 21 KiB",
+     "items": "ul.grid > li > a > img, ul.grid > li > a > img, ul.grid > li > a > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/c/lawn-care",
+   "finalUrl": "http://127.0.0.1:33187/c/lawn-care",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 21 KiB",
+     "items": "ul.grid > li > a > img, ul.grid > li > a > img, ul.grid > li > a > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/c/lighting",
+   "finalUrl": "http://127.0.0.1:33187/c/lighting",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 21 KiB",
+     "items": "ul.grid > li > a > img, ul.grid > li > a > img, ul.grid > li > a > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/c/paving",
+   "finalUrl": "http://127.0.0.1:33187/c/paving",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 21 KiB",
+     "items": "ul.grid > li > a > img, ul.grid > li > a > img, ul.grid > li > a > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/c/pruning",
+   "finalUrl": "http://127.0.0.1:33187/c/pruning",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 21 KiB",
+     "items": "ul.grid > li > a > img, ul.grid > li > a > img, ul.grid > li > a > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/c/shrubs",
+   "finalUrl": "http://127.0.0.1:33187/c/shrubs",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 21 KiB",
+     "items": "ul.grid > li > a > img, ul.grid > li > a > img, ul.grid > li > a > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/contact",
+   "finalUrl": "http://127.0.0.1:33187/contact",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/journal/growing-herbs-in-pots-part-5",
+   "finalUrl": "http://127.0.0.1:33187/journal/growing-herbs-in-pots-part-5",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 7 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/journal",
+   "finalUrl": "http://127.0.0.1:33187/journal",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/journal/lighting-a-small-garden-part-4",
+   "finalUrl": "http://127.0.0.1:33187/journal/lighting-a-small-garden-part-4",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 7 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/journal/page-4",
+   "finalUrl": "http://127.0.0.1:33187/journal/page-4",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/journal/planting-a-fruit-tree-part-5",
+   "finalUrl": "http://127.0.0.1:33187/journal/planting-a-fruit-tree-part-5",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 7 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/journal/planting-bulbs-for-spring-colour-part-2",
+   "finalUrl": "http://127.0.0.1:33187/journal/planting-bulbs-for-spring-colour-part-2",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 7 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/journal/renovating-a-tired-lawn",
+   "finalUrl": "http://127.0.0.1:33187/journal/renovating-a-tired-lawn",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 7 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/journal/starting-seeds-on-a-windowsill-part-2",
+   "finalUrl": "http://127.0.0.1:33187/journal/starting-seeds-on-a-windowsill-part-2",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 7 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/journal/watering-in-a-heatwave-part-5",
+   "finalUrl": "http://127.0.0.1:33187/journal/watering-in-a-heatwave-part-5",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 7 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/",
+   "finalUrl": "http://127.0.0.1:33187/",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 0.96,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "errors-in-console",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/p/copper-staging-1470",
+   "finalUrl": "http://127.0.0.1:33187/p/copper-staging-1470",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 7 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/p/dwarf-transplanter-1347",
+   "finalUrl": "http://127.0.0.1:33187/p/dwarf-transplanter-1347",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 7 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/p/galvanised-viburnum-1863",
+   "finalUrl": "http://127.0.0.1:33187/p/galvanised-viburnum-1863",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 7 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/p/heritage-terracotta-pot-1012",
+   "finalUrl": "http://127.0.0.1:33187/p/heritage-terracotta-pot-1012",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 7 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/p/professional-path-light-1697",
+   "finalUrl": "http://127.0.0.1:33187/p/professional-path-light-1697",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 7 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/p/scented-basil-seeds-1340",
+   "finalUrl": "http://127.0.0.1:33187/p/scented-basil-seeds-1340",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 7 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/p/trailing-aerator-1653",
+   "finalUrl": "http://127.0.0.1:33187/p/trailing-aerator-1653",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 7 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:33187/p/trailing-folding-chair-1816",
+   "finalUrl": "http://127.0.0.1:33187/p/trailing-folding-chair-1816",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 7 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:33187/assets/site.css"
+    }
+   ]
+  }
+ ]
+}

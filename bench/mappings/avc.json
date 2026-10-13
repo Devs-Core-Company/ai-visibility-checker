@@ -1,0 +1,452 @@
+{
+ "tool": "avc",
+ "source": "avc checks --json (catalogues/avc.json)",
+ "version": "avc 1.0.0",
+ "rule": "A native id is mapped to a ground-truth type (or alt_type) when its finding clearly names the same problem. Written from the tool catalogue, not from run output. Same standard for every tool.",
+ "map": {
+  "response.soft-404": [
+   "soft-404"
+  ],
+  "content.thin": [
+   "thin-content"
+  ],
+  "sitemaps.noindex-urls": [
+   "sitemap-contains-noindex"
+  ],
+  "crawlability.noindex": [
+   "noindex-page"
+  ],
+  "crawlability.noindex-header": [
+   "x-robots-noindex",
+   "noindex-page"
+  ],
+  "crawlability.noindex-linked": [
+   "noindex-page-linked"
+  ],
+  "redirects.chain": [
+   "redirect-chain"
+  ],
+  "redirects.linked-internally": [
+   "internal-link-to-redirect"
+  ],
+  "links-internal.to-redirect": [
+   "internal-link-to-redirect"
+  ],
+  "canonical.multiple": [
+   "multiple-canonicals"
+  ],
+  "performance.ttfb-slow": [
+   "slow-server-response"
+  ],
+  "images.broken": [
+   "broken-image"
+  ],
+  "redirects.temporary": [
+   "temporary-redirect"
+  ],
+  "response.client-error": [
+   "http-404",
+   "http-410",
+   "http-4xx"
+  ],
+  "links-internal.broken": [
+   "broken-internal-link"
+  ],
+  "canonical.to-redirect": [
+   "canonical-to-redirect"
+  ],
+  "canonical.to-error": [
+   "canonical-to-4xx"
+  ],
+  "canonical.points-elsewhere": [
+   "canonical-mismatch"
+  ],
+  "sitemaps.canonicalised-urls": [
+   "sitemap-contains-non-canonical"
+  ],
+  "images.dimensions-missing": [
+   "image-missing-dimensions"
+  ],
+  "redirects.to-error": [
+   "redirect-to-4xx"
+  ],
+  "urls.uppercase": [
+   "url-uppercase"
+  ],
+  "urls.underscores": [
+   "url-underscores"
+  ],
+  "links-internal.orphan": [
+   "orphan-page"
+  ],
+  "pagination.canonical-to-first": [
+   "pagination-canonical-to-first-page"
+  ],
+  "links-internal.to-canonicalised": [
+   "internal-link-to-non-canonical"
+  ],
+  "response.server-error": [
+   "http-5xx"
+  ],
+  "canonical.missing": [
+   "missing-canonical"
+  ],
+  "response.charset-missing": [
+   "missing-charset"
+  ],
+  "performance.no-compression": [
+   "no-text-compression"
+  ],
+  "js-rendering.console-errors": [
+   "console-error"
+  ],
+  "redirects.loop": [
+   "redirect-loop"
+  ],
+  "redirects.meta-refresh": [
+   "meta-refresh-redirect"
+  ],
+  "images.large": [
+   "image-oversized-file"
+  ],
+  "security.csp-missing": [
+   "missing-security-headers"
+  ],
+  "security.nosniff-missing": [
+   "missing-security-headers"
+  ],
+  "security.frame-protection-missing": [
+   "missing-security-headers"
+  ],
+  "security.referrer-policy-missing": [
+   "missing-security-headers"
+  ],
+  "hreflang.invalid-code": [
+   "hreflang-invalid-code"
+  ],
+  "hreflang.missing-return": [
+   "hreflang-missing-return-link"
+  ],
+  "performance.dom-size": [
+   "excessive-dom-size"
+  ],
+  "security.version-disclosure": [
+   "server-version-disclosure"
+  ],
+  "canonical.relative": [
+   "canonical-relative-url"
+  ],
+  "mobile.viewport-missing": [
+   "missing-viewport"
+  ],
+  "crawlability.robots-blocks-resources": [
+   "robots-blocks-resources"
+  ],
+  "sitemaps.error-urls": [
+   "sitemap-contains-4xx"
+  ],
+  "sitemaps.redirect-urls": [
+   "sitemap-contains-redirect"
+  ],
+  "sitemaps.parse-errors": [
+   "sitemap-invalid-xml"
+  ],
+  "sitemaps.lastmod-invalid": [
+   "sitemap-invalid-lastmod"
+  ],
+  "images.alt-stuffed": [
+   "img-alt-keyword-stuffed"
+  ],
+  "headings.h1-multiple": [
+   "multiple-h1"
+  ],
+  "onpage.title-too-long": [
+   "title-too-long"
+  ],
+  "onpage.title-missing": [
+   "missing-title"
+  ],
+  "onpage.description-too-short": [
+   "meta-description-too-short"
+  ],
+  "content.lorem-ipsum": [
+   "placeholder-text"
+  ],
+  "content.placeholder": [
+   "placeholder-text"
+  ],
+  "onpage.title-too-short": [
+   "title-too-short"
+  ],
+  "onpage.title-duplicate": [
+   "duplicate-title"
+  ],
+  "onpage.title-multiple": [
+   "multiple-titles"
+  ],
+  "onpage.description-missing": [
+   "missing-meta-description"
+  ],
+  "onpage.description-duplicate": [
+   "duplicate-meta-description"
+  ],
+  "onpage.description-multiple": [
+   "multiple-meta-descriptions"
+  ],
+  "headings.h1-missing": [
+   "missing-h1"
+  ],
+  "headings.empty": [
+   "empty-heading"
+  ],
+  "duplicates.exact": [
+   "duplicate-content"
+  ],
+  "duplicates.near": [
+   "duplicate-content"
+  ],
+  "onpage.og-missing": [
+   "missing-open-graph"
+  ],
+  "onpage.twitter-card-missing": [
+   "missing-open-graph"
+  ],
+  "links-internal.nofollow": [
+   "nofollow-internal-link"
+  ],
+  "links-internal.generic-anchors": [
+   "non-descriptive-link-text"
+  ],
+  "links-internal.uncrawlable": [
+   "uncrawlable-link",
+   "non-semantic-button"
+  ],
+  "headings.h1-duplicate": [
+   "duplicate-h1"
+  ],
+  "onpage.description-too-long": [
+   "meta-description-too-long"
+  ],
+  "accessibility.list-structure": [
+   "list-invalid-children"
+  ],
+  "accessibility.invalid-aria-attribute": [
+   "aria-invalid-attribute"
+  ],
+  "accessibility.link-name-missing": [
+   "link-missing-name"
+  ],
+  "agentic.icon-only-controls": [
+   "link-missing-name",
+   "button-missing-name"
+  ],
+  "images.alt-missing": [
+   "img-missing-alt"
+  ],
+  "accessibility.lang-invalid": [
+   "html-lang-invalid"
+  ],
+  "mobile.zoom-disabled": [
+   "viewport-blocks-zoom"
+  ],
+  "accessibility.iframe-title-missing": [
+   "frame-missing-title"
+  ],
+  "accessibility.low-contrast-inline": [
+   "low-contrast-text"
+  ],
+  "headings.skipped-level": [
+   "heading-order"
+  ],
+  "accessibility.invalid-role": [
+   "aria-invalid-role"
+  ],
+  "accessibility.lang-missing": [
+   "html-missing-lang"
+  ],
+  "accessibility.main-landmark-missing": [
+   "missing-main-landmark"
+  ],
+  "accessibility.form-label-missing": [
+   "form-input-missing-label"
+  ],
+  "agentic.form-unlabelled": [
+   "form-input-missing-label"
+  ],
+  "accessibility.positive-tabindex": [
+   "tabindex-positive"
+  ],
+  "accessibility.aria-hidden-focusable": [
+   "aria-hidden-focusable"
+  ],
+  "accessibility.button-name-missing": [
+   "button-missing-name"
+  ],
+  "ai-crawlers.page-nosnippet": [
+   "nosnippet-key-page"
+  ],
+  "ai-crawlers.page-max-snippet-low": [
+   "nosnippet-key-page"
+  ],
+  "crawlability.snippet-restricted": [
+   "nosnippet-key-page"
+  ],
+  "js-rendering.client-only": [
+   "client-side-rendered-content"
+  ],
+  "js-rendering.content-gap": [
+   "client-side-rendered-content"
+  ],
+  "js-rendering.h1-only-rendered": [
+   "client-side-rendered-content",
+   "missing-h1"
+  ],
+  "ai-crawlers.empty-shell": [
+   "client-side-rendered-content"
+  ],
+  "ai-crawlers.js-gap": [
+   "client-side-rendered-content"
+  ],
+  "ai-crawlers.rendered-headings-missing": [
+   "client-side-rendered-content"
+  ],
+  "ai-crawlers.training-bots-blocked": [
+   "robots-blocks-ai-training-bot"
+  ],
+  "ai-crawlers.search-bots-blocked": [
+   "robots-blocks-ai-search-bot"
+  ],
+  "ai-crawlers.user-fetchers-blocked": [
+   "robots-blocks-ai-user-agent"
+  ],
+  "ai-crawlers.key-pages-blocked": [
+   "robots-blocks-ai-bot-path"
+  ],
+  "llms-txt.no-h1": [
+   "llms-txt-missing-h1"
+  ],
+  "llms-txt.broken-links": [
+   "llms-txt-broken-link"
+  ],
+  "ai-crawlers.live-blocked": [
+   "waf-blocks-ai-bot"
+  ],
+  "ai-crawlers.firewall-challenge": [
+   "waf-blocks-ai-bot"
+  ],
+  "ai-crawlers.sample-pages-blocked": [
+   "waf-blocks-ai-bot"
+  ],
+  "schema.type-misspelled": [
+   "schema-unknown-type"
+  ],
+  "schema.faq-not-visible": [
+   "schema-content-not-visible"
+  ],
+  "schema.conflicting-ids": [
+   "schema-conflicting-entity"
+  ],
+  "schema.organization-inconsistent": [
+   "schema-conflicting-entity"
+  ],
+  "geo-entity.org-name-conflict": [
+   "schema-conflicting-entity"
+  ],
+  "geo-entity.duplicate-org-nodes": [
+   "schema-conflicting-entity"
+  ],
+  "schema.self-serving-reviews": [
+   "self-serving-review-markup"
+  ],
+  "geo-entity.nap-inconsistent": [
+   "nap-inconsistent"
+  ],
+  "schema.invalid-json": [
+   "json-ld-syntax-error"
+  ],
+  "geo-content.no-author": [
+   "missing-author"
+  ],
+  "content.article-author-missing": [
+   "missing-author"
+  ],
+  "content.article-date-missing": [
+   "missing-publish-date"
+  ],
+  "geo-content.no-visible-date": [
+   "missing-publish-date"
+  ],
+  "geo-content.no-schema-dates": [
+   "missing-publish-date"
+  ],
+  "schema.article-missing": [
+   "missing-article-schema"
+  ],
+  "geo-content.missing-article-schema": [
+   "missing-article-schema"
+  ],
+  "schema.date-format": [
+   "schema-invalid-date"
+  ],
+  "geo-content.date-invalid": [
+   "schema-invalid-date"
+  ],
+  "headings.no-subheadings": [
+   "no-subheadings"
+  ],
+  "geo-content.too-few-headings": [
+   "no-subheadings"
+  ],
+  "content.modified-before-published": [
+   "date-modified-before-published"
+  ],
+  "schema.breadcrumb-incomplete": [
+   "schema-missing-required-property"
+  ],
+  "accessibility.clickable-div": [
+   "non-semantic-button",
+   "custom-widget-missing-roles"
+  ],
+  "agentic.div-buttons": [
+   "non-semantic-button",
+   "custom-widget-missing-roles"
+  ],
+  "performance.cls": [
+   "layout-shift"
+  ],
+  "performance.rendered-cls": [
+   "layout-shift"
+  ],
+  "agentic.webmcp-form-incomplete": [
+   "webmcp-tool-missing-description"
+  ],
+  "agentic.webmcp-tool-incomplete": [
+   "webmcp-schema-invalid"
+  ],
+  "agentic.form-no-autocomplete": [
+   "autocomplete-invalid"
+  ],
+  "agentic.a2a-card-invalid": [
+   "a2a-card-invalid"
+  ],
+  "agentic.mcp-card-invalid": [
+   "mcp-server-card-invalid",
+   "mcp-endpoint-unreachable"
+  ],
+  "agentic.oauth-issuer-mismatch": [
+   "oauth-metadata-issuer-mismatch"
+  ],
+  "agentic.prm-invalid": [
+   "oauth-protected-resource-invalid"
+  ]
+ },
+ "groundTruthTypesWithNoMapping": [
+  "missing-doctype",
+  "security-txt-invalid",
+  "markdown-alternate-broken",
+  "missing-localbusiness-schema",
+  "schema-invalid-value",
+  "a2a-endpoint-unreachable",
+  "api-catalog-broken-link"
+ ]
+}
