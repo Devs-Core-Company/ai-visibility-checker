@@ -5,8 +5,40 @@ and the project uses [semantic versioning](https://semver.org). Check ids are st
 
 ## [Unreleased]
 
+### Added
+
+- 36 checks (630 in total), including meta descriptions too thin for AI, doctype, mixed redirect
+  codes per section, cannibalisation, doubled words, spelling (LanguageTool), PDF titles,
+  meaning-based duplicates and off-topic pages (embeddings), oversized images, image sitemap
+  entries, TLS certificate expiry and trust, unminified CSS/JS files, phone-render checks (tap
+  targets, sideways scrolling, content parity, pop-ups, failing resources, small text), ARIA role
+  nesting, rendered contrast, deep pagination, unsafe outbound links (Safe Browsing), GA4 AI
+  referrals, gated content, first-party facts, and agent discovery (Link header, DNS-AID, auth.md,
+  agent skills, ACP).
+- Crawl options: list mode, sitemap-only, presets per platform (with auto-detection), URL rewriting,
+  subdomains, folder scope, URL limits, nofollow toggle, robots user agent, retries on 429/503,
+  own CDN hosts, form sign-in, custom extraction (CSS, simple XPath, regex, counts), content-area
+  selectors, PDF properties, phone render, shadow DOM and iframe text, named crawl profiles.
+- `avc serp`, `avc ask`, `avc screenshot`, `avc import` (Screaming Frog CSV), `avc redirect`,
+  `avc presets`, `avc update`, `avc shortcut`, `avc feedback`.
+- Reports: Excel and PDF formats, white-label branding, custom extraction CSV.
+- Connections: LanguageTool, Google Safe Browsing, embeddings, backlinks (Moz, Ahrefs, Majestic),
+  OpenAI-compatible endpoints for the writer, judge and embeddings.
+- WordPress: canonical writes, redirects and a two-SEO-plugin guard (helper 1.1.0).
+- MCP tools: `list_audits`, `pagespeed`, `serp_preview`, `ask_audit`, `generate_report`,
+  `create_redirect`, `rollback`.
+- Dashboard: site graph and URL tree, resources, snippets, ask, page filter rules, screenshots,
+  feedback link.
+- Fix overrides (`fixes.overrides`) for your own guidance per check.
+- Stack detection for Magento and Laravel.
+- docs/PARITY.md: line-by-line comparison with Scrawly.
+
 ### Changed
 
+- `onpage.title-too-long` and `onpage.description-too-long` also measure pixel width.
+- Accessibility checks use the rendered DOM when a page was rendered.
+- JavaScript rendering serves a blank stand-in for images instead of aborting them, so rendered
+  image sizes are measured.
 - Licence changed from MIT to the GNU Affero General Public License v3.0 only (AGPL-3.0-only).
   Commercial licences are available from Devs Core. Commit `f13a0c9` and earlier remain available
   under MIT.

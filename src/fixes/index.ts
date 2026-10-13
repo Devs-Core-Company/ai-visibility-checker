@@ -45,6 +45,8 @@ export function buildFix(
     pages?: PageSummary[];
     result?: AuditResult;
     brand?: BrandFacts;
+    /** Your own guidance per check id (config `fixes.overrides`). */
+    overrides?: FixOverrides;
   },
 ): Fix {
   const origin = originFrom(ctx, issues);
@@ -66,6 +68,7 @@ export function buildFix(
     sf = FALLBACK.build(input);
   }
   if (!sf.steps.length) sf = { ...sf, ...FALLBACK.build(input) };
+  sf = applyOverride(sf, ctx.overrides?.[def.id]);
   const targets = autoTargets(recipe, ctx.stack);
   const autoApplicable = targets.length > 0;
   const tier = autoApplicable
@@ -86,6 +89,15 @@ export function buildFix(
   };
   fix.agentPrompt = buildAgentPrompt(def, input, fix, sf.acceptance ?? [], targets);
   return fix;
+}
+
+export type FixOverrides = Record<string, { steps?: string[]; note?: string; replace?: boolean }>;
+
+/** Your own guidance first (or instead of the built-in steps with `replace`). */
+export function applyOverride(sf: StackFix, o: FixOverrides[string] | undefined): StackFix {
+  if (!o || (!o.steps?.length && !o.note)) return sf;
+  const own = [...(o.note ? [`Note from your team: ${o.note}`] : []), ...(o.steps ?? [])];
+  return { ...sf, steps: o.replace && o.steps?.length ? own : [...own, ...sf.steps] };
 }
 
 function impactFromSeverity(def: CheckDef): Fix['impact'] {
@@ -176,7 +188,10 @@ export function fixScore(fix: Fix, def: CheckDef, affected: number, totalPages: 
 }
 
 /** One Fix per failing check, best first. */
-export function buildFixes(result: AuditResult, opts: { brand?: BrandFacts } = {}): Fix[] {
+export function buildFixes(
+  result: AuditResult,
+  opts: { brand?: BrandFacts; overrides?: FixOverrides } = {},
+): Fix[] {
   const byCheck = new Map<string, Issue[]>();
   for (const i of result.issues) {
     const list = byCheck.get(i.checkId) ?? [];
@@ -217,6 +232,7 @@ export function buildFixes(result: AuditResult, opts: { brand?: BrandFacts } = {
       pages: result.pages,
       result,
       brand,
+      overrides: opts.overrides,
     });
     const affected = meta?.affected ?? (uniqueUrls(issues).length || 1);
     scored.push({ fix, score: fixScore(fix, def, affected, result.pages.length) });

@@ -18,6 +18,7 @@ import {
   siteCheck,
   truncate,
 } from './_util.js';
+import * as cu from './_util.js';
 
 export const HSTS_MIN_MAX_AGE = 15_552_000; // 180 days
 export const PROBE_TIMEOUT_MS = 8000;
@@ -576,3 +577,85 @@ export const checks = [
     },
   ),
 ];
+
+// ---------------------------------------------------------------------------
+// Added for feature parity: TLS certificate health
+// ---------------------------------------------------------------------------
+
+export const TLS_WARN_DAYS = 21;
+
+const TLS_REF = 'https://developers.google.com/search/docs/crawling-indexing/https';
+
+checks.push(
+  cu.siteCheck(
+    {
+      id: 'security.tls-expired',
+      category: 'security',
+      pillar: T,
+      title: 'TLS certificate has expired',
+      why: 'Browsers show a full-page security warning for an expired certificate, most visitors leave, and crawlers may stop fetching the site. AI agents and search bots treat it as an error.',
+      severity: 'critical',
+      fixTier: 'guided',
+      fix: 'Renew the certificate now (or fix the automatic renewal of your Let’s Encrypt / host certificate) and reload the web server.',
+      refs: [TLS_REF],
+    },
+    (site) => {
+      const t = site.tls;
+      if (!t?.validTo || t.daysLeft === undefined || t.daysLeft >= 0) return null;
+      return {
+        checkId: 'security.tls-expired',
+        message: `The certificate for ${t.host} expired on ${t.validTo.slice(0, 10)}`,
+        evidence: [t.issuer, t.subject].filter(Boolean).join(' | '),
+      };
+    },
+  ),
+  cu.siteCheck(
+    {
+      id: 'security.tls-expiring',
+      category: 'security',
+      pillar: T,
+      title: 'TLS certificate expires soon',
+      why: 'When the certificate runs out, the whole site shows a security warning. Automatic renewal usually happens about 30 days before expiry, so a certificate this close to the end suggests renewal is failing.',
+      severity: 'high',
+      fixTier: 'guided',
+      fix: 'Check the automatic renewal (certbot, your host or CDN dashboard) and renew now. Add a monitor for certificate expiry.',
+      refs: [TLS_REF],
+    },
+    (site) => {
+      const t = site.tls;
+      if (!t?.validTo || t.daysLeft === undefined) return null;
+      if (t.daysLeft < 0 || t.daysLeft > TLS_WARN_DAYS) return null;
+      return {
+        checkId: 'security.tls-expiring',
+        severity: t.daysLeft <= 7 ? 'critical' : 'high',
+        message: `The certificate for ${t.host} expires in ${cu.plural(t.daysLeft, 'day')} (${t.validTo.slice(0, 10)})`,
+        evidence: t.issuer ?? '',
+      };
+    },
+  ),
+  cu.siteCheck(
+    {
+      id: 'security.tls-invalid',
+      category: 'security',
+      pillar: T,
+      title: 'Browsers do not trust the TLS certificate',
+      why: 'A certificate for the wrong host name, a self-signed certificate or a missing intermediate certificate makes browsers, crawlers and AI agents refuse the connection or warn visitors.',
+      severity: 'critical',
+      fixTier: 'guided',
+      fix: 'Install a certificate that covers this host name, with the full chain (leaf plus intermediates). SSL Labs’ server test shows exactly what is wrong.',
+      refs: [TLS_REF, 'https://www.ssllabs.com/ssltest/'],
+    },
+    (site) => {
+      const t = site.tls;
+      // Only judge a certificate we actually received; connection failures are inconclusive.
+      if (!t?.validTo || t.authorized || (t.daysLeft !== undefined && t.daysLeft < 0)) return null;
+      return {
+        checkId: 'security.tls-invalid',
+        message: `The certificate for ${t.host} is not trusted: ${t.error ?? 'unknown reason'}`,
+        evidence: [t.subject, t.issuer, (t.altNames ?? []).slice(0, 5).join(', ')]
+          .filter(Boolean)
+          .join(' | '),
+      };
+    },
+  ),
+);

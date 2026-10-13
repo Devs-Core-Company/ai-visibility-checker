@@ -31,6 +31,10 @@ import {
   previousAudit,
   renderReport,
   resolveSite,
+  parseFormats,
+  rollbackSnapshot,
+  snapshots,
+  writeReports,
   visibility,
   errMsg,
 } from '../cli/services.js';
@@ -580,6 +584,191 @@ export function buildMcpServer(): McpServer {
   );
 
   // Resources: the latest report per site.
+  // ---- Added for feature parity: audits list, PageSpeed, reports, snippets, questions,
+  // ---- WordPress redirects and rollback.
+
+  server.registerTool(
+    'list_audits',
+    {
+      title: 'List audits',
+      description:
+        'Stored audits for a site (or every site), newest first, with score and issue counts.',
+      inputSchema: {
+        site: z.string().optional(),
+        limit: z.number().int().min(1).max(100).optional(),
+      },
+      annotations: { readOnlyHint: true },
+    },
+    guard((a: { site?: string; limit?: number }) => {
+      const store = getStore();
+      const sites = a.site ? [resolveSite(a.site)] : allSites();
+      const out = sites.flatMap((s) =>
+        store.listAudits(s.id, a.limit ?? 20).map((x) => ({ ...x, siteId: s.id })),
+      );
+      return json(
+        out.sort((x, y) => String(y.at).localeCompare(String(x.at))).slice(0, a.limit ?? 20),
+      );
+    }),
+  );
+
+  server.registerTool(
+    'pagespeed',
+    {
+      title: 'PageSpeed Insights',
+      description:
+        'Lab (Lighthouse) and field (CrUX) Core Web Vitals for one URL from Google PageSpeed Insights. Uses PSI_API_KEY when set (works without one at a low rate).',
+      inputSchema: { url: z.string(), strategy: z.enum(['mobile', 'desktop']).optional() },
+      annotations: { readOnlyHint: true, openWorldHint: true },
+    },
+    guard(async (a: { url: string; strategy?: 'mobile' | 'desktop' }) => {
+      const { collectPsi } = await import('../connect/psi.js');
+      const r = await collectPsi([a.url], {
+        key: getConfig().google?.psiKey,
+        strategies: [a.strategy ?? 'mobile'],
+      });
+      return json(Object.values(r));
+    }),
+  );
+
+  server.registerTool(
+    'generate_report',
+    {
+      title: 'Write a report',
+      description:
+        'Write report files for an audit: html, md, csv, json, sarif, xlsx or pdf (pdf needs local Chrome). Returns the file paths.',
+      inputSchema: {
+        site: z.string().optional(),
+        auditId: z.string().optional(),
+        formats: z.array(z.enum(['html', 'md', 'csv', 'json', 'sarif', 'xlsx', 'pdf'])).optional(),
+        outDir: z.string().optional(),
+      },
+    },
+    guard(async (a: { site?: string; auditId?: string; formats?: string[]; outDir?: string }) => {
+      const r = needAudit(a.site, a.auditId);
+      const prev = previousAudit(r);
+      const warnings: string[] = [];
+      const files = await writeReports(
+        r,
+        parseFormats((a.formats ?? ['html']).join(',')),
+        a.outDir ?? 'avc-reports',
+        { diff: prev ? diff(prev, r) : undefined },
+        (m) => warnings.push(m),
+      );
+      return json({ files, warnings });
+    }),
+  );
+
+  server.registerTool(
+    'serp_preview',
+    {
+      title: 'Search snippet preview',
+      description:
+        'How titles and descriptions render in search results: pixel width, truncation, and descriptions too thin to give AI context. Problems only unless all is true.',
+      inputSchema: {
+        site: z.string(),
+        all: z.boolean().optional(),
+        limit: z.number().int().optional(),
+      },
+      annotations: { readOnlyHint: true },
+    },
+    guard(async (a: { site: string; all?: boolean; limit?: number }) => {
+      const { serpRow, serpSummary } = await import('../report/serp.js');
+      const r = needAudit(a.site);
+      const rows = r.pages
+        .filter((p) => p.status === 200 && p.indexable)
+        .map((p) => serpRow(p.url, p.title, p.metaDescription));
+      const shown = a.all
+        ? rows
+        : rows.filter(
+            (x) =>
+              !x.title ||
+              !x.description ||
+              x.titleTruncated ||
+              x.descriptionTruncated ||
+              x.descriptionThinForAi,
+          );
+      return json({ summary: serpSummary(rows), rows: shown.slice(0, a.limit ?? 50) });
+    }),
+  );
+
+  server.registerTool(
+    'ask_audit',
+    {
+      title: 'Ask about an audit',
+      description:
+        'Answer a question about the latest audit of a site using the configured writer model (or the ranked priorities when no key is set).',
+      inputSchema: { site: z.string(), question: z.string() },
+      annotations: { readOnlyHint: true },
+    },
+    guard(async (a: { site: string; question: string }) => {
+      const { askAboutAudit } = await import('../ai/ask.js');
+      const r = await askAboutAudit(needAudit(a.site), a.question, getConfig());
+      return text(r.answer);
+    }),
+  );
+
+  server.registerTool(
+    'create_redirect',
+    {
+      title: 'Add a WordPress redirect',
+      description:
+        'Add a 301 (or 302/307/308) redirect on a connected WordPress site through the AVC helper. Dry run unless confirm is true; a rollback snapshot is written before the change.',
+      inputSchema: {
+        site: z.string(),
+        from: z.string(),
+        to: z.string(),
+        code: z.union([z.literal(301), z.literal(302), z.literal(307), z.literal(308)]).optional(),
+        confirm: z.boolean().optional(),
+      },
+      annotations: { destructiveHint: true },
+    },
+    guard(
+      async (a: {
+        site: string;
+        from: string;
+        to: string;
+        code?: 301 | 302 | 307 | 308;
+        confirm?: boolean;
+      }) => {
+        const { addWordPressRedirect } = await import('../fixes/apply/index.js');
+        const r = await addWordPressRedirect({
+          config: getConfig(),
+          site: resolveSite(a.site),
+          from: a.from,
+          to: a.to,
+          code: a.code,
+          dryRun: a.confirm !== true,
+        });
+        return text(r.summary);
+      },
+    ),
+  );
+
+  server.registerTool(
+    'rollback',
+    {
+      title: 'Undo applied fixes',
+      description:
+        'Restore the values saved in a rollback snapshot (WordPress or repository) written by apply_fixes or create_redirect. Requires confirm: true.',
+      inputSchema: {
+        snapshotFile: z.string().optional(),
+        site: z.string().optional(),
+        confirm: z.boolean().optional(),
+      },
+      annotations: { destructiveHint: true },
+    },
+    guard(async (a: { snapshotFile?: string; site?: string; confirm?: boolean }) => {
+      const files = snapshots(getConfig(), a.site ? resolveSite(a.site).id : undefined);
+      const file = a.snapshotFile ?? files[0];
+      if (!file) return fail('No rollback snapshots found.');
+      if (a.confirm !== true)
+        return text(
+          `Would restore ${file}. Call again with confirm: true to undo it.\nSnapshots:\n${files.slice(0, 10).join('\n')}`,
+        );
+      return json(await rollbackSnapshot(file));
+    }),
+  );
+
   server.registerResource(
     'latest-report',
     new ResourceTemplate('avc://report/{site}', {
@@ -601,7 +790,7 @@ export function buildMcpServer(): McpServer {
     async (uri, vars) => {
       const site = String(vars.site);
       const r = findAudit(site);
-      const body = r ? renderReport(r, 'md')[0].body : `No audit for ${site} yet.`;
+      const body = r ? String(renderReport(r, 'md')[0].body) : `No audit for ${site} yet.`;
       return { contents: [{ uri: uri.href, mimeType: 'text/markdown', text: body }] };
     },
   );

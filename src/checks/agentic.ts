@@ -819,7 +819,8 @@ export const checks: Check[] = [
         (p) =>
           p.forms?.some((f) => f.toolname) ||
           /\btoolname\s*=/i.test(p.html) ||
-          /navigator\.modelContext/.test(p.html),
+          /navigator\.modelContext/.test(p.html) ||
+          Boolean(p.rendered?.webmcpTools?.length),
       );
       return annotated
         ? null
@@ -882,6 +883,26 @@ export const checks: Check[] = [
       tags: ['agentic', 'webmcp'],
     }),
     (page) => {
+      // Tools registered at runtime (captured in the browser render, any script) come first.
+      const live = page.rendered?.webmcpTools ?? [];
+      if (live.length) {
+        const badLive = live.filter((t) => !t.description || !t.hasSchema);
+        return badLive.length
+          ? issue(
+              'agentic.webmcp-tool-incomplete',
+              `${plural(badLive.length, 'registered tool')} without description or inputSchema (seen at runtime).`,
+              {
+                url: page.url,
+                evidence: ev(
+                  badLive.map(
+                    (t) =>
+                      `${t.name || '(unnamed)'}: ${!t.description ? 'no description' : ''}${!t.description && !t.hasSchema ? ', ' : ''}${!t.hasSchema ? 'no inputSchema' : ''}`,
+                  ),
+                ),
+              },
+            )
+          : null;
+      }
       const js = inlineScripts(page);
       if (!/navigator\.modelContext/.test(js)) return null;
       const calls = [...js.matchAll(/(registerTool|provideContext)\s*\(([\s\S]{0,1500}?)\)\s*;?/g)];
@@ -1642,11 +1663,16 @@ export const checks: Check[] = [
       const mentions = /agentic.?commerce|\bacp\b|universal.?commerce/i.test(
         `${home?.html ?? ''}${probe(site, 'api-catalog')?.body ?? ''}`,
       );
-      return found(site, 'ucp-profile') || found(site, 'x402-discovery') || mentions
+      const mpp = /x-payment-info/.test(openapi(site)?.body ?? '');
+      return found(site, 'ucp-profile') ||
+        found(site, 'x402-discovery') ||
+        found(site, 'acp-json') ||
+        mpp ||
+        mentions
         ? null
         : issue(
             'agentic-commerce.no-checkout-protocol',
-            `${productPages(site).length} product pages and no UCP profile, x402 discovery or ACP reference found.`,
+            `${productPages(site).length} product pages and no UCP profile, ACP discovery file, x402 discovery, MPP payment info or ACP reference found.`,
           );
     },
   ),
@@ -1741,3 +1767,179 @@ export const checks: Check[] = [
 
 /** Exposed for tests. */
 export const _internal = { keyForms, offersOf, hasApiSignals, strList };
+
+// ---------------------------------------------------------------------------
+// Added for feature parity: Link headers, DNS-AID, auth.md, agent skills, ACP
+// ---------------------------------------------------------------------------
+
+/** Validate an agent skills discovery index (/.well-known/agent-skills/index.json). */
+export function validateSkillsIndex(data: unknown): Validation {
+  const errors: string[] = [];
+  const warnings: string[] = [];
+  const info: Record<string, unknown> = {};
+  if (!data || typeof data !== 'object' || Array.isArray(data))
+    return { valid: false, errors: ['The index is not a JSON object.'], warnings, info };
+  const d = data as JsonNode;
+  const skills = d.skills;
+  if (!Array.isArray(skills) || !skills.length) errors.push('"skills" must be a non-empty array.');
+  else {
+    info.skills = skills.length;
+    skills.slice(0, 50).forEach((sk, i) => {
+      const x = (sk ?? {}) as JsonNode;
+      for (const k of ['name', 'description', 'url'])
+        if (!str(x[k])) errors.push(`skills[${i}] has no "${k}".`);
+      if (!str(x.sha256) && !str(x.digest))
+        warnings.push(`skills[${i}] has no sha256 digest, so agents cannot verify it.`);
+    });
+  }
+  if (!str(d.$schema)) warnings.push('No "$schema" field naming the index version.');
+  return { valid: !errors.length, errors, warnings, info };
+}
+
+/** Validate an ACP discovery file (/.well-known/acp.json). */
+export function validateAcp(data: unknown): Validation {
+  const errors: string[] = [];
+  const warnings: string[] = [];
+  if (!data || typeof data !== 'object' || Array.isArray(data))
+    return { valid: false, errors: ['The file is not a JSON object.'], warnings, info: {} };
+  const d = data as JsonNode;
+  const protocol = (d.protocol ?? {}) as JsonNode;
+  if (String(str(protocol.name) ?? '').toLowerCase() !== 'acp')
+    errors.push('protocol.name is not "acp".');
+  if (!str(protocol.version)) errors.push('protocol.version is missing.');
+  const base = str(d.api_base_url) ?? str(d.apiBaseUrl);
+  if (!base) errors.push('api_base_url is missing.');
+  else if (!/^https:\/\//i.test(base)) errors.push('api_base_url must be an https URL.');
+  const caps = (d.capabilities ?? {}) as JsonNode;
+  if (!caps || !Array.isArray(caps.services) || !caps.services.length)
+    warnings.push('capabilities.services lists nothing.');
+  return { valid: !errors.length, errors, warnings, info: {} };
+}
+
+checks.push(
+  siteCheck(
+    agentic({
+      id: 'agentic.link-header-missing',
+      title: 'Discovery documents not advertised in a Link header',
+      why: 'RFC 8288 Link headers let an agent learn where your API catalog, service docs or agent card live from a single request to the home page, without guessing well-known paths. RFC 9727 recommends rel="api-catalog" for exactly this.',
+      severity: 'info',
+      fixTier: 'guided',
+      fix: 'Add a Link header to the home page response for each discovery document, e.g. Link: </.well-known/api-catalog>; rel="api-catalog", </docs/api>; rel="service-doc".',
+      refs: ['https://www.rfc-editor.org/rfc/rfc8288', REF.rfc9727],
+    }),
+    (site) => {
+      if (!probesRan(site)) return null;
+      const docs = ['api-catalog', 'mcp-server-card', 'mcp-json', 'a2a-agent-card', 'openapi-json']
+        .map((id) => found(site, id))
+        .filter((x): x is ProbeResult => Boolean(x));
+      if (!docs.length) return null;
+      const links = (probe(site, 'link-headers')?.parsed ?? {}) as Record<string, string[]>;
+      const advertised = Object.values(links).flat();
+      const missing = docs.filter(
+        (d) => !advertised.some((h) => h.split('?')[0] === d.url.split('?')[0]),
+      );
+      if (!missing.length) return null;
+      return issue(
+        'agentic.link-header-missing',
+        `${plural(missing.length, 'discovery document')} published but not linked from the home page's Link header.`,
+        { evidence: ev(missing.map((d) => d.url)) },
+      );
+    },
+  ),
+  siteCheck(
+    agentic({
+      id: 'agentic.dns-aid-missing',
+      title: 'Agent endpoints not published in DNS (DNS-AID)',
+      why: "DNS for AI Discovery is an IETF draft that lets agents find a domain's MCP or A2A endpoints through SVCB records (for example _mcp._agents.example.com), before any HTTP request. Early, but cheap to add once you publish an agent.",
+      severity: 'info',
+      fixTier: 'guided',
+      fix: 'Add a ServiceMode SVCB (or HTTPS) record at _mcp._agents.<your domain> and/or _a2a._agents.<your domain> pointing at the endpoint host, with alpn and port parameters. Sign the zone with DNSSEC.',
+      refs: [
+        'https://datatracker.ietf.org/doc/draft-mozleywilliams-dnsop-dnsaid/',
+        'https://www.rfc-editor.org/rfc/rfc9460',
+      ],
+    }),
+    (site) => {
+      const p = probe(site, 'dns-aid');
+      if (!p || p.found || p.status === null) return null;
+      const r = p.parsed as { checked?: string[] } | undefined;
+      return issue(
+        'agentic.dns-aid-missing',
+        'The site publishes an agent card but no DNS-AID records were found.',
+        { evidence: ev(r?.checked ?? []) },
+      );
+    },
+  ),
+  siteCheck(
+    agentic({
+      id: 'agentic.auth-md-missing',
+      title: 'No auth.md telling agents how to sign up',
+      why: 'auth.md is a proposed plain-language file at the site root that tells AI agents how to register and authenticate with your API. It complements OAuth metadata, which says where the endpoints are but not the steps or policies. A proposal, not a standard.',
+      severity: 'info',
+      fixTier: 'guided',
+      fix: 'Serve /auth.md (text/markdown) describing how an agent gets credentials: the registration URL, supported grant types, scopes and any human approval step. Link it from your protected resource metadata.',
+      refs: ['https://github.com/workos/auth.md', REF.rfc9728],
+    }),
+    (site) => {
+      if (!probesRan(site) || found(site, 'auth-md')) return null;
+      if (!found(site, 'oauth-prm') && !found(site, 'oauth-as')) return null;
+      return issue('agentic.auth-md-missing', 'OAuth discovery is published but /auth.md is not.');
+    },
+  ),
+  siteCheck(
+    agentic({
+      id: 'agentic.agent-skills-invalid',
+      title: 'Agent skills index is invalid',
+      why: 'An agent skills index (/.well-known/agent-skills/index.json, a Cloudflare-led proposal) lists skills agents can download and use with your service. Entries without a name, description, URL or digest are skipped or cannot be verified.',
+      severity: 'low',
+      fixTier: 'guided',
+      fix: 'Give each entry a name, description, url and sha256 digest of the skill file, and a $schema field for the index version.',
+      refs: ['https://github.com/cloudflare/agent-skills-discovery-rfc'],
+    }),
+    (site) => {
+      const p = found(site, 'agent-skills');
+      if (!p) return null;
+      if (p.parsed === undefined)
+        return issue('agentic.agent-skills-invalid', `${p.url} is not valid JSON.`);
+      const v = validateSkillsIndex(p.parsed);
+      return (
+        listIssues('agentic.agent-skills-invalid', 'Agent skills index has problems', v, p.url) ??
+        listIssues(
+          'agentic.agent-skills-invalid',
+          'Agent skills index could say more',
+          v,
+          p.url,
+          'warnings',
+        )
+      );
+    },
+  ),
+  siteCheck(
+    commerce({
+      id: 'agentic-commerce.acp-invalid',
+      title: 'ACP discovery file is invalid',
+      why: 'Agents that support the Agentic Commerce Protocol read /.well-known/acp.json to learn the protocol version and where your checkout API lives. Missing fields stop them before checkout.',
+      severity: 'low',
+      fixTier: 'guided',
+      fix: 'Include protocol.name "acp", protocol.version, an https api_base_url and capabilities.services, following the current ACP specification.',
+      refs: [REF.acp],
+    }),
+    (site) => {
+      const p = found(site, 'acp-json');
+      if (!p) return null;
+      if (p.parsed === undefined)
+        return issue('agentic-commerce.acp-invalid', `${p.url} is not valid JSON.`);
+      const v = validateAcp(p.parsed);
+      return (
+        listIssues('agentic-commerce.acp-invalid', 'ACP discovery file has problems', v, p.url) ??
+        listIssues(
+          'agentic-commerce.acp-invalid',
+          'ACP discovery file could say more',
+          v,
+          p.url,
+          'warnings',
+        )
+      );
+    },
+  ),
+);

@@ -114,6 +114,34 @@ const RULES: Rule[] = [
     signal: 'Ghost portal / content API',
     test: M(/ghost-(portal|search)|\/ghost\/api\/content\//),
   },
+  // Magento / Adobe Commerce
+  {
+    id: 'magento',
+    weight: 3,
+    signal: 'Magento static paths or Mage scripts',
+    test: M(/\/static\/version\d+\/frontend\/|Mage\.Cookies|data-mage-init|text\/x-magento-init/),
+  },
+  {
+    id: 'magento',
+    weight: 2,
+    signal: 'X-Magento headers or mage cookies',
+    test: (c) =>
+      Object.keys(c.headers).some((k) => k.startsWith('x-magento')) ||
+      /mage-cache-/.test(c.cookies),
+  },
+  // Laravel
+  {
+    id: 'laravel',
+    weight: 3,
+    signal: 'laravel_session cookie',
+    test: (c) => /laravel_session=/.test(c.cookies),
+  },
+  {
+    id: 'laravel',
+    weight: 1,
+    signal: 'Livewire / Inertia markers',
+    test: M(/wire:id=|livewire\.js|data-page="\{&quot;component|@inertia/),
+  },
   // Drupal
   { id: 'drupal', weight: 3, signal: 'generator meta: Drupal', test: G(/drupal/) },
   {

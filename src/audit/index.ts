@@ -22,6 +22,7 @@ import type {
   PageData,
   PageSummary,
   ProgressFn,
+  ResourceSummary,
   SiteContext,
   TrackedPrompt,
   VisibilityRun,
@@ -87,7 +88,10 @@ export interface AuditDeps {
   inferBrand(site: SiteContext): BrandProfile;
   suggestPrompts(brand: BrandProfile, site: SiteContext): Promise<TrackedPrompt[]>;
   runVisibility(args: VisibilityArgs): Promise<VisibilityRun>;
-  buildFixes(result: AuditResult): Fix[];
+  buildFixes(
+    result: AuditResult,
+    opts?: { overrides?: Record<string, { steps?: string[]; note?: string; replace?: boolean }> },
+  ): Fix[];
   now?: () => Date;
 }
 
@@ -201,6 +205,7 @@ export function summarisePage(p: PageData, site: SiteContext, issueCount: number
     inSitemap: !!p.inSitemap,
   };
   if (p.rendered) row.renderedWordCount = p.rendered.wordCount;
+  if (p.extracted && Object.keys(p.extracted).length) row.extracted = p.extracted;
   return row;
 }
 
@@ -217,9 +222,16 @@ export async function runAudit(
   const startedAt = now();
 
   // 1. Crawl
-  const sc = opts.siteConfig?.crawl ?? {};
+  const { profile: profileName, ...sc } = opts.siteConfig?.crawl ?? {};
+  const defined = (o: object) =>
+    Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined));
+  const { description: _d, ...profile } =
+    (profileName && opts.config.profiles?.[profileName]) || {};
+  if (profileName && !opts.config.profiles?.[profileName])
+    log('warn', `Crawl profile "${profileName}" is not defined; using the defaults.`);
   const crawlOpts: Partial<CrawlOptions> & { startUrl: string } = {
-    ...Object.fromEntries(Object.entries(sc).filter(([, v]) => v !== undefined)),
+    ...defined(profile),
+    ...defined(sc),
     ...opts.crawl,
     startUrl: opts.crawl?.startUrl ?? opts.url,
   };
@@ -305,6 +317,9 @@ export async function runAudit(
     stats: site.stats,
     pages,
     issues,
+    ...(site.tls ? { tls: site.tls } : {}),
+    linkGraph: linkGraphOf(pages, site),
+    resources: await resourcesOf(site),
     checks: status,
     score,
     priorities: [],
@@ -329,7 +344,7 @@ export async function runAudit(
   result.priorities = rankPriorities(status, issues, pages, { readinessOnly: score.readinessOnly });
   let fixes: Fix[] = [];
   try {
-    fixes = d.buildFixes(result);
+    fixes = d.buildFixes(result, { overrides: opts.config.fixes?.overrides });
   } catch (e) {
     log('warn', `Fixes could not be built: ${errText(e)}`);
   }
@@ -344,6 +359,82 @@ export async function runAudit(
     message: `Score ${score.overall} (${score.grade}), ${issues.length} issues`,
   });
   return result;
+}
+
+/** Max resources kept in the stored inventory. */
+export const RESOURCES_MAX = 2_000;
+
+/** Inventory of scripts, stylesheets and images with how many pages use each. */
+export async function resourcesOf(site: SiteContext): Promise<ResourceSummary[]> {
+  let statuses = new Map<string, number>();
+  try {
+    statuses = (await import('../crawl/index.js')).imageStatus(site);
+  } catch {
+    /* no crawler state (tests) */
+  }
+  const map = new Map<string, ResourceSummary>();
+  const host = (u: string) => {
+    try {
+      return new URL(u).hostname.replace(/^www\./, '');
+    } catch {
+      return '';
+    }
+  };
+  const own = host(site.origin);
+  const add = (url: string | null | undefined, type: ResourceSummary['type'], bytes?: number) => {
+    if (!url || url.startsWith('data:')) return;
+    const h = host(url);
+    const cdn = (site.options?.cdns ?? []).some((c) => {
+      const x = c
+        .toLowerCase()
+        .replace(/^https?:\/\//, '')
+        .replace(/\/.*$/, '');
+      return h === x || h.endsWith(`.${x}`);
+    });
+    const r = map.get(url) ?? { url, type, pages: 0, thirdParty: h !== own && !cdn };
+    r.pages++;
+    if (bytes !== undefined) r.bytes = bytes;
+    if (type === 'image' && statuses.has(url)) r.status = statuses.get(url);
+    map.set(url, r);
+  };
+  for (const p of site.pages.values()) {
+    if (!p.isHtml) continue;
+    for (const sc of new Set(p.scripts.map((x) => x.src))) add(sc, 'script');
+    for (const st of new Set(p.stylesheets.map((x) => x.href))) add(st, 'stylesheet');
+    const seen = new Set<string>();
+    for (const img of p.images)
+      if (!seen.has(img.src)) {
+        seen.add(img.src);
+        add(img.src, 'image', img.bytes);
+      }
+  }
+  return [...map.values()].sort((a, b) => b.pages - a.pages).slice(0, RESOURCES_MAX);
+}
+
+/** Max edges kept in the stored link graph (enough for the dashboard's site graph). */
+export const LINK_GRAPH_MAX_EDGES = 20_000;
+
+export function linkGraphOf(
+  pages: PageSummary[],
+  site: SiteContext,
+): NonNullable<AuditResult['linkGraph']> {
+  const index = new Map(pages.map((p, i) => [p.url, i]));
+  const edges: [number, number][] = [];
+  let truncated = false;
+  for (const [target, sources] of site.inlinks ?? []) {
+    const t = index.get(target);
+    if (t === undefined) continue;
+    for (const src of sources) {
+      const s = index.get(src);
+      if (s === undefined || s === t) continue;
+      if (edges.length >= LINK_GRAPH_MAX_EDGES) {
+        truncated = true;
+        break;
+      }
+      edges.push([s, t]);
+    }
+  }
+  return { edges, truncated };
 }
 
 function errText(e: unknown): string {

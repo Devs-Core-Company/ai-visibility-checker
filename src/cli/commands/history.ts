@@ -163,9 +163,13 @@ export async function cmdReport(
   const result = findAudit(ref, config);
   if (!result) throw new ExitError(1, `No audit found for "${ref}". See \`avc history\`.`);
   const prev = previousAudit(result, config);
-  const files = writeReports(result, parseFormats(opts.format, ['html']), opts.out, {
-    diff: prev ? diff(prev, result) : undefined,
-  });
+  const files = await writeReports(
+    result,
+    parseFormats(opts.format, ['html']),
+    opts.out,
+    { diff: prev ? diff(prev, result) : undefined },
+    (m) => console.error(m),
+  );
   for (const f of files) ok(relative(process.cwd(), f) || f);
   const html = files.find((f) => f.endsWith('.html'));
   if (opts.open && html) openPath(html);

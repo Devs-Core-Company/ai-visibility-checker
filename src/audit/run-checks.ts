@@ -52,6 +52,12 @@ const REQUIREMENT_REASON: Record<Requirement, string> = {
   logs: 'Needs server access logs. Point the site config at your log files.',
   llm: 'Needs an AI visibility run. Add an AI key (or use --mock) and run with --visibility.',
   repo: "Needs the site's source code. Set connections.repoPath in the site config.",
+  spelling:
+    'Needs a LanguageTool server. Run one locally, or opt in to the public API with `avc connect spelling`.',
+  'safe-browsing':
+    'Needs a Google Safe Browsing API key (AVC_SAFE_BROWSING_KEY) and --external-links.',
+  embeddings:
+    'Needs an embeddings model. Add an OpenAI or AI Gateway key and turn on embeddings (`avc connect embeddings`), or use --mock.',
 };
 
 /** Returns the first unmet requirement of a check, or null when it can run. */
@@ -84,6 +90,12 @@ function requirementMet(req: Requirement, site: SiteContext, hasVisibility: bool
       return hasVisibility || !!(site as SiteWithVisibility).visibility;
     case 'repo':
       return !!ext.repo;
+    case 'spelling':
+      return !!ext.spelling;
+    case 'safe-browsing':
+      return !!ext.safeBrowsing;
+    case 'embeddings':
+      return !!ext.embeddings;
     default:
       return true;
   }

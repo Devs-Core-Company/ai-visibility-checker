@@ -61,7 +61,10 @@ export type Requirement =
   | 'ga4' // Google Analytics 4 connection
   | 'logs' // server access logs
   | 'llm' // AI engine API keys
-  | 'repo'; // local source code of the site
+  | 'repo' // local source code of the site
+  | 'spelling' // a LanguageTool server (self-hosted or the public API, opt-in)
+  | 'safe-browsing' // Google Safe Browsing API key
+  | 'embeddings'; // an embeddings model (BYOK, AI Gateway or mock)
 
 export type Scope = 'page' | 'site';
 
@@ -255,6 +258,11 @@ export interface PageData {
   /** Detected from markup + headers on this page. */
   generator: string | null;
 
+  /** Custom extraction results (crawl option `extract`), by extractor name. */
+  extracted?: Record<string, string[] | number>;
+  /** Document properties of a crawled PDF (best effort, from the Info dictionary / XMP). */
+  pdf?: PdfInfo;
+
   // ---- Rendered (only when render is enabled) ----
   rendered?: {
     html: string;
@@ -273,7 +281,50 @@ export interface PageData {
       cls?: number;
       tbt?: number;
     };
+    /** Layout measured in the desktop render: image boxes and low-contrast text samples. */
+    layout?: RenderedLayout;
+    /** A second render as a phone (only for a sample of pages). */
+    mobile?: MobileRender;
+    /** WebMCP tools the page registered at runtime (navigator.modelContext), captured in the render. */
+    webmcpTools?: { name: string; description?: string; hasSchema: boolean }[];
   };
+}
+
+export interface PdfInfo {
+  title?: string;
+  author?: string;
+  subject?: string;
+  keywords?: string;
+  creator?: string;
+  producer?: string;
+  pages?: number;
+  created?: string;
+  modified?: string;
+  /** The file is encrypted (properties may be unreadable). */
+  encrypted?: boolean;
+}
+
+export interface RenderedLayout {
+  viewportWidth: number;
+  /** Rendered CSS box of each <img> (first 100), with its src. */
+  images: { src: string; width: number; height: number }[];
+  /** Text samples whose contrast is below WCAG AA (first 20). */
+  lowContrast: { text: string; ratio: number; fg: string; bg: string; large: boolean }[];
+}
+
+export interface MobileRender {
+  viewportWidth: number;
+  scrollWidth: number;
+  wordCount: number;
+  links: number;
+  /** Interactive elements smaller than 24×24 CSS px (WCAG 2.5.8), first 20. */
+  smallTargets: { text: string; width: number; height: number }[];
+  /** A fixed or sticky layer covering much of the screen after load. */
+  interstitial: { selector: string; coverage: number } | null;
+  /** Requests that failed only in the mobile render. */
+  failedRequests: string[];
+  /** Smallest computed font size of body text, px. */
+  minFontPx?: number;
 }
 
 // ---------------------------------------------------------------------------
@@ -324,6 +375,8 @@ export type StackId =
   | 'ghost'
   | 'drupal'
   | 'joomla'
+  | 'magento'
+  | 'laravel'
   | 'hubspot'
   | 'framer'
   | 'hugo'
@@ -406,6 +459,22 @@ export interface SiteContext {
   fetcher: Fetcher;
   options: CrawlOptions;
   stats: CrawlStats;
+  /** TLS certificate of the origin (https only), read once during the crawl. */
+  tls?: TlsInfo;
+}
+
+export interface TlsInfo {
+  host: string;
+  /** Browsers accept the certificate (chain, host name, dates). */
+  authorized: boolean;
+  error?: string;
+  validFrom?: string;
+  validTo?: string;
+  /** Days until expiry (negative when expired). */
+  daysLeft?: number;
+  issuer?: string;
+  subject?: string;
+  altNames?: string[];
 }
 
 export interface ExternalData {
@@ -415,6 +484,40 @@ export interface ExternalData {
   logs?: LogInsights;
   repo?: { path: string; stack: StackId; files: number };
   wordpress?: { url: string; user: string; version?: string; seoPlugin?: string };
+  /** Spelling and grammar matches per page (LanguageTool). */
+  spelling?: SpellingData;
+  /** Outbound URLs Google Safe Browsing flags. */
+  safeBrowsing?: { checked: number; matches: { url: string; threat: string; pages: string[] }[] };
+  /** Semantic similarity from page embeddings. */
+  embeddings?: EmbeddingInsights;
+  /** Link metrics from your own backlink provider subscription. */
+  backlinks?: BacklinkData;
+}
+
+export interface SpellingData {
+  server: string;
+  checked: number;
+  pages: {
+    url: string;
+    language: string;
+    matches: { message: string; context: string; rule: string; category: string }[];
+  }[];
+}
+
+export interface EmbeddingInsights {
+  model: string;
+  pages: number;
+  /** Page pairs whose meaning is nearly the same (cosine similarity ≥ threshold). */
+  similarPairs: { a: string; b: string; similarity: number }[];
+  /** Pages far from the site's centre of meaning (possible off-topic content). */
+  outliers: { url: string; similarity: number }[];
+}
+
+export interface BacklinkData {
+  provider: 'moz' | 'ahrefs' | 'majestic';
+  target: string;
+  metrics: Record<string, number | string>;
+  error?: string;
 }
 
 export interface PsiResult {
@@ -629,6 +732,12 @@ export interface AuditResult {
   stats: CrawlStats;
   pages: PageSummary[];
   issues: Issue[];
+  /** TLS certificate summary (https sites). */
+  tls?: TlsInfo;
+  /** Internal link graph: [from, to] as indexes into `pages` (capped for size). */
+  linkGraph?: { edges: [number, number][]; truncated: boolean };
+  /** Scripts, stylesheets and images referenced by the crawled pages (most used first, capped). */
+  resources?: ResourceSummary[];
   /** Check id → definition, for every check that ran or was skipped. */
   checks: Record<
     string,
@@ -643,6 +752,16 @@ export interface AuditResult {
   sitemaps: { url: string; found: boolean; urls: number; errors: string[] }[];
   external: Omit<ExternalData, 'repo'> & { repo?: ExternalData['repo'] };
   visibility?: VisibilityRun;
+}
+
+export interface ResourceSummary {
+  url: string;
+  type: 'script' | 'stylesheet' | 'image';
+  /** Pages that reference it. */
+  pages: number;
+  thirdParty: boolean;
+  bytes?: number;
+  status?: number;
 }
 
 /** Light per-page row kept in results and the database (no HTML). */
@@ -665,6 +784,8 @@ export interface PageSummary {
   schemaTypes: string[];
   issues: number;
   inSitemap: boolean;
+  /** Custom extraction results, when the crawl defined extractors. */
+  extracted?: Record<string, string[] | number>;
 }
 
 export interface AuditDiff {
@@ -711,6 +832,71 @@ export interface CrawlOptions {
   headers?: Record<string, string>;
   /** Basic auth / cookie for staging sites. */
   auth?: { user: string; pass: string } | { cookie: string };
+
+  // ---- Scope, URL rewriting and limits (all optional) ----
+  /** List mode: fetch exactly these URLs, follow nothing. */
+  urls?: string[];
+  /** Crawl only the URLs listed in the sitemaps (plus the start URL); follow no links. */
+  sitemapOnly?: boolean;
+  /** Also crawl subdomains of the start host's domain (blog.example.com, shop.example.com). */
+  subdomains?: boolean;
+  /** Stay inside the start URL's folder (e.g. /blog/). */
+  stayInFolder?: boolean;
+  /** Follow links marked rel="nofollow" (default true, so they are audited). */
+  followNofollow?: boolean;
+  /** Query parameters to strip from discovered URLs (e.g. utm_source, sessionid). */
+  removeParams?: string[];
+  /** Ordered regex replacements applied to discovered URLs. */
+  rewrite?: { pattern: string; replace: string }[];
+  /** Lower-case discovered URL paths. */
+  lowercase?: boolean;
+  /** Skip discovered URLs longer than this many characters (0 = no limit). */
+  maxUrlLength?: number;
+  /** Skip discovered URLs with more query parameters than this (0 = no limit). */
+  maxQueryParams?: number;
+  /** Skip discovered URLs with more path segments than this (0 = no limit). */
+  maxFolderDepth?: number;
+  /** Crawl at most this many URLs per click depth (0 = no limit). */
+  maxPerDepth?: number;
+  /** Retries for 429 and 503 answers, with back-off (Retry-After honoured up to 10 s). Default 2. */
+  retries?: number;
+  /** Hosts that serve the site's own files (e.g. cdn.example-assets.com): not counted as third party. */
+  cdns?: string[];
+  /** robots.txt token to obey (default: the token of userAgent). */
+  robotsUserAgent?: string;
+  /** Custom extraction: CSS selectors or regexes run on every HTML page. */
+  extract?: Extractor[];
+  /** CSS selector(s) for the content area used for word counts (e.g. "main, article"). */
+  contentSelector?: string;
+  /** CSS selector(s) removed before text extraction (e.g. ".cookie-banner, .related"). */
+  contentExclude?: string;
+  /** Read properties (title, author, pages) of linked PDFs. Default true. */
+  pdfProperties?: boolean;
+  /** Render a sample of pages as a phone too (tap targets, overflow, parity). Default true when rendering. */
+  mobileRender?: boolean;
+  /** Read the origin's TLS certificate. Default true for https. */
+  checkTls?: boolean;
+  /** A platform preset ("wordpress", "shopify:…") or "auto" to detect it from the home page. */
+  preset?: string;
+  /**
+   * Sign in through a login form in Chrome before crawling, then crawl with the session
+   * cookies. Credentials come only from AVC_FORM_USER / AVC_FORM_PASS. Links that log out,
+   * delete or open admin areas are never followed while signed in.
+   */
+  formLogin?: {
+    url: string;
+    userSelector?: string;
+    passSelector?: string;
+    submitSelector?: string;
+  };
+}
+
+export interface Extractor {
+  name: string;
+  /** css: text (or `attr`) of matching elements; xpath: simple XPath paths (converted to CSS); regex: group 1 (or the match) in the raw HTML; count: number of regex matches. */
+  type: 'css' | 'xpath' | 'regex' | 'count';
+  expr: string;
+  attr?: string;
 }
 
 export type ProgressEvent =

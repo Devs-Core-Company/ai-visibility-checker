@@ -4,6 +4,7 @@
  */
 import type { PageData, SiteContext } from '../core/types.js';
 import { homePage, htmlPages, isHtml200, list, pageCheck, plural, siteCheck } from './_util.js';
+import * as cu from './_util.js';
 
 export const SAMPLE_PAGES = 50;
 export const INCONSISTENT_MIN_SHARE = 0.2;
@@ -313,3 +314,34 @@ export const checks = [
     },
   ),
 ];
+
+// ---------------------------------------------------------------------------
+// Added for feature parity: AI assistant traffic in GA4
+// ---------------------------------------------------------------------------
+
+checks.push(
+  cu.siteCheck(
+    {
+      id: 'analytics.no-ai-referrals',
+      category: 'analytics',
+      pillar: T,
+      title: 'No AI assistant visits recorded in GA4',
+      why: 'ChatGPT, Perplexity, Gemini, Claude and Copilot send visitors with a referrer or utm_source. If GA4 shows none in the period, either no assistant links to you yet or the visits are lumped into Direct or Referral, so you cannot see whether AI visibility work pays off.',
+      severity: 'low',
+      fixTier: 'guided',
+      fix: 'In GA4, create a custom channel group with an "AI assistants" channel (source matches chatgpt|perplexity|gemini|claude|copilot) placed above Referral. Then track AI visibility (`avc visibility`) to see whether assistants name you.',
+      requires: ['ga4'],
+      refs: ['https://support.google.com/analytics/answer/13051316'],
+    },
+    (site) => {
+      const ga = site.external.ga4;
+      if (!ga) return null;
+      const sessions = ga.aiReferrals.reduce((n, r) => n + (r.sessions || 0), 0);
+      if (sessions > 0) return null;
+      return {
+        checkId: 'analytics.no-ai-referrals',
+        message: `GA4 property ${ga.property} recorded no sessions from AI assistants between ${ga.range.start} and ${ga.range.end}`,
+      };
+    },
+  ),
+);

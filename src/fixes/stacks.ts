@@ -25,6 +25,8 @@ const LABELS: Record<StackId, string> = {
   ghost: 'Ghost',
   drupal: 'Drupal',
   joomla: 'Joomla',
+  magento: 'Magento / Adobe Commerce',
+  laravel: 'Laravel',
   hubspot: 'HubSpot CMS',
   framer: 'Framer',
   hugo: 'Hugo',
@@ -49,6 +51,7 @@ export const CODE_STACKS: StackId[] = [
   'hugo',
   'jekyll',
   'static',
+  'laravel',
 ];
 
 export function isHosted(id: StackId): boolean {

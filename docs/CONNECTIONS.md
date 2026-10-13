@@ -170,3 +170,48 @@ SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
 ```
 
 Security plugins that block `/wp-json/` must allow it for the user.
+
+The AVC helper (a single must-use plugin file; `avc fix --wp-helper` prints it) adds canonical URLs,
+a simple redirect list (`avc redirect`) and robots.txt/llms.txt to what AVC can write. It refuses
+SEO writes while two SEO plugins are active. Remove the file, or revoke the Application Password, to
+switch auto-apply off.
+
+## Spelling and grammar (LanguageTool)
+
+`content.spelling` checks each page's main text (menus and footers are left out).
+
+- **Your own server** (nothing leaves your network): run LanguageTool, for example
+  `docker run -p 8081:8010 erikvl87/languagetool`, then `avc connect spelling --url http://localhost:8081`
+  (or `AVC_LANGUAGETOOL_URL`).
+- **The public API** (free, rate-limited, page text is sent to languagetool.org):
+  `avc connect spelling --url public`. Ten pages per audit.
+
+Add brand and product names to `spelling.ignore` in `~/.avc/config.json` (or
+`AVC_LANGUAGETOOL_IGNORE=Acme,Widgetron`).
+
+## Google Safe Browsing
+
+`links-external.unsafe` sends your outbound link URLs (only those) to the Safe Browsing Lookup API.
+Enable the API in Google Cloud, create an API key, then `avc connect safe-browsing --key <key>` (or
+`AVC_SAFE_BROWSING_KEY`). Run audits with `--external-links`.
+
+## Embeddings
+
+`duplicates.semantic` and `content.off-topic` compare page meaning. `avc connect embeddings` turns
+them on (or `AVC_EMBEDDINGS=1`); they use your OpenAI key, the AI Gateway key, or an
+OpenAI-compatible endpoint (`OPENAI_BASE_URL`, e.g. a local Ollama). Choose the model with
+`--property text-embedding-3-small` or `AVC_EMBED_MODEL`. With `--mock`, sample vectors are used
+and nothing is spent.
+
+## Backlinks
+
+Bring your own subscription: `avc connect backlinks --property moz|ahrefs|majestic --key <token>`
+(or `AVC_MOZ_TOKEN`, `AVC_AHREFS_TOKEN`, `AVC_MAJESTIC_KEY`). Domain-level metrics (authority or
+rating, referring domains, backlinks) are stored with each audit under `external.backlinks`.
+
+## Members-only pages (form sign-in)
+
+`avc audit <url> --form-login https://example.com/login` signs in with your Chrome first and crawls
+with that session. The username and password are read only from `AVC_FORM_USER` and `AVC_FORM_PASS`.
+Links that log out, delete or open admin areas are not followed while signed in; still, use an
+account with the least access that sees the pages you want audited.

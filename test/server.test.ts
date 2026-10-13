@@ -201,3 +201,81 @@ describe('dashboard pages', () => {
     expect((await req('/s/nope.example')).status).toBe(404);
   });
 });
+
+describe('dashboard: site graph, snippets, ask and new exports', () => {
+  it('renders the site graph page and its data', async () => {
+    const page = await req(`/s/${siteId}/graph`);
+    expect(page.status).toBe(200);
+    const html = await page.text();
+    expect(html).toContain('Internal link graph');
+    expect(html).toContain('/assets/graph.js');
+    const data = (await (await req(`/s/${siteId}/graph.json`)).json()) as {
+      nodes: unknown[];
+      edges: unknown[];
+    };
+    expect(data.nodes.length).toBeGreaterThan(3);
+    expect(data.edges.length).toBeGreaterThan(3);
+    expect((await req('/assets/graph.js')).status).toBe(200);
+  });
+
+  it('renders snippet previews and answers questions', async () => {
+    const serp = await req(`/s/${siteId}/serp?all=1`);
+    expect(serp.status).toBe(200);
+    expect(await serp.text()).toMatch(/indexable pages/);
+    const ask = await req(`/s/${siteId}/ask`, {
+      method: 'POST',
+      headers: { origin: `http://${HOST}`, 'content-type': 'application/x-www-form-urlencoded' },
+      body: 'q=what+should+I+fix+first',
+    });
+    expect(ask.status).toBe(200);
+    expect(await ask.text()).toMatch(/Start with these/);
+  });
+
+  it('exports Excel', async () => {
+    const res = await req(`/a/${auditId}/export/xlsx`);
+    expect(res.status).toBe(200);
+    expect(res.headers.get('content-type')).toMatch(/spreadsheetml/);
+    const buf = Buffer.from(await res.arrayBuffer());
+    expect(buf.subarray(0, 2).toString()).toBe('PK');
+  });
+});
+
+describe('dashboard: resources, page filters and screenshots', () => {
+  it('lists resources and filters pages', async () => {
+    const res = await req(`/s/${siteId}/resources?type=image`);
+    expect(res.status).toBe(200);
+    expect(await res.text()).toMatch(/resources/);
+    const pages = await req(`/s/${siteId}/pages?minDepth=1&maxWords=100000`);
+    expect(pages.status).toBe(200);
+  });
+
+  it('refuses screenshots of other sites', async () => {
+    const res = await req(
+      `/s/${siteId}/screenshot?url=${encodeURIComponent('https://example.org/')}`,
+    );
+    expect(res.status).toBe(400);
+  });
+});
+
+describe('dashboard: page filter builder', () => {
+  it('matches rules and filters the table', async () => {
+    const { matchRule } = await import('../src/server/pages/site.js');
+    const row = {
+      url: 'https://e.com/blog/a',
+      wordCount: 120,
+      title: null,
+      schemaTypes: ['Article'],
+    };
+    expect(matchRule(row as never, { field: 'url', op: 'contains', value: '/BLOG/' })).toBe(true);
+    expect(matchRule(row as never, { field: 'wordCount', op: 'lt', value: '200' })).toBe(true);
+    expect(matchRule(row as never, { field: 'title', op: 'empty', value: '' })).toBe(true);
+    expect(matchRule(row as never, { field: 'schemaTypes', op: 'equals', value: 'article' })).toBe(
+      true,
+    );
+    const res = await req(`/s/${siteId}/pages?f1=url&o1=contains&v1=about&f2=status&o2=lt&v2=400`);
+    expect(res.status).toBe(200);
+    const html = await res.text();
+    expect(html).toContain('/about');
+    expect(html).not.toContain('/services/kitchens');
+  });
+});

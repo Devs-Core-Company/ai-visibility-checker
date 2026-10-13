@@ -23,7 +23,7 @@ function suggestionsBlock(input: RecipeInput, field: 'title' | 'description'): s
 
 const titles: Recipe = {
   id: 'titles',
-  patterns: [/^onpage\..*title/, /^duplicates\..*title/],
+  patterns: [/^onpage\.(?!description).*title/, /^duplicates\..*title/],
   impact: 'medium',
   effort: 'hours',
   auto: { wordpress: true, repo: true },

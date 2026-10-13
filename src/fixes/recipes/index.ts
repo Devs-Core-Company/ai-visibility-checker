@@ -13,12 +13,15 @@ import { recipes as crawlExtra } from './crawl-extra.js';
 import { recipes as geo } from './geo.js';
 import { recipes as linksUrls } from './links-urls.js';
 import { recipes as onpage } from './onpage.js';
+import { recipes as parity } from './parity.js';
 import { recipes as responseExtra } from './response-extra.js';
 import { recipes as schema } from './schema.js';
 import { recipes as securityExtra } from './security-extra.js';
 import { recipes as technical } from './technical.js';
 
 export const RECIPES: Recipe[] = [
+  // Exact ids for the parity checks first, so broad patterns below never take them.
+  ...parity,
   ...aiAccess,
   ...agentic,
   ...schema,

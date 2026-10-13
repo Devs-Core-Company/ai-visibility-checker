@@ -20,6 +20,9 @@ import { collectGsc, listGscProperties, pickGscProperty } from './gsc.js';
 import { analyseLogs, expandLogPaths, type LogResolver } from './logs.js';
 import { collectPsi, samplePsiUrls, type PsiStrategy } from './psi.js';
 import { checkWordPress } from './wordpress.js';
+import { collectSpelling, spellingServer } from './spelling.js';
+import { collectSafeBrowsing } from './safe-browsing.js';
+import { backlinkProvider, fetchBacklinks } from './backlinks.js';
 
 export * from './bing.js';
 export * from './ga4.js';
@@ -29,6 +32,9 @@ export * from './gsc.js';
 export * from './logs.js';
 export * from './psi.js';
 export * from './wordpress.js';
+export * from './spelling.js';
+export * from './safe-browsing.js';
+export * from './backlinks.js';
 
 /** ExternalData plus sources the shared contract has no slot for yet. */
 export type ExternalDataPlus = ExternalData & { bing?: BingData };
@@ -55,9 +61,16 @@ export interface CollectExternalOptions {
     psi?: string;
     bing?: string;
     googleToken?: string;
+    safeBrowsing?: string;
   };
   resolver?: LogResolver;
   now?: Date;
+  /** Set false to skip a source even when configured. */
+  spelling?: boolean;
+  spellingDelayMs?: number;
+  safeBrowsing?: boolean;
+  embeddings?: boolean;
+  backlinks?: boolean;
 }
 
 const warn = (onProgress: ProgressFn | undefined, message: string) =>
@@ -248,6 +261,54 @@ export async function collectExternal(
         seoPlugin: r.seoPlugin,
       };
       for (const p of r.problems) warn(onProgress, `WordPress: ${p}`);
+    });
+  }
+
+  // ---- Spelling and grammar (LanguageTool, opt-in) ----
+  if (spellingServer(config) && opts.spelling !== false) {
+    run('Spelling', async () => {
+      const r = await collectSpelling(site, config, { fetch: f, delayMs: opts.spellingDelayMs });
+      if (r) {
+        ext.spelling = r;
+        info(onProgress, `Spelling: checked ${r.checked} pages with LanguageTool (${r.server}).`);
+      }
+    });
+  }
+
+  // ---- Safe Browsing for outbound links (own key) ----
+  if (config.safeBrowsing?.key && opts.safeBrowsing !== false) {
+    run('Safe Browsing', async () => {
+      ext.safeBrowsing = await collectSafeBrowsing(site, config.safeBrowsing!.key!, {
+        fetch: f,
+        endpoint: opts.baseUrls?.safeBrowsing,
+      });
+      info(
+        onProgress,
+        `Safe Browsing: ${ext.safeBrowsing.checked} outbound URLs, ${ext.safeBrowsing.matches.length} flagged.`,
+      );
+    });
+  }
+
+  // ---- Page embeddings (own key, AI Gateway or mock) ----
+  if (config.embeddings?.enabled && opts.embeddings !== false) {
+    run('Embeddings', async () => {
+      const { computeEmbeddings } = await import('../ai/embeddings.js');
+      const e = await computeEmbeddings(site, config);
+      if (e) {
+        ext.embeddings = e;
+        info(onProgress, `Embeddings: ${e.pages} pages with ${e.model}.`);
+      } else warn(onProgress, 'Embeddings are on but no OpenAI or AI Gateway key is set.');
+    });
+  }
+
+  // ---- Backlinks (your own Moz / Ahrefs / Majestic subscription) ----
+  if (backlinkProvider(config) && opts.backlinks !== false) {
+    run('Backlinks', async () => {
+      const b = await fetchBacklinks(config, site.host, { fetch: f, now: opts.now });
+      if (b) {
+        ext.backlinks = b;
+        if (b.error) warn(onProgress, `Backlinks (${b.provider}): ${b.error}`);
+      }
     });
   }
 

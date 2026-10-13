@@ -432,7 +432,12 @@ echo json_encode(array('meta' => $GLOBALS['meta'][5], 'get' => avc_helper_get_se
       _yoast_wpseo_metadesc: 'Desc',
       '_yoast_wpseo_meta-robots-noindex': '2',
     });
-    expect(out.get).toEqual({ title: 'New title', description: 'Desc', noindex: false });
+    expect(out.get).toEqual({
+      title: 'New title',
+      description: 'Desc',
+      noindex: false,
+      canonical: '',
+    });
     expect(out.robots).toBe('User-agent: *\nAllow: /\n');
     rmSync(dir, { recursive: true, force: true });
   });

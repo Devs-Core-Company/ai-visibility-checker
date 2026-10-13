@@ -31,6 +31,7 @@ import {
   urlKey,
   xRobotsDirectives,
 } from './_util.js';
+import * as cu from './_util.js';
 
 export const DEEP_PAGE_DEPTH = 4;
 export const VERY_DEEP_PAGE_DEPTH = 7;
@@ -1254,3 +1255,37 @@ export const checks = [
 // Exported for tests.
 export const _internal = { expectedCtr, gscPage, CURRENT_YEAR };
 export type { PageData };
+
+// ---------------------------------------------------------------------------
+// Added for feature parity
+// ---------------------------------------------------------------------------
+
+checks.push(
+  cu.pageCheck(
+    {
+      id: 'crawlability.noindex-nofollow',
+      category: 'crawlability',
+      pillar: 'technical',
+      title: 'Noindex page also blocks link following',
+      why: 'A page kept out of the index can still help crawlers reach the pages it links to. "noindex, nofollow" (or "none") cuts those paths too, so pages linked mainly from it, such as filtered lists, tag pages or archives, are found later or not at all.',
+      severity: 'low',
+      fixTier: 'guided',
+      fix: 'Use "noindex, follow" unless you really want crawlers to ignore every link on the page. Remove nofollow from the robots meta tag or X-Robots-Tag.',
+      refs: [cu.REF.robotsMeta],
+    },
+    (page) => {
+      if (!cu.isHtml200(page) || !cu.isNoindex(page)) return null;
+      const d = cu.robotsDirectives(page);
+      if (!d.has('nofollow') && !d.has('none')) return null;
+      // Only worth saying when the page actually links somewhere internal.
+      const internal = page.links.filter((l) => l.internal).length;
+      if (internal < 3) return null;
+      return {
+        checkId: 'crawlability.noindex-nofollow',
+        message: `Page is noindex and nofollow; crawlers ignore its ${internal} internal links`,
+        evidence: cu.truncate(page.metaRobots || page.xRobotsTag || ''),
+        data: { internalLinks: internal },
+      };
+    },
+  ),
+);

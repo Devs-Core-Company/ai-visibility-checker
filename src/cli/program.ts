@@ -22,6 +22,17 @@ import {
   cmdSitesRemove,
 } from './commands/history.js';
 import { cmdMonitor, cmdMonitorRun, cmdSchedule } from './commands/monitor.js';
+import {
+  cmdAsk,
+  cmdFeedback,
+  cmdImport,
+  cmdPresets,
+  cmdRedirect,
+  cmdScreenshot,
+  cmdSerp,
+  cmdShortcut,
+  cmdUpdate,
+} from './commands/tools.js';
 import { cmdChecks } from './commands/checks.js';
 import { cmdDoctor } from './commands/doctor.js';
 
@@ -107,7 +118,7 @@ export function buildProgram(): Command {
     )
     .option('--repeats <n>', 'ask each prompt this many times per engine', int('--repeats'))
     .option('--mock', 'fake AI answers, no spend')
-    .option('-f, --format <list>', 'report formats: html,json,md,csv,sarif', 'html,json')
+    .option('-f, --format <list>', 'report formats: html,json,md,csv,sarif,xlsx,pdf', 'html,json')
     .option('-o, --out <dir>', 'where to write reports', 'avc-reports')
     .option(
       '--fail-under <score>',
@@ -118,6 +129,52 @@ export function buildProgram(): Command {
     .option('--json', 'print the result as JSON to stdout (no progress output)')
     .option('-q, --quiet', 'no progress output')
     .option('--no-save', 'do not store the audit in history')
+    // Crawl scope and options
+    .option('--profile <name>', 'use a saved crawl profile from avc.config.json')
+    .option(
+      '--preset <name>',
+      'platform crawl preset: auto, wordpress, wordpress:woocommerce, shopify, …',
+    )
+    .option('--list <file>', 'list mode: audit exactly the URLs in this file (one per line)')
+    .option('--sitemap-only', 'crawl only the URLs in the sitemaps, follow no links')
+    .option('--subdomains', 'also crawl subdomains of the site')
+    .option('--stay-in-folder', 'stay inside the start URL folder')
+    .option('--no-follow-nofollow', 'do not follow rel="nofollow" links')
+    .option('--external-links', 'check that outbound links work')
+    .option('--ignore-robots', 'crawl URLs robots.txt disallows (still reported)')
+    .option('--robots-ua <token>', 'robots.txt user-agent to obey, e.g. Googlebot')
+    .option('--user-agent <ua>', 'crawler user agent')
+    .option('--concurrency <n>', 'parallel requests', int('--concurrency'))
+    .option('--delay <ms>', 'pause between requests per worker', int('--delay'))
+    .option('--remove-param <name>', 'strip this query parameter from URLs (repeatable)', collect)
+    .option('--rewrite <rule>', 'rewrite URLs: "regex=>replacement" (repeatable)', collect)
+    .option('--lowercase-urls', 'lower-case URL paths')
+    .option('--max-url-length <n>', 'skip longer URLs', int('--max-url-length'))
+    .option('--max-query-params <n>', 'skip URLs with more parameters', int('--max-query-params'))
+    .option(
+      '--max-folder-depth <n>',
+      'skip URLs with more path segments',
+      int('--max-folder-depth'),
+    )
+    .option('--max-per-depth <n>', 'crawl at most n URLs per click depth', int('--max-per-depth'))
+    .option(
+      '--cdn <host>',
+      "a host serving the site's own files, not third party (repeatable)",
+      collect,
+    )
+    .option(
+      '--extract <spec>',
+      'custom extraction "name=css:selector[@attr]" | "name=regex:…" | "name=count:…" (repeatable)',
+      collect,
+    )
+    .option('--content-selector <css>', 'content area for word counts, e.g. "main, article"')
+    .option('--content-exclude <css>', 'remove these elements before reading text')
+    .option(
+      '--form-login <url>',
+      'sign in at this login form first (AVC_FORM_USER / AVC_FORM_PASS)',
+    )
+    .option('--no-mobile', 'skip the phone render when rendering')
+    .option('--no-pdf', 'do not read properties of linked PDFs')
     .action(run(cmdAudit));
 
   program
@@ -155,6 +212,7 @@ export function buildProgram(): Command {
     .option('-y, --yes', 'do not ask for confirmation')
     .option('--json', 'print the plan as JSON')
     .option('--rollback <file>', 'undo a previous apply from its snapshot (same as `avc rollback`)')
+    .option('--wp-helper', 'print the AVC WordPress helper plugin and how to install it')
     .action(run(cmdFix));
 
   program
@@ -193,8 +251,22 @@ export function buildProgram(): Command {
     .addArgument(
       new Argument(
         '<source>',
-        'google | gsc | ga4 | psi | bing | wordpress | logs | repo | status',
-      ).choices(['google', 'gsc', 'ga4', 'psi', 'bing', 'wordpress', 'logs', 'repo', 'status']),
+        'google | gsc | ga4 | psi | bing | wordpress | logs | repo | spelling | safe-browsing | embeddings | backlinks | status',
+      ).choices([
+        'google',
+        'gsc',
+        'ga4',
+        'psi',
+        'bing',
+        'wordpress',
+        'logs',
+        'repo',
+        'spelling',
+        'safe-browsing',
+        'embeddings',
+        'backlinks',
+        'status',
+      ]),
     )
     .argument('[site]', 'site URL or id (default: the only configured site)')
     .option(
@@ -333,6 +405,84 @@ export function buildProgram(): Command {
     .option('-s, --search <text>', 'search titles and ids')
     .option('--json', 'print as JSON')
     .action(run(cmdChecks));
+
+  program
+    .command('serp')
+    .description(
+      'Preview titles and descriptions as search results (pixel widths, AI context); --write drafts better ones.',
+    )
+    .argument('[audit]', 'audit id, site or "latest"')
+    .option('--write', 'draft new titles and descriptions (your AI key, or rules without one)')
+    .option('--all', 'show every page, not only problems')
+    .option('--limit <n>', 'pages to show', int('--limit'))
+    .option('--json', 'print as JSON')
+    .action(run(cmdSerp));
+
+  program
+    .command('ask')
+    .description('Ask a question about your latest audit, e.g. avc ask "what should I fix first?"')
+    .argument('<question...>', 'your question')
+    .option('--audit <ref>', 'audit id or site (default: latest)')
+    .option('--json', 'print as JSON')
+    .action(run(cmdAsk));
+
+  program
+    .command('screenshot')
+    .description('Screenshot a page as a desktop or a phone (local Chrome).')
+    .argument('<url>', 'page URL')
+    .option('--mobile', 'as a phone')
+    .option('--full', 'the full page, not only the first screen')
+    .option('-o, --out <file>', 'PNG file to write')
+    .option('--open', 'open the image')
+    .action(run(cmdScreenshot));
+
+  program
+    .command('import')
+    .description('Audit a Screaming Frog "Internal: All" CSV export without crawling again.')
+    .argument('<csv>', 'the exported CSV file')
+    .option('--site <url>', 'start URL (default: the first URL in the file)')
+    .option('-f, --format <list>', 'report formats', 'html,json')
+    .option('-o, --out <dir>', 'where to write reports', 'avc-reports')
+    .option('--no-save', 'do not store the audit in history')
+    .option('--json', 'print the result as JSON')
+    .action(run(cmdImport));
+
+  program
+    .command('redirect')
+    .description(
+      'Add a redirect on a connected WordPress site (AVC helper; dry run unless --apply; rollback saved).',
+    )
+    .argument('<site>', 'configured site id or URL')
+    .argument('<from>', 'old path, e.g. /old-page')
+    .argument('<to>', 'new URL or path')
+    .option('--code <n>', '301 (default), 302, 307 or 308', int('--code'))
+    .option('--apply', 'make the change (asks nothing; a rollback file is written first)')
+    .action(run(cmdRedirect));
+
+  program
+    .command('presets')
+    .description('List the crawl presets per platform (use with audit --preset).')
+    .option('--json', 'print as JSON')
+    .action(run(cmdPresets));
+
+  program
+    .command('update')
+    .description('Check for a newer version and install it (npm). Never runs on its own.')
+    .option('--check', 'only check, do not install')
+    .action(run(cmdUpdate));
+
+  program
+    .command('shortcut')
+    .description('Add an app icon that opens the dashboard (Applications, Start Menu or app menu).')
+    .option('--remove', 'remove it again')
+    .action(run(cmdShortcut));
+
+  program
+    .command('feedback')
+    .description('Send feedback: opens a prefilled GitHub issue (or email with --email).')
+    .argument('[message...]', 'your message')
+    .option('--email', 'write an email to Devs Core instead')
+    .action(run(cmdFeedback));
 
   program
     .command('doctor')

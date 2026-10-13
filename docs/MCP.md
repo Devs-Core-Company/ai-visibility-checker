@@ -90,6 +90,13 @@ Add `"env": { "AVC_DATA_DIR": "/path" }` to any of these to use a different data
 | `plan_fixes` | Ranked fixes; with `target`, a dry-run preview | No |
 | `apply_fixes` | Apply to WordPress or a local repo | Only with `confirm=true` |
 | `list_sites` | Configured sites and available AI engines | No |
+| `list_audits` | Stored audits per site, newest first | No |
+| `pagespeed` | PageSpeed Insights lab and field data for one URL | No |
+| `serp_preview` | Titles and descriptions as search snippets: pixel width, truncation, thin-for-AI | No |
+| `ask_audit` | Answer a question about the latest audit | No |
+| `generate_report` | Write html, md, csv, json, sarif, xlsx or pdf files | Writes report files |
+| `create_redirect` | Add a WordPress redirect through the AVC helper | Only with `confirm=true` |
+| `rollback` | Restore a WordPress or repo rollback snapshot | Only with `confirm=true` |
 
 Resource: `avc://report/{site}`, the latest audit report for a site as Markdown.
 

@@ -2,21 +2,21 @@
  * The AVC helper: a single-file WordPress must-use plugin the site owner installs once.
  * It adds a whitelisted REST surface for the fields AVC may change and nothing else:
  *
- * - `avc_seo` REST field on public post types: { title, description, noindex }, mapped to
+ * - `avc_seo` REST field on public post types: { title, description, noindex, canonical }, mapped to
  *   Yoast SEO, Rank Math or All in One SEO (or stored by the helper when none is active).
- * - `avc_robots_txt` and `avc_llms_txt` settings (manage_options), served at /robots.txt
+ * - `avc_robots_txt`, `avc_llms_txt` and `avc_redirects` settings (manage_options), served at /robots.txt
  *   and /llms.txt when non-empty.
  * - GET /avc/v1/status for detection.
  *
  * Application Passwords (core since WordPress 5.6) authenticate the requests.
  */
 export const WP_HELPER_FILENAME = 'avc-helper.php';
-export const WP_HELPER_VERSION = '1.0.0';
+export const WP_HELPER_VERSION = '1.1.0';
 
 export const WP_HELPER_PHP = `<?php
 /**
  * Plugin Name: AI Visibility Checker helper
- * Description: Lets AI Visibility Checker read and write SEO titles, meta descriptions, noindex, robots.txt and llms.txt through the REST API, with your Application Password. Whitelisted fields only.
+ * Description: Lets AI Visibility Checker read and write SEO titles, meta descriptions, noindex, canonical URLs, simple redirects, robots.txt and llms.txt through the REST API, with your Application Password. Whitelisted fields only.
  * Version: ${WP_HELPER_VERSION}
  * Author: Devs Core
  * License: AGPL-3.0-only
@@ -40,7 +40,33 @@ function avc_helper_aioseo_post($id) {
     return null;
 }
 
+/** Every SEO plugin that is active. Writes are refused when there is more than one. */
+function avc_helper_seo_plugins() {
+    $out = array();
+    if (defined('WPSEO_VERSION')) $out[] = 'yoast';
+    if (class_exists('RankMath')) $out[] = 'rank-math';
+    if (function_exists('aioseo')) $out[] = 'aioseo';
+    return $out;
+}
+
+function avc_helper_get_canonical($id) {
+    $plugin = avc_helper_seo_plugin();
+    if ($plugin === 'yoast') return (string) get_post_meta($id, '_yoast_wpseo_canonical', true);
+    if ($plugin === 'rank-math') return (string) get_post_meta($id, 'rank_math_canonical_url', true);
+    if ($plugin === 'aioseo') {
+        $p = avc_helper_aioseo_post($id);
+        return $p ? (string) $p->canonical_url : '';
+    }
+    return (string) get_post_meta($id, '_avc_canonical', true);
+}
+
 function avc_helper_get_seo($id) {
+    $seo = avc_helper_get_seo_base($id);
+    $seo['canonical'] = avc_helper_get_canonical($id);
+    return $seo;
+}
+
+function avc_helper_get_seo_base($id) {
     $plugin = avc_helper_seo_plugin();
     if ($plugin === 'yoast') {
         return array(
@@ -76,7 +102,23 @@ function avc_helper_get_seo($id) {
 
 function avc_helper_set_seo($id, $value) {
     $value = (array) $value;
+    if (count(avc_helper_seo_plugins()) > 1) {
+        return new WP_Error('avc_two_seo_plugins', 'More than one SEO plugin is active; AVC will not write SEO fields until only one is.', array('status' => 409));
+    }
     $plugin = avc_helper_seo_plugin();
+    if (array_key_exists('canonical', $value)) {
+        $c = esc_url_raw((string) $value['canonical']);
+        if ($plugin === 'yoast') update_post_meta($id, '_yoast_wpseo_canonical', $c);
+        elseif ($plugin === 'rank-math') update_post_meta($id, 'rank_math_canonical_url', $c);
+        elseif ($plugin === 'aioseo') {
+            $p = avc_helper_aioseo_post($id);
+            if ($p) {
+                if (!$p->post_id) $p->post_id = $id;
+                $p->canonical_url = $c;
+                $p->save();
+            }
+        } else update_post_meta($id, '_avc_canonical', $c);
+    }
     $title = array_key_exists('title', $value) ? sanitize_text_field((string) $value['title']) : null;
     $desc = array_key_exists('description', $value) ? sanitize_textarea_field((string) $value['description']) : null;
     $noindex = array_key_exists('noindex', $value) ? (bool) $value['noindex'] : null;
@@ -126,6 +168,7 @@ add_action('rest_api_init', function () {
             return array(
                 'helper' => '${WP_HELPER_VERSION}',
                 'seoPlugin' => avc_helper_seo_plugin(),
+                'seoPlugins' => avc_helper_seo_plugins(),
                 'wordpress' => get_bloginfo('version'),
             );
         },
@@ -151,13 +194,14 @@ add_action('rest_api_init', function () {
                 'title' => array('type' => 'string'),
                 'description' => array('type' => 'string'),
                 'noindex' => array('type' => 'boolean'),
+                'canonical' => array('type' => 'string'),
             ),
         ),
     ));
 });
 
 add_action('init', function () {
-    foreach (array('avc_robots_txt', 'avc_llms_txt') as $name) {
+    foreach (array('avc_robots_txt', 'avc_llms_txt', 'avc_redirects') as $name) {
         register_setting('avc', $name, array(
             'type' => 'string',
             'default' => '',
@@ -168,6 +212,38 @@ add_action('init', function () {
         ));
     }
 });
+
+// Simple 301/302 redirects stored as JSON: [{"from": "/old", "to": "/new", "code": 301}].
+add_action('template_redirect', function () {
+    $list = json_decode((string) get_option('avc_redirects', ''), true);
+    if (!is_array($list) || !$list) return;
+    $path = isset($_SERVER['REQUEST_URI']) ? (string) parse_url((string) $_SERVER['REQUEST_URI'], PHP_URL_PATH) : '';
+    $path = untrailingslashit($path) === '' ? '/' : untrailingslashit($path);
+    foreach ($list as $r) {
+        if (!is_array($r) || empty($r['from']) || empty($r['to'])) continue;
+        $from = untrailingslashit((string) $r['from']);
+        if ($from === '') $from = '/';
+        if (strcasecmp($from, $path) !== 0) continue;
+        $code = isset($r['code']) && in_array((int) $r['code'], array(301, 302, 307, 308), true) ? (int) $r['code'] : 301;
+        wp_safe_redirect(esc_url_raw((string) $r['to']), $code, 'AVC');
+        exit;
+    }
+}, 1);
+
+add_filter('allowed_redirect_hosts', function ($hosts) {
+    $list = json_decode((string) get_option('avc_redirects', ''), true);
+    if (is_array($list)) foreach ($list as $r) {
+        $h = is_array($r) && !empty($r['to']) ? parse_url((string) $r['to'], PHP_URL_HOST) : null;
+        if ($h) $hosts[] = $h;
+    }
+    return $hosts;
+});
+
+add_filter('get_canonical_url', function ($url, $post) {
+    if (avc_helper_seo_plugin() !== 'none') return $url;
+    $c = (string) get_post_meta($post->ID, '_avc_canonical', true);
+    return $c !== '' ? $c : $url;
+}, 20, 2);
 
 add_filter('robots_txt', function ($output) {
     $custom = (string) get_option('avc_robots_txt', '');

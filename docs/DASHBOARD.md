@@ -16,7 +16,7 @@ brand name and competitors.
 
 **Overview.** Score gauge and grade, the six pillars, issue counts by severity, AI mention rate
 trend, the fixes to do first, the next scheduled run and which connections are set up. Export the
-audit as HTML, Markdown, CSV (issues or pages), JSON or SARIF.
+audit as HTML, PDF, Excel, Markdown, CSV (issues, pages or custom extraction), JSON or SARIF.
 
 **Run audit.** Start URL, page and depth limits, JavaScript rendering, URL include/exclude
 patterns, a check filter and an optional AI visibility run. Progress streams live; you can cancel.
@@ -26,8 +26,19 @@ group shows why it matters, the affected URLs, the fix for your stack with a cop
 snippet, and a **Copy prompt for Claude Code / Cursor** button.
 
 **Pages.** Every crawled URL: status, title, words in raw HTML and after JavaScript, depth, inlinks,
-issues and indexability. Sort any column, filter by status or indexability. Click a page for all its
-issues, the raw vs rendered comparison and its structured data.
+issues and indexability. Sort any column, filter by status, indexability, depth, words, inlinks,
+issues or schema type, and add up to three field/operator/value rules. Click a page for all its
+issues, the raw vs rendered comparison, its structured data, custom extraction results and a
+desktop or phone screenshot.
+
+**Site graph.** The internal link graph (drag, zoom, click a page to open it), pages per click
+depth, and the URL folder tree.
+
+**Resources.** Scripts, stylesheets and images with how many pages use each, size and status;
+filter by type and by first or third party.
+
+**Snippets.** Titles and descriptions as they would look in search results, with pixel widths and
+descriptions too thin to give AI context.
 
 **AI crawlers.** For each known AI crawler: what robots.txt decides and the line that decides it,
 the live fetch verdict (ok, blocked, challenge, different content), and verified real visits from
@@ -52,6 +63,9 @@ steps: [CONNECTIONS.md](CONNECTIONS.md).
 
 **History & diff.** Pick any two audits to compare score, pillars, new and fixed issues, pages and
 AI visibility. Set the audit and AI visibility schedules.
+
+**Ask.** Ask a question about the latest audit; answered by your writer model, or from the ranked
+priorities without a key.
 
 **Settings.** AI keys (shown masked), mock mode, spend caps, and alert webhook and email with a
 "send a test alert" button.

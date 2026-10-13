@@ -2,7 +2,7 @@ import type { Hono } from 'hono';
 import { streamSSE } from 'hono/streaming';
 import type { SiteConfig } from '../../core/config.js';
 import { siteIdFromUrl } from '../../core/config.js';
-import type { AuditResult, Fix, Issue, Severity } from '../../core/types.js';
+import type { AuditResult, Fix, Issue, PageSummary, Severity } from '../../core/types.js';
 import {
   allSites,
   audit,
@@ -16,6 +16,7 @@ import {
   diff,
   removeUserSite,
   renderReport,
+  reportPdf,
   toUrl,
   upsertUserSite,
   type Format,
@@ -57,6 +58,63 @@ export function auditFor(c: AppContext, siteId: string): AuditResult | null {
     if (a) return a;
   }
   return store.latestAudit(siteId);
+}
+
+/** Fields the page filter builder can use. */
+export const RULE_FIELDS: Record<string, string> = {
+  url: 'URL',
+  title: 'Title',
+  metaDescription: 'Description',
+  h1: 'H1',
+  canonical: 'Canonical',
+  schemaTypes: 'Schema types',
+  status: 'Status',
+  depth: 'Depth',
+  wordCount: 'Words',
+  inlinks: 'Inlinks',
+  outlinks: 'Outlinks',
+  bytes: 'Bytes',
+  ttfbMs: 'TTFB ms',
+  issues: 'Issues',
+};
+
+export const RULE_OPS: [string, string][] = [
+  ['contains', 'contains'],
+  ['not-contains', 'does not contain'],
+  ['equals', 'equals'],
+  ['starts', 'starts with'],
+  ['gt', 'greater than'],
+  ['lt', 'less than'],
+  ['empty', 'is empty'],
+];
+
+/** One filter-builder rule against a page row. Text comparisons ignore case. */
+export function matchRule(
+  p: PageSummary,
+  r: { field: string; op: string; value: string },
+): boolean {
+  const raw = (p as unknown as Record<string, unknown>)[r.field];
+  const text = Array.isArray(raw) ? raw.join(' ') : raw == null ? '' : String(raw);
+  const t = text.toLowerCase();
+  const v = r.value.toLowerCase();
+  switch (r.op) {
+    case 'contains':
+      return t.includes(v);
+    case 'not-contains':
+      return !t.includes(v);
+    case 'equals':
+      return t === v;
+    case 'starts':
+      return t.startsWith(v);
+    case 'gt':
+      return Number(text) > Number(r.value);
+    case 'lt':
+      return Number(text) < Number(r.value);
+    case 'empty':
+      return t.trim() === '';
+    default:
+      return true;
+  }
 }
 
 export function NoAudit({ site }: { site: SiteConfig }) {
@@ -895,11 +953,33 @@ export function registerSitePages(app: Hono<ServerEnv>, deps: Deps) {
       );
     const status = c.req.query('status') ?? '';
     const indexable = c.req.query('indexable') ?? '';
+    const num = (k: string) => {
+      const v = c.req.query(k);
+      return v !== undefined && v !== '' && Number.isFinite(Number(v)) ? Number(v) : null;
+    };
+    const minDepth = num('minDepth');
+    const maxWords = num('maxWords');
+    const maxInlinks = num('maxInlinks');
+    const minIssues = num('minIssues');
+    const schema = (c.req.query('schema') ?? '').trim().toLowerCase();
+    // Custom rules: field + operator + value (up to three), like a filter builder.
+    const rules = [1, 2, 3]
+      .map((i) => ({
+        field: c.req.query(`f${i}`) ?? '',
+        op: c.req.query(`o${i}`) ?? 'contains',
+        value: c.req.query(`v${i}`) ?? '',
+      }))
+      .filter((r) => r.field in RULE_FIELDS && (r.value !== '' || r.op === 'empty'));
     const rows = result.pages.filter((p) => {
       if (status && String(p.status).charAt(0) !== status.charAt(0)) return false;
       if (indexable === 'yes' && !p.indexable) return false;
       if (indexable === 'no' && p.indexable) return false;
-      return true;
+      if (minDepth !== null && p.depth < minDepth) return false;
+      if (maxWords !== null && p.wordCount > maxWords) return false;
+      if (maxInlinks !== null && p.inlinks > maxInlinks) return false;
+      if (minIssues !== null && p.issues < minIssues) return false;
+      if (schema && !p.schemaTypes.some((t) => t.toLowerCase().includes(schema))) return false;
+      return rules.every((r) => matchRule(p, r));
     });
     const auditQ = c.req.query('audit') ? `&audit=${c.req.query('audit')}` : '';
     return c.html(
@@ -931,6 +1011,91 @@ export function registerSitePages(app: Hono<ServerEnv>, deps: Deps) {
               </option>
             </select>
           </div>
+          <div class="field">
+            <label for="p-depth">Depth at least</label>
+            <input
+              id="p-depth"
+              name="minDepth"
+              type="number"
+              min="0"
+              style="width:6em"
+              value={minDepth ?? ''}
+            />
+          </div>
+          <div class="field">
+            <label for="p-words">Words at most</label>
+            <input
+              id="p-words"
+              name="maxWords"
+              type="number"
+              min="0"
+              style="width:7em"
+              value={maxWords ?? ''}
+            />
+          </div>
+          <div class="field">
+            <label for="p-inl">Inlinks at most</label>
+            <input
+              id="p-inl"
+              name="maxInlinks"
+              type="number"
+              min="0"
+              style="width:6em"
+              value={maxInlinks ?? ''}
+            />
+          </div>
+          <div class="field">
+            <label for="p-iss">Issues at least</label>
+            <input
+              id="p-iss"
+              name="minIssues"
+              type="number"
+              min="0"
+              style="width:6em"
+              value={minIssues ?? ''}
+            />
+          </div>
+          <div class="field">
+            <label for="p-schema">Schema type</label>
+            <input
+              id="p-schema"
+              name="schema"
+              style="width:9em"
+              value={schema}
+              placeholder="Product"
+            />
+          </div>
+          {[1, 2, 3].map((i) => {
+            const r = rules[i - 1];
+            return (
+              <div class="field">
+                <label for={`p-f${i}`}>{`Rule ${i}`}</label>
+                <div class="row" style="gap:4px">
+                  <select id={`p-f${i}`} name={`f${i}`} aria-label={`Rule ${i} field`}>
+                    <option value="">—</option>
+                    {Object.entries(RULE_FIELDS).map(([k, label]) => (
+                      <option value={k} selected={r?.field === k}>
+                        {label}
+                      </option>
+                    ))}
+                  </select>
+                  <select name={`o${i}`} aria-label={`Rule ${i} operator`}>
+                    {RULE_OPS.map(([k, label]) => (
+                      <option value={k} selected={r?.op === k}>
+                        {label}
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    name={`v${i}`}
+                    aria-label={`Rule ${i} value`}
+                    style="width:8em"
+                    value={r?.value ?? ''}
+                  />
+                </div>
+              </div>
+            );
+          })}
           <button class="btn" type="submit">
             Filter
           </button>
@@ -1016,8 +1181,39 @@ export function registerSitePages(app: Hono<ServerEnv>, deps: Deps) {
         <p>
           <a href={page.url} rel="noopener noreferrer">
             {page.url}
-          </a>
+          </a>{' '}
+          <span class="muted small">
+            Screenshot:{' '}
+            <a
+              href={`/s/${encodeURIComponent(site.id)}/screenshot?url=${encodeURIComponent(page.url)}`}
+              target="_blank"
+              rel="noopener"
+            >
+              desktop
+            </a>{' '}
+            ·{' '}
+            <a
+              href={`/s/${encodeURIComponent(site.id)}/screenshot?device=mobile&url=${encodeURIComponent(page.url)}`}
+              target="_blank"
+              rel="noopener"
+            >
+              phone
+            </a>
+          </span>
         </p>
+        {page.extracted ? (
+          <div class="card">
+            <h3>Custom extraction</h3>
+            <dl class="kv">
+              {Object.entries(page.extracted).map(([k, v]) => (
+                <>
+                  <dt>{k}</dt>
+                  <dd>{Array.isArray(v) ? v.join(' | ') || '—' : String(v)}</dd>
+                </>
+              ))}
+            </dl>
+          </div>
+        ) : null}
         <div class="grid grid-2">
           <div class="card">
             <h3>Page</h3>
@@ -1131,11 +1327,11 @@ export function registerSitePages(app: Hono<ServerEnv>, deps: Deps) {
   });
 
   // ---------------------------------------------------------------- exports
-  app.get('/a/:auditId/export/:format', (c) => {
+  app.get('/a/:auditId/export/:format', async (c) => {
     const store = getStore();
     const result = store.getAudit(c.req.param('auditId'));
     if (!result) return c.notFound();
-    const fmt = c.req.param('format') as Format | 'csv-pages' | 'csv-issues';
+    const fmt = c.req.param('format') as Format | 'csv-pages' | 'csv-issues' | 'csv-extract';
     const base = fmt.startsWith('csv') ? 'csv' : fmt;
     if (!(FORMATS as readonly string[]).includes(base)) return c.notFound();
     let prev: AuditResult | null = null;
@@ -1146,10 +1342,19 @@ export function registerSitePages(app: Hono<ServerEnv>, deps: Deps) {
     }
     const [r] = renderReport(result, base as Format, {
       diff: prev ? diff(prev, result) : undefined,
-      csv: fmt === 'csv-pages' ? 'pages' : 'issues',
+      csv: fmt === 'csv-pages' ? 'pages' : fmt === 'csv-extract' ? 'extract' : 'issues',
     });
+    if (base === 'pdf') {
+      const pdf = await reportPdf(String(r.body));
+      if (!pdf.ok) return c.text(`PDF export failed: ${pdf.error}`, 500);
+      return c.body(new Uint8Array(pdf.pdf), 200, {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `attachment; filename="${r.filename.replace(/\.html$/, '.pdf')}"`,
+      });
+    }
     const inline = c.req.query('view') === '1' && base === 'html';
-    return c.body(r.body, 200, {
+    const body = typeof r.body === 'string' ? r.body : new Uint8Array(r.body);
+    return c.body(body, 200, {
       'Content-Type': r.contentType,
       'Content-Disposition': `${inline ? 'inline' : 'attachment'}; filename="${r.filename}"`,
     });
@@ -1183,6 +1388,17 @@ export function ExportLinks({ result }: { result: AuditResult }) {
         <a class="btn small" href={href('sarif')}>
           SARIF
         </a>
+        <a class="btn small" href={href('xlsx')}>
+          Excel
+        </a>
+        <a class="btn small" href={href('pdf')}>
+          PDF
+        </a>
+        {result.pages.some((p) => p.extracted) ? (
+          <a class="btn small" href={href('csv-extract')}>
+            CSV extraction
+          </a>
+        ) : null}
       </div>
     </div>
   );

@@ -62,7 +62,14 @@ export async function cmdConnect(
 ): Promise<void> {
   const config = getConfig();
   const siteless =
-    source === 'google' || source === 'psi' || source === 'bing' || source === 'status';
+    source === 'google' ||
+    source === 'psi' ||
+    source === 'bing' ||
+    source === 'status' ||
+    source === 'spelling' ||
+    source === 'safe-browsing' ||
+    source === 'embeddings' ||
+    source === 'backlinks';
   let site: SiteConfig | undefined;
   try {
     site = siteRef || !siteless ? pickSite(siteRef) : undefined;
@@ -162,6 +169,78 @@ export async function cmdConnect(
       if (!key) throw new ExitError(1, 'Pass --key. Bing Webmaster Tools → Settings → API access.');
       patchUserConfig('bing', { apiKey: key });
       ok('Saved the Bing Webmaster key.');
+      break;
+    }
+
+    case 'spelling': {
+      const server = opts.url;
+      if (server === 'public') {
+        patchUserConfig('spelling', { usePublicApi: true, server: '' });
+        warn(
+          'Using the public LanguageTool API: page text is sent to languagetool.org (rate-limited, 10 pages per audit).',
+        );
+      } else {
+        const url =
+          server ??
+          (interactive()
+            ? await ask(
+                'LanguageTool server URL (or "public" for the public API)',
+                'http://localhost:8081',
+              )
+            : '');
+        if (!url)
+          throw new ExitError(
+            1,
+            'Pass --url http://localhost:8081 (your LanguageTool server) or --url public.',
+          );
+        if (url === 'public') patchUserConfig('spelling', { usePublicApi: true, server: '' });
+        else patchUserConfig('spelling', { server: url, usePublicApi: false });
+      }
+      ok('Spelling and grammar checks are on for the next audit (content.spelling).');
+      break;
+    }
+
+    case 'safe-browsing': {
+      const key =
+        opts.key ?? (interactive() ? await askSecret('Google Safe Browsing API key') : '');
+      if (!key)
+        throw new ExitError(
+          1,
+          'Pass --key. Enable the Safe Browsing API in Google Cloud and create an API key.',
+        );
+      patchUserConfig('safeBrowsing', { key });
+      ok(
+        'Saved. Outbound links are checked on audits run with --external-links (links-external.unsafe).',
+      );
+      break;
+    }
+
+    case 'embeddings': {
+      patchUserConfig('embeddings', {
+        enabled: true,
+        ...(opts.property ? { model: opts.property } : {}),
+      });
+      ok(
+        'Embeddings are on (duplicates.semantic, content.off-topic). They use your OpenAI key or AI Gateway key, or sample vectors with --mock.',
+      );
+      break;
+    }
+
+    case 'backlinks': {
+      const provider = (opts.property ?? '').toLowerCase();
+      if (!['moz', 'ahrefs', 'majestic'].includes(provider))
+        throw new ExitError(1, 'Pass --property moz|ahrefs|majestic and --key <your API token>.');
+      const key = opts.key ?? (interactive() ? await askSecret(`${provider} API key`) : '');
+      if (!key) throw new ExitError(1, 'Pass --key.');
+      patchUserConfig('backlinks', {
+        provider: provider as 'moz' | 'ahrefs' | 'majestic',
+        ...(provider === 'moz'
+          ? { mozToken: key }
+          : provider === 'ahrefs'
+            ? { ahrefsToken: key }
+            : { majesticKey: key }),
+      });
+      ok(`Saved. Link metrics from ${provider} appear in the next audit.`);
       break;
     }
 

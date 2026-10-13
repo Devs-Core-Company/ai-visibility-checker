@@ -70,7 +70,8 @@ export function serverTargets(stack: StackInfo): ServerTarget[] {
   if (host.includes('netlify')) out.push('netlify');
   if (host.includes('nginx')) out.push('nginx');
   if (host.includes('apache') || host.includes('litespeed')) out.push('apache');
-  if (['wordpress', 'drupal', 'joomla'].includes(stack.id)) out.push('apache', 'nginx');
+  if (['wordpress', 'drupal', 'joomla', 'magento', 'laravel'].includes(stack.id))
+    out.push('apache', 'nginx');
   if (stack.id === 'nextjs') out.push('vercel');
   if (host.includes('cloudflare')) out.push('cloudflare');
   out.push('nginx', 'apache', 'cloudflare');

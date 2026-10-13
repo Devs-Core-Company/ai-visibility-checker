@@ -41,10 +41,19 @@ export interface WpSiteInfo {
   seoPlugin: SeoPluginId;
   helper: string | null;
   canManageOptions: boolean;
+  /** Every active SEO plugin, as reported by the helper (writes are refused when there are two). */
+  seoPlugins?: string[];
 }
 
 export type WpChangeKind =
-  'seo-title' | 'seo-description' | 'noindex' | 'image-alt' | 'robots-txt' | 'llms-txt';
+  | 'seo-title'
+  | 'seo-description'
+  | 'noindex'
+  | 'canonical'
+  | 'image-alt'
+  | 'robots-txt'
+  | 'llms-txt'
+  | 'redirects';
 
 export interface WpChange {
   id: string;
@@ -201,6 +210,7 @@ export class WpClient {
     const root = await this.get<{ name?: string; namespaces?: string[] }>('/');
     const namespaces = root.namespaces ?? [];
     let helper: string | null = null;
+    let seoPlugins: string[] | undefined;
     let seoPlugin: SeoPluginId = namespaces.includes('yoast/v1')
       ? 'yoast'
       : namespaces.includes('rankmath/v1')
@@ -210,9 +220,14 @@ export class WpClient {
           : 'none';
     if (namespaces.includes('avc/v1')) {
       try {
-        const st = await this.get<{ helper: string; seoPlugin: SeoPluginId }>('/avc/v1/status');
+        const st = await this.get<{
+          helper: string;
+          seoPlugin: SeoPluginId;
+          seoPlugins?: string[];
+        }>('/avc/v1/status');
         helper = st.helper;
         if (st.seoPlugin) seoPlugin = st.seoPlugin;
+        if (Array.isArray(st.seoPlugins)) seoPlugins = st.seoPlugins;
       } catch {
         /* helper present but not reachable for this user */
       }
@@ -228,6 +243,7 @@ export class WpClient {
       seoPlugin,
       helper,
       canManageOptions: !!me.capabilities?.manage_options,
+      ...(seoPlugins ? { seoPlugins } : {}),
     };
   }
 }
@@ -288,7 +304,7 @@ interface WpObject {
   id: number;
   link?: string;
   meta?: Record<string, unknown>;
-  avc_seo?: { title?: string; description?: string; noindex?: boolean } | null;
+  avc_seo?: { title?: string; description?: string; noindex?: boolean; canonical?: string } | null;
 }
 
 /** Find the post/page behind a URL. */
@@ -332,7 +348,7 @@ export async function resolveUrl(
 function seoAccess(
   obj: WpObject,
   info: WpSiteInfo,
-  what: 'title' | 'description' | 'noindex',
+  what: 'title' | 'description' | 'noindex' | 'canonical',
 ): { field: string; value: unknown; via: WpChange['via'] } | null {
   if (obj.avc_seo && typeof obj.avc_seo === 'object')
     return {
@@ -340,6 +356,7 @@ function seoAccess(
       value: obj.avc_seo[what] ?? (what === 'noindex' ? false : ''),
       via: 'helper',
     };
+  if (what === 'canonical') return null; // canonical writes need the helper
   const keys = PLUGIN_META[info.seoPlugin];
   if (!keys || !obj.meta) return null;
   const key = keys[what];
@@ -511,9 +528,57 @@ export async function planWordPressFixes(
   };
   const helperHint = `install the AVC helper (wp-content/mu-plugins/${WP_HELPER_FILENAME}; \`avc fix --wp-helper\` prints it)`;
 
+  // Two SEO plugins fighting over the same tags: never write SEO fields (ambiguous result).
+  const twoSeoPlugins = (info.seoPlugins?.length ?? 0) > 1;
+  if (twoSeoPlugins)
+    plan.skipped.push({
+      checkId: 'cms.wp-seo-plugin-conflict',
+      reason: `${info.seoPlugins!.join(' and ')} are both active; SEO field writes are refused until one is deactivated`,
+    });
+
   for (const [checkId, issues] of byCheck) {
     const recipe = findRecipe(checkId);
+    // Canonical clean-ups: set the page's own clean URL as its canonical (helper only).
+    if (
+      CANONICAL_SELF.has(checkId) &&
+      wanted(opts.only, checkId, 'canonical-self') &&
+      !twoSeoPlugins
+    ) {
+      for (const u of [...new Set(issues.map((i) => i.url).filter((x): x is string => !!x))].slice(
+        0,
+        maxPages,
+      )) {
+        const target = cleanSelfUrl(pageOf(u)?.finalUrl ?? u);
+        const hit = await resolve(u);
+        if (!hit) {
+          plan.skipped.push({ checkId, url: u, reason: 'no matching post or page found' });
+          continue;
+        }
+        const acc = seoAccess(hit.obj, info, 'canonical');
+        if (!acc) {
+          plan.skipped.push({
+            checkId,
+            url: u,
+            reason: `canonical is not writable over REST — ${helperHint}`,
+          });
+          continue;
+        }
+        if (String(acc.value ?? '') === target) continue;
+        add({
+          checkIds: [checkId],
+          kind: 'canonical',
+          url: u,
+          route: hit.route,
+          field: acc.field,
+          before: acc.value ?? '',
+          after: target,
+          via: acc.via,
+        });
+      }
+      continue;
+    }
     if (!recipe.auto?.wordpress || !wanted(opts.only, checkId, recipe.id)) continue;
+    if (twoSeoPlugins && recipe.id !== 'images-alt' && !/robots|llms/.test(recipe.id)) continue;
     const urls = [...new Set(issues.map((i) => i.url).filter((u): u is string => !!u))].slice(
       0,
       maxPages,
@@ -740,6 +805,95 @@ export async function planWordPressFixes(
       }
     }
   }
+  return plan;
+}
+
+/** Canonical problems fixed by declaring the page's own clean URL. */
+export const CANONICAL_SELF = new Set([
+  'canonical.relative',
+  'canonical.has-fragment',
+  'canonical.empty',
+  'canonical.keeps-parameters',
+  'canonical.host-or-protocol-variant',
+]);
+
+const TRACKING =
+  /^(utm_[a-z]+|gclid|fbclid|msclkid|mc_cid|mc_eid|_ga|ref|replytocom|sessionid|sid|phpsessid)$/i;
+
+/** The page URL without a fragment or tracking/session parameters. */
+export function cleanSelfUrl(u: string): string {
+  try {
+    const x = new URL(u);
+    x.hash = '';
+    for (const k of [...x.searchParams.keys()]) if (TRACKING.test(k)) x.searchParams.delete(k);
+    return x.toString();
+  } catch {
+    return u;
+  }
+}
+
+export interface WpRedirect {
+  from: string;
+  to: string;
+  code?: 301 | 302 | 307 | 308;
+}
+
+/** A plan with one change: add (or replace) a redirect in the helper's redirect list. */
+export async function planWordPressRedirect(
+  client: WpClient,
+  site: string,
+  redirect: WpRedirect,
+): Promise<WpPlan> {
+  const info = await client.discover();
+  const plan: WpPlan = {
+    target: 'wordpress',
+    site,
+    createdAt: new Date().toISOString(),
+    info,
+    changes: [],
+    skipped: [],
+  };
+  const from = (() => {
+    try {
+      return new URL(redirect.from, site).pathname;
+    } catch {
+      return redirect.from;
+    }
+  })();
+  if (!info.helper || !info.canManageOptions) {
+    plan.skipped.push({
+      checkId: 'redirect',
+      url: from,
+      reason: !info.helper
+        ? `redirects need the AVC helper (wp-content/mu-plugins/${WP_HELPER_FILENAME}) version 1.1 or later`
+        : 'this user cannot manage options (needs an administrator)',
+    });
+    return plan;
+  }
+  const settings = await client.get<Record<string, unknown>>('/wp/v2/settings');
+  const before = String(settings.avc_redirects ?? '');
+  let list: WpRedirect[] = [];
+  try {
+    list = before ? (JSON.parse(before) as WpRedirect[]) : [];
+  } catch {
+    list = [];
+  }
+  const next = [
+    ...list.filter((r) => r.from !== from),
+    { from, to: redirect.to, code: redirect.code ?? 301 },
+  ];
+  plan.changes.push({
+    id: 'c1',
+    checkIds: ['redirect'],
+    kind: 'redirects',
+    url: from,
+    route: '/wp/v2/settings',
+    field: 'avc_redirects',
+    before,
+    after: JSON.stringify(next),
+    via: 'helper',
+    note: `${redirect.code ?? 301} ${from} → ${redirect.to}`,
+  });
   return plan;
 }
 

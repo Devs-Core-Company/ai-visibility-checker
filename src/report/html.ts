@@ -29,6 +29,30 @@ export interface HtmlReportOptions {
   maxUrlsPerCheck?: number;
   /** Max rows in the page table. Default 2000. */
   maxPages?: number;
+  /** White-label: your name, accent colour, logo URL and contact line in the header and footer. */
+  branding?: { brandName?: string; brandColor?: string; brandLogo?: string; brandContact?: string };
+  /** Light, print-friendly colours (used for PDF export). */
+  print?: boolean;
+}
+
+const PRINT_CSS = `:root{--ink:#ffffff;--surface:#f6f7f9;--surface2:#eef0f3;--line:#d9dde3;--fg:#15171a;--muted:#555d66}
+html{color-scheme:light}body{font-size:13px}a{color:var(--royal)}header.top{background:#fff}
+.card,details{break-inside:avoid}`;
+
+/** Accept only a hex colour (white-label accent). */
+export function safeColor(c: string | undefined): string | null {
+  return c && /^#[0-9a-f]{3}([0-9a-f]{3})?$/i.test(c.trim()) ? c.trim() : null;
+}
+
+function brandHeader(opts: HtmlReportOptions): string {
+  const b = opts.branding;
+  if (!b?.brandName && !b?.brandLogo)
+    return '<i aria-hidden="true"></i>Devs Core · AI Visibility Checker';
+  const logo =
+    b.brandLogo && /^(https?:|data:image\/)/i.test(b.brandLogo)
+      ? `<img src="${esc(b.brandLogo)}" alt="" style="height:24px;width:auto">`
+      : '<i aria-hidden="true"></i>';
+  return `${logo}${esc(b.brandName ?? '')}`;
 }
 
 const CSS = `
@@ -214,7 +238,7 @@ export function renderHtmlReport(result: AuditResult, opts: HtmlReportOptions = 
 
   // Header + hero
   parts.push(
-    `<header class="top"><div class="wrap"><div class="brand"><i aria-hidden="true"></i>Devs Core · AI Visibility Checker</div><div class="label">Report · ${esc(shortDate(r.at))} · v${esc(r.version)}</div></div></header>`,
+    `<header class="top"><div class="wrap"><div class="brand">${brandHeader(opts)}</div><div class="label">Report · ${esc(shortDate(r.at))} · v${esc(r.version)}</div></div></header>`,
   );
   parts.push(`<main class="wrap">`);
   const pillarRows = s.pillars
@@ -451,12 +475,12 @@ ${skippedChecks.length ? `<details><summary class="small">Skipped checks (${skip
   );
 
   parts.push(
-    `</main><footer><div class="wrap"><p>Made with the AI Visibility Checker by <a href="https://devs-core.com">Devs Core</a>. It runs on your machine; this report was not uploaded anywhere. <a href="${CHECKER_URL}">devs-core.com/ai-visibility-checker</a></p><p class="small">Audit ${esc(r.id)} · ${esc(r.at)} · ${esc(r.startUrl)}</p></div></footer>`,
+    `</main><footer><div class="wrap">${opts.branding?.brandName || opts.branding?.brandContact ? `<p><b>${esc(opts.branding.brandName ?? '')}</b>${opts.branding.brandContact ? ` · ${esc(opts.branding.brandContact)}` : ''}</p>` : ''}<p>Made with the AI Visibility Checker by <a href="https://devs-core.com">Devs Core</a>. It runs on your machine; this report was not uploaded anywhere. <a href="${CHECKER_URL}">devs-core.com/ai-visibility-checker</a></p><p class="small">Audit ${esc(r.id)} · ${esc(r.at)} · ${esc(r.startUrl)}</p></div></footer>`,
   );
 
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex"><meta name="generator" content="AI Visibility Checker ${esc(r.version)} by Devs Core">
-<title>${esc(title)}</title><style>${CSS}</style></head>
+<title>${esc(title)}</title><style>${CSS}${opts.print ? PRINT_CSS : ''}${safeColor(opts.branding?.brandColor) ? `:root{--azure:${safeColor(opts.branding?.brandColor)};--grad:linear-gradient(90deg,${safeColor(opts.branding?.brandColor)},${safeColor(opts.branding?.brandColor)})}` : ''}</style></head>
 <body>${parts.join('\n')}<script>${JS}</script></body></html>`;
 }

@@ -19,6 +19,9 @@ function csv(rows: unknown[][]): string {
   return rows.map((r) => r.map(csvField).join(',')).join('\r\n') + '\r\n';
 }
 
+/** Rows to CSV text (RFC 4180, formula-safe). */
+export const csvRows = csv;
+
 export function toCsv(result: AuditResult, kind: 'issues' | 'pages'): string {
   if (kind === 'pages') {
     const head = [

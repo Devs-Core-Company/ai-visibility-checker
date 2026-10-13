@@ -878,7 +878,11 @@ export async function writerModel(config?: Pick<AvcConfig, 'ai'>): Promise<unkno
     }
     if (ai.openaiKey) {
       const { createOpenAI } = await import('@ai-sdk/openai');
-      return createOpenAI({ apiKey: ai.openaiKey })(id ?? 'gpt-4.1-mini');
+      return ai.openaiBaseUrl
+        ? createOpenAI({ apiKey: ai.openaiKey, baseURL: ai.openaiBaseUrl }).chat(
+            id ?? 'gpt-4.1-mini',
+          )
+        : createOpenAI({ apiKey: ai.openaiKey })(id ?? 'gpt-4.1-mini');
     }
     if (ai.googleKey) {
       const { createGoogle } = await import('@ai-sdk/google');

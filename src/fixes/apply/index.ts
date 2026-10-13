@@ -17,6 +17,7 @@ import {
 import {
   applyWordPressPlan,
   planWordPressFixes,
+  planWordPressRedirect,
   renderWpPlan,
   WpClient,
   type WpApplyOutcome,
@@ -162,6 +163,46 @@ export async function applyFixes(opts: ApplyFixesOptions): Promise<ApplyFixesOut
   };
 }
 
+/** Add a redirect on a connected WordPress site through the AVC helper (dry run unless told). */
+export async function addWordPressRedirect(opts: {
+  config: AvcConfig;
+  site: SiteConfig;
+  from: string;
+  to: string;
+  code?: 301 | 302 | 307 | 308;
+  dryRun: boolean;
+  appPassword?: string;
+  fetch?: typeof fetch;
+}): Promise<{ plan: WpPlan; outcome: WpApplyOutcome; summary: string }> {
+  const wp = opts.site.connections?.wordpress;
+  const appPassword = opts.appPassword ?? wp?.appPassword ?? process.env.AVC_WP_APP_PASSWORD;
+  if (!wp?.url || !wp.user || !appPassword)
+    throw new Error(
+      'No WordPress connection with an Application Password for this site. Run `avc connect wordpress` first.',
+    );
+  const client = new WpClient({ url: wp.url, user: wp.user, appPassword }, { fetch: opts.fetch });
+  const plan = await planWordPressRedirect(client, opts.site.url, {
+    from: opts.from,
+    to: opts.to,
+    code: opts.code,
+  });
+  const outcome = await applyWordPressPlan(plan, client, {
+    dryRun: opts.dryRun,
+    dataDir: opts.config.dataDir,
+  });
+  return {
+    plan,
+    outcome,
+    summary: [
+      renderWpPlan(plan, opts.dryRun ? undefined : outcome.results),
+      '',
+      opts.dryRun
+        ? 'Dry run: nothing was changed. Re-run with --apply to add the redirect.'
+        : `Rollback file: ${outcome.snapshotFile}\nUndo with: avc rollback "${outcome.snapshotFile}"`,
+    ].join('\n'),
+  };
+}
+
 function count(statuses: string[]): Counts {
   return {
     planned: statuses.filter((s) => s === 'planned').length,
@@ -180,6 +221,7 @@ export {
 } from './repo.js';
 export {
   planWordPressFixes,
+  planWordPressRedirect,
   applyWordPressPlan,
   rollbackWordPress,
   renderWpPlan,

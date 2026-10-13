@@ -58,7 +58,7 @@ Step-by-step setup per operating system: [docs/INSTALL.md](docs/INSTALL.md).
 
 ## What it checks
 
-594 checks in version 1.0: 411 technical SEO, content, accessibility and CMS checks, and 183 AI
+630 checks: 440 technical SEO, content, accessibility and CMS checks, and 190 AI
 crawler, llms.txt, AEO/GEO, entity and agentic-web checks. Every check has a stable id, a severity, the reason it matters, and a fix. List them all with
 `avc checks` (or `avc checks --json`). Checks that need data you have not connected are skipped
 with a reason, never failed.
@@ -77,7 +77,14 @@ specifics.
 A real crawler, not a one-page scan: follows links and sitemaps, respects robots.txt, renders
 JavaScript pages in local Chrome when you ask (`--render`, or `auto` for a sample plus pages with
 little raw text), and compares raw HTML with the rendered page, because most AI crawlers do not run
-JavaScript. Set `--max-pages 0` for no limit.
+JavaScript. Rendered pages are also opened as a phone (tap targets, sideways scrolling, pop-ups,
+content missing on mobile). Set `--max-pages 0` for no limit.
+
+Crawl controls when you need them: list mode (`--list`), sitemap-only, platform presets
+(`--preset auto`), URL rewriting and parameter stripping, subdomains or one folder, URL limits,
+form sign-in for members' areas, custom extraction (CSS, simple XPath, regex), content-area
+selectors, linked PDFs (title, author, pages), named crawl profiles, and `avc import` for a
+Screaming Frog export.
 
 ### 3. AEO / GEO readiness
 
@@ -170,7 +177,11 @@ All optional. Each one unlocks more checks. Setup for each: [docs/CONNECTIONS.md
 | Server access logs      | `avc connect logs`, `avc logs <files>`  | Verified AI crawler visits, spoofed bots, errors served to bots          |
 | WordPress               | `avc connect wordpress`                 | Auto-apply fixes with rollback                                           |
 | Local repo              | `avc connect repo`                      | Fixes as patches to your code                                            |
-| Chrome / Chromium       | install it, or `AVC_CHROME_PATH`        | Rendered vs raw HTML comparison                                          |
+| Chrome / Chromium       | install it, or `AVC_CHROME_PATH`        | Rendered vs raw HTML comparison, phone render, screenshots, PDF reports  |
+| LanguageTool            | `avc connect spelling`                  | Spelling and grammar (your own server, or the public API if you opt in)  |
+| Google Safe Browsing    | `avc connect safe-browsing`             | Outbound links to malware or phishing sites                              |
+| Embeddings              | `avc connect embeddings`                | Pages with the same meaning; off-topic pages                             |
+| Backlinks               | `avc connect backlinks`                 | Moz, Ahrefs or Majestic metrics from your own subscription               |
 
 `avc doctor` shows what is set up and what is missing.
 
@@ -179,7 +190,9 @@ All optional. Each one unlocks more checks. Setup for each: [docs/CONNECTIONS.md
 - Everything runs locally. Audits, history, OAuth tokens and snapshots live in `~/.avc` (or
   `AVC_DATA_DIR`) in a local SQLite database.
 - The app only contacts: the sites you audit, and the APIs you configure (AI providers or the AI
-  Gateway, Google, Bing, Wikidata for entity checks, your webhook or SMTP server).
+  Gateway, Google, Bing, Wikidata for entity checks, LanguageTool, Safe Browsing, your backlink
+  provider, your webhook or SMTP server). `avc update` reads the latest version from GitHub only
+  when you run it.
 - No telemetry, no analytics, no account.
 - Secrets go in environment variables or `~/.avc/config.json` (file mode 600), never in the project
   file `avc.config.json`, which is meant to be committed.
@@ -203,8 +216,9 @@ claude mcp add avc -- npx -y github:Devs-Core-Company/ai-visibility-checker mcp
 
 Then ask: "Audit example.com and fix the top three issues in this repo." Tools include `audit_site`,
 `get_issues`, `get_fix` (with agent prompts), `crawler_access`, `agentic_readiness`, `ai_visibility`
-(asks before spending), `diff_audits`, generators, and `plan_fixes` / `apply_fixes` (dry run unless
-confirmed). Setup for every client: [docs/MCP.md](docs/MCP.md).
+(asks before spending), `diff_audits`, `list_audits`, `pagespeed`, `serp_preview`, `ask_audit`,
+`generate_report`, generators, `plan_fixes` / `apply_fixes` (dry run unless confirmed),
+`create_redirect` and `rollback`. Setup for every client: [docs/MCP.md](docs/MCP.md).
 
 ## CI
 
@@ -221,25 +235,31 @@ with code 2 when the score is below 70. SARIF uploads to GitHub code scanning. S
 
 ## Commands
 
-| Command                                                   | What it does                                               |
-| --------------------------------------------------------- | ---------------------------------------------------------- |
-| `avc init`                                                | Set up a site: URL, brand, competitors                     |
-| `avc audit <url>`                                         | Crawl and check; reports in html, json, md, csv, sarif     |
-| `avc visibility <url>`                                    | Ask AI engines your prompts                                |
-| `avc prompts suggest <url>`                               | Suggest prompts to track                                   |
-| `avc fix [site]`                                          | Plan fixes; preview and apply to WordPress or a repo       |
-| `avc rollback <file>`                                     | Undo a WordPress change                                    |
-| `avc generate llms-txt\|robots\|schema\|agent-card <url>` | Generate files                                             |
-| `avc connect <source>`                                    | Connect Google, GSC, GA4, PSI, Bing, logs, WordPress, repo |
-| `avc logs <files…>`                                       | AI crawler visits from access logs                         |
-| `avc diff`, `avc history`, `avc report`                   | Compare, list and export stored audits                     |
-| `avc schedule`, `avc monitor`                             | Scheduled audits with alerts                               |
-| `avc ui`                                                  | Dashboard                                                  |
-| `avc mcp`                                                 | MCP server                                                 |
-| `avc checks`, `avc doctor`                                | List checks; check your setup                              |
+| Command                                                     | What it does                                                                   |
+| ----------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| `avc init`                                                  | Set up a site: URL, brand, competitors                                         |
+| `avc audit <url>`                                           | Crawl and check; reports in html, json, md, csv, sarif, xlsx, pdf              |
+| `avc visibility <url>`                                      | Ask AI engines your prompts                                                    |
+| `avc prompts suggest <url>`                                 | Suggest prompts to track                                                       |
+| `avc fix [site]`                                            | Plan fixes; preview and apply to WordPress or a repo                           |
+| `avc rollback <file>`                                       | Undo a WordPress change                                                        |
+| `avc generate llms-txt\|robots\|schema\|agent-card <url>`   | Generate files                                                                 |
+| `avc connect <source>`                                      | Connect Google, GSC, GA4, PSI, Bing, logs, WordPress, repo                     |
+| `avc logs <files…>`                                         | AI crawler visits from access logs                                             |
+| `avc diff`, `avc history`, `avc report`                     | Compare, list and export stored audits                                         |
+| `avc schedule`, `avc monitor`                               | Scheduled audits with alerts                                                   |
+| `avc ui`                                                    | Dashboard                                                                      |
+| `avc mcp`                                                   | MCP server                                                                     |
+| `avc checks`, `avc doctor`                                  | List checks; check your setup                                                  |
+| `avc serp`, `avc ask`                                       | Snippet preview (pixel widths) and AI-written drafts; questions about an audit |
+| `avc screenshot <url>`                                      | Desktop or phone screenshot                                                    |
+| `avc import <csv>`                                          | Audit a Screaming Frog export                                                  |
+| `avc redirect <site> <from> <to>`                           | Add a WordPress redirect (dry run first, rollback saved)                       |
+| `avc presets`, `avc update`, `avc shortcut`, `avc feedback` | Crawl presets; update check; app icon; feedback                                |
 
 Full reference: [docs/CLI.md](docs/CLI.md). Dashboard tour: [docs/DASHBOARD.md](docs/DASHBOARD.md).
-How it compares with other tools: [docs/COMPARISON.md](docs/COMPARISON.md).
+How it compares with other tools: [docs/COMPARISON.md](docs/COMPARISON.md) (line by line with
+Scrawly: [docs/PARITY.md](docs/PARITY.md)).
 
 ## FAQ
 

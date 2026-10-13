@@ -30,6 +30,7 @@ import {
   urlKey,
   words,
 } from './_util.js';
+import * as cu from './_util.js';
 
 export const THIN_WORDS = 200;
 export const VERY_THIN_WORDS = 50;
@@ -776,3 +777,268 @@ export const checks = [
     },
   ),
 ];
+
+// ---------------------------------------------------------------------------
+// Added for feature parity: cannibalisation, doubled words, spelling (LanguageTool),
+// PDF titles, and meaning-based duplicates from embeddings
+// ---------------------------------------------------------------------------
+
+/** Significant words of a title or heading: lower-case, no stop words or brand, crude singular. */
+export function topicTerms(
+  text: string | null | undefined,
+  brand: Set<string> = new Set(),
+): string[] {
+  const out = new Set<string>();
+  for (const raw of words((text ?? '').toLowerCase())) {
+    const w = raw.replace(/[^\p{L}\p{N}-]/gu, '');
+    if (w.length < 3 || STOP_WORDS.has(w) || brand.has(w) || /^\d+$/.test(w)) continue;
+    out.add(w.length > 4 && w.endsWith('s') && !w.endsWith('ss') ? w.slice(0, -1) : w);
+  }
+  return [...out].sort();
+}
+
+const DOUBLED_OK = new Set([
+  'that',
+  'had',
+  'can',
+  'do',
+  'so',
+  'bye',
+  'very',
+  'no',
+  'yes',
+  'ha',
+  'la',
+  'really',
+  'far',
+  'many',
+  'is',
+  'knock',
+  'tut',
+  'chop',
+  'pom',
+  'dum',
+  'ta',
+  'go',
+  'hip',
+  'well',
+  'blah',
+]);
+
+/** Doubled words such as "the the" in visible text (case-insensitive, first 20). */
+export function doubledWords(text: string): string[] {
+  const out: string[] = [];
+  for (const m of text.matchAll(/(?<![\p{L}\p{N}])(\p{L}{2,})[ \t]+\1(?![\p{L}\p{N}])/giu)) {
+    const w = m[1]!.toLowerCase();
+    if (DOUBLED_OK.has(w)) continue;
+    const start = Math.max(0, (m.index ?? 0) - 30);
+    out.push(
+      text
+        .slice(start, (m.index ?? 0) + m[0].length + 30)
+        .replace(/\s+/g, ' ')
+        .trim(),
+    );
+    if (out.length >= 20) break;
+  }
+  return out;
+}
+
+const PDF_GENERIC_TITLE =
+  /^(untitled|document\d*|microsoft (word|powerpoint|excel) - .*|.*\.(docx?|pptx?|xlsx?|indd|pdf)|title|new document|presentation\d*)$/i;
+
+const SPELLING_MIN_MATCHES = 3;
+
+checks.push(
+  siteCheck(
+    {
+      id: 'content.cannibalisation',
+      category: 'content',
+      pillar: C,
+      title: 'Several pages target the same topic',
+      why: 'When two or more pages use the same key words in their title and H1, they compete for the same searches. Search engines and AI assistants pick one, often not the one you want, and the signals (links, engagement) are split between them.',
+      severity: 'medium',
+      fixTier: 'manual',
+      fix: 'Decide which page should rank for the topic. Merge the others into it (with a 301), or give each page a distinct focus and rewrite its title and H1 to match.',
+      refs: [REF.canonical, REF.helpfulContent],
+    },
+    (site) => {
+      const pages = indexablePages(site).filter(
+        (p) => p.title && (pageNumber(p.url) ?? 1) <= 1 && !isHomepage(p, site),
+      );
+      if (pages.length < 2) return null;
+      const brand = brandWords(pages[0]!);
+      const groups = new Map<string, PageData[]>();
+      for (const p of pages) {
+        const h1 = p.headings.find((h) => h.level === 1)?.text ?? '';
+        const t = topicTerms(p.title, brand);
+        const h = topicTerms(h1, brand);
+        if (t.length < 2 || !h.length) continue;
+        // Key: the terms the title and H1 share (both signal the same intent).
+        const shared = t.filter((x) => h.includes(x));
+        const key = (shared.length >= 2 ? shared : t).join(' ');
+        (groups.get(key) ?? groups.set(key, []).get(key)!).push(p);
+      }
+      const out: Issue[] = [];
+      for (const [key, g] of groups) {
+        if (g.length < 2) continue;
+        // Exact duplicate titles are reported by onpage.title-duplicate already.
+        if (new Set(g.map((p) => normText(p.title))).size === 1) continue;
+        out.push({
+          checkId: 'content.cannibalisation',
+          url: g[0]!.url,
+          message: `${g.length} pages compete for "${key}"`,
+          evidence: list(
+            g.map((p) => `${p.url} — ${truncate(p.title, 60)}`),
+            4,
+          ),
+          data: { topic: key, pages: g.map((p) => p.url) },
+        });
+      }
+      return out.slice(0, DUPLICATE_REPORT_LIMIT);
+    },
+  ),
+  pageCheck(
+    {
+      id: 'content.repeated-words',
+      category: 'content',
+      pillar: C,
+      title: 'Doubled words in the text',
+      why: 'Typos such as "the the" look careless to readers and lower trust. AI answer engines quote sentences verbatim, so a slip can travel with your brand name on it.',
+      severity: 'low',
+      fixTier: 'manual',
+      fix: 'Remove the repeated word in each quoted sentence. A spelling and grammar check (for example `avc connect spelling`) catches more.',
+    },
+    (page) => {
+      if (!isIndexable(page) || !isEnglish(page) || page.wordCount < 50) return null;
+      const found = doubledWords(page.text);
+      if (!found.length) return null;
+      return {
+        checkId: 'content.repeated-words',
+        message: `${plural(found.length, 'doubled word')} in the text`,
+        evidence: found.slice(0, 5).join(' | '),
+        data: { count: found.length },
+      };
+    },
+  ),
+  siteCheck(
+    {
+      id: 'content.spelling',
+      category: 'content',
+      pillar: C,
+      title: 'Spelling and grammar mistakes',
+      why: 'Mistakes make a page look less trustworthy to readers and quality raters, and AI answers that quote the page repeat them. Checked with LanguageTool on the main content only, so menus and footers do not add noise.',
+      severity: 'low',
+      fixTier: 'manual',
+      fix: 'Correct the listed mistakes in your CMS. Add brand and product names to your LanguageTool dictionary so they are not flagged again.',
+      requires: ['spelling'],
+      refs: ['https://languagetool.org/'],
+    },
+    (site) => {
+      const data = site.external.spelling;
+      if (!data) return null;
+      const out: Issue[] = [];
+      for (const p of data.pages) {
+        if (p.matches.length < SPELLING_MIN_MATCHES) continue;
+        out.push({
+          checkId: 'content.spelling',
+          url: p.url,
+          message: `${plural(p.matches.length, 'possible mistake')} (${p.language})`,
+          evidence: p.matches
+            .slice(0, 5)
+            .map((m) => `${m.message}: "${truncate(m.context, 70)}"`)
+            .join(' | '),
+          data: { matches: p.matches.length },
+        });
+      }
+      return out;
+    },
+  ),
+  pageCheck(
+    {
+      id: 'content.pdf-title-missing',
+      category: 'content',
+      pillar: C,
+      title: 'PDF has no meaningful title',
+      why: 'Search engines index PDFs and use the document Title property as the result title. Without one, results show the file name or a generated title such as "Microsoft Word - final_v3.docx".',
+      severity: 'low',
+      fixTier: 'manual',
+      fix: 'Set the Title (File → Properties → Description in Acrobat or Word) to a descriptive title, enable "show document title" in the PDF\'s initial view, and re-upload it at the same URL.',
+      refs: ['https://developers.google.com/search/docs/crawling-indexing/indexable-file-types'],
+    },
+    (page) => {
+      if (!page.pdf || page.status !== 200 || page.pdf.encrypted) return null;
+      const t = page.pdf.title?.trim();
+      if (t && !PDF_GENERIC_TITLE.test(t)) return null;
+      return {
+        checkId: 'content.pdf-title-missing',
+        message: t ? `PDF title is "${truncate(t, 60)}"` : 'PDF has no Title property',
+        evidence: [page.pdf.producer, page.pdf.pages ? `${page.pdf.pages} pages` : '']
+          .filter(Boolean)
+          .join(' | '),
+      };
+    },
+  ),
+  siteCheck(
+    {
+      id: 'duplicates.semantic',
+      category: 'duplicates',
+      pillar: C,
+      title: 'Pages that say the same thing in different words',
+      why: 'Search engines and AI systems compare meaning, not only wording. Pages whose content is nearly the same in meaning compete with each other and dilute the one you want cited, even when no sentence is copied.',
+      severity: 'low',
+      fixTier: 'manual',
+      fix: 'Merge pages that answer the same need (301 the weaker one), or make each page clearly different: its own audience, question or offer.',
+      requires: ['embeddings'],
+      refs: [REF.helpfulContent],
+    },
+    (site) => {
+      const e = site.external.embeddings;
+      if (!e) return null;
+      const out: Issue[] = [];
+      for (const pair of e.similarPairs.slice(0, DUPLICATE_REPORT_LIMIT)) {
+        const a = cu.findPage(site, pair.a);
+        const b = cu.findPage(site, pair.b);
+        // Exact and near-exact copies are reported by duplicates.exact / duplicates.near.
+        if (
+          a &&
+          b &&
+          a.simhash &&
+          b.simhash &&
+          simhashDistance(a.simhash, b.simhash) <= NEAR_DUP_DISTANCE
+        )
+          continue;
+        out.push({
+          checkId: 'duplicates.semantic',
+          url: pair.a,
+          message: `Meaning ${Math.round(pair.similarity * 100)}% similar to ${pair.b}`,
+          evidence: pair.b,
+          data: { other: pair.b, similarity: pair.similarity },
+        });
+      }
+      return out;
+    },
+  ),
+  siteCheck(
+    {
+      id: 'content.off-topic',
+      category: 'content',
+      pillar: C,
+      title: "Pages far from the site's main topics",
+      why: 'AI systems build a picture of what a site is an authority on. Indexable pages that have little to do with the rest of the site blur that picture and rarely earn citations themselves.',
+      severity: 'info',
+      fixTier: 'manual',
+      fix: 'Check each page: connect it to your core topics (context, internal links), move it to a better home, or noindex it if it serves no search purpose.',
+      requires: ['embeddings'],
+    },
+    (site) => {
+      const e = site.external.embeddings;
+      if (!e) return null;
+      return e.outliers.slice(0, 50).map((o) => ({
+        checkId: 'content.off-topic',
+        url: o.url,
+        message: `Similarity to the site's average page is ${Math.round(o.similarity * 100)}%`,
+        data: { similarity: o.similarity },
+      }));
+    },
+  ),
+);

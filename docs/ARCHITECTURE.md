@@ -40,12 +40,12 @@ the CLI, dashboard, MCP server and scheduler call.
 
 | Folder | Owns | Key exports |
 | --- | --- | --- |
-| `src/core/http.ts`, `src/core/url.ts`, `src/crawl/` | Fetcher, URL normalisation, crawler, page extraction, robots, sitemaps, rendering, stack detection | `createFetcher`, `normaliseUrl`, `crawlSite`, `extractPage`, `loadRobots`, `loadSitemaps`, `renderPages`, `detectStack` |
+| `src/core/http.ts`, `src/core/url.ts`, `src/crawl/` | Fetcher, URL normalisation, crawler, page extraction, robots, sitemaps, rendering (desktop and phone), stack detection, crawl options and presets, custom extraction, PDF properties, TLS, form sign-in, Screaming Frog import, screenshots | `createFetcher`, `normaliseUrl`, `crawlSite`, `extractPage`, `loadRobots`, `loadSitemaps`, `renderPages`, `detectStack`, `resolvePreset`, `runExtractors`, `extractPdfInfo`, `readTls`, `siteFromScreamingFrog`, `captureScreenshot` |
 | `src/checks/` (technical files + `_util.ts`) | Classic technical SEO, content, a11y, CMS checks | `checks: Check[]` per file |
 | `src/checks/{ai-crawlers,llms-txt,geo,entity,agentic}.ts`, `src/checks/_ai-util.ts`, `src/agentic/` | AI crawler access, llms.txt, AEO/GEO, entity, agentic web, origin probes, the AI bot list | `AI_BOTS`, `runAgenticProbes`, `fetchAsBots`, `checks` |
 | `src/ai/` | AI visibility outcome: engines (BYOK / AI Gateway / mock), prompts, judge, share of voice, citations, fact-check, entity | `runVisibility`, `inferBrand`, `suggestPrompts`, `availableEngines` |
 | `src/fixes/` | Stack-aware fixes, agent prompts, auto-apply (WordPress with rollback, local repo patches) | `buildFix`, `buildFixes`, `applyFixes`, `rollback` |
-| `src/connect/` | Google OAuth/service account, Search Console, GA4, PageSpeed, Bing, server logs, WordPress client | `collectExternal`, `googleAuth`, `analyseLogs`, … |
+| `src/connect/` | Google OAuth/service account, Search Console, GA4, PageSpeed, Bing, server logs, WordPress client, LanguageTool, Safe Browsing, backlinks | `collectExternal`, `googleAuth`, `analyseLogs`, `collectSpelling`, `collectSafeBrowsing`, `fetchBacklinks`, … |
 | `src/audit/`, `src/monitor/`, `src/report/` | Orchestration, scoring, storage, diffs, scheduler, alerts, report files | `runAudit`, `scoreAudit`, `openStore`, `diffAudits`, `startScheduler`, `renderHtmlReport` |
 | `src/cli.ts`, `src/server/`, `src/mcp/`, `README.md`, `docs/`, `scripts/`, `install.*`, `Dockerfile`, `.github/` | User surfaces and docs | — |
 

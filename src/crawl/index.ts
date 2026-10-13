@@ -27,9 +27,23 @@ import type {
   StackInfo,
 } from '../core/types.js';
 import { DEFAULT_USER_AGENT } from '../core/version.js';
-import { createFetcher } from '../core/http.js';
+import { createFetcher, rawBody } from '../core/http.js';
 import { isHttpUrl, looksLikeHtmlUrl, normaliseUrl, sameSite } from '../core/url.js';
 import { basePage, extractPage } from './extract.js';
+import { formLogin } from './form-login.js';
+import {
+  applyContentArea,
+  checkExtractors,
+  DANGEROUS_LINK,
+  limitReason,
+  onSubdomain,
+  rewriteUrl,
+  runExtractors,
+  startFolder,
+} from './options.js';
+import { extractPdfInfo, isPdf } from './pdf.js';
+import { presetForStack, resolvePreset } from './presets.js';
+import { readTls } from './tls.js';
 import { loadRobots, uaToken } from './robots.js';
 import { loadSitemaps } from './sitemaps.js';
 import { renderPages } from './render.js';
@@ -43,6 +57,8 @@ export { loadSitemaps } from './sitemaps.js';
 export { renderPages, findChrome } from './render.js';
 export { detectStack } from './stack.js';
 export { hammingDistance, simhash } from './text.js';
+export { listPresets, resolvePreset, presetForStack } from './presets.js';
+export { parseExtractorFlag, checkExtractors } from './options.js';
 
 const MAX_DISCOVERED_FROM = 20;
 const MAX_EXTERNAL_CHECKS = 2000;
@@ -123,6 +139,22 @@ export async function crawlSite(
     emit({ type: 'log', level, message });
 
   const startHost = new URL(options.startUrl).hostname;
+
+  // ---- Optional form sign-in: the session cookie becomes the crawl's auth.
+  const exclusions = [...(options.exclude ?? [])];
+  if (options.formLogin?.url) {
+    emit({ type: 'log', level: 'info', message: `Signing in at ${options.formLogin.url}` });
+    const r = await formLogin({ ...options.formLogin, chromePath: options.chromePath });
+    if (r.ok && r.cookie) {
+      options.auth = { cookie: r.cookie };
+      log(
+        'info',
+        `Signed in (${r.cookies} cookies). Log-out, delete and admin links will not be followed.`,
+      );
+    } else log('warn', `Form sign-in failed: ${r.error}. Crawling without signing in.`);
+  }
+  const signedIn = Boolean(options.formLogin?.url && options.auth && 'cookie' in options.auth);
+
   const fetcher = createFetcher({
     userAgent: options.userAgent,
     timeoutMs: options.timeoutMs,
@@ -131,9 +163,17 @@ export async function crawlSite(
     auth: options.auth,
     authHost: startHost,
   });
-  const token = uaToken(options.userAgent);
+  const token = uaToken(options.robotsUserAgent || options.userAgent);
   const include = compile(options.include, log);
-  const exclude = compile(options.exclude, log);
+  const extractors = checkExtractors(options.extract);
+  for (const e of extractors.errors) log('warn', e);
+  for (const r of options.rewrite ?? [])
+    try {
+      new RegExp(r.pattern);
+    } catch {
+      log('warn', `Ignored invalid rewrite pattern: ${r.pattern}`);
+    }
+  const folder = options.stayInFolder ? startFolder(options.startUrl) : null;
 
   // ---- Start URL first: it tells us the canonical origin (http→https, apex→www).
   emit({ type: 'phase', phase: 'robots', message: 'Reading robots.txt' });
@@ -147,6 +187,23 @@ export async function crawlSite(
     origin = new URL(startFetch.finalUrl).origin;
   if (startFetch.status === 0)
     log('error', `Could not reach ${options.startUrl}: ${startFetch.error ?? 'network error'}`);
+
+  // ---- Platform preset: exclusions that keep the crawl on real pages.
+  if (options.preset) {
+    let name = options.preset;
+    if (name === 'auto') {
+      const probe = extractPage(startFetch, { origin, depth: 0 });
+      const detected = probe.isHtml ? detectStack([probe], startFetch.headers) : null;
+      name = detected ? (presetForStack(detected.id)?.id ?? '') : '';
+      if (name) log('info', `Detected ${detected!.id}; applying the ${name} crawl preset.`);
+    }
+    const preset = name ? resolvePreset(name) : null;
+    if (preset) {
+      exclusions.push(...(preset.exclude ?? []));
+      if (input.render === undefined && preset.render !== undefined) options.render = preset.render;
+    } else if (options.preset !== 'auto') log('warn', `Unknown crawl preset: ${options.preset}`);
+  }
+  const exclude = compile(exclusions, log);
 
   const robots = await loadRobots(origin, fetcher);
   const robotsUnreachable =
@@ -167,6 +224,7 @@ export async function crawlSite(
   const pages = new Map<string, PageData>();
   const inlinks = new Map<string, Set<string>>();
   const seen = new Set<string>(); // queued or done
+  const perDepth = new Map<number, number>(); // URLs queued per click depth (maxPerDepth)
   const knownDepth = new Map<string, number>(); // discovered beyond maxDepth
   const queue: QueueItem[] = [];
   let qHead = 0;
@@ -177,8 +235,20 @@ export async function crawlSite(
     !robots.isAllowed(url, token) || !robots.isAllowed(url, 'Googlebot');
   const mayFetch = (url: string) =>
     !options.respectRobots || robotsUnreachable || robots.isAllowed(url, token);
+  const inSite = (url: string) =>
+    sameSite(url, origin) || Boolean(options.subdomains && onSubdomain(url, startHost));
   const inScope = (url: string, isStart = false) => {
     if (isStart) return true;
+    if (signedIn && DANGEROUS_LINK.test(url)) return false;
+    if (folder) {
+      try {
+        const u = new URL(url);
+        if (sameSite(url, origin) && !u.pathname.startsWith(folder)) return false;
+      } catch {
+        return false;
+      }
+    }
+    if (limitReason(url, options)) return false;
     if (exclude.some((r) => r.test(url))) return false;
     if (include.length && !include.some((r) => r.test(url))) return false;
     return true;
@@ -195,8 +265,8 @@ export async function crawlSite(
 
   const enqueue = (rawUrl: string, depth: number, from?: string, probe = false) => {
     if (!isHttpUrl(rawUrl)) return;
-    const url = normaliseUrl(rawUrl);
-    if (!sameSite(url, origin)) return;
+    const url = normaliseUrl(rewriteUrl(rawUrl, options));
+    if (!inSite(url)) return;
     const existing = pages.get(url);
     if (existing) {
       addFrom(existing, from);
@@ -207,6 +277,11 @@ export async function crawlSite(
       return;
     }
     if (!inScope(url)) return;
+    if (options.maxPerDepth && options.maxPerDepth > 0) {
+      const n = perDepth.get(depth) ?? 0;
+      if (n >= options.maxPerDepth) return;
+      perDepth.set(depth, n + 1);
+    }
     if (depth > options.maxDepth && depth >= 0) {
       if (!knownDepth.has(url)) knownDepth.set(url, depth);
       return;
@@ -233,19 +308,27 @@ export async function crawlSite(
     pages.set(page.url, page);
   };
 
+  const follow = !options.urls?.length && !options.sitemapOnly;
   const recordLinks = (page: PageData) => {
     const childDepth = page.depth < 0 ? -1 : page.depth + 1;
     const src = page.url;
     for (const link of page.links) {
-      if (!link.internal) continue;
+      if (!link.internal) {
+        if (follow && options.subdomains && onSubdomain(link.href, startHost))
+          enqueue(link.href, childDepth, src, !looksLikeHtmlUrl(link.href));
+        continue;
+      }
       const target = normaliseUrl(link.href);
       if (target !== src) {
         let set = inlinks.get(target);
         if (!set) inlinks.set(target, (set = new Set()));
         set.add(src);
       }
+      if (!follow) continue;
+      if (options.followNofollow === false && link.rel.includes('nofollow')) continue;
       enqueue(link.href, childDepth, src, !looksLikeHtmlUrl(link.href));
     }
+    if (!follow) return;
     // Followed but not counted as inlinks.
     const refs = [
       page.canonical,
@@ -255,6 +338,22 @@ export async function crawlSite(
       ...page.hreflang.map((h) => h.href),
     ];
     for (const r of refs) if (r) enqueue(r, childDepth, src);
+  };
+
+  /** Custom extraction, content area and PDF properties for a freshly extracted page. */
+  const enrich = (page: PageData, res: FetchResult) => {
+    if (page.isHtml && page.html) {
+      if (extractors.ok.length) page.extracted = runExtractors(page.html, extractors.ok);
+      applyContentArea(page, options);
+    } else if (
+      options.pdfProperties !== false &&
+      page.status >= 200 &&
+      page.status < 300 &&
+      isPdf(res.contentType, res.finalUrl)
+    ) {
+      const raw = rawBody(res);
+      if (raw?.length) page.pdf = extractPdfInfo(raw);
+    }
   };
 
   const handleResult = (item: QueueItem, res: FetchResult) => {
@@ -280,6 +379,7 @@ export async function crawlSite(
           { ...res, url: res.finalUrl, redirects: [] },
           { origin, depth: item.depth, url: finalKey },
         );
+        enrich(target, res);
         addFrom(target, item.url);
         store(target);
         if (target.isHtml) recordLinks(target);
@@ -287,10 +387,23 @@ export async function crawlSite(
       return stub;
     }
     const page = extractPage(res, { origin, depth: item.depth, url: item.url });
+    enrich(page, res);
     addFrom(page, item.from);
     store(page);
     if (page.isHtml && page.status >= 200 && page.status < 300) recordLinks(page);
     return page;
+  };
+
+  /** Fetch, retrying 429 and 503 answers with back-off (Retry-After honoured up to 10 s). */
+  const fetchRetry: typeof fetcher.fetch = async (url, o) => {
+    let res = await fetcher.fetch(url, o);
+    const max = options.retries ?? 2;
+    for (let i = 0; i < max && (res.status === 429 || res.status === 503); i++) {
+      const ra = Number(res.headers['retry-after']);
+      await sleep(Math.min(10_000, Number.isFinite(ra) && ra > 0 ? ra * 1000 : 1000 * 2 ** i));
+      res = await fetcher.fetch(url, o);
+    }
+    return res;
   };
 
   const processItem = async (item: QueueItem): Promise<void> => {
@@ -320,12 +433,21 @@ export async function crawlSite(
     fetched++;
     let res: FetchResult;
     if (item.probe) {
-      res = await fetcher.fetch(item.url, { method: 'HEAD' });
+      res = await fetchRetry(item.url, { method: 'HEAD' });
       if (res.status === 0 || res.status === 405 || res.status === 501 || res.status === 403)
-        res = await fetcher.fetch(item.url, { maxBytes: 64 * 1024 });
+        res = await fetchRetry(item.url, { maxBytes: 64 * 1024 });
       else if (res.ok && /text\/html|xhtml/i.test(res.contentType))
-        res = await fetcher.fetch(item.url);
-    } else res = await fetcher.fetch(item.url);
+        res = await fetchRetry(item.url);
+      else if (
+        res.ok &&
+        options.pdfProperties !== false &&
+        !res.redirects.length &&
+        isPdf(res.contentType, res.finalUrl)
+      )
+        res = await fetcher.fetch(item.url, {
+          maxBytes: Math.min(options.maxBytes, 8 * 1024 * 1024),
+        });
+    } else res = await fetchRetry(item.url);
     const page = handleResult(item, res);
     emit({
       type: 'page',
@@ -353,6 +475,16 @@ export async function crawlSite(
   }
 
   const budgetLeft = () => options.maxPages <= 0 || fetched < options.maxPages;
+
+  // List mode and sitemap-only mode: a fixed set of URLs, no link discovery.
+  if (options.urls?.length) {
+    for (const u of options.urls) if (isHttpUrl(u)) enqueue(u, 1, undefined, !looksLikeHtmlUrl(u));
+  } else if (options.sitemapOnly) {
+    for (const [u, file] of sitemapUrls) {
+      enqueue(u, 1, undefined, !looksLikeHtmlUrl(u));
+      pendingFrom(normaliseUrl(u), file);
+    }
+  }
 
   const runWorkers = async () => {
     let active = 0;
@@ -391,10 +523,10 @@ export async function crawlSite(
   await runWorkers();
 
   // Seed from sitemaps: URLs the link graph did not reach (orphans, or beyond maxDepth).
-  if (options.useSitemaps && budgetLeft()) {
+  if (options.useSitemaps && follow && budgetLeft()) {
     let added = 0;
     for (const [url, file] of sitemapUrls) {
-      if (seen.has(url) || pages.has(url) || !sameSite(url, origin)) continue;
+      if (seen.has(url) || pages.has(url) || !inSite(url)) continue;
       const depth = knownDepth.get(url) ?? -1;
       seen.add(url);
       if (!inScope(url)) continue;
@@ -437,6 +569,15 @@ export async function crawlSite(
     stats: {} as CrawlStats,
   };
 
+  if (options.checkTls !== false && origin.startsWith('https:')) {
+    try {
+      const u = new URL(origin);
+      site.tls = await readTls(u.hostname, Number(u.port) || 443);
+    } catch {
+      /* never fatal */
+    }
+  }
+
   if (options.checkImages) await headImages(site, fetcher, options.concurrency, log);
   if (options.checkExternalLinks) await checkExternal(site, fetcher, options.concurrency, log);
 
@@ -456,6 +597,7 @@ export async function crawlSite(
         timeoutMs: Math.max(10_000, options.timeoutMs),
         headers: options.headers,
         auth: options.auth,
+        mobile: options.mobileRender !== false,
         log,
       }).catch((e: Error) => {
         log('warn', `Rendering skipped: ${e.message}`);

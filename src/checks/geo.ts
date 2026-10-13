@@ -26,6 +26,7 @@ import {
   vb,
   type AiDef,
 } from './_ai-util.js';
+import * as ai from './_ai-util.js';
 
 const REF = {
   ai: 'https://developers.google.com/search/docs/appearance/ai-features',
@@ -931,3 +932,106 @@ export function siteGeoSummary(site: SiteContext): { average: number; pages: num
 }
 
 export const _internal = { isContent, QUESTION_RE };
+
+// ---------------------------------------------------------------------------
+// Added for feature parity: gated content and first-party facts
+// ---------------------------------------------------------------------------
+
+const PAYWALL_CLASS =
+  /\b(paywall|piano-|tp-modal|premium-content|subscriber-only|members-only|locked-content|regwall)\b/i;
+
+/** Signals that the page's content sits behind a login or paywall. */
+export function gateSignals(page: PageData): string[] {
+  const out: string[] = [];
+  const html = page.rendered?.html || page.html || '';
+  const doc = ai.pageDoc(page);
+  if (doc?.querySelector('input[type="password"]') && page.wordCount < 150)
+    out.push('a password field and little other text');
+  const cls = /class=["'][^"']*["']/gi;
+  for (const m of html.slice(0, 400_000).matchAll(cls))
+    if (PAYWALL_CLASS.test(m[0])) {
+      out.push(`paywall markup (${ai.truncate(m[0], 60)})`);
+      break;
+    }
+  for (const n of ai.jsonLdNodes(page)) {
+    const free = n.isAccessibleForFree;
+    if (free === false || free === 'False' || free === 'false') {
+      const parts = Array.isArray(n.hasPart) ? n.hasPart : n.hasPart ? [n.hasPart] : [];
+      const marked = parts.some(
+        (x) =>
+          x &&
+          typeof x === 'object' &&
+          typeof (x as Record<string, unknown>).cssSelector === 'string',
+      );
+      out.push(
+        marked
+          ? 'isAccessibleForFree: false (with a cssSelector)'
+          : 'isAccessibleForFree: false without a hasPart cssSelector',
+      );
+    }
+  }
+  return out;
+}
+
+const FACT_TYPES = [
+  'FAQPage',
+  'Product',
+  'ProductGroup',
+  'Offer',
+  'AggregateOffer',
+  'Service',
+  'PriceSpecification',
+  'HowTo',
+];
+const FACT_PATH =
+  /\/(pricing|prices?|plans|fees|rates|faqs?|questions|shipping|delivery|returns?|refunds?|warranty|guarantee|policies|policy|terms)(\/|$|\.|-)/i;
+
+checks.push(
+  pageCheck(
+    def({
+      id: 'geo-content.gated-content',
+      title: 'Content is behind a login or paywall',
+      why: 'AI crawlers do not sign in or subscribe. Content behind a login or paywall cannot be read, quoted or cited, and Google needs paywall markup to tell a paywall from cloaking.',
+      severity: 'medium',
+      fixTier: 'manual',
+      fix: 'Keep a substantial public part of each gated page (a summary, the first section, key facts). For a paywall, mark it up with isAccessibleForFree: false and a hasPart cssSelector for the hidden section.',
+      refs: [
+        'https://developers.google.com/search/docs/appearance/structured-data/paywalled-content',
+        REF.ai,
+      ],
+    }),
+    (page) => {
+      if (!isIndexable(page) || UTILITY_PATH.test(pathOf(page.url))) return null;
+      const signals = gateSignals(page);
+      if (!signals.length) return null;
+      // Correctly marked-up paywalls with enough public text are fine.
+      if (signals.every((s) => s.includes('with a cssSelector')) && page.wordCount >= 150)
+        return null;
+      return issue('geo-content.gated-content', `Signs of gated content: ${signals.join('; ')}`, {
+        evidence: ev(signals),
+      });
+    },
+  ),
+  siteCheck(
+    def({
+      id: 'geo-content.no-first-party-facts',
+      title: 'No first-party facts for AI to cite',
+      why: 'When people ask an assistant about prices, what is included, delivery or returns, it prefers to quote the business itself. Without pricing, FAQ or policy pages (and their markup), the answer comes from directories, resellers or competitors.',
+      severity: 'low',
+      fixTier: 'manual',
+      fix: 'Publish the facts customers ask about on your own site: a pricing or plans page, an FAQ with real answers, delivery, returns and warranty terms. Mark them up with FAQPage, Product/Offer or Service schema.',
+      refs: [REF.faq, REF.helpful],
+    }),
+    (site) => {
+      const pages = indexablePages(site);
+      if (pages.length < 5) return null;
+      const typed = pages.filter((p) => schemaTypes(p).some((t) => FACT_TYPES.includes(t)));
+      const pathed = pages.filter((p) => FACT_PATH.test(pathOf(p.url)));
+      if (typed.length || pathed.length) return null;
+      return issue(
+        'geo-content.no-first-party-facts',
+        `None of ${pages.length} indexable pages is a pricing, FAQ or policy page, or carries FAQPage, Product, Offer or Service markup.`,
+      );
+    },
+  ),
+);

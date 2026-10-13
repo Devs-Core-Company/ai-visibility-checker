@@ -14,6 +14,7 @@ import {
   plural,
   truncate,
 } from './_util.js';
+import * as cu from './_util.js';
 
 export const CONTRAST_MIN = 4.5;
 export const CONTRAST_MIN_LARGE = 3;
@@ -34,8 +35,14 @@ const ARIA_ATTRS = new Set(
 const FOCUSABLE =
   'a[href], button, input:not([type="hidden"]), select, textarea, [tabindex]:not([tabindex="-1"])';
 
+/** The DOM to check: the rendered one when the page was rendered (closer to what users and
+ * assistive technology get), else the raw HTML. */
+function adoc(page: PageData): Document {
+  return cu.renderedDoc(page) ?? doc(page);
+}
+
 function els(page: PageData, sel: string): Element[] {
-  return Array.from(doc(page).querySelectorAll(sel));
+  return Array.from(adoc(page).querySelectorAll(sel));
 }
 
 function snippet(e: Element): string {
@@ -127,7 +134,7 @@ export const checks = [
     },
     (page) => {
       if (!isHtml200(page)) return null;
-      const d = doc(page);
+      const d = adoc(page);
       const fields = els(
         page,
         'input:not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="reset"]):not([type="image"]), select, textarea',
@@ -164,7 +171,7 @@ export const checks = [
     },
     (page) => {
       if (!isHtml200(page)) return null;
-      const d = doc(page);
+      const d = adoc(page);
       const bad = els(page, 'a[href]').filter(
         (a) => a.getAttribute('aria-hidden') !== 'true' && !accessibleName(a, d),
       );
@@ -195,7 +202,7 @@ export const checks = [
     },
     (page) => {
       if (!isHtml200(page)) return null;
-      const d = doc(page);
+      const d = adoc(page);
       const bad = els(
         page,
         'button, [role="button"], input[type="image"], input[type="submit"]:not([value=""]), input[type="button"]',
@@ -564,7 +571,7 @@ export const checks = [
     },
     (page) => {
       if (!isHtml200(page)) return null;
-      const d = doc(page);
+      const d = adoc(page);
       const missing = new Set<string>();
       for (const e of els(page, 'label[for], [aria-labelledby], [aria-describedby]')) {
         const ids =
@@ -730,3 +737,119 @@ export const checks = [
     },
   ),
 ];
+
+// ---------------------------------------------------------------------------
+// Added for feature parity: rendered contrast and ARIA role nesting
+// ---------------------------------------------------------------------------
+
+/** Roles that only make sense inside a given parent role (WAI-ARIA required context). */
+export const REQUIRED_CONTEXT: Record<string, string[]> = {
+  listitem: ['list', 'group', 'directory'],
+  option: ['listbox', 'group'],
+  tab: ['tablist'],
+  menuitem: ['menu', 'menubar', 'group'],
+  menuitemcheckbox: ['menu', 'menubar', 'group'],
+  menuitemradio: ['menu', 'menubar', 'group'],
+  treeitem: ['tree', 'group'],
+  row: ['table', 'grid', 'treegrid', 'rowgroup'],
+  cell: ['row'],
+  gridcell: ['row'],
+  columnheader: ['row'],
+  rowheader: ['row'],
+};
+
+const IMPLICIT_ROLE: Record<string, string> = {
+  ul: 'list',
+  ol: 'list',
+  menu: 'list',
+  table: 'table',
+  tr: 'row',
+  thead: 'rowgroup',
+  tbody: 'rowgroup',
+  tfoot: 'rowgroup',
+  select: 'listbox',
+  datalist: 'listbox',
+  optgroup: 'group',
+};
+
+function roleOf(el: Element): string | null {
+  const r = el.getAttribute('role')?.trim().split(/\s+/)[0]?.toLowerCase();
+  return r || IMPLICIT_ROLE[el.tagName.toLowerCase()] || null;
+}
+
+checks.push(
+  cu.pageCheck(
+    {
+      id: 'accessibility.role-nesting',
+      category: 'accessibility',
+      pillar: C,
+      title: 'ARIA roles used outside their required parent',
+      why: 'Roles such as tab, option, menuitem and row only work inside their container role (tablist, listbox, menu, table). Out of place, screen readers and AI agents that read the accessibility tree cannot tell what the control belongs to.',
+      severity: 'low',
+      fixTier: 'guided',
+      fix: 'Wrap the elements in the container role (for example role="tablist" around role="tab"), or remove the role if the element is not that kind of control.',
+      refs: [
+        'https://www.w3.org/TR/wai-aria-1.2/#scope',
+        'https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html',
+      ],
+      tags: ['wcag-1.3.1', 'agentic'],
+    },
+    (page) => {
+      if (!cu.isHtml200(page)) return null;
+      const bad: string[] = [];
+      for (const el of Array.from(adoc(page).querySelectorAll('[role]'))) {
+        const role = roleOf(el);
+        const need = role ? REQUIRED_CONTEXT[role] : undefined;
+        if (!need) continue;
+        let ok = false;
+        for (let p = el.parentElement; p && !ok; p = p.parentElement) {
+          const pr = roleOf(p);
+          if (pr && need.includes(pr)) ok = true;
+          // Stop at the first ancestor that has a role of its own (other than generic wrappers).
+          else if (
+            p.getAttribute('role') &&
+            p.getAttribute('role') !== 'presentation' &&
+            p.getAttribute('role') !== 'none'
+          )
+            break;
+        }
+        if (!ok) bad.push(`role="${role}" in <${el.parentElement?.tagName.toLowerCase() ?? '?'}>`);
+        if (bad.length >= 20) break;
+      }
+      return bad.length
+        ? {
+            checkId: 'accessibility.role-nesting',
+            message: `${cu.plural(bad.length, 'element')} with a role outside its required container`,
+            evidence: list(bad, 4),
+          }
+        : null;
+    },
+  ),
+  cu.pageCheck(
+    {
+      id: 'accessibility.low-contrast-rendered',
+      category: 'accessibility',
+      pillar: C,
+      title: 'Low colour contrast in the rendered page',
+      why: 'Text below 4.5:1 contrast (3:1 for large text) is hard to read for many people and in bright light. Measured from the computed colours in a browser render, including stylesheets, not only inline styles.',
+      severity: 'low',
+      fixTier: 'guided',
+      fix: 'Darken the text or lighten the background in your stylesheet until each listed sample reaches 4.5:1 (3:1 for text of 24px, or 18.66px bold, and larger).',
+      requires: ['render'],
+      refs: [U('contrast-minimum')],
+      tags: ['wcag-1.4.3'],
+    },
+    (page) => {
+      const low = page.rendered?.layout?.lowContrast ?? [];
+      if (low.length < 2) return null;
+      return {
+        checkId: 'accessibility.low-contrast-rendered',
+        message: `${cu.plural(low.length, 'text sample')} below the WCAG AA contrast ratio`,
+        evidence: list(
+          low.map((l) => `"${truncate(l.text, 30)}" ${l.ratio}:1 (${l.fg} on ${l.bg})`),
+          4,
+        ),
+      };
+    },
+  ),
+);

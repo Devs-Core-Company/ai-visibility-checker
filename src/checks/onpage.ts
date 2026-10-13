@@ -20,6 +20,8 @@ import {
   truncate,
   words,
 } from './_util.js';
+import * as cu from './_util.js';
+import { DESCRIPTION_LIMIT_PX, TITLE_LIMIT_PX, textWidthPx, truncateToPx } from '../report/serp.js';
 
 export const TITLE_MAX = 60;
 export const TITLE_MIN = 20;
@@ -133,11 +135,16 @@ export const checks = [
     },
     (page) => {
       const t = page.title?.trim();
-      if (!isIndexable(page) || !t || t.length <= TITLE_MAX) return null;
+      if (!isIndexable(page) || !t) return null;
+      // Google truncates by rendered width (about 580px of Arial 20px), not characters:
+      // wide letters can overflow under 60 characters, narrow ones fit beyond it.
+      const px = textWidthPx(t, 20);
+      if (t.length <= TITLE_MAX && px <= TITLE_LIMIT_PX) return null;
       return {
         checkId: 'onpage.title-too-long',
-        message: `Title is ${t.length} characters (aim for ${TITLE_MAX} or fewer)`,
+        message: `Title is ${t.length} characters and about ${px}px wide (aim for ${TITLE_MAX} characters / ${TITLE_LIMIT_PX}px or less)`,
         evidence: t,
+        data: { chars: t.length, px, shown: truncateToPx(t, 20, TITLE_LIMIT_PX) },
       };
     },
   ),
@@ -338,11 +345,14 @@ export const checks = [
     },
     (page) => {
       const d = page.metaDescription?.trim();
-      if (!isIndexable(page) || !d || d.length <= DESC_MAX) return null;
+      if (!isIndexable(page) || !d) return null;
+      const px = textWidthPx(d, 14);
+      if (d.length <= DESC_MAX && px <= DESCRIPTION_LIMIT_PX) return null;
       return {
         checkId: 'onpage.description-too-long',
-        message: `Description is ${d.length} characters`,
+        message: `Description is ${d.length} characters (about ${px}px; Google shows about ${DESCRIPTION_LIMIT_PX}px)`,
         evidence: truncate(d, 300),
+        data: { chars: d.length, px },
       };
     },
   ),
@@ -842,3 +852,107 @@ export const checks = [
       ),
   ),
 ];
+
+// ---------------------------------------------------------------------------
+// Added for feature parity: AI-context descriptions, title = H1 everywhere, broken favicon
+// ---------------------------------------------------------------------------
+
+/** Below this many characters a description gives an AI assistant little to work with. */
+export const DESC_AI_MIN = 120;
+
+checks.push(
+  cu.pageCheck(
+    {
+      id: 'onpage.description-thin-for-ai',
+      category: 'onpage',
+      pillar: C,
+      title: 'Meta description is too thin to give AI context',
+      why: 'AI assistants and answer engines often read the meta description first to decide what a page is about. A description that fits the snippet but says little (under about 120 characters) gives them too little to understand or quote.',
+      severity: 'low',
+      fixTier: 'auto',
+      fix: `Rewrite it as a ${DESC_AI_MIN}–160 character summary that names what the page offers, who it is for and one concrete detail (place, price, result).`,
+      refs: [cu.REF.snippets],
+      tags: ['aeo'],
+    },
+    (page) => {
+      const d = page.metaDescription?.trim();
+      if (!cu.isIndexable(page) || !d) return null;
+      // Very short descriptions are already reported by onpage.description-too-short.
+      if (d.length < DESC_MIN || d.length >= DESC_AI_MIN) return null;
+      return {
+        checkId: 'onpage.description-thin-for-ai',
+        message: `Description is ${d.length} characters; about ${DESC_AI_MIN}+ gives AI enough context`,
+        evidence: d,
+        data: { chars: d.length },
+      };
+    },
+  ),
+  cu.siteCheck(
+    {
+      id: 'onpage.title-same-as-h1',
+      category: 'onpage',
+      pillar: C,
+      title: 'Title and H1 are identical on almost every page',
+      why: 'The title and the H1 do different jobs: the title wins the click in results, the H1 orients the reader. When a template copies one into the other everywhere, you lose the chance to add the brand, place or benefit to the title.',
+      severity: 'info',
+      fixTier: 'guided',
+      fix: 'Keep the H1 as the on-page heading and write titles that add what searchers compare on (brand, location, offer). Most SEO plugins have a separate title field for this.',
+      refs: [cu.REF.titles],
+    },
+    (site) => {
+      const pages = cu
+        .indexablePages(site)
+        .filter((p) => p.title && p.headings.some((h) => h.level === 1));
+      if (pages.length < 5) return null;
+      const same = pages.filter((p) => {
+        const h1 = p.headings.find((h) => h.level === 1)!.text;
+        return cu.normText(h1) === cu.normText(p.title);
+      });
+      if (same.length / pages.length < 0.8) return null;
+      return {
+        checkId: 'onpage.title-same-as-h1',
+        message: `${same.length} of ${pages.length} pages use the H1 word for word as the title`,
+        evidence: same
+          .slice(0, 5)
+          .map((p) => p.url)
+          .join(' | '),
+        data: { pages: same.length, of: pages.length },
+      };
+    },
+  ),
+  cu.siteCheck(
+    {
+      id: 'onpage.favicon-broken',
+      category: 'onpage',
+      pillar: C,
+      title: 'Favicon does not load',
+      why: 'Google and AI tools fetch the declared favicon to show next to your result. A favicon that returns an error, or is not an image, is replaced with a generic globe.',
+      severity: 'low',
+      fixTier: 'guided',
+      fix: 'Point <link rel="icon"> at an image that returns 200 (a square PNG, SVG or ICO of at least 48×48), and make sure robots.txt does not block it.',
+      refs: ['https://developers.google.com/search/docs/appearance/favicon-in-search'],
+    },
+    async (site) => {
+      const home = cu.homePage(site);
+      if (!home?.favicon || home.status !== 200) return null;
+      const res = await site.fetcher.fetch(home.favicon, {
+        timeoutMs: 10_000,
+        maxBytes: 256 * 1024,
+      });
+      const isImage =
+        /^image\/|icon/i.test(res.contentType) ||
+        /\.(ico|png|svg|gif|jpe?g|webp)(\?|$)/i.test(res.finalUrl);
+      if (res.status === 200 && isImage && !/text\/html/i.test(res.contentType)) return null;
+      if (res.status === 0) return null; // network trouble: inconclusive
+      return {
+        checkId: 'onpage.favicon-broken',
+        url: home.url,
+        message:
+          res.status === 200
+            ? `The favicon URL returns ${res.contentType || 'an unknown type'}, not an image`
+            : `The favicon URL returns HTTP ${res.status}`,
+        evidence: home.favicon,
+      };
+    },
+  ),
+);

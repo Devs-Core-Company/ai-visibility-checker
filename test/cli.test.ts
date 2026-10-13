@@ -63,7 +63,7 @@ describe('helpers', () => {
   it('parses formats and rejects unknown ones', async () => {
     const { parseFormats } = await import('../src/cli/services.js');
     expect(parseFormats('html,markdown,csv')).toEqual(['html', 'md', 'csv']);
-    expect(() => parseFormats('pdf')).toThrow(/Unknown format/);
+    expect(() => parseFormats('docx')).toThrow(/Unknown format/);
   });
 
   it('expands check selectors (ids, categories, pillars)', async () => {

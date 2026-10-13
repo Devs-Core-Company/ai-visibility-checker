@@ -730,3 +730,17 @@ details.issue .body {
     animation: none !important;
   }
 }
+
+/* Site graph: URL tree */
+ul.tree {
+  list-style: none;
+  margin: 0;
+  padding-left: 18px;
+  border-left: 1px solid var(--line, #23242a);
+}
+ul.tree > li {
+  margin: 4px 0;
+}
+ul.tree summary {
+  cursor: pointer;
+}

@@ -14,6 +14,7 @@ import {
   siteCheck,
   truncate,
 } from './_util.js';
+import * as cu from './_util.js';
 
 export const MAX_FIXED_WIDTH_PX = 640;
 export const MIN_FONT_PX = 12;
@@ -279,3 +280,162 @@ export const checks = [
     },
   ),
 ];
+
+// ---------------------------------------------------------------------------
+// Added for feature parity: measured in a real phone render (requires render)
+// ---------------------------------------------------------------------------
+
+export const SMALL_TARGETS_MIN = 3;
+export const MOBILE_PARITY_MIN_SHARE = 0.7;
+export const MOBILE_PARITY_MIN_WORDS = 150;
+export const INTERSTITIAL_COVERAGE = 0.3;
+
+const R = ['render'] as const;
+
+checks.push(
+  cu.pageCheck(
+    {
+      id: 'mobile.horizontal-scroll',
+      category: 'mobile',
+      pillar: T,
+      title: 'Page is wider than a phone screen',
+      why: 'When content is wider than the viewport, visitors have to scroll sideways and text runs off the screen. Google indexes the mobile version of a page, so mobile usability problems affect everyone.',
+      severity: 'medium',
+      fixTier: 'guided',
+      fix: 'Find the wide element (fixed widths, wide tables, long unbroken strings, images without max-width) and make it fit: max-width: 100%, overflow-x: auto for tables, overflow-wrap: anywhere for long strings.',
+      requires: [...R],
+      refs: [REF.mobile],
+    },
+    (page) => {
+      const m = page.rendered?.mobile;
+      if (!m || m.scrollWidth <= m.viewportWidth + 2) return null;
+      return {
+        checkId: 'mobile.horizontal-scroll',
+        message: `Content is ${m.scrollWidth}px wide on a ${m.viewportWidth}px screen`,
+        data: { scrollWidth: m.scrollWidth, viewportWidth: m.viewportWidth },
+      };
+    },
+  ),
+  cu.pageCheck(
+    {
+      id: 'mobile.tap-targets',
+      category: 'mobile',
+      pillar: C,
+      title: 'Buttons and links too small to tap',
+      why: 'Targets smaller than 24×24 CSS pixels (WCAG 2.5.8) are hard to hit with a finger, so visitors tap the wrong thing. Links inside sentences are exempt.',
+      severity: 'low',
+      fixTier: 'guided',
+      fix: 'Give icon buttons and small links at least 24×24px of tappable area (padding counts), and leave space between neighbouring targets.',
+      requires: [...R],
+      refs: ['https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html'],
+      tags: ['wcag-2.5.8'],
+    },
+    (page) => {
+      const m = page.rendered?.mobile;
+      if (!m || m.smallTargets.length < SMALL_TARGETS_MIN) return null;
+      return {
+        checkId: 'mobile.tap-targets',
+        message: `${cu.plural(m.smallTargets.length, 'tap target')} smaller than 24×24px`,
+        evidence: list(
+          m.smallTargets.map((t) => `"${truncate(t.text, 30)}" ${t.width}×${t.height}`),
+          5,
+        ),
+      };
+    },
+  ),
+  cu.pageCheck(
+    {
+      id: 'mobile.content-parity',
+      category: 'mobile',
+      pillar: T,
+      title: 'Phones get less content than desktops',
+      why: 'Google indexes the mobile version of each page. Text or links that only appear on desktop are, for search, not on the page at all, and AI crawlers that fetch as a phone miss them too.',
+      severity: 'high',
+      fixTier: 'guided',
+      fix: 'Serve the same main content and links to phones and desktops. Collapse sections on small screens instead of removing them, and avoid separate mobile templates that drop content.',
+      requires: [...R],
+      refs: [REF.mobile],
+    },
+    (page) => {
+      const r = page.rendered;
+      const m = r?.mobile;
+      if (!r || !m || r.wordCount < MOBILE_PARITY_MIN_WORDS) return null;
+      const share = m.wordCount / r.wordCount;
+      const linkShare = r.links ? m.links / r.links : 1;
+      if (share >= MOBILE_PARITY_MIN_SHARE && linkShare >= 0.5) return null;
+      return {
+        checkId: 'mobile.content-parity',
+        message: `Phone render has ${m.wordCount} words and ${m.links} links; desktop has ${r.wordCount} and ${r.links}`,
+        data: { mobileWords: m.wordCount, desktopWords: r.wordCount },
+      };
+    },
+  ),
+  cu.pageCheck(
+    {
+      id: 'mobile.interstitial',
+      category: 'mobile',
+      pillar: C,
+      title: 'Pop-up covers the content on phones',
+      why: 'A pop-up or overlay that covers much of the screen right after load makes content hard to reach. Google treats intrusive interstitials on mobile as a page experience problem; cookie notices and age gates required by law are fine when they are small.',
+      severity: 'medium',
+      fixTier: 'guided',
+      fix: 'Show newsletter and offer pop-ups later (after scrolling or on exit), as a small banner on phones, and make them easy to close. Keep legally required notices compact.',
+      requires: [...R],
+      refs: ['https://developers.google.com/search/docs/appearance/avoid-intrusive-interstitials'],
+    },
+    (page) => {
+      const i = page.rendered?.mobile?.interstitial;
+      if (!i || i.coverage < INTERSTITIAL_COVERAGE) return null;
+      return {
+        checkId: 'mobile.interstitial',
+        message: `A fixed layer covers ${Math.round(i.coverage * 100)}% of the phone screen after load`,
+        evidence: i.selector,
+      };
+    },
+  ),
+  cu.pageCheck(
+    {
+      id: 'mobile.blocked-resources',
+      category: 'mobile',
+      pillar: T,
+      title: 'Resources fail to load only on phones',
+      why: 'Google renders the mobile version. Scripts, styles or API calls that fail only for a phone user agent (device-specific rules, mobile CDNs, bot rules) can leave the indexed version broken.',
+      severity: 'medium',
+      fixTier: 'guided',
+      fix: 'Check the listed URLs with a mobile user agent and remove the rule that blocks or breaks them (CDN device rules, separate mobile asset paths, firewall rules).',
+      requires: [...R],
+      refs: [REF.mobile],
+    },
+    (page) => {
+      const failed = page.rendered?.mobile?.failedRequests ?? [];
+      if (!failed.length) return null;
+      return {
+        checkId: 'mobile.blocked-resources',
+        message: `${cu.plural(failed.length, 'request')} failed in the phone render but not on desktop`,
+        evidence: list(failed, 3),
+      };
+    },
+  ),
+  cu.pageCheck(
+    {
+      id: 'mobile.rendered-small-text',
+      category: 'mobile',
+      pillar: C,
+      title: 'Text renders smaller than 12px on phones',
+      why: 'Body text under 12 CSS pixels on a phone is hard to read without zooming. Measured from computed styles in a phone render, so it includes stylesheet rules, not only inline styles.',
+      severity: 'low',
+      fixTier: 'guided',
+      fix: 'Set body text to at least 16px on small screens (and never below 12px for secondary text) in your stylesheet.',
+      requires: [...R],
+      refs: [REF.mobile],
+    },
+    (page) => {
+      const px = page.rendered?.mobile?.minFontPx;
+      if (!px || px >= MIN_FONT_PX) return null;
+      return {
+        checkId: 'mobile.rendered-small-text',
+        message: `Smallest body text is ${Math.round(px * 10) / 10}px in the phone render`,
+      };
+    },
+  ),
+);

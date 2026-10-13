@@ -243,12 +243,20 @@ export function defaultEngines(config: AvcConfig): EngineId[] {
 // Model construction
 // ---------------------------------------------------------------------------
 
-function languageModel(entry: EngineEntry, config: AvcConfig): LanguageModel {
+export function languageModel(
+  entry: EngineEntry,
+  config: AvcConfig,
+  role: 'engine' | 'helper' = 'engine',
+): LanguageModel {
   if (entry.via === 'gateway') return createGateway({ apiKey: config.ai.gatewayKey })(entry.model);
   const a = config.ai;
   switch (entry.engine) {
     case 'chatgpt':
-      return createOpenAI({ apiKey: a.openaiKey })(entry.model);
+      // An OpenAI-compatible endpoint speaks Chat Completions, not the Responses API.
+      // Visibility answers must come from OpenAI itself; the custom endpoint is for helpers only.
+      return a.openaiBaseUrl && role === 'helper'
+        ? createOpenAI({ apiKey: a.openaiKey, baseURL: a.openaiBaseUrl }).chat(entry.model)
+        : createOpenAI({ apiKey: a.openaiKey })(entry.model);
     case 'claude':
       return createAnthropic({ apiKey: a.anthropicKey })(entry.model);
     case 'gemini':
@@ -428,7 +436,7 @@ export async function structured<T>(
     if (opts.signal?.aborted) break;
     try {
       const result = await generateText({
-        model: languageModel(entry, config),
+        model: languageModel(entry, config, 'helper'),
         system,
         prompt,
         temperature: 0,

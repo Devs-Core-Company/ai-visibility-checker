@@ -14,6 +14,7 @@ import {
   plural,
   truncate,
 } from './_util.js';
+import * as cu from './_util.js';
 
 export const IMAGE_LARGE_BYTES = 200 * 1024;
 export const IMAGE_HUGE_BYTES = 1024 * 1024;
@@ -508,3 +509,56 @@ export const checks = [
     },
   ),
 ];
+
+// ---------------------------------------------------------------------------
+// Added for feature parity: images much larger than they are displayed
+// ---------------------------------------------------------------------------
+
+/** Rendered width at or below this share of the intrinsic width counts as oversized. */
+export const OVERSIZE_RATIO = 0.5;
+/** …and only when the file is at least this heavy, or the declared width this wide. */
+export const OVERSIZE_MIN_BYTES = 100 * 1024;
+export const OVERSIZE_MIN_WIDTH = 800;
+
+checks.push(
+  cu.pageCheck(
+    {
+      id: 'images.oversized-rendered',
+      category: 'images',
+      pillar: T,
+      title: 'Images far larger than they are displayed',
+      why: 'An image shown 300 pixels wide but delivered 2,000 pixels wide downloads several times more data than needed, which slows Largest Contentful Paint on phones. Measured in a real browser render.',
+      severity: 'low',
+      fixTier: 'guided',
+      fix: 'Serve images close to their displayed size: add srcset and sizes so phones get smaller files, or use your CMS or image CDN resizing.',
+      requires: ['render'],
+      refs: ['https://web.dev/articles/serve-responsive-images'],
+      tags: ['core-web-vitals'],
+    },
+    (page) => {
+      const layout = page.rendered?.layout;
+      if (!layout || !cu.isHtml200(page)) return null;
+      const bySrc = new Map(page.images.map((i) => [i.src, i]));
+      const hits: string[] = [];
+      for (const box of layout.images) {
+        if (box.width < 16 || box.height < 16) continue; // hidden or icon
+        const img = bySrc.get(box.src);
+        if (!img || img.srcset) continue; // responsive images let the browser choose
+        const declared = img.width ?? 0;
+        const heavy = (img.bytes ?? 0) >= OVERSIZE_MIN_BYTES;
+        const wide = declared >= OVERSIZE_MIN_WIDTH;
+        const ratio = declared ? box.width / declared : null;
+        if ((wide && ratio !== null && ratio <= OVERSIZE_RATIO) || (heavy && box.width <= 400))
+          hits.push(
+            `${cu.pathOf(box.src)} shown at ${box.width}px${declared ? ` (file ${declared}px)` : ''}${img.bytes ? `, ${Math.round(img.bytes / 1024)} KB` : ''}`,
+          );
+      }
+      if (!hits.length) return null;
+      return {
+        checkId: 'images.oversized-rendered',
+        message: `${cu.plural(hits.length, 'image')} delivered much larger than displayed`,
+        evidence: cu.list(hits, 3),
+      };
+    },
+  ),
+);

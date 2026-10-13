@@ -25,6 +25,7 @@ import {
   truncate,
   wasRedirected,
 } from './_util.js';
+import * as cu from './_util.js';
 
 export const LONG_CHAIN_HOPS = 3;
 export const ERROR_RATE_HIGH = 0.1;
@@ -836,3 +837,88 @@ export const checks = [
 
 export const _internal = { isSoft404, findPage };
 export type { Issue };
+
+// ---------------------------------------------------------------------------
+// Added for feature parity: doctype and consistent redirect codes
+// ---------------------------------------------------------------------------
+
+/** True when the document starts with <!DOCTYPE html> (after a BOM, whitespace and comments). */
+export function hasHtmlDoctype(html: string): boolean {
+  const start = html
+    .replace(/^﻿/, '')
+    .replace(/^(\s|<!--[\s\S]*?-->|<\?xml[^>]*\?>)*/, '')
+    .slice(0, 200);
+  return /^<!doctype\s+html/i.test(start);
+}
+
+const PERMANENT = new Set([301, 308]);
+const TEMPORARY = new Set([302, 303, 307]);
+
+checks.push(
+  cu.pageCheck(
+    {
+      id: 'response.doctype-missing',
+      category: 'response',
+      pillar: T,
+      title: 'Missing or misplaced <!DOCTYPE html>',
+      why: 'Without <!DOCTYPE html> as the first thing in the document, browsers fall back to quirks mode: layout, box sizes and font sizes can differ from what you designed, which affects mobile usability and layout shift. Some parsers also misread the head.',
+      severity: 'low',
+      fixTier: 'guided',
+      fix: 'Make <!DOCTYPE html> the very first line of every HTML response, before any whitespace-sensitive output, comments from plugins or <html>.',
+      refs: ['https://developer.mozilla.org/en-US/docs/Web/HTML/Quirks_Mode_and_Standards_Mode'],
+    },
+    (page) => {
+      if (!cu.isHtml200(page) || !page.html) return null;
+      if (hasHtmlDoctype(page.html)) return null;
+      const later = /<!doctype\s+html/i.test(page.html.slice(0, 20_000));
+      return {
+        checkId: 'response.doctype-missing',
+        message: later
+          ? 'A doctype is present but not first in the document'
+          : 'The HTML has no <!DOCTYPE html>',
+        evidence: cu.truncate(page.html.slice(0, 120)),
+      };
+    },
+  ),
+  cu.siteCheck(
+    {
+      id: 'redirects.mixed-status',
+      category: 'redirects',
+      pillar: T,
+      title: 'Same section redirects with both permanent and temporary codes',
+      why: 'After a migration or URL change, redirects in one section are usually made by one rule. When some old URLs answer 301 and others 302, part of the mapping was set up differently (a plugin, a server rule, an old leftover), and the temporary ones may keep the old URLs in the index.',
+      severity: 'medium',
+      fixTier: 'guided',
+      fix: 'Find the rule behind the temporary redirects in the listed sections and make every permanent move a 301 or 308, from one place.',
+      refs: [cu.REF.redirects],
+    },
+    (site) => {
+      const groups = new Map<string, { perm: string[]; temp: string[] }>();
+      for (const p of site.pages.values()) {
+        if (!p.redirects.length || !cu.wasRedirected(p)) continue;
+        const code = p.redirects[0]!.status;
+        if (!PERMANENT.has(code) && !TEMPORARY.has(code)) continue;
+        let section = '/';
+        try {
+          section = '/' + (new URL(p.url).pathname.split('/')[1] ?? '');
+        } catch {
+          /* keep root */
+        }
+        const g = groups.get(section) ?? { perm: [], temp: [] };
+        (PERMANENT.has(code) ? g.perm : g.temp).push(`${p.url} (${code})`);
+        groups.set(section, g);
+      }
+      const out: Issue[] = [];
+      for (const [section, g] of groups) {
+        if (g.perm.length < 2 || g.temp.length < 1) continue;
+        out.push({
+          checkId: 'redirects.mixed-status',
+          message: `${section}: ${g.perm.length} permanent and ${g.temp.length} temporary redirects`,
+          evidence: cu.list(g.temp, 5),
+          data: { section, permanent: g.perm.length, temporary: g.temp.length },
+        });
+      }
+      return out;
+    },
+  ),
+);

@@ -8,7 +8,8 @@
  *   a2a-agent-json, oauth-as, oauth-prm, openid-config, api-catalog,
  *   openapi-json, openapi-yaml, openapi-linked, web-bot-auth, ai-plugin,
  *   ai-txt, security-txt, nlweb-ask, md-home, md-article, md-suffix,
- *   feed, x402-discovery, x402-resource, ucp-profile,
+ *   feed, x402-discovery, x402-resource, ucp-profile, acp-json, agent-skills,
+ *   auth-md, dns-aid (DNS, only when an MCP or A2A card exists),
  *   robots-ai-signals (no request), link-headers (no request)
  */
 import type { FetchResult, PageData, ProbeResult, SiteContext } from '../core/types.js';
@@ -22,6 +23,7 @@ import {
   safeUrl,
   topLinkedPages,
 } from '../checks/_ai-util.js';
+import { lookupDnsAid, type DnsQuery } from './dns-aid.js';
 import { parseLlmsTxt } from './llms.js';
 import { parseAiPreference, validateApiCatalog } from './validate.js';
 
@@ -75,6 +77,9 @@ const FIXED: Spec[] = [
   { id: 'nlweb-ask', path: '/ask', kind: 'json' },
   { id: 'x402-discovery', path: '/.well-known/x402', kind: 'json' },
   { id: 'ucp-profile', path: '/.well-known/ucp', kind: 'json' },
+  { id: 'acp-json', path: '/.well-known/acp.json', kind: 'json' },
+  { id: 'agent-skills', path: '/.well-known/agent-skills/index.json', kind: 'json' },
+  { id: 'auth-md', path: '/auth.md', kind: 'text' },
 ];
 
 function failed(id: string, url: string, error: string): ProbeResult {
@@ -173,7 +178,10 @@ function feedUrl(home: PageData | undefined): string | null {
  * Run every probe and fill site.probes. Never throws; failures are recorded
  * on the ProbeResult (status null, error set).
  */
-export async function runAgenticProbes(site: SiteContext): Promise<void> {
+export async function runAgenticProbes(
+  site: SiteContext,
+  opts: { dnsQuery?: DnsQuery } = {},
+): Promise<void> {
   if (!site.probes) site.probes = new Map();
   const home = homePage(site);
   const article = pickArticle(site);
@@ -235,6 +243,23 @@ export async function runAgenticProbes(site: SiteContext): Promise<void> {
       });
   }
   for (const r of await mapLimit(follow, 2, (s) => run(site, s))) site.probes.set(r.id, r);
+
+  // DNS-AID: only worth a lookup when the site publishes an agent to discover.
+  const hasAgent = ['mcp-server-card', 'mcp-json', 'a2a-agent-card', 'a2a-agent-json'].some(
+    (id) => site.probes.get(id)?.found,
+  );
+  const host = new URL(site.origin).hostname;
+  if (hasAgent && host.includes('.') && !/^[\d.]+$|^\[|localhost$/i.test(host)) {
+    const r = await lookupDnsAid(host, opts.dnsQuery);
+    site.probes.set('dns-aid', {
+      id: 'dns-aid',
+      url: `dns:_agents.${host.replace(/^www\./, '')}`,
+      status: r.failed ? null : 200,
+      found: r.found.length > 0,
+      parsed: r,
+      ...(r.failed ? { error: 'DNS lookups failed' } : {}),
+    });
+  }
 
   // No-request probes derived from data we already have.
   const robots = parseRobots(site.robots?.found ? site.robots.body : '');

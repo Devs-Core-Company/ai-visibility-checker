@@ -24,10 +24,23 @@ interface FixOpts {
   yes?: boolean;
   json?: boolean;
   rollback?: string;
+  wpHelper?: boolean;
 }
 
 export async function cmdFix(ref: string | undefined, opts: FixOpts): Promise<void> {
   if (opts.rollback) return cmdRollback(opts.rollback, { yes: opts.yes });
+  if (opts.wpHelper) {
+    const { WP_HELPER_PHP, WP_HELPER_INSTALL, WP_HELPER_FILENAME } =
+      await import('../../fixes/apply/wp-helper.js');
+    if (!process.stdout.isTTY) {
+      process.stdout.write(WP_HELPER_PHP);
+      return;
+    }
+    console.log(WP_HELPER_INSTALL.map((s, i) => `${i + 1}. ${s}`).join('\n'));
+    console.log(c.dim(`\n--- wp-content/mu-plugins/${WP_HELPER_FILENAME} ---\n`));
+    console.log(WP_HELPER_PHP);
+    return;
+  }
   const config = getConfig();
   const result = findAudit(ref, config);
   if (!result)

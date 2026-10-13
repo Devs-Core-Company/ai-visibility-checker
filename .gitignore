@@ -9,3 +9,10 @@ coverage/
 
 # Test fixtures are data, not logs
 !test/fixtures/**/*.log
+
+# Benchmark: installed tools and runner scratch folders (raw outputs in bench/results/raw are kept small and committed)
+bench/.tools/
+bench/results/raw/**/.avc-data/
+bench/results/raw/**/.scrawly-data/
+bench/results/raw/**/.unlighthouse/
+bench/results/raw/**/.lhr.json

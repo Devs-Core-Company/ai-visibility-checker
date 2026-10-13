@@ -18,6 +18,8 @@ export interface AvcConfig {
     /** Vercel AI Gateway key — one key for every engine. */
     gatewayKey?: string;
     openaiKey?: string;
+    /** OpenAI-compatible endpoint for the writer, judge and embeddings (OpenRouter, Groq, DeepSeek, Ollama…). */
+    openaiBaseUrl?: string;
     anthropicKey?: string;
     googleKey?: string;
     perplexityKey?: string;
@@ -44,7 +46,51 @@ export interface AvcConfig {
     email?: { to: string; from?: string; smtpUrl?: string };
   };
   server: { port: number; host: string };
+  /** Spelling and grammar with LanguageTool. Off unless a server is set or the public API is opted into. */
+  spelling?: {
+    /** e.g. http://localhost:8081 for a self-hosted LanguageTool server. */
+    server?: string;
+    /** Opt in to the free public API (api.languagetool.org): page text leaves your machine. */
+    usePublicApi?: boolean;
+    /** Pages to check per audit. Default 25 (10 on the public API). */
+    maxPages?: number;
+    /** Language code, or 'auto' (default: the page's lang attribute). */
+    language?: string;
+    /** Words never flagged (brand and product names). */
+    ignore?: string[];
+  };
+  /** Google Safe Browsing API key for outbound link checks. */
+  safeBrowsing?: { key?: string };
+  /** Page embeddings for meaning-based duplicates and off-topic pages. Off by default. */
+  embeddings?: {
+    enabled?: boolean;
+    /** e.g. 'text-embedding-3-small' (OpenAI) or 'openai/text-embedding-3-small' (AI Gateway). */
+    model?: string;
+    /** Cosine similarity at or above which two pages count as the same meaning. Default 0.92. */
+    threshold?: number;
+    maxPages?: number;
+  };
+  /** Backlink metrics from your own provider subscription. */
+  backlinks?: {
+    provider?: 'moz' | 'ahrefs' | 'majestic';
+    mozToken?: string;
+    ahrefsToken?: string;
+    majesticKey?: string;
+  };
+  /** Your own fix guidance, replacing or adding to the built-in recipes per check id. */
+  fixes?: {
+    overrides?: Record<string, { steps?: string[]; note?: string; replace?: boolean }>;
+  };
+  /** White-label branding for HTML and PDF reports. */
+  report?: { brandName?: string; brandColor?: string; brandLogo?: string; brandContact?: string };
+  /** Named crawl profiles: `avc audit <url> --profile <name>`. */
+  profiles?: Record<string, CrawlProfile>;
 }
+
+/** Saved crawl settings (any crawl option except credentials). */
+export type CrawlProfile = Partial<
+  Omit<import('./types.js').CrawlOptions, 'startUrl' | 'auth' | 'headers'>
+> & { description?: string };
 
 export interface SiteConfig {
   id: string; // slug of the host
@@ -57,6 +103,9 @@ export interface SiteConfig {
     render?: boolean | 'auto';
     include?: string[];
     exclude?: string[];
+    /** A named profile from `profiles`, or a platform preset ("auto", "wordpress", …). */
+    profile?: string;
+    preset?: string;
   };
   connections?: {
     gscProperty?: string; // 'sc-domain:example.com' or 'https://example.com/'
@@ -92,6 +141,7 @@ function envOverrides(): Partial<AvcConfig> {
   const ai: Partial<AvcConfig['ai']> = {};
   if (e.AI_GATEWAY_API_KEY) ai.gatewayKey = e.AI_GATEWAY_API_KEY;
   if (e.OPENAI_API_KEY) ai.openaiKey = e.OPENAI_API_KEY;
+  if (e.OPENAI_BASE_URL) ai.openaiBaseUrl = e.OPENAI_BASE_URL;
   if (e.ANTHROPIC_API_KEY) ai.anthropicKey = e.ANTHROPIC_API_KEY;
   if (e.GOOGLE_GENERATIVE_AI_API_KEY || e.GEMINI_API_KEY)
     ai.googleKey = e.GOOGLE_GENERATIVE_AI_API_KEY || e.GEMINI_API_KEY;
@@ -115,6 +165,21 @@ function envOverrides(): Partial<AvcConfig> {
         ? { to: e.AVC_ALERT_EMAIL, smtpUrl: e.AVC_SMTP_URL, from: e.AVC_SMTP_FROM }
         : undefined,
     };
+  if (e.AVC_LANGUAGETOOL_URL)
+    out.spelling = {
+      server: e.AVC_LANGUAGETOOL_URL,
+      ...(e.AVC_LANGUAGETOOL_IGNORE ? { ignore: e.AVC_LANGUAGETOOL_IGNORE.split(',') } : {}),
+    };
+  if (e.AVC_SAFE_BROWSING_KEY) out.safeBrowsing = { key: e.AVC_SAFE_BROWSING_KEY };
+  if (e.AVC_EMBEDDINGS === '1' || e.AVC_EMBEDDINGS === 'true' || e.AVC_EMBED_MODEL)
+    out.embeddings = { enabled: true, ...(e.AVC_EMBED_MODEL ? { model: e.AVC_EMBED_MODEL } : {}) };
+  if (e.AVC_MOZ_TOKEN || e.AVC_AHREFS_TOKEN || e.AVC_MAJESTIC_KEY)
+    out.backlinks = {
+      provider: e.AVC_MOZ_TOKEN ? 'moz' : e.AVC_AHREFS_TOKEN ? 'ahrefs' : 'majestic',
+      mozToken: e.AVC_MOZ_TOKEN,
+      ahrefsToken: e.AVC_AHREFS_TOKEN,
+      majesticKey: e.AVC_MAJESTIC_KEY,
+    };
   if (e.AVC_PORT)
     out.server = { port: Number(e.AVC_PORT), host: e.AVC_HOST || DEFAULTS.server.host };
   return out;
@@ -136,6 +201,13 @@ function merge(...parts: Partial<AvcConfig>[]): AvcConfig {
     if (p.bing) out.bing = { ...out.bing, ...strip(p.bing) };
     if (p.alerts) out.alerts = { ...out.alerts, ...strip(p.alerts) };
     if (p.server) out.server = { ...out.server, ...strip(p.server) };
+    if (p.spelling) out.spelling = { ...out.spelling, ...strip(p.spelling) };
+    if (p.safeBrowsing) out.safeBrowsing = { ...out.safeBrowsing, ...strip(p.safeBrowsing) };
+    if (p.embeddings) out.embeddings = { ...out.embeddings, ...strip(p.embeddings) };
+    if (p.backlinks) out.backlinks = { ...out.backlinks, ...strip(p.backlinks) };
+    if (p.fixes) out.fixes = { overrides: { ...out.fixes?.overrides, ...p.fixes.overrides } };
+    if (p.report) out.report = { ...out.report, ...strip(p.report) };
+    if (p.profiles) out.profiles = { ...out.profiles, ...p.profiles };
   }
   return out;
 }

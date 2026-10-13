@@ -16,6 +16,7 @@ import {
   siteCheck,
   wasRedirected,
 } from './_util.js';
+import * as cu from './_util.js';
 
 export const SITEMAP_MAX_URLS = 50_000;
 export const SITEMAP_MAX_BYTES = 50 * 1024 * 1024;
@@ -466,3 +467,44 @@ export const checks = [
     },
   ),
 ];
+
+// ---------------------------------------------------------------------------
+// Added for feature parity: image sitemap coverage
+// ---------------------------------------------------------------------------
+
+checks.push(
+  cu.siteCheck(
+    {
+      id: 'sitemaps.no-image-entries',
+      category: 'sitemaps',
+      pillar: T,
+      title: 'Content images are not listed in the sitemap',
+      why: 'Image sitemap entries help Google find images that are loaded by JavaScript or sit on pages it rarely recrawls, so product and project photos can appear in image search and AI answers with images.',
+      severity: 'info',
+      fixTier: 'guided',
+      fix: 'Add <image:image><image:loc>…</image:loc></image:image> entries for the main images of each page (most SEO plugins and e-commerce platforms have a setting for this).',
+      refs: ['https://developers.google.com/search/docs/crawling-indexing/sitemaps/image-sitemaps'],
+    },
+    (site) => {
+      const urls = site.sitemaps.flatMap((s) => s.urls);
+      if (urls.length < 5 || urls.some((u) => (u.images ?? 0) > 0)) return null;
+      const withImages = cu
+        .indexablePages(site)
+        .filter(
+          (p) =>
+            p.inSitemap &&
+            p.images.filter((i) => !i.src.startsWith('data:') && !/\.svg(\?|$)/i.test(i.src))
+              .length >= 2,
+        );
+      if (withImages.length < 3) return null;
+      return {
+        checkId: 'sitemaps.no-image-entries',
+        message: `${withImages.length} pages in the sitemap show images, and the sitemap lists none`,
+        evidence: cu.list(
+          withImages.map((p) => p.url),
+          4,
+        ),
+      };
+    },
+  ),
+);

@@ -18,6 +18,7 @@ import { Layout } from './ui.js';
 import { registerSitePages } from './pages/site.js';
 import { registerAiPages } from './pages/ai.js';
 import { registerOpsPages } from './pages/ops.js';
+import { registerExplorePages } from './pages/explore.js';
 
 export const COOKIE = 'avc_session';
 
@@ -144,6 +145,7 @@ export function createApp(opts: AppOptions) {
   });
 
   registerSitePages(app, deps);
+  registerExplorePages(app, deps);
   registerAiPages(app, deps);
   registerOpsPages(app, deps);
 

@@ -19,6 +19,7 @@ import {
   siteCheck,
   truncate,
 } from './_util.js';
+import * as cu from './_util.js';
 
 export const HTML_HEAVY_BYTES = 500 * 1024;
 export const HTML_VERY_HEAVY_BYTES = 2 * 1024 * 1024;
@@ -101,12 +102,24 @@ function headScripts(page: PageData): string[] {
     .map((attrs) => /\bsrc=["']?([^"'\s>]+)/i.exec(attrs)?.[1] ?? '');
 }
 
+/** Hosts listed in the crawl option `cdns` serve the site's own files. */
+export function isOwnCdn(host: string, site: SiteContext): boolean {
+  const h = host.toLowerCase();
+  return (site.options?.cdns ?? []).some((c) => {
+    const x = c
+      .toLowerCase()
+      .replace(/^https?:\/\//, '')
+      .replace(/\/.*$/, '');
+    return h === x || h.endsWith(`.${x}`);
+  });
+}
+
 function thirdPartyHosts(page: PageData, site: SiteContext): Set<string> {
   const own = (safeUrl(site.origin)?.hostname ?? '').replace(/^www\./, '');
   const hosts = new Set<string>();
   for (const s of page.scripts) {
     const h = s.src ? safeUrl(s.src)?.hostname : null;
-    if (h && !h.replace(/^www\./, '').endsWith(own)) hosts.add(h);
+    if (h && !h.replace(/^www\./, '').endsWith(own) && !isOwnCdn(h, site)) hosts.add(h);
   }
   return hosts;
 }
@@ -950,3 +963,75 @@ export const checks = [
 ];
 
 export const _internal = { headScripts, findPage, truncate };
+
+// ---------------------------------------------------------------------------
+// Added for feature parity: unminified CSS and JavaScript files
+// ---------------------------------------------------------------------------
+
+/** Files fetched by performance.unminified-assets (most-used first). */
+export const UNMINIFIED_SAMPLE = 8;
+
+/** Share of a CSS/JS file that is indentation, blank lines or comments (0–1). */
+export function wasteShare(code: string): number {
+  if (!code) return 0;
+  const indent = (code.match(/\n[ \t]{2,}/g) || []).join('').length;
+  const blank = (code.match(/\n\s*\n/g) || []).length;
+  const comments =
+    (code.match(/\/\*[\s\S]*?\*\//g) || []).join('').length +
+    (code.match(/(^|[^:"'\\])\/\/[^\n]*/g) || []).join('').length;
+  return Math.min(1, (indent + blank + comments) / code.length);
+}
+
+checks.push(
+  cu.siteCheck(
+    {
+      id: 'performance.unminified-assets',
+      category: 'performance',
+      pillar: T,
+      title: 'CSS or JavaScript files are not minified',
+      why: 'Indentation, comments and long names in CSS and JavaScript files add bytes every visitor downloads before the page can render. Minified files are typically 20–40% smaller before compression.',
+      severity: 'low',
+      fixTier: 'guided',
+      fix: 'Minify CSS and JavaScript in your build (most bundlers do this in production mode) or turn on minification in your CMS, cache plugin or CDN.',
+      refs: [
+        'https://developer.chrome.com/docs/lighthouse/performance/unminified-css',
+        'https://developer.chrome.com/docs/lighthouse/performance/unminified-javascript',
+      ],
+    },
+    async (site) => {
+      const counts = new Map<string, { n: number; kind: 'js' | 'css' }>();
+      for (const p of cu.htmlPages(site)) {
+        if (!cu.isHtml200(p)) continue;
+        for (const s of p.scripts)
+          if (s.src && cu.sameSiteHost(s.src, site.origin) && !/\.min\.js(\?|$)/i.test(s.src))
+            counts.set(s.src, { n: (counts.get(s.src)?.n ?? 0) + 1, kind: 'js' });
+        for (const l of p.stylesheets)
+          if (l.href && cu.sameSiteHost(l.href, site.origin) && !/\.min\.css(\?|$)/i.test(l.href))
+            counts.set(l.href, { n: (counts.get(l.href)?.n ?? 0) + 1, kind: 'css' });
+      }
+      const sample = [...counts.entries()]
+        .sort((a, b) => b[1].n - a[1].n)
+        .slice(0, UNMINIFIED_SAMPLE);
+      const hits: string[] = [];
+      let wasted = 0;
+      for (const [url, info] of sample) {
+        const res = await site.fetcher.fetch(url, { timeoutMs: 10_000, maxBytes: 1024 * 1024 });
+        if (res.status !== 200 || res.body.length < UNMINIFIED_MIN_BYTES) continue;
+        if (/text\/html/i.test(res.contentType)) continue;
+        const share = wasteShare(res.body);
+        if (share < 0.15) continue;
+        wasted += Math.round(res.body.length * share);
+        hits.push(
+          `${cu.pathOf(url)} (${info.kind}, ${Math.round(res.body.length / 1024)} KB, ~${Math.round(share * 100)}% whitespace/comments, on ${cu.plural(info.n, 'page')})`,
+        );
+      }
+      if (!hits.length) return null;
+      return {
+        checkId: 'performance.unminified-assets',
+        message: `${cu.plural(hits.length, 'file')} not minified; about ${Math.round(wasted / 1024)} KB could be saved`,
+        evidence: hits.slice(0, 5).join(' | '),
+        data: { files: hits.length, wastedBytes: wasted },
+      };
+    },
+  ),
+);

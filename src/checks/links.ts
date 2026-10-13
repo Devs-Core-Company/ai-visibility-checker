@@ -29,6 +29,7 @@ import {
   urlKey,
   wasRedirected,
 } from './_util.js';
+import * as cu from './_util.js';
 
 export const MAX_LINKS_PER_PAGE = 250;
 export const MAX_EXTERNAL_LINKS = 100;
@@ -803,3 +804,38 @@ export const checks = [
     },
   ),
 ];
+
+// ---------------------------------------------------------------------------
+// Added for feature parity: outbound links Google Safe Browsing flags
+// ---------------------------------------------------------------------------
+
+checks.push(
+  cu.siteCheck(
+    {
+      id: 'links-external.unsafe',
+      category: 'links-external',
+      pillar: 'technical',
+      title: 'Links to sites flagged for malware or phishing',
+      why: 'Linking to a site Google Safe Browsing lists for malware, phishing or unwanted software puts visitors at risk and can make browsers warn about your pages. It is often a sign of a hacked page, an expired domain someone bought, or spam in comments.',
+      severity: 'high',
+      fixTier: 'manual',
+      fix: 'Remove or replace each flagged link. If you did not add it, check the page for injected content and change your CMS passwords.',
+      requires: ['safe-browsing'],
+      refs: [
+        'https://developers.google.com/safe-browsing/v4',
+        'https://developers.google.com/search/docs/monitor-debug/security/malware',
+      ],
+    },
+    (site) => {
+      const sb = site.external.safeBrowsing;
+      if (!sb) return null;
+      return sb.matches.map((m) => ({
+        checkId: 'links-external.unsafe',
+        url: m.pages[0],
+        message: `Links to ${m.url}, flagged as ${m.threat.toLowerCase().replace(/_/g, ' ')}`,
+        evidence: cu.list(m.pages, 5),
+        data: { target: m.url, threat: m.threat, pages: m.pages.length },
+      }));
+    },
+  ),
+);

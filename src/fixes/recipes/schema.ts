@@ -10,7 +10,7 @@ import {
   generateOrganizationJsonLd,
   generateSiteGraphJsonLd,
 } from '../generate.js';
-import { jsonLdFix } from '../stacks.js';
+import { escapeHtml, jsonLdFix, seoPluginLabel } from '../stacks.js';
 import type { Recipe, RecipeInput } from '../types.js';
 
 function data(input: RecipeInput) {
@@ -24,6 +24,7 @@ const organization: Recipe = {
   patterns: [
     /^schema\.(organization|org|website|site|publisher|logo)/,
     /^geo-entity\..*(organization|org-schema|schema)/,
+    /^geo-entity\.(org-(incomplete|no-contact|no-description|no-background|no-expertise|no-id|name-conflict)|logo-not-image|duplicate-org-nodes|publisher-mismatch)$/,
   ],
   impact: 'high',
   effort: 'minutes',
@@ -48,7 +49,11 @@ const organization: Recipe = {
 
 const sameAs: Recipe = {
   id: 'entity-same-as',
-  patterns: [/same-?as/, /^geo-entity\./, /^entity\./],
+  patterns: [
+    /^geo-entity\.(org-no-sameas|sameas-[a-z-]+|no-wikidata|social-not-in-sameas)$/,
+    /^schema\..*same-?as/,
+    /^entity\..*same-?as/,
+  ],
   impact: 'medium',
   effort: 'hours',
   auto: { repo: true },
@@ -68,6 +73,90 @@ const sameAs: Recipe = {
         'List your official profiles in `sameAs` and link back to the site from each profile. Use the same name, logo and description everywhere.',
         'If the brand has no Wikidata item and is notable, create one with references; it is a strong entity signal for AI engines.',
         ...f.steps,
+      ],
+    };
+  },
+};
+
+/** Files to touch for the detected stack, with a fallback. */
+function filesFor(input: RecipeInput, m: Record<string, string[]> & { default: string[] }) {
+  const id = input.stack.id;
+  const key = id === 'nextjs' ? (input.router === 'pages' ? 'nextjs-pages' : 'nextjs-app') : id;
+  return m[key] ?? m.default;
+}
+
+const brandName: Recipe = {
+  id: 'entity-brand-name',
+  patterns: [/^geo-entity\.(brand-inconsistent|no-og-site-name)$/],
+  impact: 'medium',
+  effort: 'minutes',
+  build(input) {
+    const name = input.brand?.name ?? 'Your Brand';
+    const files = filesFor(input, {
+      'nextjs-app': ['app/layout.tsx (`metadata.openGraph.siteName` and the title template)'],
+      'nextjs-pages': ['pages/_app.tsx or your shared <Head> component'],
+      wordpress: [
+        `${seoPluginLabel(input.stack)} → site name / Open Graph settings, and Settings → General → Site Title`,
+      ],
+      shopify: ['layout/theme.liquid (`<meta property="og:site_name">`)'],
+      default: ['the shared <head> template used by every page'],
+    });
+    return {
+      title: 'Use one brand name everywhere AI engines look for it',
+      steps: [
+        `Pick the exact brand name (e.g. “${name}”) and use it, spelt the same way, in og:site_name, the end of every title tag, and the Organization schema \`name\`.`,
+        'Set og:site_name once in the shared head template so every page carries it.',
+        'Make the Organization `name` and any `alternateName` match; avoid different legal and trading names unless both are listed.',
+      ],
+      files,
+      snippet: {
+        language: 'html',
+        code: `<meta property="og:site_name" content="${escapeHtml(name)}" />`,
+      },
+      acceptance: [
+        'og:site_name, the title suffix and Organization name are identical on every page',
+        `Verify with \`avc audit --only ${input.def.id}\``,
+      ],
+    };
+  },
+};
+
+const entityPages: Recipe = {
+  id: 'entity-pages',
+  patterns: [/^geo-entity\.(no-about-page|about-not-linked|no-contact-page|no-author-pages)$/],
+  impact: 'medium',
+  effort: 'hours',
+  tier: 'manual',
+  build(input) {
+    const id = input.def.id;
+    const steps = id.endsWith('no-author-pages')
+      ? [
+          'Create a profile page for each author at a stable URL (e.g. /team/jane-doe): name, role, qualifications, a photo and links to their professional profiles.',
+          'Link the byline on every article to that page, and add a Person node (with `url` and `sameAs`) as the Article `author`.',
+        ]
+      : id.endsWith('no-contact-page')
+        ? [
+            'Publish a Contact page (/contact) with the business name, address, phone and email exactly as they appear on your Google Business Profile.',
+            'Link it from the header or footer of every page and add a `contactPoint` to the Organization schema.',
+          ]
+        : [
+            'Publish an About page (/about) that states who you are, what you do, where, since when, and who runs it, with verifiable facts (registrations, qualifications, awards).',
+            'Link it from the home page and the main navigation or footer, and point the Organization schema `url`/`sameAs` at the same facts.',
+          ];
+    return {
+      title: id.endsWith('no-author-pages')
+        ? 'Give every author a profile page'
+        : id.endsWith('no-contact-page')
+          ? 'Publish a Contact page'
+          : 'Publish and link an About page',
+      steps,
+      files: filesFor(input, {
+        wordpress: ['Pages → Add New, then Appearance → Menus (or the site editor) to link it'],
+        default: ['a new page in your site, plus the shared header/footer template'],
+      }),
+      acceptance: [
+        'The page returns 200, is indexable and is linked from the home page',
+        `Verify with \`avc audit --only ${id}\``,
       ],
     };
   },
@@ -212,6 +301,8 @@ const schemaGeneric: Recipe = {
 };
 
 export const recipes: Recipe[] = [
+  brandName,
+  entityPages,
   schemaErrors,
   faqSchema,
   breadcrumbs,

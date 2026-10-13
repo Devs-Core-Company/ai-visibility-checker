@@ -13,6 +13,7 @@ import type {
   BrandProfile,
   Check,
   CheckDef,
+  CrawlOptions,
   EngineId,
   Fix,
   Issue,
@@ -25,7 +26,15 @@ import { ALL_CHECKS } from '../checks/index.js';
 import { runAudit } from '../audit/index.js';
 import { openStore } from '../monitor/store.js';
 import { diffAudits } from '../monitor/diff.js';
-import { renderHtmlReport, renderMarkdownReport, toCsv, toJson, toSarif } from '../report/index.js';
+import {
+  csvRows,
+  renderHtmlReport,
+  renderMarkdownReport,
+  toCsv,
+  toJson,
+  toSarif,
+} from '../report/index.js';
+import { auditToXlsx, extractionRows } from '../report/xlsx.js';
 import { runVisibility } from '../ai/run.js';
 import { suggestPrompts } from '../ai/suggest.js';
 import { inferBrand, mergeBrand } from '../ai/brand.js';
@@ -246,12 +255,23 @@ export interface AuditRequest {
   onProgress?: ProgressFn;
   signal?: AbortSignal;
   save?: boolean;
+  /** Any other crawl options (scope, rewriting, extraction, presets…). */
+  crawl?: Partial<CrawlOptions>;
+  /** A named crawl profile from the config. */
+  profile?: string;
 }
 
 export async function audit(req: AuditRequest, config = getConfig()): Promise<AuditResult> {
   const url = toUrl(req.url);
-  const site = req.site ?? resolveSite(url, config);
-  const crawl: Record<string, unknown> = { startUrl: url };
+  const resolved = req.site ?? resolveSite(url, config);
+  const site = req.profile
+    ? { ...resolved, crawl: { ...resolved.crawl, profile: req.profile } }
+    : resolved;
+  if (req.profile && !config.profiles?.[req.profile])
+    throw new Error(
+      `No crawl profile named "${req.profile}". Profiles: ${Object.keys(config.profiles ?? {}).join(', ') || 'none (add them under "profiles" in avc.config.json)'}.`,
+    );
+  const crawl: Record<string, unknown> = { ...req.crawl, startUrl: url };
   const sc = site.crawl ?? {};
   const pick = <T>(a: T | undefined, b: T | undefined) => (a !== undefined ? a : b);
   const maxPages = pick(req.maxPages, sc.maxPages);
@@ -297,7 +317,7 @@ export async function audit(req: AuditRequest, config = getConfig()): Promise<Au
 // Reports
 // ---------------------------------------------------------------------------
 
-export const FORMATS = ['html', 'json', 'md', 'csv', 'sarif'] as const;
+export const FORMATS = ['html', 'json', 'md', 'csv', 'sarif', 'xlsx', 'pdf'] as const;
 export type Format = (typeof FORMATS)[number];
 
 export function parseFormats(
@@ -319,7 +339,7 @@ export function parseFormats(
 export interface RenderedReport {
   filename: string;
   contentType: string;
-  body: string;
+  body: string | Buffer;
 }
 
 export function reportBase(result: AuditResult): string {
@@ -331,16 +351,32 @@ export function reportBase(result: AuditResult): string {
 export function renderReport(
   result: AuditResult,
   format: Format,
-  extras: { diff?: AuditDiff; previous?: AuditResult | null; csv?: 'issues' | 'pages' } = {},
+  extras: {
+    diff?: AuditDiff;
+    previous?: AuditResult | null;
+    csv?: 'issues' | 'pages' | 'extract';
+    config?: AvcConfig;
+  } = {},
 ): RenderedReport[] {
   const base = reportBase(result);
+  const branding = (extras.config ?? safeConfig())?.report;
   switch (format) {
     case 'html':
+    case 'pdf':
+      // PDF is printed from the HTML by writeReports / the dashboard (it needs a browser).
       return [
         {
           filename: `${base}.html`,
           contentType: 'text/html; charset=utf-8',
-          body: renderHtmlReport(result, { diff: extras.diff }),
+          body: renderHtmlReport(result, { diff: extras.diff, branding, print: format === 'pdf' }),
+        },
+      ];
+    case 'xlsx':
+      return [
+        {
+          filename: `${base}.xlsx`,
+          contentType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          body: auditToXlsx(result),
         },
       ];
     case 'md':
@@ -358,33 +394,63 @@ export function renderReport(
         { filename: `${base}.sarif`, contentType: 'application/sarif+json', body: toSarif(result) },
       ];
     case 'csv': {
-      const kinds: ('issues' | 'pages')[] = extras.csv ? [extras.csv] : ['issues', 'pages'];
+      const kinds: ('issues' | 'pages' | 'extract')[] = extras.csv
+        ? [extras.csv]
+        : ['issues', 'pages', ...(extractionRows(result) ? (['extract'] as const) : [])];
       return kinds.map((k) => ({
-        filename: `${base}-${k}.csv`,
+        filename: `${base}-${k === 'extract' ? 'extraction' : k}.csv`,
         contentType: 'text/csv; charset=utf-8',
-        body: toCsv(result, k),
+        body: k === 'extract' ? csvRows(extractionRows(result) ?? [['URL']]) : toCsv(result, k),
       }));
     }
   }
 }
 
-export function writeReports(
+export async function writeReports(
   result: AuditResult,
   formats: Format[],
   outDir: string,
   extras: { diff?: AuditDiff } = {},
-): string[] {
+  onWarn?: (message: string) => void,
+): Promise<string[]> {
   const dir = resolve(outDir);
   mkdirSync(dir, { recursive: true });
   const files: string[] = [];
   for (const f of formats) {
     for (const r of renderReport(result, f, extras)) {
+      if (f === 'pdf') {
+        const pdf = await reportPdf(String(r.body));
+        if (!pdf.ok) {
+          onWarn?.(`PDF not written: ${pdf.error}`);
+          continue;
+        }
+        const p = join(dir, r.filename.replace(/\.html$/, '.pdf'));
+        writeFileSync(p, pdf.pdf);
+        files.push(p);
+        continue;
+      }
       const p = join(dir, r.filename);
       writeFileSync(p, r.body);
       files.push(p);
     }
   }
   return files;
+}
+
+/** Print a rendered HTML report to PDF with the local browser. */
+export async function reportPdf(
+  html: string,
+): Promise<{ ok: true; pdf: Buffer } | { ok: false; error: string }> {
+  const { htmlToPdf } = await import('../crawl/render.js');
+  return htmlToPdf(html, { chromePath: process.env.AVC_CHROME_PATH || process.env.CHROME_PATH });
+}
+
+function safeConfig(): AvcConfig | null {
+  try {
+    return getConfig();
+  } catch {
+    return null;
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -667,9 +733,9 @@ export function errMsg(err: unknown): string {
 // Fixes
 // ---------------------------------------------------------------------------
 
-export function planFixes(result: AuditResult, only?: string[]): Fix[] {
+export function planFixes(result: AuditResult, only?: string[], config = safeConfig()): Fix[] {
   const ids = selectChecks(only);
-  const fixes = buildFixes(result);
+  const fixes = buildFixes(result, { overrides: config?.fixes?.overrides });
   return ids ? fixes.filter((f: Fix) => ids.includes(f.checkId)) : fixes;
 }
 

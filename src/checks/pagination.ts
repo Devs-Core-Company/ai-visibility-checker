@@ -1,7 +1,7 @@
 /**
  * Paginated series: rel next/prev, canonical and noindex handling, crawl paths.
  */
-import type { SiteContext } from '../core/types.js';
+import type { Issue, SiteContext } from '../core/types.js';
 import {
   REF,
   declaredCanonical,
@@ -18,6 +18,7 @@ import {
   siteCheck,
   truncate,
 } from './_util.js';
+import * as cu from './_util.js';
 
 export const OUT_OF_RANGE_PAGE = 9999;
 
@@ -269,3 +270,80 @@ export const checks = [
     },
   ),
 ];
+
+// ---------------------------------------------------------------------------
+// Added for feature parity: long paginated series with no shortcut
+// ---------------------------------------------------------------------------
+
+export const DEEP_SERIES_PAGES = 6;
+
+/** The series a paginated URL belongs to: the URL without its page number. */
+export function seriesKey(url: string): string {
+  const u = cu.safeUrl(url);
+  if (!u) return url;
+  for (const k of ['page', 'p', 'pg', 'paged', 'pagenum', 'pagenumber']) u.searchParams.delete(k);
+  u.pathname = u.pathname.replace(/\/(?:page|seite|pagina|p)\/\d+\/?$/i, '/');
+  u.hash = '';
+  return u.toString();
+}
+
+const VIEW_ALL = /\b(view|show|see) all\b|\ball (products|posts|articles|items)\b/i;
+
+checks.push(
+  cu.siteCheck(
+    {
+      id: 'pagination.deep-series',
+      category: 'pagination',
+      pillar: T,
+      title: 'Long paginated list with no shortcut to deep pages',
+      why: 'When page 1 only links to page 2, an item on page 10 is ten or more clicks deep. Crawlers reach it late or not at all, and it gets little internal link value. Jump links, a view-all page or category splits shorten the path.',
+      severity: 'low',
+      fixTier: 'guided',
+      fix: 'Link to more page numbers from each list page (1 2 3 … 10 … last), add sub-categories or filters with crawlable URLs, or offer a view-all page for lists that load fast enough.',
+      refs: [REF.pagination],
+    },
+    (site) => {
+      const series = new Map<
+        string,
+        { max: number; firstLinksTo: number; viewAll: boolean; first?: string }
+      >();
+      for (const p of site.pages.values()) {
+        if (!p.isHtml) continue;
+        const n = pageNumber(p.url);
+        const linked = p.links.filter((l) => l.internal).map((l) => ({ l, n: pageNumber(l.href) }));
+        for (const { l, n: ln } of linked) {
+          if (!ln) continue;
+          const key = seriesKey(l.href);
+          const s = series.get(key) ?? { max: 0, firstLinksTo: 0, viewAll: false };
+          s.max = Math.max(s.max, ln);
+          series.set(key, s);
+        }
+        const key = seriesKey(p.url);
+        const s = series.get(key);
+        if (!s) continue;
+        if (n) s.max = Math.max(s.max, n);
+        if (!n || n === 1) {
+          s.first = p.url;
+          s.firstLinksTo = Math.max(
+            s.firstLinksTo,
+            ...linked.filter((x) => x.n && seriesKey(x.l.href) === key).map((x) => x.n!),
+          );
+          if (p.links.some((l) => VIEW_ALL.test(l.text))) s.viewAll = true;
+        }
+      }
+      const out: Issue[] = [];
+      for (const [key, s] of series) {
+        if (!s.first || s.max < DEEP_SERIES_PAGES || s.viewAll) continue;
+        if (s.firstLinksTo >= Math.min(s.max, 5)) continue;
+        out.push({
+          checkId: 'pagination.deep-series',
+          url: s.first,
+          message: `${s.max} list pages; the first page links only up to page ${s.firstLinksTo || 2}`,
+          evidence: key,
+          data: { pages: s.max },
+        });
+      }
+      return out.slice(0, 50);
+    },
+  ),
+);

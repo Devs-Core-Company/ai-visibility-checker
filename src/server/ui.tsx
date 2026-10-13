@@ -32,13 +32,26 @@ const SITE_NAV: [string, string][] = [
   ['run', 'Run audit'],
   ['issues', 'Issues'],
   ['pages', 'Pages'],
+  ['graph', 'Site graph'],
+  ['resources', 'Resources'],
+  ['serp', 'Snippets'],
   ['crawlers', 'AI crawlers'],
   ['agentic', 'Agentic web'],
   ['visibility', 'AI visibility'],
   ['fixes', 'Fixes'],
   ['connections', 'Connections'],
   ['history', 'History & diff'],
+  ['ask', 'Ask'],
 ];
+
+/** A prefilled GitHub issue; nothing is sent until the person submits it. */
+export function feedbackHref(): string {
+  const q = new URLSearchParams({
+    title: 'Feedback',
+    body: `\n\n---\nAVC ${APP_VERSION} · ${process.platform} · Node ${process.versions.node}`,
+  });
+  return `https://github.com/Devs-Core-Company/ai-visibility-checker/issues/new?${q}`;
+}
 
 export function siteHref(siteId: string, section = 'overview'): string {
   return `/s/${encodeURIComponent(siteId)}${section === 'overview' ? '' : '/' + section}`;
@@ -144,7 +157,10 @@ export function Layout(p: LayoutProps) {
                 <a href="https://devs-core.com" rel="noopener">
                   Devs Core
                 </a>
-                . Runs on your machine; it only calls the sites and APIs you configure.
+                . Runs on your machine; it only calls the sites and APIs you configure.{' '}
+                <a href={feedbackHref()} rel="noopener" target="_blank">
+                  Send feedback
+                </a>
               </p>
             </main>
           </div>
