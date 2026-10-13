@@ -19,7 +19,7 @@ export const WP_HELPER_PHP = `<?php
  * Description: Lets AI Visibility Checker read and write SEO titles, meta descriptions, noindex, robots.txt and llms.txt through the REST API, with your Application Password. Whitelisted fields only.
  * Version: ${WP_HELPER_VERSION}
  * Author: Devs Core
- * License: MIT
+ * License: AGPL-3.0-only
  */
 
 if (!defined('ABSPATH')) {

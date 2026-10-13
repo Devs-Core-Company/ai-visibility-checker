@@ -3,6 +3,14 @@
 All notable changes are listed here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and the project uses [semantic versioning](https://semver.org). Check ids are stable across versions.
 
+## [Unreleased]
+
+### Changed
+
+- Licence changed from MIT to the GNU Affero General Public License v3.0 only (AGPL-3.0-only).
+  Commercial licences are available from Devs Core. Commit `f13a0c9` and earlier remain available
+  under MIT.
+
 ## [1.0.0] - 2026-10-13
 
 First public release.

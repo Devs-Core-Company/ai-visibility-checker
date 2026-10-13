@@ -4,7 +4,7 @@
 Perplexity actually name you, and fix what holds you back.** It runs on your machine, with your
 keys, against your site.
 
-Built by [Devs Core](https://devs-core.com). MIT licensed.
+Built by [Devs Core](https://devs-core.com). Free and open source under the AGPL-3.0.
 
 ```bash
 npx github:Devs-Core-Company/ai-visibility-checker audit https://yoursite.com
@@ -152,7 +152,7 @@ Devs Core also runs a free web checker at
 | Fixes                | Advice                             | Stack-specific code, agent prompts, WordPress auto-apply with rollback, repo patches |
 | Monitoring           | No                                 | Schedules, diffs, trends, alerts, GitHub Action                                      |
 | Where it runs        | Devs Core servers                  | Your machine                                                                         |
-| Cost                 | Free                               | Free (MIT); AI checks use your own API keys                                          |
+| Cost                 | Free                               | Free (AGPL-3.0); AI checks use your own API keys                                          |
 
 Use the web version for a quick look at any site; use this app to work on your own.
 
@@ -262,7 +262,21 @@ the whole site and connected data, so its score is more complete.
 
 ## Licence
 
-MIT, © 2026 Devs Core. See [LICENSE](LICENSE).
+GNU Affero General Public License v3.0 only (`AGPL-3.0-only`), © 2026 Devs Core. See
+[LICENSE](LICENSE).
+
+What that means in practice:
+
+- **Using it for your own site, your clients' sites or in your CI is free, with no obligations.**
+  Running the app does not require you to publish anything.
+- **If you change the code and give the app to others, or run your changed version as a service
+  other people use over a network**, you must offer those people the full source of your version
+  under the same licence.
+- **Want to embed it in a closed product or offer it as a hosted service without sharing your
+  changes?** Devs Core offers commercial licences: contact@devs-core.com.
+
+Versions published before 13 October 2026 (commit `f13a0c9` and earlier) were released under the
+MIT licence and remain available under it.
 
 Built by [Devs Core](https://devs-core.com). Contributions welcome: [CONTRIBUTING.md](CONTRIBUTING.md).
 Security reports: [SECURITY.md](SECURITY.md).

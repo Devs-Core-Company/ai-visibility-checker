@@ -14,7 +14,7 @@ you*, and connects the two.
 
 | Capability | Scrawly | AI Visibility Checker |
 | --- | --- | --- |
-| Licence and price | MIT, free | MIT, free |
+| Licence and price | MIT, free | AGPL-3.0, free (commercial licence available) |
 | Runs on | Desktop app (macOS, Windows, Linux) | CLI, local web dashboard, Docker, CI, MCP (macOS, Windows, Linux) |
 | Full-site crawl, JavaScript rendering | Yes | Yes, with raw vs rendered comparison per page |
 | Technical SEO checks | Yes (its README lists 250 checks across all areas) | Yes (`avc checks` lists them) |

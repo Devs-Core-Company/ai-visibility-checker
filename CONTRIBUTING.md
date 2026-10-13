@@ -47,7 +47,19 @@ Each folder has one job: `crawl`, `checks`, `agentic`, `ai`, `fixes`, `connect`,
 - `npm run check` and `npm run compile` must pass (CI runs them on Node 22 and 24).
 - Describe what changed and why; for a check, include an example page where it fires.
 
-By contributing you agree that your contribution is licensed under the MIT licence.
+## Licence and contributor agreement
+
+The project is licensed under the GNU Affero General Public License v3.0 only (AGPL-3.0-only).
+
+By opening a pull request you confirm that:
+
+1. you wrote the contribution, or have the right to submit it;
+2. you license it to everyone under the AGPL-3.0-only; and
+3. you grant Devs Core a perpetual, worldwide, non-exclusive, royalty-free licence to use, modify
+   and relicense your contribution, including under commercial licence terms.
+
+Point 3 lets Devs Core keep offering commercial licences alongside the AGPL. If you cannot agree to
+it, say so in the pull request before it is merged.
 
 Note: the build script is called `compile`, not `build`. npm prepares git
 dependencies (runs an install and build in a temporary copy) whenever a package
