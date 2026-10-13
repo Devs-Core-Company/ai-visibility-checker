@@ -6,3 +6,6 @@ dist/
 .env.local
 coverage/
 .DS_Store
+
+# Test fixtures are data, not logs
+!test/fixtures/**/*.log
