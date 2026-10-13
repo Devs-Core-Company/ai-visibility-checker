@@ -1,0 +1,76 @@
+{
+  "name": "@devs-core/ai-visibility-checker",
+  "version": "1.0.0",
+  "description": "AI Visibility Checker by Devs Core: full-site technical SEO, AEO/GEO, AI crawler access, agentic-web readiness and real AI visibility tracking (ChatGPT, Claude, Gemini, Perplexity) for your own website. Runs on your machine.",
+  "license": "MIT",
+  "author": "Devs Core <contact@devs-core.com> (https://devs-core.com)",
+  "homepage": "https://devs-core.com/ai-visibility-checker/app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Devs-Core-Company/ai-visibility-checker.git"
+  },
+  "type": "module",
+  "bin": {
+    "avc": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "public",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && node scripts/postbuild.mjs",
+    "dev": "tsx src/cli.ts",
+    "avc": "tsx src/cli.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\" \"test/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx}\" \"test/**/*.ts\"",
+    "check": "npm run typecheck && npm run format:check && npm test",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "seo",
+    "geo",
+    "aeo",
+    "ai-visibility",
+    "llms.txt",
+    "crawler",
+    "site-audit",
+    "mcp",
+    "a2a",
+    "chatgpt",
+    "perplexity"
+  ],
+  "dependencies": {
+    "@ai-sdk/anthropic": "^4.0.79",
+    "@ai-sdk/google": "^4.0.94",
+    "@ai-sdk/openai": "^4.0.92",
+    "@ai-sdk/perplexity": "^5.0.11",
+    "@hono/node-server": "^2.1.5",
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "@mozilla/readability": "^0.6.0",
+    "ai": "^7.0.138",
+    "commander": "^15.0.0",
+    "croner": "^10.0.1",
+    "hono": "^4.13.13",
+    "linkedom": "^0.18.13",
+    "nodemailer": "^10.1.0",
+    "picocolors": "^1.1.1",
+    "playwright-core": "^1.64.0",
+    "robots-parser": "^3.0.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "@types/nodemailer": "^8.0.2",
+    "prettier": "^3.9.10",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.4"
+  }
+}
