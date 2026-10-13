@@ -41,13 +41,20 @@ export async function cmdAudit(target: string, opts: AuditOpts): Promise<void> {
   const formats = parseFormats(opts.format);
   const wantVisibility = Boolean(opts.visibility || opts.engines?.length || opts.repeats);
   const visibility = wantVisibility
-    ? { engines: opts.engines?.length ? pickEngines(opts.engines, config) : undefined, repeats: opts.repeats }
+    ? {
+        engines: opts.engines?.length ? pickEngines(opts.engines, config) : undefined,
+        repeats: opts.repeats,
+      }
     : false;
 
   // commander sets render=true for --render, false for --no-render, and leaves it
   // true by default because of the negated option; only pass it when given explicitly.
   const argv = process.argv;
-  const render = argv.includes('--no-render') ? false : argv.includes('--render') ? true : undefined;
+  const render = argv.includes('--no-render')
+    ? false
+    : argv.includes('--render')
+      ? true
+      : undefined;
 
   const progress = progressPrinter({ quiet: opts.quiet, json: opts.json });
   const ac = new AbortController();
@@ -89,24 +96,29 @@ export async function cmdAudit(target: string, opts: AuditOpts): Promise<void> {
   let files: string[] = [];
   const prev = opts.save !== false ? safe(() => previousAudit(result, config)) : null;
   const d = prev ? safe(() => diff(prev, result)) : null;
-  if (formats.length && opts.out) files = writeReports(result, formats, opts.out, { diff: d ?? undefined });
+  if (formats.length && opts.out)
+    files = writeReports(result, formats, opts.out, { diff: d ?? undefined });
 
   if (opts.json) {
     process.stdout.write(JSON.stringify(result, null, 2) + '\n');
   } else {
     console.log(printAuditSummary(result, { top: 10 }));
     if (d) {
-      const sign = d.scoreDelta > 0 ? c.green(`+${d.scoreDelta}`) : d.scoreDelta < 0 ? c.red(String(d.scoreDelta)) : '±0';
+      const sign =
+        d.scoreDelta > 0
+          ? c.green(`+${d.scoreDelta}`)
+          : d.scoreDelta < 0
+            ? c.red(String(d.scoreDelta))
+            : '±0';
       console.log(
         `\n${c.bold('Since last audit')} ${sign} · ${c.red(`${d.newIssues.length} new`)} · ${c.green(`${d.fixedIssues.length} fixed`)} issues`,
       );
     }
     console.log('\n' + c.bold('Saved'));
     if (opts.save !== false) console.log(`  audit id   ${c.cyan(result.id)}`);
-    for (const f of files) console.log(`  ${c.dim('report')}     ${relative(process.cwd(), f) || f}`);
-    console.log(
-      c.dim(`\nNext: avc fix ${site.id} · avc ui · avc report ${result.id} --format md`),
-    );
+    for (const f of files)
+      console.log(`  ${c.dim('report')}     ${relative(process.cwd(), f) || f}`);
+    console.log(c.dim(`\nNext: avc fix ${site.id} · avc ui · avc report ${result.id} --format md`));
   }
 
   const html = files.find((f) => f.endsWith('.html'));

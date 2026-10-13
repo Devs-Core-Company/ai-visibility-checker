@@ -28,7 +28,16 @@ import { lookupEntity } from './entity.js';
 import { checkFacts, factKey, isPlatform, judgeAnswer, type Judgement } from './judge.js';
 import { mockAnswer } from './mock.js';
 import { expectedCallCost } from './pricing.js';
-import { describeError, hostOf, mapLimit, normBrand, sameBrand, sameSite, truncate, uniq } from './util.js';
+import {
+  describeError,
+  hostOf,
+  mapLimit,
+  normBrand,
+  sameBrand,
+  sameSite,
+  truncate,
+  uniq,
+} from './util.js';
 
 export interface RunVisibilityInput {
   brand: BrandProfile;
@@ -139,7 +148,9 @@ export async function runVisibility(input: RunVisibilityInput): Promise<Visibili
   const repeats = Math.max(1, Math.min(10, Math.floor(input.repeats ?? 1)));
   const useModelJudge = !mock && Boolean(helperModel(config, 'judge'));
   const judgeModel = helperModel(config, 'judge');
-  const budget = new Budget(mock ? Number.POSITIVE_INFINITY : runCeiling(config, input.monthSpendUsd));
+  const budget = new Budget(
+    mock ? Number.POSITIVE_INFINITY : runCeiling(config, input.monthSpendUsd),
+  );
   const startedAt = new Date().toISOString();
 
   const jobs: Job[] = [];
@@ -148,7 +159,14 @@ export async function runVisibility(input: RunVisibilityInput): Promise<Visibili
     const status = statuses.find((s) => s.engine === engine);
     for (const prompt of input.prompts) {
       if (!status || !status.available) {
-        unavailable.push(emptyAnswer(engine, status?.model ?? 'n/a', prompt, status?.note ?? `${engine} is not available.`));
+        unavailable.push(
+          emptyAnswer(
+            engine,
+            status?.model ?? 'n/a',
+            prompt,
+            status?.note ?? `${engine} is not available.`,
+          ),
+        );
         continue;
       }
       if (!prompt.search && !status.canDisableSearch) continue;
@@ -168,79 +186,115 @@ export async function runVisibility(input: RunVisibilityInput): Promise<Visibili
   let done = 0;
   const judgements: (Judgement | null)[] = new Array(jobs.length).fill(null);
 
-  const answers = await mapLimit(jobs, input.concurrency ?? 6, async (job, i): Promise<EngineAnswer> => {
-    const { prompt, status } = job;
-    const base = emptyAnswer(status.engine, status.model, prompt);
-    const finish = (a: EngineAnswer) => {
-      done += 1;
-      if (done % 5 === 0 || done === jobs.length)
-        progress({ type: 'log', level: 'info', message: `AI visibility: ${done}/${jobs.length} answers` });
-      return a;
-    };
-    if (signal?.aborted) return finish({ ...base, error: 'Cancelled' });
-    if (budgetHit) return finish({ ...base, error: 'Skipped: the provider reports the budget or credits are used up' });
-    if (refused.has(status.engine))
-      return finish({ ...base, error: `Skipped: ${engineLabel(status.engine)} refused the API key` });
+  const answers = await mapLimit(
+    jobs,
+    input.concurrency ?? 6,
+    async (job, i): Promise<EngineAnswer> => {
+      const { prompt, status } = job;
+      const base = emptyAnswer(status.engine, status.model, prompt);
+      const finish = (a: EngineAnswer) => {
+        done += 1;
+        if (done % 5 === 0 || done === jobs.length)
+          progress({
+            type: 'log',
+            level: 'info',
+            message: `AI visibility: ${done}/${jobs.length} answers`,
+          });
+        return a;
+      };
+      if (signal?.aborted) return finish({ ...base, error: 'Cancelled' });
+      if (budgetHit)
+        return finish({
+          ...base,
+          error: 'Skipped: the provider reports the budget or credits are used up',
+        });
+      if (refused.has(status.engine))
+        return finish({
+          ...base,
+          error: `Skipped: ${engineLabel(status.engine)} refused the API key`,
+        });
 
-    const estimate = mock
-      ? 0
-      : expectedCallCost(status.model, 'answer', prompt.search, status.engine) +
-        (useModelJudge && judgeModel ? expectedCallCost(judgeModel.model, 'judge', false) : 0);
-    if (!budget.tryReserve(estimate)) {
-      ceilingHit = true;
+      const estimate = mock
+        ? 0
+        : expectedCallCost(status.model, 'answer', prompt.search, status.engine) +
+          (useModelJudge && judgeModel ? expectedCallCost(judgeModel.model, 'judge', false) : 0);
+      if (!budget.tryReserve(estimate)) {
+        ceilingHit = true;
+        return finish({
+          ...base,
+          error: `Skipped: the next call would pass the spend ceiling ($${budget.capUsd.toFixed(2)})`,
+        });
+      }
+
+      const started = Date.now();
+      let answer: AnswerResult;
+      try {
+        answer =
+          status.via === 'mock'
+            ? mockAnswer({
+                engine: status.engine,
+                prompt,
+                brand,
+                site: input.site,
+                repeat: job.repeat,
+              })
+            : await askEngine(status, prompt.text, prompt.search, config, signal);
+      } catch (error) {
+        budget.settle(estimate, 0);
+        if (isBudgetError(error)) budgetHit = true;
+        else if (isRefusedError(error)) refused.add(status.engine);
+        progress({
+          type: 'log',
+          level: 'warn',
+          message: `${engineLabel(status.engine)} failed: ${describeError(error)}`,
+        });
+        return finish({
+          ...base,
+          ms: Date.now() - started,
+          error: signal?.aborted
+            ? 'Cancelled'
+            : `The engine did not answer: ${describeError(error)}`,
+        });
+      }
+      const ms = Date.now() - started;
+
+      const judged = await judgeAnswer(
+        {
+          text: answer.text,
+          question: prompt.text,
+          citations: answer.citations.map((c) => c.url),
+          brand,
+        },
+        config,
+        useModelJudge,
+        signal,
+      );
+      budget.settle(estimate, answer.costUsd + judged.costUsd);
+      judgements[i] = judged.judgement;
+      const j = judged.judgement;
+
       return finish({
         ...base,
-        error: `Skipped: the next call would pass the spend ceiling ($${budget.capUsd.toFixed(2)})`,
+        answer: truncate(answer.text, 10_000),
+        citations: answer.citations.map((c) => toCitation(c, brand, j.brandsNamed)),
+        searchQueries: answer.queries,
+        mentioned: j.mentioned,
+        position: j.position,
+        brandsNamed: j.brandsNamed,
+        sentiment: j.sentiment,
+        costUsd: answer.costUsd + judged.costUsd,
+        ms,
+        ...(answer.text ? {} : { error: 'Empty answer' }),
       });
-    }
-
-    const started = Date.now();
-    let answer: AnswerResult;
-    try {
-      answer =
-        status.via === 'mock'
-          ? mockAnswer({ engine: status.engine, prompt, brand, site: input.site, repeat: job.repeat })
-          : await askEngine(status, prompt.text, prompt.search, config, signal);
-    } catch (error) {
-      budget.settle(estimate, 0);
-      if (isBudgetError(error)) budgetHit = true;
-      else if (isRefusedError(error)) refused.add(status.engine);
-      progress({ type: 'log', level: 'warn', message: `${engineLabel(status.engine)} failed: ${describeError(error)}` });
-      return finish({
-        ...base,
-        ms: Date.now() - started,
-        error: signal?.aborted ? 'Cancelled' : `The engine did not answer: ${describeError(error)}`,
-      });
-    }
-    const ms = Date.now() - started;
-
-    const judged = await judgeAnswer(
-      { text: answer.text, question: prompt.text, citations: answer.citations.map((c) => c.url), brand },
-      config,
-      useModelJudge,
-      signal,
-    );
-    budget.settle(estimate, answer.costUsd + judged.costUsd);
-    judgements[i] = judged.judgement;
-    const j = judged.judgement;
-
-    return finish({
-      ...base,
-      answer: truncate(answer.text, 10_000),
-      citations: answer.citations.map((c) => toCitation(c, brand, j.brandsNamed)),
-      searchQueries: answer.queries,
-      mentioned: j.mentioned,
-      position: j.position,
-      brandsNamed: j.brandsNamed,
-      sentiment: j.sentiment,
-      costUsd: answer.costUsd + judged.costUsd,
-      ms,
-      ...(answer.text ? {} : { error: 'Empty answer' }),
-    });
-  });
+    },
+  );
 
   if (ceilingHit)
-    progress({ type: 'log', level: 'warn', message: `AI visibility stopped at the spend ceiling of $${budget.capUsd.toFixed(2)}. Raise maxRunUsd or ask fewer prompts.` });
+    progress({
+      type: 'log',
+      level: 'warn',
+      message: `AI visibility stopped at the spend ceiling of $${budget.capUsd.toFixed(2)}. Raise maxRunUsd or ask fewer prompts.`,
+    });
 
   // Second pass: competitors named anywhere, so citations can be attributed across answers.
   const competitors = competitorNames(brand, judgements);
@@ -256,10 +310,17 @@ export async function runVisibility(input: RunVisibilityInput): Promise<Visibili
   let extraCost = 0;
   const facts: SiteFacts = input.site
     ? extractSiteFacts(input.site, brand)
-    : { locations: brand.location ? [brand.location] : [], emails: [], phones: [], services: brand.services, text: brand.description ?? '' };
+    : {
+        locations: brand.location ? [brand.location] : [],
+        emails: [],
+        phones: [],
+        services: brand.services,
+        text: brand.description ?? '',
+      };
   const claims = judgements.flatMap((j) => (j?.mentioned ? j.facts : []));
   if (claims.length && !signal?.aborted) {
-    const est = useModelJudge && judgeModel ? expectedCallCost(judgeModel.model, 'judge', false) * 2 : 0;
+    const est =
+      useModelJudge && judgeModel ? expectedCallCost(judgeModel.model, 'judge', false) * 2 : 0;
     const allowModel = useModelJudge && budget.tryReserve(est);
     const checked = await checkFacts(claims, brand, facts, config, allowModel, signal);
     if (allowModel) budget.settle(est, checked.costUsd);
@@ -310,7 +371,12 @@ export async function runVisibility(input: RunVisibilityInput): Promise<Visibili
   return run;
 }
 
-function emptyAnswer(engine: EngineId, model: string, prompt: TrackedPrompt, error?: string): EngineAnswer {
+function emptyAnswer(
+  engine: EngineId,
+  model: string,
+  prompt: TrackedPrompt,
+  error?: string,
+): EngineAnswer {
   return {
     engine,
     model,
@@ -364,7 +430,8 @@ export function summarise(
 ): VisibilityRun['summary'] {
   const valid = validAnswers(answers);
   const kindOf = new Map(prompts.map((p) => [p.id, p.kind]));
-  const rate = (xs: EngineAnswer[]) => (xs.length ? xs.filter((a) => a.mentioned).length / xs.length : 0);
+  const rate = (xs: EngineAnswer[]) =>
+    xs.length ? xs.filter((a) => a.mentioned).length / xs.length : 0;
 
   // By engine (every engine that was asked, even if all its calls failed).
   const byEngine: VisibilityRun['summary']['byEngine'] = {};
@@ -373,7 +440,9 @@ export function summarise(
     const positions = xs.map((a) => a.position).filter((p): p is number => typeof p === 'number');
     byEngine[engine] = {
       mentionRate: round(rate(xs)),
-      avgPosition: positions.length ? round(positions.reduce((s, p) => s + p, 0) / positions.length, 2) : null,
+      avgPosition: positions.length
+        ? round(positions.reduce((s, p) => s + p, 0) / positions.length, 2)
+        : null,
       answers: xs.length,
       citedOwnSite: xs.filter((a) => a.citations.some((c) => c.ownSite)).length,
     };
@@ -381,7 +450,9 @@ export function summarise(
 
   // Share of voice across non-brand prompts: each answer counts each company once.
   const sovAnswers = valid.filter((a) => NON_BRAND.includes(kindOf.get(a.promptId) ?? 'custom'));
-  const allNames = sovAnswers.flatMap((a) => a.brandsNamed.filter((n) => !isOwn(n, brand) && !isPlatform(n)));
+  const allNames = sovAnswers.flatMap((a) =>
+    a.brandsNamed.filter((n) => !isOwn(n, brand) && !isPlatform(n)),
+  );
   const keyOf = clusterNames(allNames);
   const counts = new Map<string, { names: Map<string, number>; mentions: number }>();
   let own = 0;
@@ -421,7 +492,8 @@ export function summarise(
       domainCounts.set(c.domain, (domainCounts.get(c.domain) ?? 0) + 1);
       if (c.ownSite) ownCounts.set(c.url, (ownCounts.get(c.url) ?? 0) + 1);
     }
-  const sorted = (m: Map<string, number>) => [...m.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  const sorted = (m: Map<string, number>) =>
+    [...m.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
 
   // Competitor wins: non-brand prompts where the brand was named in under half the answers.
   const competitorWins: VisibilityRun['summary']['competitorWins'] = [];
@@ -433,19 +505,27 @@ export function summarise(
     for (const a of xs) {
       const others = a.brandsNamed.filter((n) => !isOwn(n, brand) && !isPlatform(n));
       others.forEach((n, idx) => {
-        const k = [...tally.keys()].find((key) => sameBrand(tally.get(key)!.name, n)) ?? normBrand(n);
+        const k =
+          [...tally.keys()].find((key) => sameBrand(tally.get(key)!.name, n)) ?? normBrand(n);
         const t = tally.get(k) ?? { name: n, count: 0, rankSum: 0 };
         t.count += 1;
         t.rankSum += idx + 1;
         tally.set(k, t);
       });
     }
-    const winner = [...tally.values()].sort((a, b) => b.count - a.count || a.rankSum / a.count - b.rankSum / b.count)[0];
+    const winner = [...tally.values()].sort(
+      (a, b) => b.count - a.count || a.rankSum / a.count - b.rankSum / b.count,
+    )[0];
     if (!winner) continue;
-    const lost = xs.filter((a) => !a.mentioned && a.brandsNamed.some((n) => sameBrand(n, winner.name)));
+    const lost = xs.filter(
+      (a) => !a.mentioned && a.brandsNamed.some((n) => sameBrand(n, winner.name)),
+    );
     const cites = lost.flatMap((a) => a.citations);
     const sources = uniq(
-      [...cites.filter((c) => c.competitor && sameBrand(c.competitor, winner.name)), ...cites.filter((c) => !c.ownSite)].map((c) => c.url),
+      [
+        ...cites.filter((c) => c.competitor && sameBrand(c.competitor, winner.name)),
+        ...cites.filter((c) => !c.ownSite),
+      ].map((c) => c.url),
     ).slice(0, 8);
     competitorWins.push({
       promptId: p.id,

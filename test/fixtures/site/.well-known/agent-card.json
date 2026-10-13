@@ -1,0 +1,42 @@
+{
+  "protocolVersion": "0.3.0",
+  "name": "Northwind Joinery Quotes",
+  "description": "Answers questions about Northwind Joinery's kitchens and wardrobes and books measuring visits.",
+  "url": "{{ORIGIN}}/a2a",
+  "preferredTransport": "JSONRPC",
+  "version": "1.2.0",
+  "provider": { "organization": "Northwind Joinery", "url": "{{ORIGIN}}" },
+  "documentationUrl": "{{ORIGIN}}/docs/agents",
+  "capabilities": { "streaming": true, "pushNotifications": false },
+  "securitySchemes": {
+    "oauth": {
+      "type": "oauth2",
+      "flows": {
+        "authorizationCode": {
+          "authorizationUrl": "{{ORIGIN}}/oauth/authorize",
+          "tokenUrl": "{{ORIGIN}}/oauth/token",
+          "scopes": { "quotes:write": "Request a quote" }
+        }
+      }
+    }
+  },
+  "security": [{ "oauth": ["quotes:write"] }],
+  "defaultInputModes": ["text/plain"],
+  "defaultOutputModes": ["text/plain", "application/json"],
+  "skills": [
+    {
+      "id": "book-measure",
+      "name": "Book a measuring visit",
+      "description": "Finds a free slot for a measuring visit within 40 miles of Leeds and books it.",
+      "tags": ["booking", "kitchens"],
+      "examples": ["Can someone measure my kitchen next Tuesday?"]
+    },
+    {
+      "id": "lead-times",
+      "name": "Lead times",
+      "description": "Explains current lead times for kitchens and wardrobes.",
+      "tags": ["faq"],
+      "examples": ["How long does a handmade kitchen take?"]
+    }
+  ]
+}

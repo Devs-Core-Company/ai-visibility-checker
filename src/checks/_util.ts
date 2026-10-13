@@ -13,6 +13,7 @@ import type {
   SiteContext,
 } from '../core/types.js';
 import { bareHost, normaliseUrl, TRACKING_PARAMS } from '../core/url.js';
+import { externalLinkStatus, imageStatus } from '../crawl/index.js';
 
 export { TRACKING_PARAMS };
 
@@ -60,11 +61,13 @@ export const REF = {
     'https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls',
   redirects: 'https://developers.google.com/search/docs/crawling-indexing/301-redirects',
   httpStatus: 'https://developers.google.com/search/docs/crawling-indexing/http-network-errors',
-  soft404: 'https://developers.google.com/search/docs/crawling-indexing/http-network-errors#soft-404-errors',
+  soft404:
+    'https://developers.google.com/search/docs/crawling-indexing/http-network-errors#soft-404-errors',
   titles: 'https://developers.google.com/search/docs/appearance/title-link',
   snippets: 'https://developers.google.com/search/docs/appearance/snippet',
   links: 'https://developers.google.com/search/docs/crawling-indexing/links-crawlable',
-  qualifyLinks: 'https://developers.google.com/search/docs/crawling-indexing/qualify-outbound-links',
+  qualifyLinks:
+    'https://developers.google.com/search/docs/crawling-indexing/qualify-outbound-links',
   images: 'https://developers.google.com/search/docs/appearance/google-images',
   sitemaps: 'https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap',
   sitemapsProtocol: 'https://www.sitemaps.org/protocol.html',
@@ -72,16 +75,19 @@ export const REF = {
   structuredData:
     'https://developers.google.com/search/docs/appearance/structured-data/sd-policies',
   sdGallery: 'https://developers.google.com/search/docs/appearance/structured-data/search-gallery',
-  mobile: 'https://developers.google.com/search/docs/crawling-indexing/mobile/mobile-sites-mobile-first-indexing',
+  mobile:
+    'https://developers.google.com/search/docs/crawling-indexing/mobile/mobile-sites-mobile-first-indexing',
   cwv: 'https://web.dev/articles/vitals',
   lcp: 'https://web.dev/articles/lcp',
   cls: 'https://web.dev/articles/cls',
   inp: 'https://web.dev/articles/inp',
   ttfb: 'https://web.dev/articles/ttfb',
-  renderBlocking: 'https://developer.chrome.com/docs/lighthouse/performance/render-blocking-resources',
+  renderBlocking:
+    'https://developer.chrome.com/docs/lighthouse/performance/render-blocking-resources',
   https: 'https://developers.google.com/search/docs/crawling-indexing/https',
   mdnHeaders: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers',
-  pagination: 'https://developers.google.com/search/docs/specialty/ecommerce/pagination-and-incremental-page-loading',
+  pagination:
+    'https://developers.google.com/search/docs/specialty/ecommerce/pagination-and-incremental-page-loading',
   urlStructure: 'https://developers.google.com/search/docs/crawling-indexing/url-structure',
   helpfulContent: 'https://developers.google.com/search/docs/fundamentals/creating-helpful-content',
   spam: 'https://developers.google.com/search/docs/essentials/spam-policies',
@@ -247,9 +253,7 @@ export function isCanonicalisedAway(page: PageData): boolean {
 
 /** HTML 200, not noindex, not blocked by robots, not canonicalised elsewhere. */
 export function isIndexable(page: PageData): boolean {
-  return (
-    isHtml200(page) && !page.blockedByRobots && !isNoindex(page) && !isCanonicalisedAway(page)
-  );
+  return isHtml200(page) && !page.blockedByRobots && !isNoindex(page) && !isCanonicalisedAway(page);
 }
 
 /** Alias kept for readability in check files. */
@@ -288,14 +292,19 @@ const ARTICLE_TYPES = new Set([
   'ScholarlyArticle',
   'LiveBlogPosting',
 ]);
-const ARTICLE_PATH = /\/(blog|news|articles?|insights|posts?|stories|journal|guides?|resources)\/[^/]+/i;
+const ARTICLE_PATH =
+  /\/(blog|news|articles?|insights|posts?|stories|journal|guides?|resources)\/[^/]+/i;
 
 /** Best-effort: is this an article / blog post (not a listing page)? */
 export function isArticleLike(page: PageData): boolean {
   if (page.structuredData.some((s) => s.types.some((t) => ARTICLE_TYPES.has(t)))) return true;
   if ((page.og['og:type'] || '').toLowerCase() === 'article') return true;
   const path = pathOf(page.url);
-  return ARTICLE_PATH.test(path) && pageNumber(page.url) == null && !/\/(tag|category|author)\//i.test(path);
+  return (
+    ARTICLE_PATH.test(path) &&
+    pageNumber(page.url) == null &&
+    !/\/(tag|category|author)\//i.test(path)
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -341,18 +350,24 @@ export function resolvePage(site: SiteContext, url: string): PageData | undefine
   return p;
 }
 
+/** The home page as finally served (a redirecting start URL is followed to its destination). */
 export function homePage(site: SiteContext): PageData | undefined {
-  return (
+  const p =
     findPage(site, site.startUrl) ??
     findPage(site, site.origin + '/') ??
-    [...site.pages.values()].find((p) => p.depth === 0)
-  );
+    [...site.pages.values()].find((x) => x.depth === 0);
+  if (p && p.redirects.length) return findPage(site, p.finalUrl) ?? p;
+  return p;
 }
 
 export function isHomepage(page: PageData, site: SiteContext): boolean {
   if (page.depth === 0) return true;
   const path = pathOf(page.finalUrl || page.url);
-  return (path === '/' || path === '') && sameSiteHost(page.url, site.origin) && !safeUrl(page.url)?.search;
+  return (
+    (path === '/' || path === '') &&
+    sameSiteHost(page.url, site.origin) &&
+    !safeUrl(page.url)?.search
+  );
 }
 
 /** Number of distinct internal pages linking to this URL. */
@@ -374,19 +389,37 @@ export function wasRedirected(page: PageData): boolean {
 }
 
 /**
- * Status for an external URL as recorded by the crawler, when it checked them.
- * Reads `site.externalStatuses` (Map<string, number> or plain object). Empty map otherwise.
+ * HTTP status per external link href, from the crawler (empty when external
+ * links were not checked). 0 = network error.
  */
 export function getExternalStatuses(site: SiteContext): Map<string, number> {
-  const raw = (site as unknown as { externalStatuses?: unknown }).externalStatuses;
-  if (raw instanceof Map) return raw as Map<string, number>;
-  if (raw && typeof raw === 'object') {
-    const m = new Map<string, number>();
-    for (const [k, v] of Object.entries(raw as Record<string, unknown>))
-      if (typeof v === 'number') m.set(k, v);
-    return m;
+  try {
+    return externalLinkStatus(site);
+  } catch {
+    return new Map();
   }
-  return new Map();
+}
+
+/** HTTP status per image src, from the crawler (empty when images were not checked). */
+export function getImageStatuses(site: SiteContext): Map<string, number> {
+  try {
+    return imageStatus(site);
+  } catch {
+    return new Map();
+  }
+}
+
+/** Status where a redirecting URL finally landed (the crawled destination), or null if unknown. */
+export function finalStatus(site: SiteContext, page: PageData): number | null {
+  if (!page.redirects.length) return page.status;
+  const t = findPage(site, page.finalUrl);
+  if (t && t !== page) return t.redirects.length ? null : t.status;
+  return null;
+}
+
+/** Robots-blocked stub that the crawler never fetched. */
+export function isRobotsStub(page: PageData): boolean {
+  return page.blockedByRobots && page.status === 0;
 }
 
 // ---------------------------------------------------------------------------
@@ -480,7 +513,9 @@ export function linkScore(site: SiteContext, url: string): LinkScore | undefined
 const docCache = new WeakMap<object, Document>();
 
 function parse(html: string): Document {
-  const safe = /<html[\s>]/i.test(html) ? html : `<!doctype html><html><head></head><body>${html}</body></html>`;
+  const safe = /<html[\s>]/i.test(html)
+    ? html
+    : `<!doctype html><html><head></head><body>${html}</body></html>`;
   return parseHTML(safe).document as unknown as Document;
 }
 

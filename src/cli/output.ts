@@ -48,7 +48,10 @@ export function heading(text: string): string {
   return '\n' + pc.bold(text);
 }
 
-export function table(rows: string[][], opts: { header?: string[]; maxWidth?: number[] } = {}): string {
+export function table(
+  rows: string[][],
+  opts: { header?: string[]; maxWidth?: number[] } = {},
+): string {
   const all = opts.header ? [opts.header, ...rows] : rows;
   const strip = (s: string) => s.replace(/\x1b\[[0-9;]*m/g, '');
   const widths: number[] = [];
@@ -88,18 +91,21 @@ export function progressPrinter(opts: { quiet?: boolean; json?: boolean } = {}) 
   const fn = (e: ProgressEvent) => {
     if (e.type === 'phase') {
       if (e.phase === 'done') return;
-      write(pc.cyan('› ') + phaseLabel(e.phase) + (e.message ? pc.dim(' ' + e.message) : ''));
+      write(pc.cyan('› ') + (e.message ?? phaseLabel(e.phase)));
     } else if (e.type === 'page') {
       const total = e.crawled + e.queued;
       write(
-        pc.cyan('› ') +
-          `Crawling ${e.crawled}/${total} ` +
-          pc.dim(`${e.status || 'ERR'} ${e.url}`),
+        pc.cyan('› ') + `Crawling ${e.crawled}/${total} ` + pc.dim(`${e.status || 'ERR'} ${e.url}`),
       );
     } else if (e.type === 'log') {
       if (e.level === 'info' && !process.env.AVC_VERBOSE) return;
       if (tty && last) process.stderr.write('\r\x1b[2K');
-      const tag = e.level === 'error' ? pc.red('error') : e.level === 'warn' ? pc.yellow('warn') : pc.dim('info');
+      const tag =
+        e.level === 'error'
+          ? pc.red('error')
+          : e.level === 'warn'
+            ? pc.yellow('warn')
+            : pc.dim('info');
       if (!opts.quiet) process.stderr.write(`${tag} ${e.message}\n`);
       last = '';
     }
@@ -148,6 +154,8 @@ export function printAuditSummary(result: AuditResult, opts: { top?: number } = 
     `${pc.bold('AI Visibility Score')}  ${fmtScore(s.overall)}${pc.dim('/100')}  grade ${scoreColour(s.overall)(pc.bold(s.grade))}` +
       (result.visibility ? '' : pc.dim('  (readiness only: no AI visibility run)')),
   );
+  const cappedBy = (s as { cappedBy?: string }).cappedBy;
+  if (cappedBy) out.push(pc.yellow(`Score capped by ${cappedBy} until it is fixed.`));
   out.push(
     pc.dim(
       `${result.site} · ${result.stats.pagesCrawled} pages · ${result.issues.length} issues · stack ${result.stack.id}` +
@@ -160,7 +168,9 @@ export function printAuditSummary(result: AuditResult, opts: { top?: number } = 
     if (!p.weight && p.pillar === 'ai-visibility') continue;
     out.push(
       `  ${pillarName(p.pillar).padEnd(15)} ${bar(p.score)} ${fmtScore(p.score).padStart(3)}  ${pc.dim(
-        `${p.failed} failing, ${p.passed} passing${p.skipped ? `, ${p.skipped} skipped` : ''}`,
+        p.failed + p.passed
+          ? `${p.failed} failing, ${p.passed} passing${p.skipped ? `, ${p.skipped} skipped` : ''}`
+          : 'from AI answers',
       )}`,
     );
   }

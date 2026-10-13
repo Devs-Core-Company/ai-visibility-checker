@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url><loc>{{ORIGIN}}/</loc><lastmod>2026-09-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en-gb" href="{{ORIGIN}}/"/>
+    <image:image><image:loc>{{ORIGIN}}/images/logo.png</image:loc></image:image>
+  </url>
+  <url><loc>{{ORIGIN}}/about</loc><lastmod>2026-08-01</lastmod></url>
+  <url><loc>{{ORIGIN}}/services/</loc></url>
+  <url><loc>{{ORIGIN}}/services/kitchens</loc><lastmod>14/09/2026</lastmod></url>
+  <url><loc>{{ORIGIN}}/contact</loc></url>
+  <url><loc>{{ORIGIN}}/orphan</loc></url>
+  <url><loc>{{ORIGIN}}/noindex</loc></url>
+  <url><loc>{{ORIGIN}}/x-robots</loc></url>
+</urlset>

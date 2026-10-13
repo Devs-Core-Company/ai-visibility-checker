@@ -3,13 +3,7 @@
  * and property discovery (Admin API) so users do not have to look up ids.
  */
 import type { Ga4Data } from '../core/types.js';
-import {
-  ConnectError,
-  daysAgo,
-  googleJson,
-  isoDate,
-  type GoogleApiContext,
-} from './google-api.js';
+import { ConnectError, daysAgo, googleJson, isoDate, type GoogleApiContext } from './google-api.js';
 
 export const GA4_DATA_BASE_URL = 'https://analyticsdata.googleapis.com';
 export const GA4_ADMIN_BASE_URL = 'https://analyticsadmin.googleapis.com';
@@ -212,7 +206,10 @@ export async function listGa4Properties(ctx: GoogleApiContext): Promise<Ga4Prope
 }
 
 /** Find the GA4 property whose web data stream points at the site's host. */
-export async function findGa4Property(ctx: GoogleApiContext, siteUrl: string): Promise<string | null> {
+export async function findGa4Property(
+  ctx: GoogleApiContext,
+  siteUrl: string,
+): Promise<string | null> {
   const host = new URL(siteUrl).hostname.replace(/^www\./i, '').toLowerCase();
   const baseUrl = (ctx.baseUrl ?? GA4_ADMIN_BASE_URL).replace(/\/$/, '');
   for (const p of await listGa4Properties(ctx)) {

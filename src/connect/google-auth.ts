@@ -82,7 +82,9 @@ export function googleTokenPath(config: Pick<AvcConfig, 'dataDir'>): string {
   return join(config.dataDir, 'tokens', 'google.json');
 }
 
-export function readStoredGoogleToken(config: Pick<AvcConfig, 'dataDir'>): StoredGoogleToken | null {
+export function readStoredGoogleToken(
+  config: Pick<AvcConfig, 'dataDir'>,
+): StoredGoogleToken | null {
   const p = googleTokenPath(config);
   if (!existsSync(p)) return null;
   try {
@@ -193,7 +195,10 @@ function loadServiceAccount(path: string): ServiceAccountKey {
   try {
     key = JSON.parse(raw) as ServiceAccountKey;
   } catch {
-    throw new ConnectError(`${path} is not valid JSON.`, 'Download a new JSON key for the service account.');
+    throw new ConnectError(
+      `${path} is not valid JSON.`,
+      'Download a new JSON key for the service account.',
+    );
   }
   if (!key.client_email || !key.private_key) {
     throw new ConnectError(
@@ -390,12 +395,22 @@ export async function googleLogin(
       `<!doctype html><meta charset="utf-8"><title>${title}</title><body style="font:16px system-ui;padding:3em;max-width:40em"><h1>${title}</h1><p>${text}</p></body>`;
     if (u.searchParams.get('state') !== state) {
       res.writeHead(400, { 'content-type': 'text/html; charset=utf-8' });
-      res.end(page('Sign-in not completed', 'The response did not match this sign-in attempt. Run the command again.'));
+      res.end(
+        page(
+          'Sign-in not completed',
+          'The response did not match this sign-in attempt. Run the command again.',
+        ),
+      );
       return;
     }
     if (err || !code) {
       res.writeHead(400, { 'content-type': 'text/html; charset=utf-8' });
-      res.end(page('Sign-in not completed', `Google returned: ${err ?? 'no code'}. You can close this tab.`));
+      res.end(
+        page(
+          'Sign-in not completed',
+          `Google returned: ${err ?? 'no code'}. You can close this tab.`,
+        ),
+      );
       rejectCode(
         new ConnectError(
           `Google sign-in was not completed (${err ?? 'no code returned'}).`,
@@ -407,7 +422,12 @@ export async function googleLogin(
       return;
     }
     res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
-    res.end(page('Connected', 'AI Visibility Checker is now connected to Google. You can close this tab.'));
+    res.end(
+      page(
+        'Connected',
+        'AI Visibility Checker is now connected to Google. You can close this tab.',
+      ),
+    );
     resolveCode(code);
   });
 
@@ -433,7 +453,10 @@ export async function googleLogin(
   const timer = setTimeout(
     () =>
       rejectCode(
-        new ConnectError('Timed out waiting for the Google sign-in.', 'Run `avc connect google` again.'),
+        new ConnectError(
+          'Timed out waiting for the Google sign-in.',
+          'Run `avc connect google` again.',
+        ),
       ),
     timeoutMs,
   );
@@ -482,7 +505,9 @@ export async function googleLogin(
 function emailFromIdToken(idToken?: string): string | undefined {
   if (!idToken) return undefined;
   try {
-    const payload = JSON.parse(Buffer.from(idToken.split('.')[1], 'base64url').toString('utf8')) as {
+    const payload = JSON.parse(
+      Buffer.from(idToken.split('.')[1], 'base64url').toString('utf8'),
+    ) as {
       email?: string;
     };
     return payload.email;

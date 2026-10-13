@@ -49,7 +49,9 @@ const DEFAULT_ACCEPT = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/
 
 type FetchOpts = NonNullable<Parameters<Fetcher['fetch']>[1]>;
 
-export function createFetcher(options: FetcherOptions): Fetcher & { readonly options: FetcherOptions } {
+export function createFetcher(
+  options: FetcherOptions,
+): Fetcher & { readonly options: FetcherOptions } {
   const maxRedirects = options.maxRedirects ?? 10;
   const nextSlot = new Map<string, number>();
 
@@ -112,7 +114,10 @@ export function createFetcher(options: FetcherOptions): Fetcher & { readonly opt
       await politeWait(current.host);
 
       const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(new Error('timeout')), Math.max(1, deadline - Date.now()));
+      const timer = setTimeout(
+        () => controller.abort(new Error('timeout')),
+        Math.max(1, deadline - Date.now()),
+      );
       const hopStart = Date.now();
       let res: Response;
       try {
@@ -144,22 +149,38 @@ export function createFetcher(options: FetcherOptions): Fetcher & { readonly opt
         redirects.push({ url: current.toString(), status: res.status });
         if (hop >= maxRedirects)
           return {
-            ...fail(current.toString(), `Too many redirects (more than ${maxRedirects})`, res.status),
+            ...fail(
+              current.toString(),
+              `Too many redirects (more than ${maxRedirects})`,
+              res.status,
+            ),
             headers,
           };
         let next: URL;
         try {
           next = new URL(location, current);
         } catch {
-          return { ...fail(current.toString(), `Invalid redirect target: ${location}`, res.status), headers };
+          return {
+            ...fail(current.toString(), `Invalid redirect target: ${location}`, res.status),
+            headers,
+          };
         }
         if (next.protocol !== 'http:' && next.protocol !== 'https:')
-          return { ...fail(current.toString(), `Redirect to unsupported URL: ${location}`, res.status), headers };
-        if (res.status === 303 || ((res.status === 301 || res.status === 302) && method === 'POST')) {
+          return {
+            ...fail(current.toString(), `Redirect to unsupported URL: ${location}`, res.status),
+            headers,
+          };
+        if (
+          res.status === 303 ||
+          ((res.status === 301 || res.status === 302) && method === 'POST')
+        ) {
           method = 'GET';
           body = undefined;
         }
-        if (redirects.some((h) => h.url === next.toString()) || next.toString() === current.toString()) {
+        if (
+          redirects.some((h) => h.url === next.toString()) ||
+          next.toString() === current.toString()
+        ) {
           redirects.push({ url: next.toString(), status: 0 });
           return { ...fail(next.toString(), 'Redirect loop', res.status), headers };
         }

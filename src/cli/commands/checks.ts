@@ -2,7 +2,12 @@ import type { CheckDef } from '../../core/types.js';
 import { c, pillarName, sevLabel, table } from '../output.js';
 import { listChecks } from '../services.js';
 
-export async function cmdChecks(opts: { category?: string; pillar?: string; search?: string; json?: boolean }): Promise<void> {
+export async function cmdChecks(opts: {
+  category?: string;
+  pillar?: string;
+  search?: string;
+  json?: boolean;
+}): Promise<void> {
   const defs = listChecks(opts);
   if (opts.json) {
     process.stdout.write(JSON.stringify(defs, null, 2) + '\n');
@@ -25,5 +30,9 @@ export async function cmdChecks(opts: { category?: string; pillar?: string; sear
     );
   }
   const cats = new Set(defs.map((d) => d.category)).size;
-  console.log(c.dim(`\n${defs.length} checks in ${cats} categories. Filter with --pillar, --category or --search; --json for everything.`));
+  console.log(
+    c.dim(
+      `\n${defs.length} checks in ${cats} categories. Filter with --pillar, --category or --search; --json for everything.`,
+    ),
+  );
 }

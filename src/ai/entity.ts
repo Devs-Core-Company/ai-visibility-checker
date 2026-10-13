@@ -64,7 +64,13 @@ export async function wikidataByDomain(
   signal?: AbortSignal,
 ): Promise<{ id: string } | null> {
   const d = hostOf(domain);
-  const variants = [`https://${d}`, `https://${d}/`, `https://www.${d}`, `https://www.${d}/`, `http://${d}/`];
+  const variants = [
+    `https://${d}`,
+    `https://${d}/`,
+    `https://www.${d}`,
+    `https://www.${d}/`,
+    `http://${d}/`,
+  ];
   const q = new URLSearchParams({
     action: 'query',
     list: 'search',
@@ -104,7 +110,9 @@ export async function lookupEntity(
   const sameAs = [...new Set(opts.sameAs ?? [])];
   const notes: string[] = [];
   if (sameAs.length)
-    notes.push(`Your Organization schema links ${sameAs.length} profile${sameAs.length === 1 ? '' : 's'} with sameAs.`);
+    notes.push(
+      `Your Organization schema links ${sameAs.length} profile${sameAs.length === 1 ? '' : 's'} with sameAs.`,
+    );
   else
     notes.push(
       'No sameAs links found in your Organization schema. Add your LinkedIn, Wikidata, Crunchbase and review-site profiles so engines can tie them to you.',
@@ -121,7 +129,8 @@ export async function lookupEntity(
     wikidataByName(brand.name, f, opts.signal),
   ]);
   const wikidataId = byDomain?.id ?? byName?.id;
-  if (byDomain) notes.push(`Wikidata item ${byDomain.id} lists ${brand.domain} as its official website.`);
+  if (byDomain)
+    notes.push(`Wikidata item ${byDomain.id} lists ${brand.domain} as its official website.`);
   else if (byName)
     notes.push(
       `Wikidata has an item named "${byName.label}" (${byName.id}${byName.description ? `, ${byName.description}` : ''}), but it does not list ${brand.domain} as its official website. Check it is you and add the website (P856).`,
@@ -131,7 +140,9 @@ export async function lookupEntity(
       `No Wikidata item found for ${brand.name}. A well-sourced Wikidata item helps engines recognise you as an entity.`,
     );
   if (wikidataId && !sameAs.some((u) => u.includes(wikidataId)))
-    notes.push(`Add https://www.wikidata.org/wiki/${wikidataId} to sameAs in your Organization schema.`);
+    notes.push(
+      `Add https://www.wikidata.org/wiki/${wikidataId} to sameAs in your Organization schema.`,
+    );
 
   const kgKey = opts.kgKey ?? process.env.GOOGLE_KG_API_KEY;
   let kg: boolean | undefined;

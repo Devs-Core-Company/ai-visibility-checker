@@ -132,13 +132,17 @@ function sparkline(
   points: { at: string; value: number }[],
   opts: { max: number; label: string; fmt: (n: number) => string },
 ): string {
-  if (points.length < 2) return '<p class="muted small">Not enough history yet. Trends appear after two runs.</p>';
+  if (points.length < 2)
+    return '<p class="muted small">Not enough history yet. Trends appear after two runs.</p>';
   const W = 520;
   const H = 120;
   const pad = 24;
   const x = (i: number) => pad + (i * (W - pad * 2)) / (points.length - 1);
-  const y = (v: number) => H - pad - (Math.max(0, Math.min(opts.max, v)) / opts.max) * (H - pad * 2);
-  const d = points.map((p, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(p.value).toFixed(1)}`).join(' ');
+  const y = (v: number) =>
+    H - pad - (Math.max(0, Math.min(opts.max, v)) / opts.max) * (H - pad * 2);
+  const d = points
+    .map((p, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(p.value).toFixed(1)}`)
+    .join(' ');
   const last = points[points.length - 1];
   const dots = points
     .map(
@@ -180,7 +184,10 @@ function urlList(issues: Issue[], max: number): string {
     return issues.length
       ? `<ul class="urls">${issues
           .slice(0, max)
-          .map((i) => `<li>${esc(i.message)}${i.evidence ? ` <code>${esc(i.evidence)}</code>` : ''}</li>`)
+          .map(
+            (i) =>
+              `<li>${esc(i.message)}${i.evidence ? ` <code>${esc(i.evidence)}</code>` : ''}</li>`,
+          )
           .join('')}</ul>`
       : '';
   const shown = withUrl.slice(0, max);
@@ -189,7 +196,9 @@ function urlList(issues: Issue[], max: number): string {
       (i) =>
         `<li><a href="${esc(i.url)}" rel="noopener nofollow">${esc(i.url)}</a> <span class="muted">— ${esc(i.message)}</span>${i.evidence ? ` <code>${esc(i.evidence.slice(0, 200))}</code>` : ''}</li>`,
     )
-    .join('')}</ul>${withUrl.length > max ? `<p class="muted small">and ${withUrl.length - max} more (see the CSV export).</p>` : ''}`;
+    .join(
+      '',
+    )}</ul>${withUrl.length > max ? `<p class="muted small">and ${withUrl.length - max} more (see the CSV export).</p>` : ''}`;
 }
 
 export function renderHtmlReport(result: AuditResult, opts: HtmlReportOptions = {}): string {
@@ -204,7 +213,9 @@ export function renderHtmlReport(result: AuditResult, opts: HtmlReportOptions = 
   const parts: string[] = [];
 
   // Header + hero
-  parts.push(`<header class="top"><div class="wrap"><div class="brand"><i aria-hidden="true"></i>Devs Core · AI Visibility Checker</div><div class="label">Report · ${esc(shortDate(r.at))} · v${esc(r.version)}</div></div></header>`);
+  parts.push(
+    `<header class="top"><div class="wrap"><div class="brand"><i aria-hidden="true"></i>Devs Core · AI Visibility Checker</div><div class="label">Report · ${esc(shortDate(r.at))} · v${esc(r.version)}</div></div></header>`,
+  );
   parts.push(`<main class="wrap">`);
   const pillarRows = s.pillars
     .map((p) =>
@@ -215,6 +226,7 @@ export function renderHtmlReport(result: AuditResult, opts: HtmlReportOptions = 
     .join('');
   parts.push(`<section><div class="eyebrow">AI Visibility Score</div><h1 style="margin:6px 0 22px">${esc(r.site)}</h1>
 <div class="hero">${scoreRing(s.overall, s.grade)}<div class="pillars">${pillarRows}</div></div>
+${(r.score as { cappedBy?: string }).cappedBy ? `<div class="note">Score capped by <code>${esc((r.score as { cappedBy?: string }).cappedBy!)}</code>: ${(r.score as { cappedBy?: string }).cappedBy === 'response.homepage-error' ? 'the start URL did not load, so nothing else can be trusted.' : 'an open critical issue keeps the grade below A until it is fixed.'}</div>` : ''}
 ${readinessOnly(r) ? '<div class="note">Readiness only. No AI visibility run was included, so this score measures whether AI engines can reach, read and trust the site. Run <code>avc audit --visibility</code> to measure whether ChatGPT, Claude, Gemini and Perplexity actually name you.</div>' : ''}
 <div class="stats">
 <div class="stat"><span class="label">Pages crawled</span><b>${r.stats?.pagesCrawled ?? r.pages.length}</b></div>
@@ -226,9 +238,11 @@ ${readinessOnly(r) ? '<div class="note">Readiness only. No AI visibility run was
 </div></section>`);
 
   // Executive summary
-  parts.push(`<section class="summary"><h2>Summary</h2>${executiveSummary(r, opts.diff)
-    .map((p) => `<p>${esc(p)}</p>`)
-    .join('')}</section>`);
+  parts.push(
+    `<section class="summary"><h2>Summary</h2>${executiveSummary(r, opts.diff)
+      .map((p) => `<p>${esc(p)}</p>`)
+      .join('')}</section>`,
+  );
 
   // Changes
   if (opts.diff) {
@@ -239,11 +253,23 @@ ${readinessOnly(r) ? '<div class="note">Readiness only. No AI visibility run was
     parts.push(`<section><h2>Since the last audit</h2>
 <p>Score <b class="${cls}">${d.scoreDelta > 0 ? '+' : ''}${d.scoreDelta}</b>. ${d.pillarDeltas
       .filter((p) => p.delta)
-      .map((p) => `${esc(PILLAR_NAMES[p.pillar])} <span class="${p.delta > 0 ? 'delta-up' : 'delta-down'}">${p.delta > 0 ? '+' : ''}${p.delta}</span>`)
+      .map(
+        (p) =>
+          `${esc(PILLAR_NAMES[p.pillar])} <span class="${p.delta > 0 ? 'delta-up' : 'delta-down'}">${p.delta > 0 ? '+' : ''}${p.delta}</span>`,
+      )
       .join(', ')}</p>
 <div class="grid2"><div><h3>New issues (${d.newIssues.length})</h3><ul class="urls">${d.newIssues.slice(0, 50).map(issueRow).join('') || '<li class="muted">None</li>'}</ul></div>
 <div><h3>Fixed (${d.fixedIssues.length})</h3><ul class="urls">${d.fixedIssues.slice(0, 50).map(issueRow).join('') || '<li class="muted">None</li>'}</ul></div></div>
-${d.changedPages.length ? `<details><summary>${plural(d.changedPages.length, 'changed page')}</summary><div class="body"><ul class="urls">${d.changedPages.slice(0, 200).map((c) => `<li>${esc(c.url)} <span class="muted">(${esc(c.fields.join(', '))})</span></li>`).join('')}</ul></div></details>` : ''}
+${
+  d.changedPages.length
+    ? `<details><summary>${plural(d.changedPages.length, 'changed page')}</summary><div class="body"><ul class="urls">${d.changedPages
+        .slice(0, 200)
+        .map(
+          (c) => `<li>${esc(c.url)} <span class="muted">(${esc(c.fields.join(', '))})</span></li>`,
+        )
+        .join('')}</ul></div></details>`
+    : ''
+}
 ${d.newPages.length || d.removedPages.length ? `<p class="muted small">${plural(d.newPages.length, 'new page')}, ${plural(d.removedPages.length, 'removed page')}.</p>` : ''}
 ${d.visibility ? `<p>AI mention rate ${d.visibility.mentionRateDelta >= 0 ? '+' : ''}${(d.visibility.mentionRateDelta * 100).toFixed(0)} points; share of voice ${d.visibility.shareOfVoiceDelta >= 0 ? '+' : ''}${(d.visibility.shareOfVoiceDelta * 100).toFixed(0)} points.${d.visibility.newCompetitors.length ? ` New competitors named: ${esc(d.visibility.newCompetitors.join(', '))}.` : ''}</p>` : ''}
 </section>`);
@@ -253,15 +279,25 @@ ${d.visibility ? `<p>AI mention rate ${d.visibility.mentionRateDelta >= 0 ? '+' 
   if (opts.trends && (opts.trends.audits.length > 1 || opts.trends.visibility.length > 1)) {
     const t = opts.trends;
     parts.push(`<section><h2>Trends</h2><div class="grid2">
-<div><div class="label">AI Visibility Score</div>${sparkline(t.audits.map((a) => ({ at: a.at, value: a.score })), { max: 100, label: 'Score over time', fmt: (n) => String(Math.round(n)) })}</div>
-<div><div class="label">Named in AI answers</div>${sparkline(t.visibility.map((v) => ({ at: v.at, value: v.mentionRate })), { max: 1, label: 'Mention rate over time', fmt: (n) => pct(n) })}</div>
+<div><div class="label">AI Visibility Score</div>${sparkline(
+      t.audits.map((a) => ({ at: a.at, value: a.score })),
+      { max: 100, label: 'Score over time', fmt: (n) => String(Math.round(n)) },
+    )}</div>
+<div><div class="label">Named in AI answers</div>${sparkline(
+      t.visibility.map((v) => ({ at: v.at, value: v.mentionRate })),
+      { max: 1, label: 'Mention rate over time', fmt: (n) => pct(n) },
+    )}</div>
 </div>
-${t.audits.length ? `<details><summary>History table</summary><div class="body"><div class="tablewrap"><table><thead><tr><th>Date</th><th>Score</th><th>Grade</th><th>Critical</th><th>High</th><th>Medium</th><th>Low</th></tr></thead><tbody>${t.audits
-      .map(
-        (a) =>
-          `<tr><td>${esc(shortDate(a.at))}</td><td class="num">${a.score}</td><td>${esc(a.grade)}</td><td class="num">${a.bySeverity.critical}</td><td class="num">${a.bySeverity.high}</td><td class="num">${a.bySeverity.medium}</td><td class="num">${a.bySeverity.low}</td></tr>`,
-      )
-      .join('')}</tbody></table></div></div></details>` : ''}
+${
+  t.audits.length
+    ? `<details><summary>History table</summary><div class="body"><div class="tablewrap"><table><thead><tr><th>Date</th><th>Score</th><th>Grade</th><th>Critical</th><th>High</th><th>Medium</th><th>Low</th></tr></thead><tbody>${t.audits
+        .map(
+          (a) =>
+            `<tr><td>${esc(shortDate(a.at))}</td><td class="num">${a.score}</td><td>${esc(a.grade)}</td><td class="num">${a.bySeverity.critical}</td><td class="num">${a.bySeverity.high}</td><td class="num">${a.bySeverity.medium}</td><td class="num">${a.bySeverity.low}</td></tr>`,
+        )
+        .join('')}</tbody></table></div></div></details>`
+    : ''
+}
 </section>`);
   }
 
@@ -336,18 +372,36 @@ ${r.robots ? `<details><summary class="small">robots.txt (${r.robots.found ? `HT
       )
       .join('')}</tbody></table></div></div>
 <div><h3 style="margin-bottom:8px">Share of voice</h3>${sov
-      .map((x) => hbar(x.name + (x.isBrand ? ' (you)' : ''), x.share / maxShare, pct(x.share), x.isBrand ? 'brand' : 'other'))
+      .map((x) =>
+        hbar(
+          x.name + (x.isBrand ? ' (you)' : ''),
+          x.share / maxShare,
+          pct(x.share),
+          x.isBrand ? 'brand' : 'other',
+        ),
+      )
       .join('')}
 <p class="muted small">Sentiment: ${sm.sentiment.positive} positive, ${sm.sentiment.neutral} neutral, ${sm.sentiment.negative} negative. ${sm.factIssues ? `${plural(sm.factIssues, 'claim')} looked wrong or out of date.` : ''}</p></div></div>
-${sm.competitorWins.length ? `<h3 style="margin:18px 0 8px">Prompts where a competitor was named instead of you</h3><div class="tablewrap"><table><thead><tr><th>Prompt</th><th>Named instead</th><th>Engines</th><th>Sources they cited</th></tr></thead><tbody>${sm.competitorWins
-      .slice(0, 30)
-      .map(
-        (w) =>
-          `<tr><td>${esc(w.prompt)}</td><td>${esc(w.winner)}</td><td>${esc(w.engines.join(', '))}</td><td class="url small">${w.sources.slice(0, 5).map(esc).join('<br>')}</td></tr>`,
-      )
-      .join('')}</tbody></table></div>` : ''}
+${
+  sm.competitorWins.length
+    ? `<h3 style="margin:18px 0 8px">Prompts where a competitor was named instead of you</h3><div class="tablewrap"><table><thead><tr><th>Prompt</th><th>Named instead</th><th>Engines</th><th>Sources they cited</th></tr></thead><tbody>${sm.competitorWins
+        .slice(0, 30)
+        .map(
+          (w) =>
+            `<tr><td>${esc(w.prompt)}</td><td>${esc(w.winner)}</td><td>${esc(w.engines.join(', '))}</td><td class="url small">${w.sources.slice(0, 5).map(esc).join('<br>')}</td></tr>`,
+        )
+        .join('')}</tbody></table></div>`
+    : ''
+}
 <div class="grid2" style="margin-top:18px"><div><h3 style="margin-bottom:8px">Your pages cited</h3>${sm.ownPagesCited.length ? `<ul class="urls">${sm.ownPagesCited.map((c) => `<li>${esc(c.url)} <span class="muted">× ${c.count}</span></li>`).join('')}</ul>` : '<p class="muted small">None of your pages were cited.</p>'}</div>
-<div><h3 style="margin-bottom:8px">Most cited domains</h3>${sm.topCitedDomains.length ? `<ul class="urls">${sm.topCitedDomains.slice(0, 15).map((c) => `<li>${esc(c.domain)} <span class="muted">× ${c.count}</span></li>`).join('')}</ul>` : '<p class="muted small">No citations returned.</p>'}</div></div>
+<div><h3 style="margin-bottom:8px">Most cited domains</h3>${
+      sm.topCitedDomains.length
+        ? `<ul class="urls">${sm.topCitedDomains
+            .slice(0, 15)
+            .map((c) => `<li>${esc(c.domain)} <span class="muted">× ${c.count}</span></li>`)
+            .join('')}</ul>`
+        : '<p class="muted small">No citations returned.</p>'
+    }</div></div>
 <details style="margin-top:14px"><summary class="small">Every answer (${v.answers.length})</summary><div class="body">${v.answers
       .slice(0, 300)
       .map(
@@ -365,7 +419,9 @@ ${sm.competitorWins.length ? `<h3 style="margin:18px 0 8px">Prompts where a comp
     .sort((a, b) => b[1].length - a[1].length)
     .map(([cat, defs]) => {
       defs.sort(
-        (a, b) => SEVERITY_ORDER.indexOf(a.severity) - SEVERITY_ORDER.indexOf(b.severity) || b.affected - a.affected,
+        (a, b) =>
+          SEVERITY_ORDER.indexOf(a.severity) - SEVERITY_ORDER.indexOf(b.severity) ||
+          b.affected - a.affected,
       );
       const inner = defs
         .map((d) => {
@@ -384,15 +440,19 @@ ${skippedChecks.length ? `<details><summary class="small">Skipped checks (${skip
 
   // Pages
   const pages = [...r.pages].sort((a, b) => b.issues - a.issues || a.depth - b.depth);
-  parts.push(`<section><h2>Pages</h2><details><summary>${plural(r.pages.length, 'page')}${r.pages.length > maxPages ? ` (first ${maxPages} shown)` : ''}</summary><div class="body" style="padding-left:14px"><div class="tablewrap"><table><thead><tr><th>URL</th><th>Status</th><th>Indexable</th><th>Title</th><th>Words</th><th>Inlinks</th><th>Issues</th></tr></thead><tbody>${pages
-    .slice(0, maxPages)
-    .map(
-      (p) =>
-        `<tr><td class="url">${esc(p.url)}</td><td class="num ${p.status >= 400 || p.status === 0 ? 'v-error' : p.status >= 300 ? 'v-differs' : ''}">${p.status}</td><td>${p.indexable ? 'Yes' : '<span class="muted">No</span>'}</td><td>${esc(p.title ?? '')}</td><td class="num">${p.wordCount}</td><td class="num">${p.inlinks}</td><td class="num">${p.issues}</td></tr>`,
-    )
-    .join('')}</tbody></table></div></div></details></section>`);
+  parts.push(
+    `<section><h2>Pages</h2><details><summary>${plural(r.pages.length, 'page')}${r.pages.length > maxPages ? ` (first ${maxPages} shown)` : ''}</summary><div class="body" style="padding-left:14px"><div class="tablewrap"><table><thead><tr><th>URL</th><th>Status</th><th>Indexable</th><th>Title</th><th>Words</th><th>Inlinks</th><th>Issues</th></tr></thead><tbody>${pages
+      .slice(0, maxPages)
+      .map(
+        (p) =>
+          `<tr><td class="url">${esc(p.url)}</td><td class="num ${p.status >= 400 || p.status === 0 ? 'v-error' : p.status >= 300 ? 'v-differs' : ''}">${p.status}</td><td>${p.indexable ? 'Yes' : '<span class="muted">No</span>'}</td><td>${esc(p.title ?? '')}</td><td class="num">${p.wordCount}</td><td class="num">${p.inlinks}</td><td class="num">${p.issues}</td></tr>`,
+      )
+      .join('')}</tbody></table></div></div></details></section>`,
+  );
 
-  parts.push(`</main><footer><div class="wrap"><p>Made with the AI Visibility Checker by <a href="https://devs-core.com">Devs Core</a>. It runs on your machine; this report was not uploaded anywhere. <a href="${CHECKER_URL}">devs-core.com/ai-visibility-checker</a></p><p class="small">Audit ${esc(r.id)} · ${esc(r.at)} · ${esc(r.startUrl)}</p></div></footer>`);
+  parts.push(
+    `</main><footer><div class="wrap"><p>Made with the AI Visibility Checker by <a href="https://devs-core.com">Devs Core</a>. It runs on your machine; this report was not uploaded anywhere. <a href="${CHECKER_URL}">devs-core.com/ai-visibility-checker</a></p><p class="small">Audit ${esc(r.id)} · ${esc(r.at)} · ${esc(r.startUrl)}</p></div></footer>`,
+  );
 
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">

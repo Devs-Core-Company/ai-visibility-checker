@@ -188,7 +188,8 @@
       }
     });
     es.onerror = function () {
-      if (status && es.readyState === 2) status.textContent = 'Lost the connection to the dashboard.';
+      if (status && es.readyState === 2)
+        status.textContent = 'Lost the connection to the dashboard.';
     };
   }
 })();

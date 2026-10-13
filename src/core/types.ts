@@ -219,7 +219,14 @@ export interface PageData {
   headings: HeadingRef[];
   links: LinkRef[];
   images: ImageRef[];
-  scripts: { src: string | null; inline: boolean; async: boolean; defer: boolean; type: string | null; bytes: number }[];
+  scripts: {
+    src: string | null;
+    inline: boolean;
+    async: boolean;
+    defer: boolean;
+    type: string | null;
+    bytes: number;
+  }[];
   stylesheets: { href: string; media: string | null }[];
   structuredData: StructuredDataItem[];
   hreflang: HreflangRef[];
@@ -234,7 +241,13 @@ export interface PageData {
   lead: string;
   contentHash: string; // sha1 of normalised text, for exact duplicates
   simhash: string; // 64-bit hex simhash of text shingles, for near-duplicates
-  forms: { action: string; method: string; inputs: number; hasLabels: boolean; toolname?: string }[];
+  forms: {
+    action: string;
+    method: string;
+    inputs: number;
+    hasLabels: boolean;
+    toolname?: string;
+  }[];
   iframes: string[];
   mixedContent: string[]; // http:// subresources on an https page
   inlineStyleBytes: number;
@@ -253,7 +266,13 @@ export interface PageData {
     structuredData: StructuredDataItem[];
     consoleErrors: string[];
     failedRequests: string[];
-    timings?: { domContentLoaded?: number; load?: number; lcp?: number; cls?: number; tbt?: number };
+    timings?: {
+      domContentLoaded?: number;
+      load?: number;
+      lcp?: number;
+      cls?: number;
+      tbt?: number;
+    };
   };
 }
 
@@ -422,14 +441,25 @@ export interface GscData {
   pages: { url: string; clicks: number; impressions: number; ctr: number; position: number }[];
   queries: { query: string; clicks: number; impressions: number; ctr: number; position: number }[];
   /** URL Inspection results for a sample of URLs. */
-  inspections?: { url: string; verdict: string; coverageState: string; googleCanonical?: string; lastCrawl?: string }[];
+  inspections?: {
+    url: string;
+    verdict: string;
+    coverageState: string;
+    googleCanonical?: string;
+    lastCrawl?: string;
+  }[];
 }
 
 export interface Ga4Data {
   property: string;
   range: { start: string; end: string };
   /** Sessions referred by AI assistants (chatgpt.com, perplexity.ai, gemini, claude.ai, copilot…). */
-  aiReferrals: { source: string; sessions: number; engagedSessions?: number; conversions?: number }[];
+  aiReferrals: {
+    source: string;
+    sessions: number;
+    engagedSessions?: number;
+    conversions?: number;
+  }[];
   landingPages: { path: string; source: string; sessions: number }[];
 }
 
@@ -476,7 +506,8 @@ export type Check = ({ kind: 'page' } & PageCheck) | ({ kind: 'site' } & SiteChe
 // AI visibility (outcome) — src/ai
 // ---------------------------------------------------------------------------
 
-export type EngineId = 'chatgpt' | 'claude' | 'gemini' | 'perplexity' | 'copilot' | 'grok' | 'deepseek';
+export type EngineId =
+  'chatgpt' | 'claude' | 'gemini' | 'perplexity' | 'copilot' | 'grok' | 'deepseek';
 
 export interface BrandProfile {
   name: string;
@@ -517,7 +548,11 @@ export interface EngineAnswer {
   position: number | null; // rank among named brands, 1 = first
   brandsNamed: string[];
   sentiment: 'positive' | 'neutral' | 'negative' | null;
-  factIssues: { claim: string; siteSays?: string; verdict: 'wrong' | 'outdated' | 'unverifiable' }[];
+  factIssues: {
+    claim: string;
+    siteSays?: string;
+    verdict: 'wrong' | 'outdated' | 'unverifiable';
+  }[];
   costUsd: number;
   ms: number;
   error?: string;
@@ -531,11 +566,20 @@ export interface VisibilityRun {
   answers: EngineAnswer[];
   summary: {
     mentionRate: number; // 0–1 across all answers
-    byEngine: Record<string, { mentionRate: number; avgPosition: number | null; answers: number; citedOwnSite: number }>;
+    byEngine: Record<
+      string,
+      { mentionRate: number; avgPosition: number | null; answers: number; citedOwnSite: number }
+    >;
     shareOfVoice: { name: string; share: number; mentions: number; isBrand: boolean }[];
     topCitedDomains: { domain: string; count: number }[];
     ownPagesCited: { url: string; count: number }[];
-    competitorWins: { promptId: string; prompt: string; winner: string; engines: EngineId[]; sources: string[] }[];
+    competitorWins: {
+      promptId: string;
+      prompt: string;
+      winner: string;
+      engines: EngineId[];
+      sources: string[];
+    }[];
     sentiment: { positive: number; neutral: number; negative: number };
     factIssues: number;
     costUsd: number;
@@ -586,7 +630,10 @@ export interface AuditResult {
   pages: PageSummary[];
   issues: Issue[];
   /** Check id → definition, for every check that ran or was skipped. */
-  checks: Record<string, CheckDef & { status: 'ran' | 'skipped'; skippedReason?: string; affected: number }>;
+  checks: Record<
+    string,
+    CheckDef & { status: 'ran' | 'skipped'; skippedReason?: string; affected: number }
+  >;
   score: { overall: number; grade: 'A' | 'B' | 'C' | 'D' | 'F'; pillars: CategoryScore[] };
   /** Top fixes ranked by impact × reach ÷ effort. */
   priorities: { checkId: string; affected: number; impact: number; fix?: Fix }[];
@@ -630,7 +677,13 @@ export interface AuditDiff {
   newPages: string[];
   removedPages: string[];
   changedPages: { url: string; fields: string[] }[];
-  visibility?: { mentionRateDelta: number; shareOfVoiceDelta: number; newCompetitors: string[]; lostPrompts: string[]; wonPrompts: string[] };
+  visibility?: {
+    mentionRateDelta: number;
+    shareOfVoiceDelta: number;
+    newCompetitors: string[];
+    lostPrompts: string[];
+    wonPrompts: string[];
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -661,7 +714,21 @@ export interface CrawlOptions {
 }
 
 export type ProgressEvent =
-  | { type: 'phase'; phase: 'robots' | 'sitemaps' | 'crawl' | 'render' | 'probes' | 'checks' | 'external' | 'visibility' | 'score' | 'done'; message?: string }
+  | {
+      type: 'phase';
+      phase:
+        | 'robots'
+        | 'sitemaps'
+        | 'crawl'
+        | 'render'
+        | 'probes'
+        | 'checks'
+        | 'external'
+        | 'visibility'
+        | 'score'
+        | 'done';
+      message?: string;
+    }
   | { type: 'page'; url: string; status: number; crawled: number; queued: number }
   | { type: 'log'; level: 'info' | 'warn' | 'error'; message: string };
 

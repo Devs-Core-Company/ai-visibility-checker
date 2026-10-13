@@ -5,7 +5,15 @@ import type { BrandProfile, EngineAnswer } from '../core/types.js';
 import { structured } from './engines.js';
 import { FACT_SYSTEM, factPrompt, JUDGE_SYSTEM, judgePrompt } from './prompts.js';
 import type { SiteFacts } from './brand.js';
-import { escapeRegExp, keywords, mentionsAny, normBrand, sameBrand, truncate, uniq } from './util.js';
+import {
+  escapeRegExp,
+  keywords,
+  mentionsAny,
+  normBrand,
+  sameBrand,
+  truncate,
+  uniq,
+} from './util.js';
 
 /**
  * Grading one answer: is the brand named, where in the list, who else is
@@ -90,7 +98,12 @@ export function extractNamed(text: string): { name: string; index: number }[] {
     if (!name || name.length < 2 || name.length > 60) return;
     if (name.split(/\s+/).length > 6) return;
     if (!/^[\p{Lu}\p{N}]/u.test(name)) return;
-    if (/^(the|a|an|for|if|when|why|how|what|which|note|tip|summary|conclusion|option|step)\b/i.test(name) && name.split(/\s+/).length > 2)
+    if (
+      /^(the|a|an|for|if|when|why|how|what|which|note|tip|summary|conclusion|option|step)\b/i.test(
+        name,
+      ) &&
+      name.split(/\s+/).length > 2
+    )
       return;
     if (isPlatform(name)) return;
     found.push({ name, index });
@@ -118,9 +131,22 @@ function firstIndex(text: string, names: string[]): number {
 
 /** Sentences that name the brand. */
 function brandSentences(text: string, names: string[]): string[] {
-  return text
-    .split(/(?<=[.!?])\s+|\n+/)
-    .filter((s) => mentionsAny(s, names));
+  return text.split(/(?<=[.!?])\s+|\n+/).filter((s) => mentionsAny(s, names));
+}
+
+/** Brand sentences plus the "It …" / "The company …" sentences that follow them. */
+function aboutBrand(text: string, names: string[]): string[] {
+  const out: string[] = [];
+  let onBrand = false;
+  for (const s of text.split(/(?<=[.!?])\s+|\n+/)) {
+    if (mentionsAny(s, names)) {
+      out.push(s);
+      onBrand = true;
+    } else if (onBrand && /^(it|they|the (company|firm|business|agency|team))\b/i.test(s.trim())) {
+      out.push(s);
+    } else onBrand = false;
+  }
+  return out;
 }
 
 /** Rule-based judge. Works on real answers too; used when no judge model is available. */
@@ -155,10 +181,14 @@ export function heuristicJudge(
 
   const facts: string[] = [];
   if (mentioned) {
-    for (const s of sentences) {
-      const founded = s.match(/\b(?:founded|established|started|launched)\s+(?:in\s+)?((?:19|20)\d{2})\b/i);
+    for (const s of aboutBrand(text, names)) {
+      const founded = s.match(
+        /\b(?:founded|established|started|launched)\s+(?:in\s+)?((?:19|20)\d{2})\b/i,
+      );
       if (founded) facts.push(`Founded in ${founded[1]}`);
-      const based = s.match(/\b(?:based|headquartered|located)\s+in\s+([\p{Lu}][\p{L}'.-]+(?:(?:,\s*|\s+)[\p{Lu}][\p{L}'.-]+){0,3})/u);
+      const based = s.match(
+        /\b(?:based|headquartered|located)\s+in\s+([\p{Lu}][\p{L}'.-]+(?:(?:,\s*|\s+)[\p{Lu}][\p{L}'.-]+){0,3})/u,
+      );
       if (based) facts.push(`Based in ${based[1]!.replace(/[.,]+$/, '')}`);
     }
   }
@@ -194,7 +224,12 @@ export async function judgeAnswer(
       config,
       judgeSchema,
       JUDGE_SYSTEM,
-      judgePrompt({ brand: input.brand, question: input.question, answer: input.text, citations: input.citations }),
+      judgePrompt({
+        brand: input.brand,
+        question: input.question,
+        answer: input.text,
+        citations: input.citations,
+      }),
       { maxOutputTokens: 900, signal },
     );
     const brandsNamed = value.brands_named
@@ -204,7 +239,9 @@ export async function judgeAnswer(
     let mentioned = Boolean(value.mentioned);
     if (!mentioned && brandsNamed.some((b) => brandNames(input.brand).some((n) => sameBrand(b, n))))
       mentioned = true;
-    const listPos = brandsNamed.findIndex((b) => brandNames(input.brand).some((n) => sameBrand(b, n)));
+    const listPos = brandsNamed.findIndex((b) =>
+      brandNames(input.brand).some((n) => sameBrand(b, n)),
+    );
     const position =
       mentioned && typeof value.position === 'number' && value.position > 0
         ? value.position
@@ -241,7 +278,10 @@ function overlap(a: string, b: string): boolean {
 }
 
 /** Rule-based check of one claim against the site's own facts. */
-export function checkFactByRules(claim: string, facts: SiteFacts): { verdict: Verdict; siteSays?: string } {
+export function checkFactByRules(
+  claim: string,
+  facts: SiteFacts,
+): { verdict: Verdict; siteSays?: string } {
   const year = claim.match(/\b(?:founded|established|started|launched)\b.*?\b((?:19|20)\d{2})\b/i);
   if (year) {
     if (!facts.foundedYear) return { verdict: 'unverifiable' };
@@ -252,7 +292,8 @@ export function checkFactByRules(claim: string, facts: SiteFacts): { verdict: Ve
   const based = claim.match(/\b(?:based|headquartered|located)\s+in\s+(.+)$/i);
   if (based) {
     const place = based[1]!;
-    if (facts.locations.some((l) => overlap(l, place))) return { verdict: 'matches', siteSays: facts.locations[0] };
+    if (facts.locations.some((l) => overlap(l, place)))
+      return { verdict: 'matches', siteSays: facts.locations[0] };
     if (facts.text && mentionsAny(facts.text, [place])) return { verdict: 'matches' };
     if (facts.locations.length) return { verdict: 'wrong', siteSays: facts.locations.join('; ') };
     return { verdict: 'unverifiable' };

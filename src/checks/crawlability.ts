@@ -99,7 +99,10 @@ export const checks = [
           ? `Page is noindex but ${page.inSitemap ? 'is listed in the sitemap' : `has ${linked} internal links`}, so it looks important`
           : 'Page is set to noindex',
         evidence: truncate(
-          [page.metaRobots && `meta robots: ${page.metaRobots}`, page.xRobotsTag && `X-Robots-Tag: ${page.xRobotsTag}`]
+          [
+            page.metaRobots && `meta robots: ${page.metaRobots}`,
+            page.xRobotsTag && `X-Robots-Tag: ${page.xRobotsTag}`,
+          ]
             .filter(Boolean)
             .join(' | '),
         ),
@@ -161,8 +164,7 @@ export const checks = [
           return { name, v: String(v), noindex, index };
         });
       const selfConflict = says.find((s) => s.noindex && s.index);
-      const crossConflict =
-        says.some((s) => s.noindex) && says.some((s) => s.index && !s.noindex);
+      const crossConflict = says.some((s) => s.noindex) && says.some((s) => s.index && !s.noindex);
       if (!selfConflict && !crossConflict) return null;
       return {
         checkId: 'crawlability.robots-conflict',
@@ -235,9 +237,17 @@ export const checks = [
       const ms = directiveValue(d, 'max-snippet');
       const msNum = ms == null ? null : Number(ms);
       if (d.has('nosnippet'))
-        return { checkId: 'crawlability.snippet-restricted', message: 'Page sets nosnippet: no text snippet and no AI Overview use', evidence: 'nosnippet' };
+        return {
+          checkId: 'crawlability.snippet-restricted',
+          message: 'Page sets nosnippet: no text snippet and no AI Overview use',
+          evidence: 'nosnippet',
+        };
       if (msNum != null && msNum >= 0 && msNum < 50)
-        return { checkId: 'crawlability.snippet-restricted', message: `max-snippet is ${msNum} characters, which leaves almost nothing to quote`, evidence: `max-snippet:${ms}` };
+        return {
+          checkId: 'crawlability.snippet-restricted',
+          message: `max-snippet is ${msNum} characters, which leaves almost nothing to quote`,
+          evidence: `max-snippet:${ms}`,
+        };
       return null;
     },
   ),
@@ -303,15 +313,25 @@ export const checks = [
     },
     (page) => {
       if (!isHtml200(page) || !page.html) return null;
-      const head = rawHead(page.html).replace(/<noscript[\s\S]*?<\/noscript>/gi, (m) =>
-        // An <img> inside <noscript> in <head> is just as harmful for parsers that do not run JS.
-        m,
+      const head = rawHead(page.html).replace(
+        /<noscript[\s\S]*?<\/noscript>/gi,
+        (m) =>
+          // An <img> inside <noscript> in <head> is just as harmful for parsers that do not run JS.
+          m,
       );
-      const m = INVALID_HEAD_TAG.exec(head.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<!--[\s\S]*?-->/gi, ''));
+      const m = INVALID_HEAD_TAG.exec(
+        head.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<!--[\s\S]*?-->/gi, ''),
+      );
       if (!m) return null;
-      const stripped = head.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<!--[\s\S]*?-->/gi, '');
+      const stripped = head.replace(
+        /<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<!--[\s\S]*?-->/gi,
+        '',
+      );
       const after = stripped.slice(m.index);
-      const important = /<link[^>]+rel=["']?(canonical|alternate)|<meta[^>]+name=["']?(robots|googlebot|description)|<title/i.exec(after);
+      const important =
+        /<link[^>]+rel=["']?(canonical|alternate)|<meta[^>]+name=["']?(robots|googlebot|description)|<title/i.exec(
+          after,
+        );
       if (!important) return null;
       return {
         checkId: 'crawlability.head-broken',
@@ -500,12 +520,15 @@ export const checks = [
       severity: 'medium',
       fixTier: 'guided',
       fix: 'Canonicalise parameter URLs to the clean URL, stop linking to sort/filter variants with plain links, and block pure-filter parameters in robots.txt where appropriate.',
-      refs: ['https://developers.google.com/search/docs/crawling-indexing/crawling-managing-faceted-navigation'],
+      refs: [
+        'https://developers.google.com/search/docs/crawling-indexing/crawling-managing-faceted-navigation',
+      ],
     },
     (site) => {
       const idx = indexablePages(site);
       const withParams = idx.filter((p) => !!safeUrl(p.url)?.search);
-      if (withParams.length < PARAM_WASTE_MIN || withParams.length / idx.length < PARAM_WASTE_SHARE) return null;
+      if (withParams.length < PARAM_WASTE_MIN || withParams.length / idx.length < PARAM_WASTE_SHARE)
+        return null;
       const keys = new Map<string, number>();
       for (const p of withParams)
         for (const k of safeUrl(p.url)!.searchParams.keys()) keys.set(k, (keys.get(k) ?? 0) + 1);
@@ -554,7 +577,12 @@ export const checks = [
     },
     (site) => {
       const h = site.host.toLowerCase();
-      if (!/(^|\.)(staging|stage|dev|test|qa|uat|preview|beta)[.-]/.test(h) && !/\.(vercel\.app|netlify\.app|pages\.dev|herokuapp\.com|wpengine\.com|wpenginepowered\.com|kinsta\.cloud)$/.test(h))
+      if (
+        !/(^|\.)(staging|stage|dev|test|qa|uat|preview|beta)[.-]/.test(h) &&
+        !/\.(vercel\.app|netlify\.app|pages\.dev|herokuapp\.com|wpengine\.com|wpenginepowered\.com|kinsta\.cloud)$/.test(
+          h,
+        )
+      )
         return null;
       const home = homePage(site);
       if (!home || !isIndexable(home)) return null;
@@ -585,7 +613,11 @@ export const checks = [
       const r = site.robots;
       if (r.found || r.status == null || r.status === 0 || r.status >= 500) return null;
       if (r.status >= 400 && r.status < 500)
-        return { checkId: 'crawlability.robots-txt-missing', message: `robots.txt returns ${r.status}`, evidence: r.url };
+        return {
+          checkId: 'crawlability.robots-txt-missing',
+          message: `robots.txt returns ${r.status}`,
+          evidence: r.url,
+        };
       return null;
     },
   ),
@@ -599,12 +631,19 @@ export const checks = [
       severity: 'critical',
       fixTier: 'guided',
       fix: 'Make /robots.txt return 200 (or 404 if you do not need one). Check the server, CDN and firewall rules for that path.',
-      refs: [REF.robotsTxt, 'https://developers.google.com/search/docs/crawling-indexing/robots/robots_txt#http-status-codes'],
+      refs: [
+        REF.robotsTxt,
+        'https://developers.google.com/search/docs/crawling-indexing/robots/robots_txt#http-status-codes',
+      ],
     },
     (site) => {
       const r = site.robots;
       if (r.status == null || r.status < 500) return null;
-      return { checkId: 'crawlability.robots-txt-server-error', message: `robots.txt returns HTTP ${r.status}`, evidence: r.url };
+      return {
+        checkId: 'crawlability.robots-txt-server-error',
+        message: `robots.txt returns HTTP ${r.status}`,
+        evidence: r.url,
+      };
     },
   ),
   siteCheck(
@@ -711,7 +750,10 @@ export const checks = [
       return {
         checkId: 'crawlability.robots-blocks-resources',
         message: `${plural(blocked.length, 'CSS/JS file')} on this site ${blocked.length === 1 ? 'is' : 'are'} blocked for Googlebot`,
-        evidence: list(blocked.map((b) => pathOf(b)), 4),
+        evidence: list(
+          blocked.map((b) => pathOf(b)),
+          4,
+        ),
       };
     },
   ),
@@ -755,7 +797,10 @@ export const checks = [
     },
     (site) => {
       if (!site.robots.found || site.robots.sitemaps.length) return null;
-      return { checkId: 'crawlability.robots-no-sitemap', message: 'No "Sitemap:" line in robots.txt' };
+      return {
+        checkId: 'crawlability.robots-no-sitemap',
+        message: 'No "Sitemap:" line in robots.txt',
+      };
     },
   ),
   siteCheck(
@@ -779,7 +824,11 @@ export const checks = [
         .map((l) => l.replace(/^sitemap\s*:\s*/i, ''))
         .filter((v) => !/^https?:\/\//i.test(v));
       if (!bad.length) return null;
-      return { checkId: 'crawlability.robots-sitemap-invalid', message: `${plural(bad.length, 'Sitemap line')} without an absolute URL`, evidence: list(bad) };
+      return {
+        checkId: 'crawlability.robots-sitemap-invalid',
+        message: `${plural(bad.length, 'Sitemap line')} without an absolute URL`,
+        evidence: list(bad),
+      };
     },
   ),
   siteCheck(
@@ -792,14 +841,22 @@ export const checks = [
       severity: 'low',
       fixTier: 'guided',
       fix: `Lower or remove Crawl-delay. If the server struggles, fix capacity or caching rather than throttling crawlers (keep it under ${CRAWL_DELAY_HIGH} seconds if you must keep it).`,
-      refs: ['https://blogs.bing.com/webmaster/2012/05/03/to-crawl-or-not-to-crawl-that-is-bingbots-question'],
+      refs: [
+        'https://blogs.bing.com/webmaster/2012/05/03/to-crawl-or-not-to-crawl-that-is-bingbots-question',
+      ],
     },
     (site) => {
       if (!site.robots.found) return null;
-      const delays = [...site.robots.body.matchAll(/^\s*crawl-delay\s*:\s*([\d.]+)/gim)].map((m) => Number(m[1]));
+      const delays = [...site.robots.body.matchAll(/^\s*crawl-delay\s*:\s*([\d.]+)/gim)].map((m) =>
+        Number(m[1]),
+      );
       const max = Math.max(0, ...delays);
       if (max < CRAWL_DELAY_HIGH) return null;
-      return { checkId: 'crawlability.robots-crawl-delay', message: `Crawl-delay of ${max} seconds`, evidence: `Crawl-delay: ${max}` };
+      return {
+        checkId: 'crawlability.robots-crawl-delay',
+        message: `Crawl-delay of ${max} seconds`,
+        evidence: `Crawl-delay: ${max}`,
+      };
     },
   ),
   siteCheck(
@@ -812,7 +869,9 @@ export const checks = [
       severity: 'medium',
       fixTier: 'guided',
       fix: 'Remove these lines and use a robots meta tag or X-Robots-Tag header for noindex, and redirects or canonicals instead of Host.',
-      refs: ['https://developers.google.com/search/blog/2019/07/a-note-on-unsupported-rules-in-robotstxt'],
+      refs: [
+        'https://developers.google.com/search/blog/2019/07/a-note-on-unsupported-rules-in-robotstxt',
+      ],
     },
     (site) => {
       if (!site.robots.found) return null;
@@ -824,7 +883,10 @@ export const checks = [
       return {
         checkId: 'crawlability.robots-unsupported-rules',
         message: `${plural(bad.length, 'unsupported rule')} in robots.txt`,
-        evidence: bad.slice(0, 5).map(({ l, i }) => `line ${i}: ${l}`).join(' | '),
+        evidence: bad
+          .slice(0, 5)
+          .map(({ l, i }) => `line ${i}: ${l}`)
+          .join(' | '),
       };
     },
   ),
@@ -842,7 +904,8 @@ export const checks = [
     },
     (site) => {
       if (!site.robots.found) return null;
-      const known = /^(user-agent|allow|disallow|sitemap|crawl-delay|noindex|nofollow|host|clean-param|request-rate|visit-time|content-signal|content-usage)$/i;
+      const known =
+        /^(user-agent|allow|disallow|sitemap|crawl-delay|noindex|nofollow|host|clean-param|request-rate|visit-time|content-signal|content-usage)$/i;
       const bad: string[] = [];
       site.robots.body.split(/\r?\n/).forEach((raw, i) => {
         const l = raw.replace(/#.*$/, '').trim();
@@ -851,11 +914,16 @@ export const checks = [
         if (!m || !known.test(m[1])) bad.push(`line ${i + 1}: ${truncate(l, 60)}`);
         else if (/^(allow|disallow)$/i.test(m[1])) {
           const v = l.slice(l.indexOf(':') + 1).trim();
-          if (v && !v.startsWith('/') && !v.startsWith('*')) bad.push(`line ${i + 1}: path should start with / (${truncate(l, 60)})`);
+          if (v && !v.startsWith('/') && !v.startsWith('*'))
+            bad.push(`line ${i + 1}: path should start with / (${truncate(l, 60)})`);
         }
       });
       if (!bad.length) return null;
-      return { checkId: 'crawlability.robots-syntax', message: `${plural(bad.length, 'line')} in robots.txt may be ignored`, evidence: bad.slice(0, 5).join(' | ') };
+      return {
+        checkId: 'crawlability.robots-syntax',
+        message: `${plural(bad.length, 'line')} in robots.txt may be ignored`,
+        evidence: bad.slice(0, 5).join(' | '),
+      };
     },
   ),
   siteCheck(
@@ -873,7 +941,10 @@ export const checks = [
     (site) => {
       const bytes = Buffer.byteLength(site.robots.body || '');
       if (!site.robots.found || bytes <= ROBOTS_MAX_BYTES) return null;
-      return { checkId: 'crawlability.robots-too-large', message: `robots.txt is ${Math.round(bytes / 1024)} KiB` };
+      return {
+        checkId: 'crawlability.robots-too-large',
+        message: `robots.txt is ${Math.round(bytes / 1024)} KiB`,
+      };
     },
   ),
   siteCheck(
@@ -890,8 +961,13 @@ export const checks = [
     },
     (site) => {
       const b = site.robots.body || '';
-      if (!site.robots.found || !/<(!doctype html|html|head|body)[\s>]/i.test(b.slice(0, 2000))) return null;
-      return { checkId: 'crawlability.robots-is-html', message: 'robots.txt body is HTML, not plain text', evidence: truncate(b.slice(0, 120)) };
+      if (!site.robots.found || !/<(!doctype html|html|head|body)[\s>]/i.test(b.slice(0, 2000)))
+        return null;
+      return {
+        checkId: 'crawlability.robots-is-html',
+        message: 'robots.txt body is HTML, not plain text',
+        evidence: truncate(b.slice(0, 120)),
+      };
     },
   ),
 
@@ -950,7 +1026,8 @@ export const checks = [
       for (const i of ins) {
         const state = (i.coverageState || '').toLowerCase();
         if (/currently not indexed/.test(state)) continue; // dedicated checks
-        if (i.verdict === 'PASS' || /indexed/.test(state) && !/not indexed|excluded/.test(state)) continue;
+        if (i.verdict === 'PASS' || (/indexed/.test(state) && !/not indexed|excluded/.test(state)))
+          continue;
         const p = findPage(site, i.url);
         if (p && !isIndexable(p)) continue; // intentionally out of the index
         out.push({
@@ -1091,7 +1168,9 @@ export const checks = [
           data: { ctr: row.ctr, position: row.position, impressions: row.impressions },
         });
       }
-      return out.sort((a, b) => Number(b.data?.impressions) - Number(a.data?.impressions)).slice(0, 100);
+      return out
+        .sort((a, b) => Number(b.data?.impressions) - Number(a.data?.impressions))
+        .slice(0, 100);
     },
   ),
   siteCheck(

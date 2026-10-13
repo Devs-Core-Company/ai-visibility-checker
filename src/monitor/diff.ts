@@ -6,6 +6,7 @@
  * count as changed when title, meta description, H1, canonical, status or
  * indexability change, or when the word count moves by more than 20%.
  */
+import { compareRuns } from '../ai/index.js';
 import type { AuditDiff, AuditResult, Issue, PageSummary, VisibilityRun } from '../core/types.js';
 
 export const issueKey = (i: Pick<Issue, 'checkId' | 'url'>) => `${i.checkId}|${i.url ?? ''}`;
@@ -33,55 +34,25 @@ export function changedFields(a: PageSummary, b: PageSummary): string[] {
   return fields;
 }
 
-const brandShare = (r: VisibilityRun) => r.summary.shareOfVoice?.find((s) => s.isBrand)?.share ?? 0;
-
-/** Prompt ids where the brand was named by at least one engine. */
-function promptsWon(r: VisibilityRun): Set<string> {
-  const s = new Set<string>();
-  for (const a of r.answers ?? []) if (a.mentioned && !a.error) s.add(a.promptId);
-  return s;
-}
-
-function promptsAsked(r: VisibilityRun): Set<string> {
-  const s = new Set<string>();
-  for (const a of r.answers ?? []) if (!a.error) s.add(a.promptId);
-  return s;
-}
-
 /**
- * Visibility change between two runs. Matches the shape of AuditDiff['visibility'].
- * Prompts only count as won or lost when both runs asked them.
+ * Visibility change between two runs (the AI module's compareRuns): mention rate and
+ * share-of-voice deltas, newly named competitors, and prompts won or lost (by text).
  */
-export function diffVisibility(
+export const diffVisibility: (
   prev: VisibilityRun,
   next: VisibilityRun,
-): NonNullable<AuditDiff['visibility']> {
-  const round = (n: number) => Math.round(n * 1000) / 1000;
-  const prevNames = new Set(
-    (prev.summary.shareOfVoice ?? [])
-      .filter((s) => !s.isBrand && s.mentions > 0)
-      .map((s) => s.name.toLowerCase()),
-  );
-  const newCompetitors = (next.summary.shareOfVoice ?? [])
-    .filter((s) => !s.isBrand && s.mentions > 0 && !prevNames.has(s.name.toLowerCase()))
-    .map((s) => s.name);
-  const bothAsked = new Set([...promptsAsked(prev)].filter((p) => promptsAsked(next).has(p)));
-  const wonBefore = promptsWon(prev);
-  const wonNow = promptsWon(next);
-  return {
-    mentionRateDelta: round((next.summary.mentionRate ?? 0) - (prev.summary.mentionRate ?? 0)),
-    shareOfVoiceDelta: round(brandShare(next) - brandShare(prev)),
-    newCompetitors,
-    lostPrompts: [...bothAsked].filter((p) => wonBefore.has(p) && !wonNow.has(p)),
-    wonPrompts: [...bothAsked].filter((p) => !wonBefore.has(p) && wonNow.has(p)),
-  };
-}
+) => NonNullable<AuditDiff['visibility']> = compareRuns;
 
 export function diffAudits(prev: AuditResult, next: AuditResult): AuditDiff {
   const before = dedupe(prev.issues);
   const after = dedupe(next.issues);
   const newIssues = [...after].filter(([k]) => !before.has(k)).map(([, v]) => v);
-  const fixedIssues = [...before].filter(([k]) => !after.has(k)).map(([, v]) => v);
+  // An issue only counts as fixed when its check actually ran this time: a check skipped
+  // for lack of data (e.g. --no-render, no PSI key) proves nothing.
+  const ranNow = (checkId: string) => next.checks?.[checkId]?.status !== 'skipped';
+  const fixedIssues = [...before]
+    .filter(([k, v]) => !after.has(k) && ranNow(v.checkId))
+    .map(([, v]) => v);
 
   const prevPages = new Map(prev.pages.map((p) => [p.url, p]));
   const nextPages = new Map(next.pages.map((p) => [p.url, p]));

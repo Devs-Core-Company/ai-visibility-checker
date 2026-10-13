@@ -181,7 +181,10 @@ export async function runPsi(
 }
 
 /** Home page first, then the HTML pages with the most internal links pointing at them. */
-export function samplePsiUrls(site: Pick<SiteContext, 'startUrl' | 'pages' | 'inlinks'>, n: number): string[] {
+export function samplePsiUrls(
+  site: Pick<SiteContext, 'startUrl' | 'pages' | 'inlinks'>,
+  n: number,
+): string[] {
   const out = [site.startUrl];
   const candidates = [...site.pages.values()]
     .filter((p) => p.isHtml && p.status === 200 && p.url !== site.startUrl && p.finalUrl === p.url)

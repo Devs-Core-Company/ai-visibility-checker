@@ -35,7 +35,9 @@ export async function loadRobots(origin: string, fetcher: Fetcher): Promise<Robo
     status: res.status || null,
     found,
     unreachable,
-    error: res.error ?? (looksHtml && res.ok ? 'robots.txt returned an HTML page, not a text file' : undefined),
+    error:
+      res.error ??
+      (looksHtml && res.ok ? 'robots.txt returned an HTML page, not a text file' : undefined),
   });
   return info;
 }

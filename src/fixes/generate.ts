@@ -131,7 +131,8 @@ export interface LlmsTxtOptions {
   exclude?: string[];
 }
 
-const OPTIONAL_RE = /(privacy|cookie|terms|legal|imprint|impressum|disclaimer|accessibility|sitemap)/i;
+const OPTIONAL_RE =
+  /(privacy|cookie|terms|legal|imprint|impressum|disclaimer|accessibility|sitemap)/i;
 const SKIP_RE = /\/(tag|tags|author|page|feed|wp-json|cart|checkout|account|login|search)(\/|$)/i;
 
 interface LlmsEntry {
@@ -190,7 +191,9 @@ export function generateLlmsTxt(data: SiteData, opts: LlmsTxtOptions = {}): stri
   const { name, entries } = llmsEntries(data, opts);
   const home = homeOf(data);
   const summary =
-    opts.summary ?? home?.metaDescription ?? `The official website of ${name} (${hostOf(data.site)}).`;
+    opts.summary ??
+    home?.metaDescription ??
+    `The official website of ${name} (${hostOf(data.site)}).`;
   const maxPer = opts.maxPerSection ?? 15;
   const maxTotal = opts.maxTotal ?? 100;
   const lines = [`# ${name}`, '', `> ${summary.replace(/\s+/g, ' ').trim()}`, ''];
@@ -204,7 +207,11 @@ export function generateLlmsTxt(data: SiteData, opts: LlmsTxtOptions = {}): stri
   }
   // 'Pages' first, then the larger sections
   const order = [...sections.keys()].sort((a, b) =>
-    a === 'Pages' ? -1 : b === 'Pages' ? 1 : (sections.get(b)!.length - sections.get(a)!.length) || a.localeCompare(b),
+    a === 'Pages'
+      ? -1
+      : b === 'Pages'
+        ? 1
+        : sections.get(b)!.length - sections.get(a)!.length || a.localeCompare(b),
   );
   let total = 0;
   for (const s of order) {
@@ -227,7 +234,12 @@ export function generateLlmsTxt(data: SiteData, opts: LlmsTxtOptions = {}): stri
     for (const e of optional) lines.push(`- [${e.title}](${e.url})`);
     lines.push('');
   }
-  return lines.join('\n').replace(/\n{3,}/g, '\n\n').trimEnd() + '\n';
+  return (
+    lines
+      .join('\n')
+      .replace(/\n{3,}/g, '\n\n')
+      .trimEnd() + '\n'
+  );
 }
 
 /**
@@ -237,14 +249,22 @@ export function generateLlmsTxt(data: SiteData, opts: LlmsTxtOptions = {}): stri
  */
 export function generateLlmsFullTxt(
   data: SiteData,
-  opts: LlmsTxtOptions & { texts?: Map<string, string> | Record<string, string>; maxChars?: number } = {},
+  opts: LlmsTxtOptions & {
+    texts?: Map<string, string> | Record<string, string>;
+    maxChars?: number;
+  } = {},
 ): string {
   const { name, entries } = llmsEntries(data, { ...opts, maxPerSection: 1000 });
   const home = homeOf(data);
   const get = (u: string): string | undefined =>
     opts.texts instanceof Map ? opts.texts.get(u) : opts.texts?.[u];
   const maxChars = opts.maxChars ?? 2_000_000;
-  const out = [`# ${name}`, '', `> ${home?.metaDescription ?? `The official website of ${name}.`}`, ''];
+  const out = [
+    `# ${name}`,
+    '',
+    `> ${home?.metaDescription ?? `The official website of ${name}.`}`,
+    '',
+  ];
   let size = out.join('\n').length;
   for (const e of entries.filter((x) => !x.optional).sort((a, b) => b.score - a.score)) {
     const body = (get(e.url) ?? get(e.url.replace(/\/$/, '')) ?? e.description ?? '').trim();
@@ -317,7 +337,10 @@ function decide(policy: RobotsPolicy, opts: RobotsOptions): Map<string, 'allow' 
     return out;
   }
   for (const b of FIX_AI_BOTS) {
-    out.set(b.token, policy === 'allow-search-block-training' && b.purpose === 'training' ? 'block' : 'allow');
+    out.set(
+      b.token,
+      policy === 'allow-search-block-training' && b.purpose === 'training' ? 'block' : 'allow',
+    );
   }
   return out;
 }
@@ -365,7 +388,12 @@ export function generateRobotsTxt(
     .filter((l) => /^(allow|disallow)\s*:/i.test(l))
     .filter((l) => !/^disallow\s*:\s*\/\*?\s*$/i.test(l))
     .filter((l) => !/^disallow\s*:\s*$/i.test(l))
-    .map((l) => l.replace(/^(allow|disallow)\s*:\s*/i, (_m, k: string) => `${k[0].toUpperCase()}${k.slice(1).toLowerCase()}: `));
+    .map((l) =>
+      l.replace(
+        /^(allow|disallow)\s*:\s*/i,
+        (_m, k: string) => `${k[0].toUpperCase()}${k.slice(1).toLowerCase()}: `,
+      ),
+    );
 
   lines = lines.filter((_l, i) => !remove.has(i));
 
@@ -387,7 +415,10 @@ export function generateRobotsTxt(
 
   const allowed = [...decisions.entries()].filter(([, d]) => d === 'allow').map(([t]) => t);
   const blocked = [...decisions.entries()].filter(([, d]) => d === 'block').map(([t]) => t);
-  const block: string[] = [AVC_BEGIN, `# Policy: ${policy}. Re-run \`avc fix\` to regenerate this block.`];
+  const block: string[] = [
+    AVC_BEGIN,
+    `# Policy: ${policy}. Re-run \`avc fix\` to regenerate this block.`,
+  ];
   if (allowed.length) {
     block.push(...allowed.map((t) => `User-agent: ${t}`));
     block.push(...(starRules.length ? starRules : ['Allow: /']));
@@ -402,9 +433,13 @@ export function generateRobotsTxt(
   const sitemapLines = lines.filter((l) => /^\s*sitemap\s*:/i.test(l)).map((l) => l.trim());
   lines = lines.filter((l) => !/^\s*sitemap\s*:/i.test(l));
   for (const s of opts.sitemaps ?? []) {
-    if (!sitemapLines.some((l) => l.toLowerCase().endsWith(s.toLowerCase()))) sitemapLines.push(`Sitemap: ${s}`);
+    if (!sitemapLines.some((l) => l.toLowerCase().endsWith(s.toLowerCase())))
+      sitemapLines.push(`Sitemap: ${s}`);
   }
-  const head = lines.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+  const head = lines
+    .join('\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
   const parts = [head, block.join('\n'), sitemapLines.join('\n')].filter((p) => p.trim());
   return parts.join('\n\n') + '\n';
 }
@@ -415,7 +450,9 @@ export function blockedAiTokens(robots: string): string[] {
   const out: string[] = [];
   for (const g of parseGroups(lines)) {
     const rules = g.ruleLines.map((i) => lines[i].replace(/#.*$/, '').trim().toLowerCase());
-    const full = rules.some((r) => /^disallow\s*:\s*\/\*?$/.test(r)) && !rules.some((r) => /^allow\s*:\s*\/\s*$/.test(r));
+    const full =
+      rules.some((r) => /^disallow\s*:\s*\/\*?$/.test(r)) &&
+      !rules.some((r) => /^allow\s*:\s*\/\s*$/.test(r));
     if (full) for (const u of g.uaLines) if (isManagedToken(u.token)) out.push(u.token);
   }
   return out;
@@ -508,7 +545,11 @@ export interface ArticleInput {
   image?: string;
 }
 
-export function generateArticleJsonLd(page: ArticleInput, brand: BrandFacts = {}, site?: string): Json {
+export function generateArticleJsonLd(
+  page: ArticleInput,
+  brand: BrandFacts = {},
+  site?: string,
+): Json {
   const origin = originOf(site ?? brand.url ?? page.url);
   const name = brand.name ?? hostOf(origin);
   return compact({
@@ -537,7 +578,9 @@ const Q_SELECTOR = 'h2, h3, h4, h5, dt, summary';
 
 /** Question/answer pairs from HTML: headings, <dt> and <summary> ending in "?". */
 export function extractFaqs(html: string, max = 30): QaPair[] {
-  const { document } = parseHTML(html.includes('<html') ? html : `<html><body>${html}</body></html>`);
+  const { document } = parseHTML(
+    html.includes('<html') ? html : `<html><body>${html}</body></html>`,
+  );
   const out: QaPair[] = [];
   const nodes = Array.from(document.querySelectorAll(Q_SELECTOR)) as Element[];
   for (const node of nodes) {
@@ -563,7 +606,11 @@ export function extractFaqs(html: string, max = 30): QaPair[] {
       while (sib) {
         const t = sib.tagName.toLowerCase();
         if (/^h[1-6]$/.test(t) && Number(t.slice(1)) <= level) break;
-        if (sib.querySelector?.(Q_SELECTOR) && /\?\s*$/.test(sib.querySelector(Q_SELECTOR)?.textContent ?? '')) break;
+        if (
+          sib.querySelector?.(Q_SELECTOR) &&
+          /\?\s*$/.test(sib.querySelector(Q_SELECTOR)?.textContent ?? '')
+        )
+          break;
         answer += ' ' + (sib.textContent ?? '');
         sib = sib.nextElementSibling;
       }
@@ -584,7 +631,11 @@ export function extractFaqs(html: string, max = 30): QaPair[] {
  * FAQPage JSON-LD for a page. Pass `html` (raw or rendered) to extract Q&A, or `qa` pairs.
  * Returns null when the page has no visible questions — FAQ markup must match visible content.
  */
-export function generateFaqJsonLd(page: { url: string; html?: string; qa?: QaPair[] }): Json | null {
+export function generateFaqJsonLd(page: {
+  url: string;
+  html?: string;
+  qa?: QaPair[];
+}): Json | null {
   const qa = page.qa ?? (page.html ? extractFaqs(page.html) : []);
   if (!qa.length) return null;
   return {
@@ -600,7 +651,11 @@ export function generateFaqJsonLd(page: { url: string; html?: string; qa?: QaPai
 }
 
 /** BreadcrumbList from the URL path; names come from crawled titles/H1s when known. */
-export function generateBreadcrumbJsonLd(url: string, pages: PageSummary[] = [], brand?: string): Json {
+export function generateBreadcrumbJsonLd(
+  url: string,
+  pages: PageSummary[] = [],
+  brand?: string,
+): Json {
   const u = new URL(url);
   const byPath = new Map<string, PageSummary>();
   for (const p of pages) {
@@ -638,14 +693,21 @@ export function generateBreadcrumbJsonLd(url: string, pages: PageSummary[] = [],
  */
 export function generateAgentCard(
   brand: BrandFacts & { name: string; url: string },
-  opts: { endpoint?: string; skills?: { id: string; name: string; description: string }[]; version?: string } = {},
+  opts: {
+    endpoint?: string;
+    skills?: { id: string; name: string; description: string }[];
+    version?: string;
+  } = {},
 ): Json {
   const origin = originOf(brand.url);
   const skills =
     opts.skills ??
     (brand.services?.length
       ? brand.services.slice(0, 8).map((s) => ({
-          id: s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
+          id: s
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-|-$/g, ''),
           name: s,
           description: `Answer questions about ${brand.name}'s ${s} service and start an enquiry.`,
         }))
@@ -674,7 +736,11 @@ export function generateAgentCard(
 /** An MCP server card describing a remote MCP server, served from /.well-known/mcp/server-card.json. */
 export function generateMcpServerCard(
   brand: BrandFacts & { name: string; url: string },
-  opts: { endpoint?: string; tools?: { name: string; description: string }[]; auth?: 'none' | 'oauth2' } = {},
+  opts: {
+    endpoint?: string;
+    tools?: { name: string; description: string }[];
+    auth?: 'none' | 'oauth2';
+  } = {},
 ): Json {
   const origin = originOf(brand.url);
   return {
@@ -685,13 +751,20 @@ export function generateMcpServerCard(
     version: '1.0.0',
     websiteUrl: origin,
     remotes: [{ type: 'streamable-http', url: opts.endpoint ?? `${origin}/mcp` }],
-    authentication: opts.auth === 'oauth2' ? { type: 'oauth2', metadata: `${origin}/.well-known/oauth-protected-resource` } : { type: 'none' },
+    authentication:
+      opts.auth === 'oauth2'
+        ? { type: 'oauth2', metadata: `${origin}/.well-known/oauth-protected-resource` }
+        : { type: 'none' },
     tools: opts.tools ?? [],
   };
 }
 
 /** OAuth 2.0 Protected Resource Metadata (RFC 9728) for an API or MCP endpoint. */
-export function generateProtectedResourceMetadata(origin: string, authServer: string, resourcePath = '/mcp'): Json {
+export function generateProtectedResourceMetadata(
+  origin: string,
+  authServer: string,
+  resourcePath = '/mcp',
+): Json {
   return {
     resource: `${originOf(origin)}${resourcePath}`,
     authorization_servers: [authServer],
@@ -727,7 +800,8 @@ export const DESC_MAX = 155;
 
 function titleProblem(t: string | null, brand: string): string | null {
   if (!t || !t.trim()) return 'missing';
-  if (t.length > TITLE_MAX) return `${t.length} characters; search results cut titles at about ${TITLE_MAX}`;
+  if (t.length > TITLE_MAX)
+    return `${t.length} characters; search results cut titles at about ${TITLE_MAX}`;
   if (t.trim().length < 15) return 'too short to say what the page is about';
   if (t.trim().toLowerCase() === brand.toLowerCase()) return 'only the brand name';
   return null;
@@ -741,7 +815,10 @@ function descProblem(d: string | null): string | null {
 }
 
 /** Rule-based suggestion. Proposes a value only where the current one has a problem (or `force`). */
-export function suggestMetaRules(page: MetaPageInput, opts: { brand?: string; force?: boolean } = {}): MetaSuggestion {
+export function suggestMetaRules(
+  page: MetaPageInput,
+  opts: { brand?: string; force?: boolean } = {},
+): MetaSuggestion {
   const brand = opts.brand ?? hostOf(page.url);
   const out: MetaSuggestion = { url: page.url, title: null, description: null, source: 'rules' };
   const tp = titleProblem(page.title, brand);
@@ -753,8 +830,11 @@ export function suggestMetaRules(page: MetaPageInput, opts: { brand?: string; fo
     const core = truncateWords(base, TITLE_MAX);
     const withBrand = `${core} – ${brand}`;
     const suggested =
-      core.toLowerCase().includes(brand.toLowerCase()) || withBrand.length > TITLE_MAX ? core : withBrand;
-    if (suggested !== page.title) out.title = { current: page.title, suggested, reason: tp ?? 'requested' };
+      core.toLowerCase().includes(brand.toLowerCase()) || withBrand.length > TITLE_MAX
+        ? core
+        : withBrand;
+    if (suggested !== page.title)
+      out.title = { current: page.title, suggested, reason: tp ?? 'requested' };
   }
   const dp = descProblem(page.metaDescription);
   if (dp || opts.force) {
@@ -846,7 +926,12 @@ Description: ${DESC_MIN}-${DESC_MAX} characters, answers what the visitor gets, 
     if (!m) return rules;
     const parsed = JSON.parse(m[0]) as { title?: string; description?: string };
     const out: MetaSuggestion = { ...rules, source: 'model' };
-    if (rules.title && parsed.title && parsed.title.length <= TITLE_MAX && parsed.title.length >= 10)
+    if (
+      rules.title &&
+      parsed.title &&
+      parsed.title.length <= TITLE_MAX &&
+      parsed.title.length >= 10
+    )
       out.title = { ...rules.title, suggested: parsed.title.trim() };
     if (
       rules.description &&
@@ -863,5 +948,55 @@ Description: ${DESC_MIN}-${DESC_MAX} characters, answers what the visitor gets, 
 
 /** Convenience: site data from an AuditResult. */
 export function siteData(result: AuditResult): SiteData {
-  return { site: result.site, pages: result.pages, robots: result.robots, sitemaps: result.sitemaps };
+  return {
+    site: result.site,
+    pages: result.pages,
+    robots: result.robots,
+    sitemaps: result.sitemaps,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Sitemaps
+// ---------------------------------------------------------------------------
+
+function xmlEscape(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+/** A sitemap.xml of the indexable 200 pages found by the crawl (canonical URLs only). */
+export function generateSitemapXml(data: SiteData, opts: { max?: number } = {}): string {
+  const origin = originOf(data.site);
+  const urls = new Set<string>();
+  for (const p of okPages(data.pages)) {
+    const u = p.canonical ?? p.finalUrl ?? p.url;
+    try {
+      if (new URL(u).origin === origin) urls.add(u);
+    } catch {
+      /* skip */
+    }
+  }
+  const list = [...urls].sort().slice(0, opts.max ?? 50_000);
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${list.map((u) => `  <url><loc>${xmlEscape(u)}</loc></url>`).join('\n')}
+</urlset>
+`;
+}
+
+/** Add `Sitemap:` lines to robots.txt without touching anything else. */
+export function addSitemapLines(current: string | null | undefined, sitemaps: string[]): string {
+  const text = (current ?? '').replace(/\r\n/g, '\n').trimEnd();
+  const have = text.toLowerCase();
+  const add = sitemaps.filter((s) => !have.includes(`sitemap: ${s.toLowerCase()}`));
+  if (!add.length) return text + '\n';
+  return (
+    (text ? text + '\n\n' : 'User-agent: *\nAllow: /\n\n') +
+    add.map((s) => `Sitemap: ${s}`).join('\n') +
+    '\n'
+  );
 }

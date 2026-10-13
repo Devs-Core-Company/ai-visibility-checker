@@ -121,7 +121,10 @@ export function evaluateAlerts(
         level: 'critical',
         title: `${crit.length} new critical issue${crit.length === 1 ? '' : 's'}`,
         detail: titles.join('; '),
-        urls: crit.map((i) => i.url).filter((u): u is string => !!u).slice(0, MAX_URLS),
+        urls: crit
+          .map((i) => i.url)
+          .filter((u): u is string => !!u)
+          .slice(0, MAX_URLS),
       });
     }
   }
@@ -149,7 +152,14 @@ export function evaluateAlerts(
     });
   if (R.pageError && errors.length)
     out.push({
-      key: makeKey('page-error', site, errors.map((e) => `${e.url}=${e.status}`).sort().join(',')),
+      key: makeKey(
+        'page-error',
+        site,
+        errors
+          .map((e) => `${e.url}=${e.status}`)
+          .sort()
+          .join(','),
+      ),
       rule: 'page-error',
       site,
       level: errors.some((e) => e.status >= 500 || e.status === 0) ? 'critical' : 'warning',
@@ -267,7 +277,8 @@ export function evaluateVisibilityAlerts(
     });
 
   if (R.competitorOvertakes) {
-    const share = (r: VisibilityRun) => new Map((r.summary.shareOfVoice ?? []).map((s) => [s.name.toLowerCase(), s]));
+    const share = (r: VisibilityRun) =>
+      new Map((r.summary.shareOfVoice ?? []).map((s) => [s.name.toLowerCase(), s]));
     const a = share(prev);
     const b = share(next);
     const brandBefore = (prev.summary.shareOfVoice ?? []).find((s) => s.isBrand)?.share ?? 0;
@@ -279,7 +290,14 @@ export function evaluateVisibilityAlerts(
     });
     if (overtakers.length)
       out.push({
-        key: makeKey('competitor-overtakes', site, overtakers.map((o) => o.name.toLowerCase()).sort().join(',') + `@${next.id}`),
+        key: makeKey(
+          'competitor-overtakes',
+          site,
+          overtakers
+            .map((o) => o.name.toLowerCase())
+            .sort()
+            .join(',') + `@${next.id}`,
+        ),
         rule: 'competitor-overtakes',
         site,
         level: 'warning',
@@ -319,7 +337,9 @@ const LEVEL_MARK: Record<Alert['level'], string> = {
 };
 
 export function alertsText(alerts: Alert[], ctx: { site: string; reportUrl?: string }): string {
-  const lines = [`AI Visibility Checker: ${alerts.length} alert${alerts.length === 1 ? '' : 's'} for ${ctx.site}`];
+  const lines = [
+    `AI Visibility Checker: ${alerts.length} alert${alerts.length === 1 ? '' : 's'} for ${ctx.site}`,
+  ];
   for (const a of alerts) {
     lines.push('', `${LEVEL_MARK[a.level]} ${a.title}`, a.detail);
     if (a.urls?.length) lines.push(...a.urls.map((u) => `- ${u}`));
@@ -339,7 +359,10 @@ export function webhookPayload(
     case 'slack':
       return { text };
     case 'discord':
-      return { content: text.length > 1990 ? text.slice(0, 1987) + '...' : text, username: 'AI Visibility Checker' };
+      return {
+        content: text.length > 1990 ? text.slice(0, 1987) + '...' : text,
+        username: 'AI Visibility Checker',
+      };
     case 'teams':
       return {
         '@type': 'MessageCard',
@@ -355,7 +378,13 @@ export function webhookPayload(
 }
 
 export interface MailTransport {
-  sendMail(msg: { from: string; to: string; subject: string; text: string; html?: string }): Promise<unknown>;
+  sendMail(msg: {
+    from: string;
+    to: string;
+    subject: string;
+    text: string;
+    html?: string;
+  }): Promise<unknown>;
 }
 
 export interface SendAlertsOptions {
@@ -385,14 +414,19 @@ export interface SendAlertsResult {
 }
 
 function escapeHtml(s: string): string {
-  return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
+  return s.replace(
+    /[&<>"']/g,
+    (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!,
+  );
 }
 
 function emailHtml(alerts: Alert[], ctx: { site: string; reportUrl?: string }): string {
   const colour = { critical: '#f0616d', warning: '#f2c14e', info: '#0092d3' };
   const items = alerts
     .map(
-      (a) => `<div style="border-left:3px solid ${colour[a.level]};padding:8px 12px;margin:12px 0;background:#101013">
+      (
+        a,
+      ) => `<div style="border-left:3px solid ${colour[a.level]};padding:8px 12px;margin:12px 0;background:#101013">
 <div style="font-weight:600;color:#e8e8e8">${escapeHtml(a.title)}</div>
 <div style="color:#9aa4ae;white-space:pre-line">${escapeHtml(a.detail)}</div>
 ${a.urls?.length ? `<ul style="color:#9aa4ae">${a.urls.map((u) => `<li>${escapeHtml(u)}</li>`).join('')}</ul>` : ''}</div>`,
@@ -447,7 +481,12 @@ export async function sendAlerts(
           ...(r.ok ? {} : { error: `HTTP ${r.status}` }),
         });
       } catch (e) {
-        res.deliveries.push({ channel: 'webhook', ok: false, payload, error: String((e as Error)?.message ?? e) });
+        res.deliveries.push({
+          channel: 'webhook',
+          ok: false,
+          payload,
+          error: String((e as Error)?.message ?? e),
+        });
       }
     }
   }
@@ -466,14 +505,20 @@ export async function sendAlerts(
       try {
         let transport = opts.transport;
         if (!transport) {
-          if (!email.smtpUrl) throw new Error('No SMTP URL set (alerts.email.smtpUrl or AVC_SMTP_URL).');
+          if (!email.smtpUrl)
+            throw new Error('No SMTP URL set (alerts.email.smtpUrl or AVC_SMTP_URL).');
           const nodemailer = await import('nodemailer');
           transport = nodemailer.createTransport(email.smtpUrl) as unknown as MailTransport;
         }
         await transport.sendMail(msg);
         res.deliveries.push({ channel: 'email', ok: true, payload: msg });
       } catch (e) {
-        res.deliveries.push({ channel: 'email', ok: false, payload: msg, error: String((e as Error)?.message ?? e) });
+        res.deliveries.push({
+          channel: 'email',
+          ok: false,
+          payload: msg,
+          error: String((e as Error)?.message ?? e),
+        });
       }
     }
   }
@@ -482,7 +527,10 @@ export async function sendAlerts(
   if (delivered) {
     res.sent = fresh;
     if (!dryRun && opts.store) {
-      const channels = res.deliveries.filter((d) => d.ok).map((d) => d.channel).join(',');
+      const channels = res.deliveries
+        .filter((d) => d.ok)
+        .map((d) => d.channel)
+        .join(',');
       for (const a of fresh) opts.store.markAlertSent(a.key, a.site, a.rule, channels, now);
     }
   }

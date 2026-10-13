@@ -73,12 +73,25 @@ const CLF = new RegExp(
   `^(\\S+) \\S+ (?:"[^"]*"|\\S+) \\[([^\\]]+)\\] ${Q} (\\d{3}|-) (\\S+)(?: ${Q} ${Q})?`,
 );
 const MONTHS: Record<string, number> = {
-  Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11,
+  Jan: 0,
+  Feb: 1,
+  Mar: 2,
+  Apr: 3,
+  May: 4,
+  Jun: 5,
+  Jul: 6,
+  Aug: 7,
+  Sep: 8,
+  Oct: 9,
+  Nov: 10,
+  Dec: 11,
 };
 
 /** "10/Oct/2026:13:55:36 +0000" → epoch ms. */
 export function parseClfDate(s: string): number | null {
-  const m = /^(\d{1,2})\/(\w{3})\/(\d{4}):(\d{2}):(\d{2}):(\d{2})(?:\s+([+-])(\d{2})(\d{2}))?/.exec(s);
+  const m = /^(\d{1,2})\/(\w{3})\/(\d{4}):(\d{2}):(\d{2}):(\d{2})(?:\s+([+-])(\d{2})(\d{2}))?/.exec(
+    s,
+  );
   if (!m) {
     const t = Date.parse(s);
     return Number.isNaN(t) ? null : t;
@@ -107,7 +120,11 @@ function toPath(target: string): string {
 }
 
 function unescapeClf(s: string): string {
-  return s.includes('\\') ? s.replace(/\\(["\\])/g, '$1').replace(/\\x([0-9a-f]{2})/gi, (_, h) => String.fromCharCode(parseInt(h, 16))) : s;
+  return s.includes('\\')
+    ? s
+        .replace(/\\(["\\])/g, '$1')
+        .replace(/\\x([0-9a-f]{2})/gi, (_, h) => String.fromCharCode(parseInt(h, 16)))
+    : s;
 }
 
 function parseClf(line: string): ParsedLogLine | null {
@@ -209,11 +226,27 @@ function parseJsonRecord(o: Record<string, unknown>): ParsedLogLine | null {
   }
   // Netlify traffic logs and generic JSON access logs (nginx json, ALB-ish exports…)
   const ua = str(
-    pick(o, ['user_agent', 'http_user_agent', 'userAgent', 'useragent', 'ua', 'UserAgent', 'agent']) ??
-      headerValue(o.headers, 'user-agent'),
+    pick(o, [
+      'user_agent',
+      'http_user_agent',
+      'userAgent',
+      'useragent',
+      'ua',
+      'UserAgent',
+      'agent',
+    ]) ?? headerValue(o.headers, 'user-agent'),
   );
   const target = str(
-    pick(o, ['request_uri', 'uri', 'path', 'url', 'request_path', 'requestPath', 'requestUrl', 'RequestURI']),
+    pick(o, [
+      'request_uri',
+      'uri',
+      'path',
+      'url',
+      'request_path',
+      'requestPath',
+      'requestUrl',
+      'RequestURI',
+    ]),
   );
   if (!ua && !target) return null;
   let method = str(pick(o, ['method', 'request_method', 'http_method', 'requestMethod']));
@@ -225,11 +258,38 @@ function parseJsonRecord(o: Record<string, unknown>): ParsedLogLine | null {
     path = parts[1] ?? '';
   }
   return {
-    ip: str(pick(o, ['client_ip', 'remote_addr', 'remote_ip', 'clientIp', 'ip', 'client', 'remoteAddr', 'ClientIP', 'x_forwarded_for'])).split(',')[0].trim(),
-    ts: toMs(pick(o, ['timestamp', 'time', '@timestamp', 'ts', 'time_local', 'time_iso8601', 'date', 'datetime'])),
+    ip: str(
+      pick(o, [
+        'client_ip',
+        'remote_addr',
+        'remote_ip',
+        'clientIp',
+        'ip',
+        'client',
+        'remoteAddr',
+        'ClientIP',
+        'x_forwarded_for',
+      ]),
+    )
+      .split(',')[0]
+      .trim(),
+    ts: toMs(
+      pick(o, [
+        'timestamp',
+        'time',
+        '@timestamp',
+        'ts',
+        'time_local',
+        'time_iso8601',
+        'date',
+        'datetime',
+      ]),
+    ),
     method,
     path: toPath(path),
-    status: Number(pick(o, ['status', 'status_code', 'statusCode', 'response_status', 'http_status']) ?? 0),
+    status: Number(
+      pick(o, ['status', 'status_code', 'statusCode', 'response_status', 'http_status']) ?? 0,
+    ),
     ua,
   };
 }
@@ -277,7 +337,11 @@ function globToRegex(pattern: string): RegExp {
       const end = pattern.indexOf('}', i);
       if (end < 0) re += '\\{';
       else {
-        re += `(?:${pattern.slice(i + 1, end).split(',').map((s) => s.replace(/[.+^$()|\\]/g, '\\$&')).join('|')})`;
+        re += `(?:${pattern
+          .slice(i + 1, end)
+          .split(',')
+          .map((s) => s.replace(/[.+^$()|\\]/g, '\\$&'))
+          .join('|')})`;
         i = end;
       }
     } else if (c === '[') {
@@ -331,11 +395,15 @@ export async function expandLogPaths(patterns: string[]): Promise<string[]> {
     const firstGlob = segs.findIndex((s) => GLOB_CHARS.test(s));
     const baseDir = segs.slice(0, firstGlob).join(sep) || sep;
     const restSegs = segs.slice(firstGlob);
-    const depth = restSegs.includes('**') || restSegs.some((s) => s.includes('**')) ? 32 : restSegs.length - 1;
+    const depth =
+      restSegs.includes('**') || restSegs.some((s) => s.includes('**')) ? 32 : restSegs.length - 1;
     const files: string[] = [];
     await walk(baseDir, depth, files);
     const re = globToRegex(p);
-    files.filter((f) => re.test(f)).sort().forEach((f) => out.add(f));
+    files
+      .filter((f) => re.test(f))
+      .sort()
+      .forEach((f) => out.add(f));
   }
   return [...out];
 }
@@ -435,7 +503,7 @@ export function parseCidr(cidr: string): Range | null {
 export function ipInRanges(ip: string, ranges: Range[]): boolean {
   const v4 = ipv4ToInt(ip);
   if (v4 !== null) {
-    for (const r of ranges) if (!r.v6 && ((v4 & r.mask) >>> 0) === r.base) return true;
+    for (const r of ranges) if (!r.v6 && (v4 & r.mask) >>> 0 === r.base) return true;
     return false;
   }
   const v6 = ipv6ToBig(ip);
@@ -458,7 +526,8 @@ export function extractCidrs(body: string): string[] {
   try {
     visit(JSON.parse(body));
   } catch {
-    for (const tok of body.split(/[\s,;]+/)) if (tok && CIDR_RE.test(tok) && parseCidr(tok)) out.add(tok);
+    for (const tok of body.split(/[\s,;]+/))
+      if (tok && CIDR_RE.test(tok) && parseCidr(tok)) out.add(tok);
   }
   return [...out];
 }
@@ -535,11 +604,19 @@ interface IpAgg {
 }
 
 /** Classic search crawlers that also feed AI answers; left out of `neverFetched` by default. */
-const CLASSIC_SEARCH = new Set(['googlebot', 'bingbot', 'applebot', 'petalbot', 'yandexadditional']);
+const CLASSIC_SEARCH = new Set([
+  'googlebot',
+  'bingbot',
+  'applebot',
+  'petalbot',
+  'yandexadditional',
+]);
 
 function makeMatcher(bots: AiBot[]): (ua: string) => AiBot | undefined {
   const needles = bots
-    .flatMap((bot) => [bot.token, ...(bot.uaMatch ?? [])].filter(Boolean).map((s) => ({ n: s.toLowerCase(), bot })))
+    .flatMap((bot) =>
+      [bot.token, ...(bot.uaMatch ?? [])].filter(Boolean).map((s) => ({ n: s.toLowerCase(), bot })),
+    )
     .sort((a, b) => b.n.length - a.n.length);
   const cache = new Map<string, AiBot | null>();
   return (ua) => {
@@ -582,7 +659,10 @@ function normPath(p: string): string {
  * Analyse access logs for AI-bot activity. Never loads a whole file into memory.
  * Missing or unreadable files are skipped (listed in `files` only when read).
  */
-export async function analyseLogs(paths: string[], opts: AnalyseLogsOptions = {}): Promise<LogInsights> {
+export async function analyseLogs(
+  paths: string[],
+  opts: AnalyseLogsOptions = {},
+): Promise<LogInsights> {
   const bots = opts.bots ?? AI_BOTS;
   const match = makeMatcher(bots);
   const since = opts.since?.getTime() ?? null;
@@ -643,7 +723,10 @@ export async function analyseLogs(paths: string[], opts: AnalyseLogsOptions = {}
             maxAgeMs: opts.rangesMaxAgeMs,
             now: opts.now,
           });
-          rangeCache.set(bot.ipRangesUrl, cidrs ? (cidrs.map(parseCidr).filter(Boolean) as Range[]) : null);
+          rangeCache.set(
+            bot.ipRangesUrl,
+            cidrs ? (cidrs.map(parseCidr).filter(Boolean) as Range[]) : null,
+          );
         }
         ranges = rangeCache.get(bot.ipRangesUrl) ?? null;
       }
@@ -671,7 +754,8 @@ export async function analyseLogs(paths: string[], opts: AnalyseLogsOptions = {}
   }
 
   // ---- roll up ----
-  const countsFor = opts.neverFetchedBots ?? ((b: AiBot) => !CLASSIC_SEARCH.has(b.token.toLowerCase()));
+  const countsFor =
+    opts.neverFetchedBots ?? ((b: AiBot) => !CLASSIC_SEARCH.has(b.token.toLowerCase()));
   const fetchedByAi = new Set<string>();
   const errors = new Map<string, { path: string; status: number; bot: string; hits: number }>();
   const outBots: LogInsights['bots'] = [];
@@ -742,7 +826,9 @@ export async function analyseLogs(paths: string[], opts: AnalyseLogsOptions = {}
     files: readFiles,
     lines,
     range:
-      minTs <= maxTs ? { start: new Date(minTs).toISOString(), end: new Date(maxTs).toISOString() } : null,
+      minTs <= maxTs
+        ? { start: new Date(minTs).toISOString(), end: new Date(maxTs).toISOString() }
+        : null,
     bots: outBots,
     neverFetched,
     errorsServedToBots: [...errors.values()].sort((a, b) => b.hits - a.hits).slice(0, 200),

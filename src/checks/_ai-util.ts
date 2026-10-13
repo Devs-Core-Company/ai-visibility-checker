@@ -4,7 +4,16 @@
  * memoisation, so twenty checks reading the same JSON-LD parse it once.
  */
 import { parseHTML } from 'linkedom';
-import type { PageData, ProbeResult, SiteContext } from '../core/types.js';
+import type {
+  Check,
+  CheckDef,
+  Issue,
+  PageCheck,
+  PageData,
+  ProbeResult,
+  SiteCheck,
+  SiteContext,
+} from '../core/types.js';
 
 export type Doc = ReturnType<typeof parseHTML>['document'];
 export type JsonNode = Record<string, unknown>;
@@ -44,11 +53,15 @@ export function roughText(html: string): string {
   return html
     .replace(/<(script|style|noscript|template|svg|iframe)\b[\s\S]*?<\/\1>/gi, ' ')
     .replace(/<!--[\s\S]*?-->/g, ' ')
-    .replace(/<\/?(p|div|li|h[1-6]|br|tr|td|th|section|article|header|footer|nav|ul|ol)\b[^>]*>/gi, ' \n ')
+    .replace(
+      /<\/?(p|div|li|h[1-6]|br|tr|td|th|section|article|header|footer|nav|ul|ol)\b[^>]*>/gi,
+      ' \n ',
+    )
     .replace(/<[^>]+>/g, ' ')
     .replace(/&(#\d+|#x[0-9a-f]+|[a-z]+);/gi, (m, e: string) => {
       if (e[0] === '#') {
-        const code = e[1] === 'x' || e[1] === 'X' ? parseInt(e.slice(2), 16) : parseInt(e.slice(1), 10);
+        const code =
+          e[1] === 'x' || e[1] === 'X' ? parseInt(e.slice(2), 16) : parseInt(e.slice(1), 10);
         return Number.isFinite(code) ? String.fromCodePoint(code) : ' ';
       }
       return ENTITIES[e.toLowerCase()] ?? m;
@@ -215,8 +228,17 @@ export function topLinkedPages(site: SiteContext, n: number): PageData[] {
     .map((x) => x.p);
 }
 
-const ARTICLE_TYPES = ['Article', 'BlogPosting', 'NewsArticle', 'TechArticle', 'Report', 'ScholarlyArticle', 'HowTo'];
-const ARTICLE_PATH = /\/(blog|news|insights|articles?|guides?|posts?|learn|resources|knowledge|stories|journal|updates)\//i;
+const ARTICLE_TYPES = [
+  'Article',
+  'BlogPosting',
+  'NewsArticle',
+  'TechArticle',
+  'Report',
+  'ScholarlyArticle',
+  'HowTo',
+];
+const ARTICLE_PATH =
+  /\/(blog|news|insights|articles?|guides?|posts?|learn|resources|knowledge|stories|journal|updates)\//i;
 
 /** Editorial content: Article-type schema, an article-ish URL, or an <article> with a <time>. */
 export function isArticleLike(page: PageData): boolean {
@@ -261,12 +283,15 @@ export function jsonLdNodes(page: PageData): JsonNode[] {
 export function typesOf(node: JsonNode): string[] {
   const t = node['@type'];
   const list = Array.isArray(t) ? t : [t];
-  return list.filter((x): x is string => typeof x === 'string').map((x) => x.replace(/^.*[/#:]/, ''));
+  return list
+    .filter((x): x is string => typeof x === 'string')
+    .map((x) => x.replace(/^.*[/#:]/, ''));
 }
 
 export function schemaTypes(page: PageData): string[] {
   const set = new Set<string>();
-  for (const item of page.structuredData ?? []) for (const t of item.types) set.add(t.replace(/^.*[/#:]/, ''));
+  for (const item of page.structuredData ?? [])
+    for (const t of item.types) set.add(t.replace(/^.*[/#:]/, ''));
   for (const n of jsonLdNodes(page)) for (const t of typesOf(n)) set.add(t);
   return [...set];
 }
@@ -275,9 +300,13 @@ export function nodesOfType(page: PageData, types: string[]): JsonNode[] {
   return jsonLdNodes(page).filter((n) => typesOf(n).some((t) => types.includes(t)));
 }
 
-export function siteNodesOfType(site: SiteContext, types: string[]): { page: PageData; node: JsonNode }[] {
+export function siteNodesOfType(
+  site: SiteContext,
+  types: string[],
+): { page: PageData; node: JsonNode }[] {
   const out: { page: PageData; node: JsonNode }[] = [];
-  for (const page of htmlPages(site)) for (const node of nodesOfType(page, types)) out.push({ page, node });
+  for (const page of htmlPages(site))
+    for (const node of nodesOfType(page, types)) out.push({ page, node });
   return out;
 }
 
@@ -339,7 +368,18 @@ export const ORG_TYPES = [
 ];
 
 export const LOCAL_TYPES = ORG_TYPES.filter(
-  (t) => !['Organization', 'Corporation', 'OnlineBusiness', 'OnlineStore', 'NGO', 'EducationalOrganization', 'GovernmentOrganization', 'NewsMediaOrganization', 'SportsOrganization'].includes(t),
+  (t) =>
+    ![
+      'Organization',
+      'Corporation',
+      'OnlineBusiness',
+      'OnlineStore',
+      'NGO',
+      'EducationalOrganization',
+      'GovernmentOrganization',
+      'NewsMediaOrganization',
+      'SportsOrganization',
+    ].includes(t),
 );
 
 // ---------------------------------------------------------------------------
@@ -364,7 +404,10 @@ export function isJsonType(ct: string | undefined): boolean {
 }
 
 export function looksHtml(body: string | undefined, ct?: string): boolean {
-  return /text\/html|application\/xhtml/i.test(ct ?? '') || /^\s*<(!doctype|html|head|body)\b/i.test(body ?? '');
+  return (
+    /text\/html|application\/xhtml/i.test(ct ?? '') ||
+    /^\s*<(!doctype|html|head|body)\b/i.test(body ?? '')
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -442,7 +485,10 @@ export function robotsParsed(site: SiteContext): RobotsParsed {
 }
 
 /** The group that applies to a token under RFC 9309: exact (case-insensitive) match, else '*'. */
-export function groupsFor(parsed: RobotsParsed, token: string): { groups: RobotsGroup[]; specific: boolean } {
+export function groupsFor(
+  parsed: RobotsParsed,
+  token: string,
+): { groups: RobotsGroup[]; specific: boolean } {
   const t = token.toLowerCase();
   const specific = parsed.groups.filter((g) => g.agents.some((a) => a.toLowerCase() === t));
   if (specific.length) return { groups: specific, specific: true };
@@ -451,7 +497,9 @@ export function groupsFor(parsed: RobotsParsed, token: string): { groups: Robots
 
 export function robotsUsable(site: SiteContext): boolean {
   const r = site.robots;
-  return Boolean(r && r.found && r.status !== null && r.status >= 200 && r.status < 300 && !looksHtml(r.body));
+  return Boolean(
+    r && r.found && r.status !== null && r.status >= 200 && r.status < 300 && !looksHtml(r.body),
+  );
 }
 
 export function robotsLine(site: SiteContext, n: number): string {
@@ -462,7 +510,11 @@ export function robotsLine(site: SiteContext, n: number): string {
 // Concurrency
 // ---------------------------------------------------------------------------
 
-export async function mapLimit<T, R>(items: T[], limit: number, fn: (item: T, i: number) => Promise<R>): Promise<R[]> {
+export async function mapLimit<T, R>(
+  items: T[],
+  limit: number,
+  fn: (item: T, i: number) => Promise<R>,
+): Promise<R[]> {
   const out = new Array<R>(items.length);
   let next = 0;
   const workers = Array.from({ length: Math.max(1, Math.min(limit, items.length)) }, async () => {
@@ -473,4 +525,49 @@ export async function mapLimit<T, R>(items: T[], limit: number, fn: (item: T, i:
   });
   await Promise.all(workers);
   return out;
+}
+
+// ---------------------------------------------------------------------------
+// Check builders (never throw)
+// ---------------------------------------------------------------------------
+
+export type AiDef = Omit<CheckDef, 'scope'>;
+
+export function pageCheck(def: AiDef, run: PageCheck['run']): Check {
+  return {
+    kind: 'page',
+    def: { ...def, scope: 'page' },
+    run(page, site) {
+      try {
+        return run(page, site);
+      } catch {
+        return null;
+      }
+    },
+  };
+}
+
+export function siteCheck(def: AiDef, run: SiteCheck['run']): Check {
+  return {
+    kind: 'site',
+    def: { ...def, scope: 'site' },
+    async run(site) {
+      try {
+        return await run(site);
+      } catch {
+        return null;
+      }
+    },
+  };
+}
+
+export function issue(checkId: string, message: string, extra: Partial<Issue> = {}): Issue {
+  const out: Issue = { checkId, message, ...extra };
+  if (out.evidence) out.evidence = ev(out.evidence);
+  return out;
+}
+
+/** Verb agreement: vb(1, 'is', 'are') → 'is'. */
+export function vb(n: number, one: string, many: string): string {
+  return n === 1 ? one : many;
 }

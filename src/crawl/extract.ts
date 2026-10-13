@@ -98,7 +98,9 @@ export function basePage(fetch: FetchResult, ctx: ExtractContext): PageData {
     xRobotsTag: fetch.headers['x-robots-tag'] ?? null,
     canonical: null,
     canonicalCount: 0,
-    canonicalHeader: linkHeader(fetch.headers.link, fetch.finalUrl).find((l) => l.rel.includes('canonical'))?.href ?? null,
+    canonicalHeader:
+      linkHeader(fetch.headers.link, fetch.finalUrl).find((l) => l.rel.includes('canonical'))
+        ?.href ?? null,
     viewport: null,
     charset: null,
     og: {},
@@ -130,7 +132,8 @@ export function basePage(fetch: FetchResult, ctx: ExtractContext): PageData {
 /** Whether a response is an HTML document. */
 export function isHtmlResponse(fetch: FetchResult): boolean {
   if (isHtmlContentType(fetch.contentType)) return true;
-  if (!fetch.contentType && /^\s*(<!doctype html|<html)/i.test(fetch.body.slice(0, 512))) return true;
+  if (!fetch.contentType && /^\s*(<!doctype html|<html)/i.test(fetch.body.slice(0, 512)))
+    return true;
   return false;
 }
 
@@ -146,14 +149,18 @@ export function extractPage(fetch: FetchResult, ctx: ExtractContext): PageData {
   const base = fetch.finalUrl || fetch.url;
 
   let document: Document;
+  // linkedom needs an <html> root to build head/body; fragments get one.
+  const source = /<html[\s>]/i.test(html.slice(0, 4096))
+    ? html
+    : `<!doctype html><html><head></head><body>${html}</body></html>`;
   try {
-    ({ document } = parseHTML(html) as unknown as { document: Document });
+    ({ document } = parseHTML(source) as unknown as { document: Document });
   } catch (e) {
     page.error = `HTML could not be parsed: ${(e as Error).message}`;
     return page;
   }
   try {
-    fillFromDocument(page, document, html, base, ctx.origin, fetch);
+    fillFromDocument(page, document, source, base, ctx.origin, fetch);
   } catch (e) {
     page.error = page.error ?? `Extraction failed: ${(e as Error).message}`;
   }
@@ -175,7 +182,8 @@ function fillFromDocument(
   const isHttps = pageBase.startsWith('https:');
 
   const htmlEl = document.documentElement;
-  page.lang = htmlEl?.getAttribute('lang')?.trim() || htmlEl?.getAttribute('xml:lang')?.trim() || null;
+  page.lang =
+    htmlEl?.getAttribute('lang')?.trim() || htmlEl?.getAttribute('xml:lang')?.trim() || null;
 
   // ---- titles ----
   const titles = all(document, 'title').filter((t) => !t.closest('svg'));
@@ -190,7 +198,8 @@ function fillFromDocument(
     const property = (m.getAttribute('property') ?? '').trim().toLowerCase();
     const content = m.getAttribute('content');
     const httpEquiv = (m.getAttribute('http-equiv') ?? '').toLowerCase();
-    if (m.hasAttribute('charset') && !page.charset) page.charset = m.getAttribute('charset')!.trim().toLowerCase();
+    if (m.hasAttribute('charset') && !page.charset)
+      page.charset = m.getAttribute('charset')!.trim().toLowerCase();
     if (httpEquiv === 'content-type' && !page.charset && content) {
       const cs = /charset\s*=\s*([\w.:-]+)/i.exec(content)?.[1];
       if (cs) page.charset = cs.toLowerCase();
@@ -201,7 +210,9 @@ function fillFromDocument(
     else if (name === 'viewport' && page.viewport === null) page.viewport = content.trim();
     else if (name === 'generator' && content.trim()) page.generator = content.trim();
     else if (BOT_META_NAMES.has(name) || (name.endsWith('bot') && name.length < 40)) {
-      page.botMeta[name] = page.botMeta[name] ? `${page.botMeta[name]}, ${content.trim()}` : content.trim();
+      page.botMeta[name] = page.botMeta[name]
+        ? `${page.botMeta[name]}, ${content.trim()}`
+        : content.trim();
     }
     if (property.startsWith('og:')) page.og[property] ??= content.trim();
     else if (name.startsWith('og:')) page.og[name] ??= content.trim();
@@ -232,11 +243,20 @@ function fillFromDocument(
     if (rel.includes('stylesheet') && href)
       page.stylesheets.push({ href, media: l.getAttribute('media') });
     if (rel.includes('icon') && href && !page.favicon) page.favicon = href;
-    if (isHttps && href?.startsWith('http:') && (rel.includes('stylesheet') || rel.includes('icon') || rel.includes('preload') || rel.includes('manifest')))
+    if (
+      isHttps &&
+      href?.startsWith('http:') &&
+      (rel.includes('stylesheet') ||
+        rel.includes('icon') ||
+        rel.includes('preload') ||
+        rel.includes('manifest'))
+    )
       page.mixedContent.push(href);
   }
   if (!page.favicon) {
-    const apple = all(document, 'link').find((l) => relTokens(l.getAttribute('rel')).some((r) => r.startsWith('apple-touch-icon')));
+    const apple = all(document, 'link').find((l) =>
+      relTokens(l.getAttribute('rel')).some((r) => r.startsWith('apple-touch-icon')),
+    );
     page.favicon = apple ? abs(apple.getAttribute('href')) : null;
   }
   page.canonicalCount = canonicals.length;
@@ -254,7 +274,9 @@ function fillFromDocument(
     let text = oneLine(a.textContent);
     if (!text) {
       const img = a.querySelector('img[alt]');
-      text = oneLine(img?.getAttribute('alt') ?? a.getAttribute('aria-label') ?? a.getAttribute('title') ?? '');
+      text = oneLine(
+        img?.getAttribute('alt') ?? a.getAttribute('aria-label') ?? a.getAttribute('title') ?? '',
+      );
     }
     const link: LinkRef = {
       href,
@@ -274,10 +296,17 @@ function fillFromDocument(
   for (const img of all(document, 'img')) {
     let srcRaw = img.getAttribute('src');
     if (!srcRaw || srcRaw.startsWith('data:'))
-      srcRaw = img.getAttribute('data-src') ?? img.getAttribute('data-lazy-src') ?? img.getAttribute('data-original') ?? srcRaw;
+      srcRaw =
+        img.getAttribute('data-src') ??
+        img.getAttribute('data-lazy-src') ??
+        img.getAttribute('data-original') ??
+        srcRaw;
     const src = abs(srcRaw);
     if (!src) continue;
-    const ref: ImageRef = { src, alt: img.hasAttribute('alt') ? (img.getAttribute('alt') ?? '') : null };
+    const ref: ImageRef = {
+      src,
+      alt: img.hasAttribute('alt') ? (img.getAttribute('alt') ?? '') : null,
+    };
     const w = intAttr(img.getAttribute('width'));
     const h = intAttr(img.getAttribute('height'));
     if (w !== undefined) ref.width = w;
@@ -304,7 +333,14 @@ function fillFromDocument(
     if (t === 'application/ld+json') {
       structured.push(parseJsonLd(body));
     } else if (inline) inlineScriptBytes += bytes;
-    page.scripts.push({ src, inline, async: s.hasAttribute('async'), defer: s.hasAttribute('defer'), type, bytes });
+    page.scripts.push({
+      src,
+      inline,
+      async: s.hasAttribute('async'),
+      defer: s.hasAttribute('defer'),
+      type,
+      bytes,
+    });
     if (isHttps && src?.startsWith('http:')) page.mixedContent.push(src);
   }
   page.inlineScriptBytes = inlineScriptBytes;
@@ -314,7 +350,8 @@ function fillFromDocument(
   // ---- inline styles ----
   let styleBytes = 0;
   for (const st of all(document, 'style')) styleBytes += Buffer.byteLength(st.textContent ?? '');
-  for (const el of all(document, '[style]')) styleBytes += Buffer.byteLength(el.getAttribute('style') ?? '');
+  for (const el of all(document, '[style]'))
+    styleBytes += Buffer.byteLength(el.getAttribute('style') ?? '');
   page.inlineStyleBytes = styleBytes;
 
   // ---- iframes + other mixed content ----
@@ -326,7 +363,10 @@ function fillFromDocument(
     }
   }
   if (isHttps) {
-    for (const el of all(document, 'video[src], audio[src], source[src], embed[src], track[src], object[data], video[poster]')) {
+    for (const el of all(
+      document,
+      'video[src], audio[src], source[src], embed[src], track[src], object[data], video[poster]',
+    )) {
       for (const attr of ['src', 'data', 'poster']) {
         const v = abs(el.getAttribute(attr));
         if (v?.startsWith('http:')) page.mixedContent.push(v);
@@ -370,7 +410,9 @@ function fillFromDocument(
       const { document: copy } = parseHTML(html) as unknown as { document: Document };
       const article = new Readability(copy, { charThreshold: 200 }).parse();
       if (article?.content) {
-        const { document: art } = parseHTML(`<!doctype html><html><body>${article.content}</body></html>`) as unknown as {
+        const { document: art } = parseHTML(
+          `<!doctype html><html><body>${article.content}</body></html>`,
+        ) as unknown as {
           document: Document;
         };
         const t = visibleText(art.body as never);
@@ -442,10 +484,7 @@ function all(root: ParentNode, selector: string): El[] {
 }
 
 function relTokens(rel: string | null): string[] {
-  return (rel ?? '')
-    .toLowerCase()
-    .split(/\s+/)
-    .filter(Boolean);
+  return (rel ?? '').toLowerCase().split(/\s+/).filter(Boolean);
 }
 
 function intAttr(v: string | null): number | undefined {
@@ -483,7 +522,11 @@ function regionOf(el: El): LinkRef['region'] {
 }
 
 function fieldHasLabel(field: El, document: Document): boolean {
-  if (field.getAttribute('aria-label')?.trim() || field.getAttribute('aria-labelledby') || field.getAttribute('title'))
+  if (
+    field.getAttribute('aria-label')?.trim() ||
+    field.getAttribute('aria-labelledby') ||
+    field.getAttribute('title')
+  )
     return true;
   if (field.closest('label')) return true;
   const id = field.getAttribute('id');
@@ -547,7 +590,8 @@ export function jsonLdTypes(data: unknown): string[] {
     const obj = node as Record<string, unknown>;
     const t = obj['@type'];
     for (const v of Array.isArray(t) ? t : t ? [t] : []) {
-      if (typeof v === 'string') out.push(v.replace(/^https?:\/\/schema\.org\//i, '').replace(/^schema:/, ''));
+      if (typeof v === 'string')
+        out.push(v.replace(/^https?:\/\/schema\.org\//i, '').replace(/^schema:/, ''));
     }
     for (const [k, v] of Object.entries(obj)) if (k !== '@context') visit(v, depth + 1);
   };
@@ -573,7 +617,11 @@ function microdata(document: Document): StructuredDataItem[] {
       }
       if (props[name] !== undefined) continue;
       props[name] = oneLine(
-        p.getAttribute('content') ?? p.getAttribute('href') ?? p.getAttribute('src') ?? p.getAttribute('datetime') ?? p.textContent,
+        p.getAttribute('content') ??
+          p.getAttribute('href') ??
+          p.getAttribute('src') ??
+          p.getAttribute('datetime') ??
+          p.textContent,
       ).slice(0, 500);
     }
     items.push({
@@ -599,9 +647,15 @@ function rdfa(document: Document): StructuredDataItem[] {
     for (const n of all(el, '[typeof]')) collect(n);
     for (const p of all(el, '[property]')) {
       const name = p.getAttribute('property')!.replace(/^[\w-]+:/, '');
-      props[name] ??= oneLine(p.getAttribute('content') ?? p.getAttribute('href') ?? p.textContent).slice(0, 500);
+      props[name] ??= oneLine(
+        p.getAttribute('content') ?? p.getAttribute('href') ?? p.textContent,
+      ).slice(0, 500);
     }
-    items.push({ format: 'rdfa', types: [...new Set(types)], raw: { '@type': types[0] ?? null, vocab: el.getAttribute('vocab'), ...props } });
+    items.push({
+      format: 'rdfa',
+      types: [...new Set(types)],
+      raw: { '@type': types[0] ?? null, vocab: el.getAttribute('vocab'), ...props },
+    });
   }
   return items;
 }

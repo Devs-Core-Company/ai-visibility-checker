@@ -17,11 +17,16 @@ interface InitOpts {
 export async function cmdInit(opts: InitOpts): Promise<void> {
   const quiet = opts.yes || !interactive();
   console.log(c.bold('AI Visibility Checker: set up a site'));
-  console.log(c.dim('Answers go into a config file. Keys never do; they go in ~/.avc/config.json or env vars.\n'));
+  console.log(
+    c.dim(
+      'Answers go into a config file. Keys never do; they go in ~/.avc/config.json or env vars.\n',
+    ),
+  );
 
   let url = opts.url ?? '';
   if (!url && !quiet) url = await ask('Your site URL', 'https://');
-  if (!url || url === 'https://') throw new Error('A site URL is needed. Pass --url https://yoursite.com.');
+  if (!url || url === 'https://')
+    throw new Error('A site URL is needed. Pass --url https://yoursite.com.');
   url = toUrl(url);
   const id = siteIdFromUrl(url);
   const defName = id.split('.')[0].replace(/^./, (x) => x.toUpperCase());
@@ -44,7 +49,9 @@ export async function cmdInit(opts: InitOpts): Promise<void> {
     brand: {
       name,
       ...(location ? { location } : {}),
-      competitors: competitors.map((n) => (/\./.test(n) ? { name: n.split('.')[0], domain: n } : { name: n })),
+      competitors: competitors.map((n) =>
+        /\./.test(n) ? { name: n.split('.')[0], domain: n } : { name: n },
+      ),
     },
     crawl: { maxPages: 500, render: 'auto' },
   };
@@ -78,13 +85,20 @@ export async function cmdInit(opts: InitOpts): Promise<void> {
     console.log(`  AI engines ready: ${live.map((e) => `${e.label} (${e.via})`).join(', ')}`);
   } else {
     console.log('  No AI keys yet. Audits work without them. To track AI visibility, set either:');
-    console.log(`    ${c.cyan('AI_GATEWAY_API_KEY')}  one Vercel AI Gateway key for every engine, or`);
+    console.log(
+      `    ${c.cyan('AI_GATEWAY_API_KEY')}  one Vercel AI Gateway key for every engine, or`,
+    );
     console.log(
       `    ${c.cyan('OPENAI_API_KEY')}, ${c.cyan('ANTHROPIC_API_KEY')}, ${c.cyan('GOOGLE_GENERATIVE_AI_API_KEY')}, ${c.cyan('PERPLEXITY_API_KEY')}`,
     );
-    console.log(`  Or save them in the dashboard: ${c.cyan('avc ui')} → Settings. Spend caps: $${config.ai.maxRunUsd} a run, $${config.ai.maxMonthUsd} a month.`);
+    console.log(
+      `  Or save them in the dashboard: ${c.cyan('avc ui')} → Settings. Spend caps: $${config.ai.maxRunUsd} a run, $${config.ai.maxMonthUsd} a month.`,
+    );
   }
-  console.log('  Search Console, GA4, PageSpeed, Bing, logs, WordPress: ' + c.cyan(`avc connect <source> ${id}`));
+  console.log(
+    '  Search Console, GA4, PageSpeed, Bing, logs, WordPress: ' +
+      c.cyan(`avc connect <source> ${id}`),
+  );
 
   console.log('\n' + c.bold('Next'));
   console.log(`  ${c.cyan(`avc audit ${id}`)}              full audit`);

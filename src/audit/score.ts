@@ -71,6 +71,8 @@ export type Grade = AuditResult['score']['grade'];
 export type ScoreBreakdown = AuditResult['score'] & {
   /** True when no AI visibility run was scored and its weight was redistributed. */
   readinessOnly: boolean;
+  /** Check id that capped the overall score (broken start URL, or an open critical issue). */
+  cappedBy?: string;
   /** How the ai-visibility pillar was built, when a run was present. */
   visibilityParts?: VisibilityPart[];
 };
@@ -114,11 +116,7 @@ export function applicablePageCount(pages: PageSummary[] | number): number {
 }
 
 /** 0–1 share of a check's points it keeps. */
-export function checkPassRate(
-  scope: 'page' | 'site',
-  affected: number,
-  pageCount: number,
-): number {
+export function checkPassRate(scope: 'page' | 'site', affected: number, pageCount: number): number {
   if (affected <= 0) return 1;
   if (scope === 'site') return 0;
   const reach = clamp01(affected / Math.max(1, pageCount));
@@ -183,7 +181,9 @@ export function visibilityScore(
     {
       id: 'sentiment',
       label: 'Sentiment',
-      value: sentTotal ? clamp01((s.sentiment.positive + 0.5 * s.sentiment.neutral) / sentTotal) : 0,
+      value: sentTotal
+        ? clamp01((s.sentiment.positive + 0.5 * s.sentiment.neutral) / sentTotal)
+        : 0,
       weight: 10,
       measured: sentTotal > 0,
     },
@@ -210,7 +210,10 @@ export function scoreAudit(
   const pageCount = applicablePageCount(pages);
   const byCheck = groupIssues(issues);
 
-  const acc = new Map<Pillar, { earned: number; max: number; passed: number; failed: number; skipped: number }>();
+  const acc = new Map<
+    Pillar,
+    { earned: number; max: number; passed: number; failed: number; skipped: number }
+  >();
   for (const p of PILLAR_ORDER) acc.set(p, { earned: 0, max: 0, passed: 0, failed: 0, skipped: 0 });
 
   for (const [id, c] of Object.entries(status)) {
@@ -248,7 +251,7 @@ export function scoreAudit(
   );
   const pillars: CategoryScore[] = PILLAR_ORDER.map((p) => {
     const a = acc.get(p)!;
-    const s = raw.get(p);
+    const s = raw.get(p) ?? null;
     const weight = s === null || !measuredWeight ? 0 : (PILLAR_WEIGHTS[p] * 100) / measuredWeight;
     return {
       pillar: p,
@@ -263,15 +266,34 @@ export function scoreAudit(
   const overall = measuredWeight
     ? Math.round(
         PILLAR_ORDER.reduce((n, p) => {
-          const s = raw.get(p);
+          const s = raw.get(p) ?? null;
           return s === null ? n : n + (s * PILLAR_WEIGHTS[p]) / measuredWeight;
         }, 0),
       )
     : 0;
 
+  // Caps: a broken start URL makes every other number meaningless, and an open critical
+  // issue means the site cannot be graded A however well it does elsewhere.
+  let capped = overall;
+  let cappedBy: string | undefined;
+  const failingCritical = Object.entries(status).filter(
+    ([id, c]) =>
+      c.status !== 'skipped' &&
+      (byCheck.get(id)?.length ?? 0) > 0 &&
+      effectiveSeverity(c.severity, byCheck.get(id) ?? []) === 'critical',
+  );
+  if (byCheck.has('response.homepage-error')) {
+    capped = Math.min(capped, 20);
+    cappedBy = 'response.homepage-error';
+  } else if (failingCritical.length) {
+    capped = Math.min(capped, 89);
+    if (capped < overall) cappedBy = failingCritical[0][0];
+  }
+
   return {
-    overall,
-    grade: gradeFor(overall),
+    overall: capped,
+    ...(cappedBy ? { cappedBy } : {}),
+    grade: gradeFor(capped),
     pillars,
     readinessOnly: !vis,
     ...(vis ? { visibilityParts: vis.parts } : {}),

@@ -117,7 +117,10 @@ export async function querySearchAnalytics(
   return r.rows ?? [];
 }
 
-export async function listGscSitemaps(ctx: GoogleApiContext, property: string): Promise<GscSitemap[]> {
+export async function listGscSitemaps(
+  ctx: GoogleApiContext,
+  property: string,
+): Promise<GscSitemap[]> {
   const r = await googleJson<{
     sitemap?: (Omit<GscSitemap, 'warnings' | 'errors' | 'contents'> & {
       warnings?: string | number;

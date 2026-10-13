@@ -1,0 +1,154 @@
+name: 'AI Visibility Checker audit'
+description: 'Audit a website for technical SEO, AEO/GEO, AI crawler access and agentic-web readiness with the Devs Core AI Visibility Checker. Uploads SARIF to code scanning and writes the changes since the last run to the job summary.'
+author: 'Devs Core'
+branding:
+  icon: 'eye'
+  color: 'blue'
+
+inputs:
+  url:
+    description: 'The site to audit, e.g. https://example.com'
+    required: true
+  fail-under:
+    description: 'Fail the job when the score is below this (0 never fails).'
+    required: false
+    default: '0'
+  format:
+    description: 'Report formats to write (html,json,md,csv,sarif). sarif and md are always added.'
+    required: false
+    default: 'html,sarif,md'
+  max-pages:
+    description: 'Stop after this many pages.'
+    required: false
+    default: '500'
+  args:
+    description: 'Extra arguments passed to `avc audit` (for example --visibility --engines chatgpt,claude).'
+    required: false
+    default: ''
+  version:
+    description: 'Git ref of Devs-Core-Company/ai-visibility-checker to run.'
+    required: false
+    default: 'main'
+  node-version:
+    description: 'Node.js version (22.5 or newer).'
+    required: false
+    default: '22'
+  upload-sarif:
+    description: 'Upload SARIF to GitHub code scanning (needs `security-events: write`).'
+    required: false
+    default: 'true'
+  keep-history:
+    description: 'Cache the local database between runs so each run is compared with the last one.'
+    required: false
+    default: 'true'
+  out:
+    description: 'Folder for the report files.'
+    required: false
+    default: 'avc-reports'
+
+outputs:
+  score:
+    description: 'The overall score (0–100).'
+    value: ${{ steps.audit.outputs.score }}
+  grade:
+    description: 'The grade (A–F).'
+    value: ${{ steps.audit.outputs.grade }}
+  sarif:
+    description: 'Path to the SARIF file.'
+    value: ${{ steps.audit.outputs.sarif }}
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+
+    - name: Restore audit history
+      if: inputs.keep-history == 'true'
+      uses: actions/cache/restore@v4
+      with:
+        path: ${{ runner.temp }}/avc-data
+        key: avc-history-${{ github.repository }}-${{ github.run_id }}
+        restore-keys: avc-history-${{ github.repository }}-
+
+    - name: Run the audit
+      id: audit
+      shell: bash
+      env:
+        AVC_DATA_DIR: ${{ runner.temp }}/avc-data
+        AVC_URL: ${{ inputs.url }}
+        AVC_FAIL_UNDER: ${{ inputs.fail-under }}
+        AVC_FORMAT: ${{ inputs.format }}
+        AVC_MAX_PAGES: ${{ inputs.max-pages }}
+        AVC_ARGS: ${{ inputs.args }}
+        AVC_REF: ${{ inputs.version }}
+        AVC_OUT: ${{ inputs.out }}
+      run: |
+        set +e
+        mkdir -p "$AVC_DATA_DIR" "$AVC_OUT"
+        AVC="npx --yes github:Devs-Core-Company/ai-visibility-checker#${AVC_REF}"
+        FORMATS="$(echo "${AVC_FORMAT},sarif,md" | tr ',' '\n' | awk 'NF && !seen[$0]++' | paste -sd, -)"
+        # shellcheck disable=SC2086
+        $AVC audit "$AVC_URL" --max-pages "$AVC_MAX_PAGES" --format "$FORMATS" --out "$AVC_OUT" --fail-under "$AVC_FAIL_UNDER" $AVC_ARGS
+        STATUS=$?
+        echo "exit_code=$STATUS" >> "$GITHUB_OUTPUT"
+
+        JSON_FILE="$(ls -t "$AVC_OUT"/*.json 2>/dev/null | head -n1)"
+        SARIF_FILE="$(ls -t "$AVC_OUT"/*.sarif 2>/dev/null | head -n1)"
+        MD_FILE="$(ls -t "$AVC_OUT"/*.md 2>/dev/null | head -n1)"
+        echo "sarif=$SARIF_FILE" >> "$GITHUB_OUTPUT"
+        if [ -n "$SARIF_FILE" ]; then
+          node -e 'const s=require(process.argv[1]).runs[0].properties||{};console.log("score="+(s.score??"")+"\ngrade="+(s.grade??""))' "$(realpath "$SARIF_FILE")" >> "$GITHUB_OUTPUT"
+        fi
+
+        {
+          # Changes since the previous audit of this site (needs history).
+          $AVC diff "$AVC_URL" --md 2>/dev/null || echo "_First audit for this site in this repository, so there is nothing to compare yet._"
+          echo
+          if [ -n "$MD_FILE" ]; then
+            echo "<details><summary>Full report</summary>"
+            echo
+            cat "$MD_FILE"
+            echo
+            echo "</details>"
+          fi
+        } >> "$GITHUB_STEP_SUMMARY"
+        exit 0
+
+    - name: Save audit history
+      if: always() && inputs.keep-history == 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: ${{ runner.temp }}/avc-data
+        key: avc-history-${{ github.repository }}-${{ github.run_id }}
+
+    - name: Upload SARIF to code scanning
+      if: always() && inputs.upload-sarif == 'true' && steps.audit.outputs.sarif != ''
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: ${{ steps.audit.outputs.sarif }}
+        category: ai-visibility-checker
+
+    - name: Upload report files
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: avc-reports
+        path: ${{ inputs.out }}
+        if-no-files-found: ignore
+
+    - name: Fail when the score is too low
+      if: steps.audit.outputs.exit_code != '0'
+      shell: bash
+      env:
+        CODE: ${{ steps.audit.outputs.exit_code }}
+        SCORE: ${{ steps.audit.outputs.score }}
+        FAIL_UNDER: ${{ inputs.fail-under }}
+      run: |
+        if [ "$CODE" = "2" ]; then
+          echo "::error::AI Visibility Score ${SCORE} is below ${FAIL_UNDER}."
+        else
+          echo "::error::The audit did not finish (exit code ${CODE}). See the log above."
+        fi
+        exit "$CODE"

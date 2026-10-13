@@ -36,7 +36,11 @@ function isHttps(v: unknown): boolean {
 function isLocal(v: unknown): boolean {
   return isStr(v) && /^https?:\/\/(localhost|127\.|\[::1\])/i.test(v);
 }
-function done(errors: string[], warnings: string[], info: Record<string, unknown> = {}): Validation {
+function done(
+  errors: string[],
+  warnings: string[],
+  info: Record<string, unknown> = {},
+): Validation {
   return { valid: errors.length === 0, errors, warnings, info };
 }
 function notObject(what: string): Validation {
@@ -52,30 +56,37 @@ export function validateAgentCard(card: unknown): Validation {
   const e: string[] = [];
   const w: string[] = [];
   if (!isStr(card.name)) e.push('Missing "name".');
-  if (!isStr(card.description)) e.push('Missing "description" — agents use it to decide whether to call you.');
+  if (!isStr(card.description))
+    e.push('Missing "description" — agents use it to decide whether to call you.');
   if (!isStr(card.version)) w.push('Missing "version" of your agent.');
-  if (!isStr(card.protocolVersion)) w.push('Missing "protocolVersion", so clients must guess which A2A version you speak.');
+  if (!isStr(card.protocolVersion))
+    w.push('Missing "protocolVersion", so clients must guess which A2A version you speak.');
 
   // v0.x: url (+ preferredTransport, additionalInterfaces). v1: supportedInterfaces[].url.
   const endpoints: string[] = [];
   if (isStr(card.url)) endpoints.push(card.url);
   for (const key of ['supportedInterfaces', 'additionalInterfaces']) {
     const list = card[key];
-    if (Array.isArray(list)) for (const i of list) if (isObj(i) && isStr(i.url)) endpoints.push(i.url);
+    if (Array.isArray(list))
+      for (const i of list) if (isObj(i) && isStr(i.url)) endpoints.push(i.url);
   }
   if (!endpoints.length) e.push('No endpoint: set "url" (or "supportedInterfaces" with a url).');
   for (const u of endpoints) {
     if (!isUrl(u)) e.push(`Endpoint "${u}" is not an absolute URL.`);
-    else if (!isHttps(u) && !isLocal(u)) e.push(`Endpoint "${u}" is not HTTPS; A2A requires TLS in production.`);
+    else if (!isHttps(u) && !isLocal(u))
+      e.push(`Endpoint "${u}" is not HTTPS; A2A requires TLS in production.`);
   }
 
-  if (!isObj(card.capabilities)) e.push('Missing "capabilities" object (streaming, pushNotifications…).');
+  if (!isObj(card.capabilities))
+    e.push('Missing "capabilities" object (streaming, pushNotifications…).');
   for (const key of ['defaultInputModes', 'defaultOutputModes']) {
-    if (!Array.isArray(card[key]) || !(card[key] as unknown[]).length) e.push(`Missing "${key}" (MIME types such as text/plain).`);
+    if (!Array.isArray(card[key]) || !(card[key] as unknown[]).length)
+      e.push(`Missing "${key}" (MIME types such as text/plain).`);
   }
   const skills = Array.isArray(card.skills) ? card.skills : null;
   if (!skills) e.push('Missing "skills" array.');
-  else if (!skills.length) e.push('"skills" is empty: an agent with no skills gives clients nothing to call.');
+  else if (!skills.length)
+    e.push('"skills" is empty: an agent with no skills gives clients nothing to call.');
   else {
     skills.forEach((s, i) => {
       if (!isObj(s)) return e.push(`Skill ${i + 1} is not an object.`);
@@ -84,13 +95,15 @@ export function validateAgentCard(card: unknown): Validation {
       if (!isStr(s.name)) e.push(`Skill ${i + 1} has no "name".`);
       if (!isStr(s.description)) e.push(`Skill ${label} has no "description".`);
       if (!Array.isArray(s.tags)) w.push(`Skill ${label} has no "tags".`);
-      if (!Array.isArray(s.examples) || !s.examples.length) w.push(`Skill ${label} has no "examples" prompts.`);
+      if (!Array.isArray(s.examples) || !s.examples.length)
+        w.push(`Skill ${label} has no "examples" prompts.`);
     });
   }
   const schemes = card.securitySchemes;
   const hasAuth = isObj(schemes) && Object.keys(schemes).length > 0;
   if (!hasAuth) w.push('No "securitySchemes": clients will assume the agent is open to anyone.');
-  if (!isObj(card.provider) || !isStr((card.provider as Obj).organization)) w.push('No "provider.organization" naming who runs the agent.');
+  if (!isObj(card.provider) || !isStr((card.provider as Obj).organization))
+    w.push('No "provider.organization" naming who runs the agent.');
   if (!isStr(card.documentationUrl)) w.push('No "documentationUrl".');
   return done(e, w, {
     name: card.name,
@@ -109,7 +122,11 @@ export function validateMcpCard(card: unknown): Validation {
   if (!isObj(card)) return notObject('The MCP discovery document');
   const e: string[] = [];
   const w: string[] = [];
-  const serverInfo = isObj(card.serverInfo) ? card.serverInfo : isObj(card.server) ? (card.server as Obj) : card;
+  const serverInfo = isObj(card.serverInfo)
+    ? card.serverInfo
+    : isObj(card.server)
+      ? (card.server as Obj)
+      : card;
   const name = isStr(serverInfo.name) ? serverInfo.name : isStr(card.name) ? card.name : null;
   if (!name) e.push('No server name ("serverInfo.name" or "name").');
   if (!isStr(serverInfo.version) && !isStr(card.version)) w.push('No server version.');
@@ -139,7 +156,8 @@ export function validateMcpCard(card: unknown): Validation {
         }
       }
   }
-  if (!endpoints.length) e.push('No endpoint URL for the server (transport.endpoint, url or remotes[].url).');
+  if (!endpoints.length)
+    e.push('No endpoint URL for the server (transport.endpoint, url or remotes[].url).');
   const absolute = endpoints.map((u) => u);
   for (const u of absolute) {
     if (/^\//.test(u)) continue; // relative to the origin is allowed by the card drafts
@@ -147,13 +165,27 @@ export function validateMcpCard(card: unknown): Validation {
     else if (!isHttps(u) && !isLocal(u)) e.push(`Endpoint "${u}" is not HTTPS.`);
   }
 
-  const auth = isObj(card.authentication) ? (card.authentication as Obj) : isObj(card.auth) ? (card.auth as Obj) : null;
-  const authRequired = auth ? auth.required === true || (Array.isArray(auth.schemes) && auth.schemes.length > 0) : false;
-  const listed = (k: string) => Array.isArray(card[k]) || card[k] === 'dynamic' || (isObj(card.capabilities) && k in (card.capabilities as Obj));
+  const auth = isObj(card.authentication)
+    ? (card.authentication as Obj)
+    : isObj(card.auth)
+      ? (card.auth as Obj)
+      : null;
+  const authRequired = auth
+    ? auth.required === true || (Array.isArray(auth.schemes) && auth.schemes.length > 0)
+    : false;
+  const listed = (k: string) =>
+    Array.isArray(card[k]) ||
+    card[k] === 'dynamic' ||
+    (isObj(card.capabilities) && k in (card.capabilities as Obj));
   const hasTools = listed('tools');
   if (!hasTools && !listed('resources') && !listed('prompts'))
-    w.push('No tools, resources or prompts declared, so a client cannot tell what the server offers before connecting.');
-  if (!isStr(card.protocolVersion) && !(Array.isArray(card.protocolVersions) && card.protocolVersions.length))
+    w.push(
+      'No tools, resources or prompts declared, so a client cannot tell what the server offers before connecting.',
+    );
+  if (
+    !isStr(card.protocolVersion) &&
+    !(Array.isArray(card.protocolVersions) && card.protocolVersions.length)
+  )
     w.push('No "protocolVersion".');
   return done(e, w, { name, endpoints, authRequired, hasTools });
 }
@@ -171,19 +203,32 @@ export function validateOAuthAS(meta: unknown, expectedIssuer?: string): Validat
     if (!isHttps(meta.issuer) && !isLocal(meta.issuer)) e.push('"issuer" must be an https URL.');
     if (/[?#]/.test(meta.issuer)) e.push('"issuer" must not contain a query or fragment.');
     if (expectedIssuer && meta.issuer.replace(/\/$/, '') !== expectedIssuer.replace(/\/$/, ''))
-      e.push(`"issuer" is ${meta.issuer} but the document was served for ${expectedIssuer}; RFC 8414 §3.3 says clients must reject that.`);
+      e.push(
+        `"issuer" is ${meta.issuer} but the document was served for ${expectedIssuer}; RFC 8414 §3.3 says clients must reject that.`,
+      );
   }
-  const grants = Array.isArray(meta.grant_types_supported) ? (meta.grant_types_supported as string[]) : ['authorization_code', 'implicit'];
+  const grants = Array.isArray(meta.grant_types_supported)
+    ? (meta.grant_types_supported as string[])
+    : ['authorization_code', 'implicit'];
   const usesAuthz = grants.includes('authorization_code') || grants.includes('implicit');
   if (usesAuthz && !isUrl(meta.authorization_endpoint)) e.push('Missing "authorization_endpoint".');
-  if (!(grants.length === 1 && grants[0] === 'implicit') && !isUrl(meta.token_endpoint)) e.push('Missing "token_endpoint".');
+  if (!(grants.length === 1 && grants[0] === 'implicit') && !isUrl(meta.token_endpoint))
+    e.push('Missing "token_endpoint".');
   if (!Array.isArray(meta.response_types_supported) || !meta.response_types_supported.length)
     e.push('Missing "response_types_supported" (required).');
-  const pkce = Array.isArray(meta.code_challenge_methods_supported) ? (meta.code_challenge_methods_supported as string[]) : [];
-  if (!pkce.includes('S256')) w.push('"code_challenge_methods_supported" does not list S256 (PKCE), which OAuth 2.1 and MCP clients require.');
+  const pkce = Array.isArray(meta.code_challenge_methods_supported)
+    ? (meta.code_challenge_methods_supported as string[])
+    : [];
+  if (!pkce.includes('S256'))
+    w.push(
+      '"code_challenge_methods_supported" does not list S256 (PKCE), which OAuth 2.1 and MCP clients require.',
+    );
   const dcr = isUrl(meta.registration_endpoint);
   const cimd = meta.client_id_metadata_document_supported === true;
-  if (!dcr && !cimd) w.push('No "registration_endpoint" and no client ID metadata document support, so new AI clients cannot register themselves.');
+  if (!dcr && !cimd)
+    w.push(
+      'No "registration_endpoint" and no client ID metadata document support, so new AI clients cannot register themselves.',
+    );
   if (!isUrl(meta.jwks_uri)) w.push('No "jwks_uri".');
   return done(e, w, { issuer: meta.issuer, pkceS256: pkce.includes('S256'), dcr, cimd });
 }
@@ -198,13 +243,23 @@ export function validatePRM(meta: unknown, expectedResource?: string): Validatio
   const w: string[] = [];
   if (!isStr(meta.resource)) e.push('Missing "resource" (required).');
   else {
-    if (!isHttps(meta.resource) && !isLocal(meta.resource)) e.push('"resource" must be an https URL.');
-    if (expectedResource && meta.resource.replace(/\/$/, '') !== expectedResource.replace(/\/$/, ''))
-      e.push(`"resource" is ${meta.resource} but the document was served for ${expectedResource}; RFC 9728 §3.3 says clients must reject that.`);
+    if (!isHttps(meta.resource) && !isLocal(meta.resource))
+      e.push('"resource" must be an https URL.');
+    if (
+      expectedResource &&
+      meta.resource.replace(/\/$/, '') !== expectedResource.replace(/\/$/, '')
+    )
+      e.push(
+        `"resource" is ${meta.resource} but the document was served for ${expectedResource}; RFC 9728 §3.3 says clients must reject that.`,
+      );
   }
-  const servers = Array.isArray(meta.authorization_servers) ? (meta.authorization_servers as unknown[]).filter(isStr) : [];
-  if (!servers.length) w.push('No "authorization_servers", so a client cannot find where to get a token.');
-  for (const s of servers) if (!isHttps(s) && !isLocal(s)) e.push(`Authorization server "${s}" is not an https URL.`);
+  const servers = Array.isArray(meta.authorization_servers)
+    ? (meta.authorization_servers as unknown[]).filter(isStr)
+    : [];
+  if (!servers.length)
+    w.push('No "authorization_servers", so a client cannot find where to get a token.');
+  for (const s of servers)
+    if (!isHttps(s) && !isLocal(s)) e.push(`Authorization server "${s}" is not an https URL.`);
   if (!Array.isArray(meta.scopes_supported)) w.push('No "scopes_supported".');
   return done(e, w, { resource: meta.resource, authorizationServers: servers });
 }
@@ -217,11 +272,21 @@ export function validateOpenId(meta: unknown, expectedIssuer?: string): Validati
   if (!isObj(meta)) return notObject('The OpenID configuration');
   const e: string[] = [];
   const w: string[] = [];
-  for (const k of ['issuer', 'authorization_endpoint', 'jwks_uri']) if (!isStr(meta[k])) e.push(`Missing "${k}".`);
-  for (const k of ['response_types_supported', 'subject_types_supported', 'id_token_signing_alg_values_supported'])
+  for (const k of ['issuer', 'authorization_endpoint', 'jwks_uri'])
+    if (!isStr(meta[k])) e.push(`Missing "${k}".`);
+  for (const k of [
+    'response_types_supported',
+    'subject_types_supported',
+    'id_token_signing_alg_values_supported',
+  ])
     if (!Array.isArray(meta[k]) || !(meta[k] as unknown[]).length) e.push(`Missing "${k}".`);
-  if (!isStr(meta.token_endpoint)) w.push('Missing "token_endpoint" (required unless only the implicit flow is used).');
-  if (isStr(meta.issuer) && expectedIssuer && meta.issuer.replace(/\/$/, '') !== expectedIssuer.replace(/\/$/, ''))
+  if (!isStr(meta.token_endpoint))
+    w.push('Missing "token_endpoint" (required unless only the implicit flow is used).');
+  if (
+    isStr(meta.issuer) &&
+    expectedIssuer &&
+    meta.issuer.replace(/\/$/, '') !== expectedIssuer.replace(/\/$/, '')
+  )
     e.push(`"issuer" is ${meta.issuer} but the document was served for ${expectedIssuer}.`);
   return done(e, w, { issuer: meta.issuer });
 }
@@ -235,7 +300,8 @@ export function validateApiCatalog(doc: unknown, contentType?: string): Validati
   const e: string[] = [];
   const w: string[] = [];
   const linkset = doc.linkset;
-  if (!Array.isArray(linkset)) return done(['Missing top-level "linkset" array (RFC 9264 JSON format).'], []);
+  if (!Array.isArray(linkset))
+    return done(['Missing top-level "linkset" array (RFC 9264 JSON format).'], []);
   const serviceDescs: string[] = [];
   let anchors = 0;
   for (const ctx of linkset) {
@@ -243,7 +309,8 @@ export function validateApiCatalog(doc: unknown, contentType?: string): Validati
     if (isStr(ctx.anchor)) anchors++;
     for (const rel of ['service-desc', 'service-doc', 'service-meta', 'item']) {
       const targets = ctx[rel];
-      if (targets !== undefined && !Array.isArray(targets)) e.push(`"${rel}" must be an array of target objects.`);
+      if (targets !== undefined && !Array.isArray(targets))
+        e.push(`"${rel}" must be an array of target objects.`);
       if (Array.isArray(targets))
         for (const t of targets) {
           if (!isObj(t) || !isStr(t.href)) e.push(`A "${rel}" entry has no "href".`);
@@ -252,7 +319,10 @@ export function validateApiCatalog(doc: unknown, contentType?: string): Validati
     }
   }
   if (!linkset.length) e.push('"linkset" is empty.');
-  if (linkset.length && !anchors) w.push('No "anchor" on any link context, so clients cannot tell which API each entry describes.');
+  if (linkset.length && !anchors)
+    w.push(
+      'No "anchor" on any link context, so clients cannot tell which API each entry describes.',
+    );
   if (contentType && !/application\/linkset\+json/i.test(contentType))
     w.push(`Served as ${contentType}; RFC 9727 asks for application/linkset+json.`);
   return done(e, w, { serviceDescs, entries: linkset.length });
@@ -268,7 +338,8 @@ export function validateOpenApi(doc: unknown, rawText?: string): Validation {
     if (rawText && /^\s*(openapi|swagger)\s*:/m.test(rawText)) {
       const e: string[] = [];
       if (!/^\s*info\s*:/m.test(rawText)) e.push('Missing "info".');
-      if (!/^\s*paths\s*:/m.test(rawText) && !/^\s*webhooks\s*:/m.test(rawText)) e.push('Missing "paths".');
+      if (!/^\s*paths\s*:/m.test(rawText) && !/^\s*webhooks\s*:/m.test(rawText))
+        e.push('Missing "paths".');
       return done(e, [], { format: 'yaml' });
     }
     return notObject('The OpenAPI document');
@@ -285,8 +356,17 @@ export function validateOpenApi(doc: unknown, rawText?: string): Validation {
     for (const item of Object.values(doc.paths as Obj))
       if (isObj(item))
         for (const [m, op] of Object.entries(item))
-          if (/^(get|put|post|delete|patch)$/.test(m) && isObj(op) && !isStr(op.summary) && !isStr(op.description)) opsWithoutDescription++;
-  if (opsWithoutDescription) w.push(`${opsWithoutDescription} operation(s) have no summary or description for an agent to read.`);
+          if (
+            /^(get|put|post|delete|patch)$/.test(m) &&
+            isObj(op) &&
+            !isStr(op.summary) &&
+            !isStr(op.description)
+          )
+            opsWithoutDescription++;
+  if (opsWithoutDescription)
+    w.push(
+      `${opsWithoutDescription} operation(s) have no summary or description for an agent to read.`,
+    );
   return done(e, w, { paths, format: 'json' });
 }
 
@@ -294,7 +374,10 @@ export function validateOpenApi(doc: unknown, rawText?: string): Validation {
 // Web Bot Auth key directory (HTTP Message Signatures directory draft)
 // ---------------------------------------------------------------------------
 
-export function validateSignatureDirectory(doc: unknown, headers: Record<string, string> = {}): Validation {
+export function validateSignatureDirectory(
+  doc: unknown,
+  headers: Record<string, string> = {},
+): Validation {
   if (!isObj(doc)) return notObject('The signatures directory');
   const e: string[] = [];
   const w: string[] = [];
@@ -305,15 +388,21 @@ export function validateSignatureDirectory(doc: unknown, headers: Record<string,
     keys.forEach((k, i) => {
       if (!isObj(k)) return e.push(`Key ${i + 1} is not an object.`);
       if (!isStr(k.kty)) e.push(`Key ${i + 1} has no "kty".`);
-      if (k.kty === 'OKP' && k.crv !== 'Ed25519') w.push(`Key ${i + 1} uses ${String(k.crv)}; the draft's examples and most verifiers expect Ed25519.`);
+      if (k.kty === 'OKP' && k.crv !== 'Ed25519')
+        w.push(
+          `Key ${i + 1} uses ${String(k.crv)}; the draft's examples and most verifiers expect Ed25519.`,
+        );
       if (!isStr(k.x) && !isStr(k.n)) e.push(`Key ${i + 1} has no public key material.`);
-      if (isStr(k.d)) e.push(`Key ${i + 1} includes a private key ("d"). Remove it and rotate the key now.`);
+      if (isStr(k.d))
+        e.push(`Key ${i + 1} includes a private key ("d"). Remove it and rotate the key now.`);
     });
   const ct = headers['content-type'] ?? '';
   if (ct && !/application\/http-message-signatures-directory\+json/i.test(ct))
     w.push(`Served as ${ct}; the draft uses application/http-message-signatures-directory+json.`);
   if (!headers['signature'] || !headers['signature-input'])
-    w.push('The response is not signed (no Signature / Signature-Input headers), so verifiers cannot prove the directory is yours.');
+    w.push(
+      'The response is not signed (no Signature / Signature-Input headers), so verifiers cannot prove the directory is yours.',
+    );
   return done(e, w, { keys: keys?.length ?? 0 });
 }
 
@@ -343,9 +432,12 @@ export function validateX402(doc: unknown): Validation {
   else
     accepts.forEach((a, i) => {
       if (!isObj(a)) return e.push(`Payment option ${i + 1} is not an object.`);
-      for (const k of ['scheme', 'network', 'payTo']) if (!isStr(a[k])) e.push(`Payment option ${i + 1} has no "${k}".`);
-      if (!isStr(a.maxAmountRequired) && !isStr(a.amount) && typeof a.amount !== 'number') e.push(`Payment option ${i + 1} has no amount.`);
-      if (!isStr(a.description)) w.push(`Payment option ${i + 1} has no "description" of what is being bought.`);
+      for (const k of ['scheme', 'network', 'payTo'])
+        if (!isStr(a[k])) e.push(`Payment option ${i + 1} has no "${k}".`);
+      if (!isStr(a.maxAmountRequired) && !isStr(a.amount) && typeof a.amount !== 'number')
+        e.push(`Payment option ${i + 1} has no amount.`);
+      if (!isStr(a.description))
+        w.push(`Payment option ${i + 1} has no "description" of what is being bought.`);
     });
   return done(e, w, { options: accepts?.length ?? 0 });
 }
@@ -399,7 +491,8 @@ export function parseAiPreference(key: string, value: string, line: number): AiP
     const v = m[2]!.toLowerCase();
     values[name] = v;
     const known = k === 'content-signal' ? SIGNAL_KEYS : USAGE_KEYS;
-    if (!known.includes(name)) problems.push(`Unknown key "${name}" (expected ${known.join(', ')}).`);
+    if (!known.includes(name))
+      problems.push(`Unknown key "${name}" (expected ${known.join(', ')}).`);
     const okValues = k === 'content-signal' ? ['yes', 'no'] : ['y', 'n', 'yes', 'no'];
     if (!okValues.includes(v)) problems.push(`"${name}=${v}" should be ${okValues.join(' or ')}.`);
   }
@@ -411,7 +504,11 @@ export function parseAiPreference(key: string, value: string, line: number): AiP
 // Feeds
 // ---------------------------------------------------------------------------
 
-export function inspectFeed(body: string): { kind: 'rss' | 'atom' | 'json' | null; items: number; newest?: string } {
+export function inspectFeed(body: string): {
+  kind: 'rss' | 'atom' | 'json' | null;
+  items: number;
+  newest?: string;
+} {
   if (/<rss[\s>]/i.test(body) || /<rdf:RDF/i.test(body)) {
     const items = (body.match(/<item[\s>]/gi) ?? []).length;
     const d = body.match(/<pubDate>([^<]+)<\/pubDate>/i)?.[1];
@@ -424,7 +521,8 @@ export function inspectFeed(body: string): { kind: 'rss' | 'atom' | 'json' | nul
   }
   try {
     const j = JSON.parse(body) as Obj;
-    if (isStr(j.version) && /jsonfeed/.test(j.version) && Array.isArray(j.items)) return { kind: 'json', items: j.items.length };
+    if (isStr(j.version) && /jsonfeed/.test(j.version) && Array.isArray(j.items))
+      return { kind: 'json', items: j.items.length };
   } catch {
     /* not JSON */
   }

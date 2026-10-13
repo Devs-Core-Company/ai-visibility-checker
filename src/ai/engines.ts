@@ -152,7 +152,8 @@ export function isMock(config: AvcConfig): boolean {
 function modelFor(info: EngineInfo, via: Via, config: AvcConfig): string {
   const override = config.ai.models?.[info.id];
   if (via === 'gateway') {
-    if (override) return override.includes('/') ? override : `${info.gatewayModel!.split('/')[0]}/${override}`;
+    if (override)
+      return override.includes('/') ? override : `${info.gatewayModel!.split('/')[0]}/${override}`;
     return info.gatewayModel!;
   }
   if (via === 'direct') return override ? bareModel(override) : info.directModel!;
@@ -372,20 +373,43 @@ export async function askEngine(
 // ---------------------------------------------------------------------------
 
 /** The model used to grade answers and write prompts, or null when only rules can run. */
-export function helperModel(config: AvcConfig, role: 'judge' | 'writer' = 'judge'): EngineEntry | null {
+export function helperModel(
+  config: AvcConfig,
+  role: 'judge' | 'writer' = 'judge',
+): EngineEntry | null {
   if (isMock(config)) return null;
   const a = config.ai;
   const override = a.models?.[role] ?? (role === 'writer' ? a.models?.judge : undefined);
   if (a.gatewayKey)
-    return { engine: 'chatgpt', via: 'gateway', model: override?.includes('/') ? override : 'openai/gpt-4.1-mini' };
+    return {
+      engine: 'chatgpt',
+      via: 'gateway',
+      model: override?.includes('/') ? override : 'openai/gpt-4.1-mini',
+    };
   if (a.openaiKey)
-    return { engine: 'chatgpt', via: 'direct', model: override ? bareModel(override) : 'gpt-4.1-mini' };
+    return {
+      engine: 'chatgpt',
+      via: 'direct',
+      model: override ? bareModel(override) : 'gpt-4.1-mini',
+    };
   if (a.anthropicKey)
-    return { engine: 'claude', via: 'direct', model: override ? bareModel(override) : 'claude-haiku-4-5' };
+    return {
+      engine: 'claude',
+      via: 'direct',
+      model: override ? bareModel(override) : 'claude-haiku-4-5',
+    };
   if (a.googleKey)
-    return { engine: 'gemini', via: 'direct', model: override ? bareModel(override) : 'gemini-2.5-flash' };
+    return {
+      engine: 'gemini',
+      via: 'direct',
+      model: override ? bareModel(override) : 'gemini-2.5-flash',
+    };
   if (a.xaiKey)
-    return { engine: 'grok', via: 'direct', model: override ? bareModel(override) : 'grok-4.1-fast' };
+    return {
+      engine: 'grok',
+      via: 'direct',
+      model: override ? bareModel(override) : 'grok-4.1-fast',
+    };
   return null;
 }
 
@@ -430,7 +454,10 @@ export async function structured<T>(
 /** The provider budget or credits are spent: no further call will succeed. */
 export function isBudgetError(error: unknown): boolean {
   const text = describeError(error);
-  return /\b402\b/.test(text) || /budget|insufficient|credit|quota|payment required|spend limit/i.test(text);
+  return (
+    /\b402\b/.test(text) ||
+    /budget|insufficient|credit|quota|payment required|spend limit/i.test(text)
+  );
 }
 
 /** Auth or permission refused: stop calling this engine, keep the others. */

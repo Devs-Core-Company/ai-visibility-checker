@@ -1,0 +1,15 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/mcp-server-card/v1.json",
+  "version": "1.0",
+  "protocolVersion": "2025-11-25",
+  "serverInfo": {
+    "name": "northwind-joinery",
+    "title": "Northwind Joinery",
+    "version": "1.2.0"
+  },
+  "description": "Product catalogue, lead times and measuring-visit booking for Northwind Joinery.",
+  "transport": { "type": "streamable-http", "endpoint": "{{ORIGIN}}/mcp" },
+  "capabilities": { "tools": { "listChanged": true }, "resources": {} },
+  "authentication": { "required": true, "schemes": ["oauth2"] },
+  "tools": "dynamic"
+}

@@ -1,0 +1,9 @@
+{
+  "linkset": [
+    {
+      "anchor": "{{ORIGIN}}/api/",
+      "service-desc": [{ "href": "{{ORIGIN}}/openapi.json", "type": "application/vnd.oai.openapi+json" }],
+      "service-doc": [{ "href": "{{ORIGIN}}/docs/api", "type": "text/html" }]
+    }
+  ]
+}

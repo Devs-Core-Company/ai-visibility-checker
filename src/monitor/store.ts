@@ -11,13 +11,7 @@ import { join } from 'node:path';
 import { brotliCompressSync, brotliDecompressSync, constants as zc } from 'node:zlib';
 import type { DatabaseSync as DatabaseSyncT } from 'node:sqlite';
 import { siteIdFromUrl } from '../core/config.js';
-import type {
-  AuditResult,
-  EngineId,
-  Pillar,
-  Severity,
-  VisibilityRun,
-} from '../core/types.js';
+import type { AuditResult, EngineId, Pillar, Severity, VisibilityRun } from '../core/types.js';
 
 const require = createRequire(import.meta.url);
 let sqliteMod: typeof import('node:sqlite') | null = null;
@@ -213,7 +207,8 @@ const SEVERITIES: Severity[] = ['critical', 'high', 'medium', 'low', 'info'];
 
 export function openStore(dataDir: string, opts: { filename?: string } = {}): Store {
   const { DatabaseSync } = loadSqlite();
-  const path = opts.filename === ':memory:' ? ':memory:' : join(dataDir, opts.filename ?? 'avc.sqlite');
+  const path =
+    opts.filename === ':memory:' ? ':memory:' : join(dataDir, opts.filename ?? 'avc.sqlite');
   if (path !== ':memory:') mkdirSync(dataDir, { recursive: true });
   const db = new DatabaseSync(path);
   db.exec('PRAGMA journal_mode = WAL; PRAGMA foreign_keys = ON; PRAGMA busy_timeout = 5000;');
@@ -245,7 +240,16 @@ export function openStore(dataDir: string, opts: { filename?: string } = {}): St
     }
   };
 
-  const upsertSite = (id: string, url: string, at?: string) => {
+  const upsertSite = (id: string, url: string, at?: string, keepUrl = false) => {
+    if (keepUrl) {
+      // Only register an unknown site; never overwrite a URL learnt from an audit.
+      db.prepare('INSERT OR IGNORE INTO sites (id, url, created_at) VALUES (?, ?, ?)').run(
+        id,
+        url,
+        new Date().toISOString(),
+      );
+      return;
+    }
     db.prepare(
       `INSERT INTO sites (id, url, created_at, last_audit_at) VALUES (?, ?, ?, ?)
        ON CONFLICT(id) DO UPDATE SET url = excluded.url,
@@ -368,8 +372,7 @@ export function openStore(dataDir: string, opts: { filename?: string } = {}): St
 
     getAudit(id) {
       const r = db.prepare('SELECT json FROM audits WHERE id = ?').get(id) as
-        | { json: Uint8Array }
-        | undefined;
+        { json: Uint8Array } | undefined;
       return r ? unpack<AuditResult>(r.json) : null;
     },
 
@@ -392,7 +395,9 @@ export function openStore(dataDir: string, opts: { filename?: string } = {}): St
               )
               .get(site, o.before)
           : db
-              .prepare('SELECT json FROM audits WHERE site = ? ORDER BY at DESC, rowid DESC LIMIT 1')
+              .prepare(
+                'SELECT json FROM audits WHERE site = ? ORDER BY at DESC, rowid DESC LIMIT 1',
+              )
               .get(site)
       ) as { json: Uint8Array } | undefined;
       return r ? unpack<AuditResult>(r.json) : null;
@@ -400,8 +405,7 @@ export function openStore(dataDir: string, opts: { filename?: string } = {}): St
 
     previousAudit(id) {
       const cur = db.prepare('SELECT site, at, rowid FROM audits WHERE id = ?').get(id) as
-        | { site: string; at: string; rowid: number }
-        | undefined;
+        { site: string; at: string; rowid: number } | undefined;
       if (!cur) return null;
       const r = db
         .prepare(
@@ -414,21 +418,22 @@ export function openStore(dataDir: string, opts: { filename?: string } = {}): St
 
     saveVisibility(run, siteId, auditId) {
       return tx(() => {
-        upsertSite(siteId, `https://${run.brand?.domain ?? siteId}`);
+        upsertSite(siteId, `https://${run.brand?.domain ?? siteId}`, undefined, true);
         return saveVisibility(run, siteId, auditId);
       });
     },
 
     getVisibility(id) {
       const r = db.prepare('SELECT json FROM visibility_runs WHERE id = ?').get(id) as
-        | { json: Uint8Array }
-        | undefined;
+        { json: Uint8Array } | undefined;
       return r ? unpack<VisibilityRun>(r.json) : null;
     },
 
     listVisibility(site, limit = 20) {
       const rows = db
-        .prepare('SELECT * FROM visibility_runs WHERE site = ? ORDER BY at DESC, rowid DESC LIMIT ?')
+        .prepare(
+          'SELECT * FROM visibility_runs WHERE site = ? ORDER BY at DESC, rowid DESC LIMIT ?',
+        )
         .all(site, limit) as Record<string, unknown>[];
       return rows.map(toVisRow);
     },
@@ -479,7 +484,10 @@ export function openStore(dataDir: string, opts: { filename?: string } = {}): St
             )
             .all(site) as { run_id: string; engine: EngineId; rate: number; n: number }[])
         : [];
-      const engMap = new Map<string, Partial<Record<EngineId, { mentionRate: number; answers: number }>>>();
+      const engMap = new Map<
+        string,
+        Partial<Record<EngineId, { mentionRate: number; answers: number }>>
+      >();
       for (const r of engRows) {
         const m = engMap.get(r.run_id) ?? {};
         m[r.engine] = { mentionRate: Number(r.rate), answers: Number(r.n) };
@@ -500,7 +508,7 @@ export function openStore(dataDir: string, opts: { filename?: string } = {}): St
     monthSpend(month) {
       const m = month ?? new Date().toISOString().slice(0, 7);
       const r = db
-        .prepare("SELECT COALESCE(SUM(usd), 0) AS total FROM spend WHERE substr(date, 1, 7) = ?")
+        .prepare('SELECT COALESCE(SUM(usd), 0) AS total FROM spend WHERE substr(date, 1, 7) = ?')
         .get(m) as { total: number };
       return Number(r.total) || 0;
     },
@@ -563,8 +571,7 @@ export function openStore(dataDir: string, opts: { filename?: string } = {}): St
 
     getSchedule(site) {
       const r = db.prepare('SELECT * FROM schedules WHERE site = ?').get(site) as
-        | Record<string, unknown>
-        | undefined;
+        Record<string, unknown> | undefined;
       if (!r) return null;
       return {
         site: String(r.site),
@@ -583,17 +590,15 @@ export function openStore(dataDir: string, opts: { filename?: string } = {}): St
 
     alertSentWithin(key, hours, now = new Date()) {
       const since = new Date(now.getTime() - hours * 3600_000).toISOString();
-      return !!db.prepare('SELECT 1 FROM alerts_sent WHERE key = ? AND at >= ? LIMIT 1').get(key, since);
+      return !!db
+        .prepare('SELECT 1 FROM alerts_sent WHERE key = ? AND at >= ? LIMIT 1')
+        .get(key, since);
     },
 
     markAlertSent(key, site, rule, channel, at = new Date()) {
-      db.prepare('INSERT INTO alerts_sent (key, site, rule, at, channel) VALUES (?, ?, ?, ?, ?)').run(
-        key,
-        site,
-        rule,
-        at.toISOString(),
-        channel ?? null,
-      );
+      db.prepare(
+        'INSERT INTO alerts_sent (key, site, rule, at, channel) VALUES (?, ?, ?, ?, ?)',
+      ).run(key, site, rule, at.toISOString(), channel ?? null);
     },
 
     close() {

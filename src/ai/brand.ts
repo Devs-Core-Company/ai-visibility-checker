@@ -47,7 +47,8 @@ export function schemaNodes(pages: PageData[]): Node[] {
     for (const [k, x] of Object.entries(n)) if (k !== '@context') walk(x, depth + 1);
   };
   for (const p of pages)
-    for (const sd of p.structuredData ?? []) if (sd.format === 'json-ld' && !sd.error) walk(sd.raw, 0);
+    for (const sd of p.structuredData ?? [])
+      if (sd.format === 'json-ld' && !sd.error) walk(sd.raw, 0);
   return out;
 }
 
@@ -107,7 +108,9 @@ function titleName(title: string | null, domainLabel: string): string | undefine
     .split(/\s+[|\-–—:·•]\s+/)
     .map((s) => s.trim())
     .filter(Boolean);
-  const hit = parts.find((p) => sameBrand(p, domainLabel) || normBrand(p).includes(normBrand(domainLabel)));
+  const hit = parts.find(
+    (p) => sameBrand(p, domainLabel) || normBrand(p).includes(normBrand(domainLabel)),
+  );
   if (hit && hit.split(/\s+/).length <= 5) return hit;
   const last = parts.length > 1 ? parts[parts.length - 1] : undefined;
   return last && last.split(/\s+/).length <= 4 ? last : undefined;
@@ -128,10 +131,11 @@ function addressText(addr: unknown): string | undefined {
   for (const a of list) {
     const n = a as Node;
     const locality = str(n.addressLocality);
-    const country =
-      str(n.addressCountry) ?? str((n.addressCountry as Node | undefined)?.name);
+    const country = str(n.addressCountry) ?? str((n.addressCountry as Node | undefined)?.name);
     const region = str(n.addressRegion);
-    const parts = uniq([locality, locality ? undefined : region, country].filter(Boolean) as string[]);
+    const parts = uniq(
+      [locality, locality ? undefined : region, country].filter(Boolean) as string[],
+    );
     if (parts.length) return parts.join(', ');
   }
   return undefined;
@@ -181,13 +185,18 @@ export function inferBrand(site: SiteContext): BrandProfile {
     if (types.includes('OfferCatalog')) services.push(...strs(n.itemListElement));
   }
   if (org) {
-    for (const offer of Array.isArray(org.makesOffer) ? org.makesOffer : org.makesOffer ? [org.makesOffer] : [])
+    for (const offer of Array.isArray(org.makesOffer)
+      ? org.makesOffer
+      : org.makesOffer
+        ? [org.makesOffer]
+        : [])
       services.push(...strs((offer as Node).itemOffered));
     services.push(...strs(org.knowsAbout).slice(0, 4));
   }
   if (home) {
     for (const l of home.links) {
-      if (!l.internal || !(l.region === 'nav' || l.region === 'header' || l.region === 'footer')) continue;
+      if (!l.internal || !(l.region === 'nav' || l.region === 'header' || l.region === 'footer'))
+        continue;
       const p = pathOf(l.href);
       const segs = p.split('/').filter(Boolean);
       if (segs.length >= 2 && SERVICE_RE.test(`/${segs[0]}/`)) services.push(l.text);
@@ -195,11 +204,15 @@ export function inferBrand(site: SiteContext): BrandProfile {
   }
   const servicesPage = findPages(site, /^\/(services?|solutions?|what-we-do)\/?$/, 1)[0];
   if (servicesPage && services.length < 3)
-    services.push(...servicesPage.headings.filter((h) => h.level === 2 || h.level === 3).map((h) => h.text));
+    services.push(
+      ...servicesPage.headings.filter((h) => h.level === 2 || h.level === 3).map((h) => h.text),
+    );
   const cleanServices = uniq(
     services
       .map((s) => s.replace(/\s+/g, ' ').trim())
-      .filter((s) => s.length >= 3 && s.length <= 60 && !GENERIC_LINKS.test(s) && !sameBrand(s, name)),
+      .filter(
+        (s) => s.length >= 3 && s.length <= 60 && !GENERIC_LINKS.test(s) && !sameBrand(s, name),
+      ),
     (s) => s.toLowerCase(),
   ).slice(0, 10);
 
@@ -224,7 +237,9 @@ export function inferBrand(site: SiteContext): BrandProfile {
   const specific = org ? typesOf(org).find((t) => !GENERIC_TYPES.has(t)) : undefined;
   if (specific) industry = humanType(specific);
   if (!industry && description) {
-    const m = description.match(/\bfor ((?:small|medium|large|local|growing|b2b|b2c)?\s?[a-z][a-z &-]{3,40}?)(?:\s+in\b|[,.;]|$)/i);
+    const m = description.match(
+      /\bfor ((?:small|medium|large|local|growing|b2b|b2c)?\s?[a-z][a-z &-]{3,40}?)(?:\s+in\b|[,.;]|$)/i,
+    );
     if (m) industry = m[1]!.trim().toLowerCase();
   }
 
@@ -265,7 +280,9 @@ export function mergeBrand(inferred: BrandProfile, override?: SiteConfig['brand'
 /** The `sameAs` profile links from the site's Organization schema. */
 export function sameAsLinks(site: SiteContext): string[] {
   const home = homePage(site);
-  const nodes = schemaNodes(home ? [home, ...findPages(site, ABOUT_RE, 2)] : htmlPages(site).slice(0, 5));
+  const nodes = schemaNodes(
+    home ? [home, ...findPages(site, ABOUT_RE, 2)] : htmlPages(site).slice(0, 5),
+  );
   return uniq(nodes.flatMap((n) => strs(n.sameAs)).filter((u) => /^https?:\/\//.test(u)));
 }
 
@@ -283,14 +300,15 @@ export interface SiteFacts {
 export function extractSiteFacts(site: SiteContext, brand?: BrandProfile): SiteFacts {
   const home = homePage(site);
   const pages = uniq(
-    [home, ...findPages(site, ABOUT_RE, 2), ...findPages(site, CONTACT_RE, 2), ...findPages(site, SERVICE_RE, 3)].filter(
-      Boolean,
-    ) as PageData[],
+    [
+      home,
+      ...findPages(site, ABOUT_RE, 2),
+      ...findPages(site, CONTACT_RE, 2),
+      ...findPages(site, SERVICE_RE, 3),
+    ].filter(Boolean) as PageData[],
     (p) => p.url,
   );
-  const text = pages
-    .map((p) => `# ${p.title ?? p.url}\n${p.mainText ?? p.text}`)
-    .join('\n\n');
+  const text = pages.map((p) => `# ${p.title ?? p.url}\n${p.mainText ?? p.text}`).join('\n\n');
   const nodes = schemaNodes(pages);
   let foundedYear: number | undefined;
   for (const n of nodes) {
@@ -301,7 +319,9 @@ export function extractSiteFacts(site: SiteContext, brand?: BrandProfile): SiteF
     }
   }
   if (!foundedYear) {
-    const m = text.match(/\b(?:founded|established|started|since|est\.?)\s+(?:in\s+)?((?:19|20)\d{2})\b/i);
+    const m = text.match(
+      /\b(?:founded|established|started|since|est\.?)\s+(?:in\s+)?((?:19|20)\d{2})\b/i,
+    );
     if (m) foundedYear = Number(m[1]);
   }
   const locations = uniq(
@@ -324,7 +344,9 @@ export function extractSiteFacts(site: SiteContext, brand?: BrandProfile): SiteF
 export function siteSummaryText(site: SiteContext, max = 6_000): string {
   const home = homePage(site);
   const pages = uniq(
-    [home, ...findPages(site, ABOUT_RE, 1), ...findPages(site, SERVICE_RE, 2)].filter(Boolean) as PageData[],
+    [home, ...findPages(site, ABOUT_RE, 1), ...findPages(site, SERVICE_RE, 2)].filter(
+      Boolean,
+    ) as PageData[],
     (p) => p.url,
   );
   return truncate(
@@ -375,7 +397,10 @@ export async function refineBrand(
         name: value.name?.trim() || brand.name,
         description: value.description?.trim() || brand.description,
         services: value.services.length
-          ? uniq(value.services.map((s) => s.trim()).filter(Boolean), (s) => s.toLowerCase()).slice(0, 8)
+          ? uniq(value.services.map((s) => s.trim()).filter(Boolean), (s) => s.toLowerCase()).slice(
+              0,
+              8,
+            )
           : brand.services,
         location: value.location?.trim() || brand.location,
         industry: value.industry?.trim() || brand.industry,

@@ -30,7 +30,9 @@ export interface SuggestOptions {
 export function brandWords(brand: BrandProfile): string[] {
   const label = brand.domain.split('.')[0] ?? '';
   return uniq(
-    [brand.name, ...brand.aliases, brand.domain, label].map((w) => w.trim()).filter((w) => w.length >= 3),
+    [brand.name, ...brand.aliases, brand.domain, label]
+      .map((w) => w.trim())
+      .filter((w) => w.length >= 3),
     (w) => w.toLowerCase(),
   );
 }
@@ -75,17 +77,21 @@ export function templatePrompts(
   if (opts.trainingProbe !== false)
     out.push(makePrompt('brand', `What do you know about ${brand.name} (${brand.domain})?`, false));
   for (const t of categoryTemplates(base)) out.push(makePrompt('category', t));
-  if (brand.location) out.push(makePrompt('category', `Best ${second ?? service} in ${brand.location}`));
+  if (brand.location)
+    out.push(makePrompt('category', `Best ${second ?? service} in ${brand.location}`));
   if (brand.industry) out.push(makePrompt('category', `${capital(service)} for ${brand.industry}`));
   const competitors = brand.competitors.slice(0, 2);
   if (competitors.length)
     for (const c of competitors)
-      for (const t of comparisonTemplates({ ...base, competitor: c.name })) out.push(makePrompt('comparison', t));
+      for (const t of comparisonTemplates({ ...base, competitor: c.name }))
+        out.push(makePrompt('comparison', t));
   else for (const t of comparisonTemplates(base)) out.push(makePrompt('comparison', t));
   for (const t of problemTemplates(base)) out.push(makePrompt('problem', t));
   // Category and problem prompts must never name the brand.
   return uniq(
-    out.filter((p) => (p.kind === 'category' || p.kind === 'problem' ? !namesBrand(p.text, brand) : true)),
+    out.filter((p) =>
+      p.kind === 'category' || p.kind === 'problem' ? !namesBrand(p.text, brand) : true,
+    ),
     (p) => p.text.toLowerCase(),
   );
 }
@@ -133,7 +139,9 @@ export async function suggestPrompts(
       written = value.prompts
         .map((p) => ({ ...p, text: p.text.replace(/\s+/g, ' ').trim() }))
         .filter((p) => p.text.length >= 12 && p.text.length <= 200)
-        .filter((p) => (p.kind === 'category' || p.kind === 'problem' ? !namesBrand(p.text, brand) : true))
+        .filter((p) =>
+          p.kind === 'category' || p.kind === 'problem' ? !namesBrand(p.text, brand) : true,
+        )
         .filter((p) => !p.text.toLowerCase().includes(hostOf(brand.domain)))
         .map((p) => makePrompt(p.kind, p.text));
     } catch {
@@ -143,7 +151,9 @@ export async function suggestPrompts(
 
   // Always keep the two brand prompts and the training probe from the templates.
   const anchors = templates.filter((p) => p.kind === 'brand');
-  const rest = written.length ? written.filter((p) => p.kind !== 'brand') : templates.filter((p) => p.kind !== 'brand');
+  const rest = written.length
+    ? written.filter((p) => p.kind !== 'brand')
+    : templates.filter((p) => p.kind !== 'brand');
   const topUp = templates.filter((p) => p.kind !== 'brand');
   const merged = uniq([...custom, ...anchors, ...rest, ...topUp], (p) => p.text.toLowerCase());
   return merged.slice(0, Math.max(count, custom.length));

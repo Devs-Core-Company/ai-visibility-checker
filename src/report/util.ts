@@ -84,10 +84,7 @@ export function shortDate(iso: string): string {
 }
 
 /** Find the robots.txt group and rule lines that apply to a user-agent token. */
-export function robotsRuleFor(
-  body: string,
-  token: string,
-): { line: number; text: string }[] {
+export function robotsRuleFor(body: string, token: string): { line: number; text: string }[] {
   if (!body) return [];
   const lines = body.split(/\r?\n/);
   type Group = { agents: string[]; rules: { line: number; text: string }[] };

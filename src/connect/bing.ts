@@ -14,7 +14,13 @@ export interface BingData {
   siteUrl: string;
   verified: boolean | null;
   /** Totals over the days Bing returns (usually the last ~6 months, weekly points). */
-  traffic: { clicks: number; impressions: number; from?: string; to?: string; points: number } | null;
+  traffic: {
+    clicks: number;
+    impressions: number;
+    from?: string;
+    to?: string;
+    points: number;
+  } | null;
   /** Latest crawl stats point. */
   crawl: {
     date?: string;
@@ -76,7 +82,11 @@ async function bingGet<T>(
         res.status,
       );
     }
-    throw new ConnectError(`Bing Webmaster Tools ${method} returned HTTP ${res.status}: ${msg}`, undefined, res.status);
+    throw new ConnectError(
+      `Bing Webmaster Tools ${method} returned HTTP ${res.status}: ${msg}`,
+      undefined,
+      res.status,
+    );
   }
   const body = JSON.parse(text) as { d?: T };
   return (body.d ?? (body as unknown)) as T;
@@ -131,19 +141,25 @@ export async function collectBing(
   const p = { siteUrl: match.Url };
 
   const tasks: Promise<void>[] = [
-    bingGet<{ Date: string; Clicks: number; Impressions: number }[]>('GetRankAndTrafficStats', apiKey, p, opts).then(
-      (rows) => {
-        if (!rows?.length) return;
-        const dates = rows.map((r) => parseBingDate(r.Date)).filter(Boolean).sort() as string[];
-        data.traffic = {
-          clicks: rows.reduce((s, r) => s + (r.Clicks || 0), 0),
-          impressions: rows.reduce((s, r) => s + (r.Impressions || 0), 0),
-          from: dates[0],
-          to: dates[dates.length - 1],
-          points: rows.length,
-        };
-      },
-    ),
+    bingGet<{ Date: string; Clicks: number; Impressions: number }[]>(
+      'GetRankAndTrafficStats',
+      apiKey,
+      p,
+      opts,
+    ).then((rows) => {
+      if (!rows?.length) return;
+      const dates = rows
+        .map((r) => parseBingDate(r.Date))
+        .filter(Boolean)
+        .sort() as string[];
+      data.traffic = {
+        clicks: rows.reduce((s, r) => s + (r.Clicks || 0), 0),
+        impressions: rows.reduce((s, r) => s + (r.Impressions || 0), 0),
+        from: dates[0],
+        to: dates[dates.length - 1],
+        points: rows.length,
+      };
+    }),
     bingGet<
       {
         Date: string;
@@ -183,14 +199,18 @@ export async function collectBing(
         issues: String(r.Issues ?? ''),
       }));
     }),
-    bingGet<{ DailyQuota: number; MonthlyQuota: number }>('GetUrlSubmissionQuota', apiKey, p, opts).then(
-      (q) => {
-        if (q) data.quota = { daily: q.DailyQuota ?? 0, monthly: q.MonthlyQuota ?? 0 };
-      },
-    ),
+    bingGet<{ DailyQuota: number; MonthlyQuota: number }>(
+      'GetUrlSubmissionQuota',
+      apiKey,
+      p,
+      opts,
+    ).then((q) => {
+      if (q) data.quota = { daily: q.DailyQuota ?? 0, monthly: q.MonthlyQuota ?? 0 };
+    }),
   ];
   const settled = await Promise.allSettled(tasks);
-  for (const s of settled) if (s.status === 'rejected') data.errors.push((s.reason as Error).message);
+  for (const s of settled)
+    if (s.status === 'rejected') data.errors.push((s.reason as Error).message);
   return data;
 }
 
@@ -215,20 +235,41 @@ export async function checkIndexNowKey(
 ): Promise<{ ok: boolean; url: string; status: number; message: string }> {
   const url = opts.keyLocation ?? `${opts.scheme ?? 'https'}://${host}/${key}.txt`;
   if (!isValidIndexNowKey(key)) {
-    return { ok: false, url, status: 0, message: 'The key must be 8–128 characters: letters, digits and dashes.' };
+    return {
+      ok: false,
+      url,
+      status: 0,
+      message: 'The key must be 8–128 characters: letters, digits and dashes.',
+    };
   }
   try {
     const res = await (opts.fetch ?? fetch)(url, { redirect: 'follow' });
     const body = (await res.text()).trim();
     if (!res.ok) {
-      return { ok: false, url, status: res.status, message: `The key file returned HTTP ${res.status}. Upload a file named ${key}.txt containing the key to the site root.` };
+      return {
+        ok: false,
+        url,
+        status: res.status,
+        message: `The key file returned HTTP ${res.status}. Upload a file named ${key}.txt containing the key to the site root.`,
+      };
     }
     if (body !== key) {
-      return { ok: false, url, status: res.status, message: 'The key file exists but does not contain exactly the key (no other text or HTML).' };
+      return {
+        ok: false,
+        url,
+        status: res.status,
+        message:
+          'The key file exists but does not contain exactly the key (no other text or HTML).',
+      };
     }
     return { ok: true, url, status: res.status, message: 'IndexNow key file found and correct.' };
   } catch (e) {
-    return { ok: false, url, status: 0, message: `Could not fetch the key file: ${(e as Error).message}` };
+    return {
+      ok: false,
+      url,
+      status: 0,
+      message: `Could not fetch the key file: ${(e as Error).message}`,
+    };
   }
 }
 

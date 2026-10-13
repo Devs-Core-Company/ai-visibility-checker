@@ -19,7 +19,10 @@ import {
 } from '../services.js';
 import { siteIdFromUrl } from '../../core/config.js';
 
-export async function cmdHistory(site: string | undefined, opts: { limit: number; json?: boolean }): Promise<void> {
+export async function cmdHistory(
+  site: string | undefined,
+  opts: { limit: number; json?: boolean },
+): Promise<void> {
   const config = getConfig();
   const store = getStore(config);
   const sites = site ? [resolveSite(site, config)] : allSites(config);
@@ -39,9 +42,15 @@ export async function cmdHistory(site: string | undefined, opts: { limit: number
             const delta = prev ? a.score - prev.score : 0;
             return [
               c.cyan(a.id),
-              new Date(a.at).toLocaleString(),
+              new Date(a.at).toLocaleString('en-GB'),
               fmtScore(a.score) + ' ' + a.grade,
-              prev ? (delta > 0 ? c.green(`+${delta}`) : delta < 0 ? c.red(String(delta)) : c.dim('±0')) : '',
+              prev
+                ? delta > 0
+                  ? c.green(`+${delta}`)
+                  : delta < 0
+                    ? c.red(String(delta))
+                    : c.dim('±0')
+                : '',
               `${a.pages} pages`,
               `${a.issues} issues`,
               a.readinessOnly ? c.dim('readiness') : 'with AI',
@@ -56,7 +65,7 @@ export async function cmdHistory(site: string | undefined, opts: { limit: number
         table(
           runs.map((r) => [
             c.cyan(r.id),
-            new Date(r.at).toLocaleString(),
+            new Date(r.at).toLocaleString('en-GB'),
             `${Math.round(r.mentionRate * 100)}% named`,
             `${Math.round(r.shareOfVoice * 100)}% share of voice`,
             `${r.answers} answers`,
@@ -85,7 +94,11 @@ export async function cmdDiff(
     if (!latest) throw new ExitError(1, a ? `No audits found for "${a}".` : 'No audits yet.');
     newer = newer ?? latest;
     older = previousAudit(newer, config);
-    if (!older) throw new ExitError(1, `Only one audit for ${siteIdFromUrl(newer.site)}. Run another to compare.`);
+    if (!older)
+      throw new ExitError(
+        1,
+        `Only one audit for ${siteIdFromUrl(newer.site)}. Run another to compare.`,
+      );
   } else if (!newer) {
     newer = store.latestAudit(siteIdFromUrl(older.startUrl || older.site));
     if (!newer || newer.id === older.id) throw new ExitError(1, 'Pass the newer audit id too.');
@@ -99,15 +112,30 @@ export async function cmdDiff(
     process.stdout.write(renderDiffMarkdown(d, { prev: older, next: newer }) + '\n');
     return;
   }
-  const sign = d.scoreDelta > 0 ? c.green(`+${d.scoreDelta}`) : d.scoreDelta < 0 ? c.red(String(d.scoreDelta)) : c.dim('±0');
-  console.log(`${c.bold('Score')} ${older.score.overall} → ${fmtScore(newer.score.overall)} (${sign})  ${c.dim(`${d.from} → ${d.to}`)}`);
+  const sign =
+    d.scoreDelta > 0
+      ? c.green(`+${d.scoreDelta}`)
+      : d.scoreDelta < 0
+        ? c.red(String(d.scoreDelta))
+        : c.dim('±0');
+  console.log(
+    `${c.bold('Score')} ${older.score.overall} → ${fmtScore(newer.score.overall)} (${sign})  ${c.dim(`${d.from} → ${d.to}`)}`,
+  );
   for (const p of d.pillarDeltas.filter((x) => x.delta !== 0))
-    console.log(`  ${p.pillar.padEnd(14)} ${p.delta > 0 ? c.green(`+${p.delta}`) : c.red(String(p.delta))}`);
-  const list = (title: string, items: { checkId: string; url?: string; message: string }[], colour: (s: string) => string) => {
+    console.log(
+      `  ${p.pillar.padEnd(14)} ${p.delta > 0 ? c.green(`+${p.delta}`) : c.red(String(p.delta))}`,
+    );
+  const list = (
+    title: string,
+    items: { checkId: string; url?: string; message: string }[],
+    colour: (s: string) => string,
+  ) => {
     if (!items.length) return;
     console.log('\n' + c.bold(`${title} (${items.length})`));
     for (const i of items.slice(0, 25))
-      console.log(`  ${colour('•')} ${newer!.checks[i.checkId]?.title ?? i.checkId}${i.url ? c.dim(' ' + i.url) : ''}`);
+      console.log(
+        `  ${colour('•')} ${newer!.checks[i.checkId]?.title ?? i.checkId}${i.url ? c.dim(' ' + i.url) : ''}`,
+      );
     if (items.length > 25) console.log(c.dim(`  …and ${items.length - 25} more (use --json)`));
   };
   list('New issues', d.newIssues, c.red);
@@ -122,11 +150,15 @@ export async function cmdDiff(
     );
     if (v.wonPrompts.length) console.log(`  ${c.green('won')} ${v.wonPrompts.join(' · ')}`);
     if (v.lostPrompts.length) console.log(`  ${c.red('lost')} ${v.lostPrompts.join(' · ')}`);
-    if (v.newCompetitors.length) console.log(`  new competitors named: ${v.newCompetitors.join(', ')}`);
+    if (v.newCompetitors.length)
+      console.log(`  new competitors named: ${v.newCompetitors.join(', ')}`);
   }
 }
 
-export async function cmdReport(ref: string, opts: { format: string; out: string; open?: boolean }): Promise<void> {
+export async function cmdReport(
+  ref: string,
+  opts: { format: string; out: string; open?: boolean },
+): Promise<void> {
   const config = getConfig();
   const result = findAudit(ref, config);
   if (!result) throw new ExitError(1, `No audit found for "${ref}". See \`avc history\`.`);
@@ -155,7 +187,7 @@ export async function cmdSites(opts: { json?: boolean }): Promise<void> {
         c.cyan(s.id),
         s.url,
         s.configured ? 'configured' : c.dim('history only'),
-        s.lastAuditAt ? new Date(s.lastAuditAt).toLocaleString() : c.dim('never audited'),
+        s.lastAuditAt ? new Date(s.lastAuditAt).toLocaleString('en-GB') : c.dim('never audited'),
         s.schedule?.audit ? `audit ${s.schedule.audit}` : '',
       ]),
       { header: ['site', 'url', '', 'last audit', 'schedule'] },

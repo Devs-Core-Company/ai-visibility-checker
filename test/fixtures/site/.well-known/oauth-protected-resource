@@ -1,0 +1,7 @@
+{
+  "resource": "{{ORIGIN}}",
+  "authorization_servers": ["{{ORIGIN}}"],
+  "scopes_supported": ["quotes:write", "catalogue:read"],
+  "bearer_methods_supported": ["header"],
+  "resource_name": "Northwind Joinery API"
+}

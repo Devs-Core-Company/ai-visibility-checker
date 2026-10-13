@@ -13,7 +13,13 @@
 import { Cron } from 'croner';
 import type { AvcConfig, SiteConfig } from '../core/config.js';
 import { siteIdFromUrl } from '../core/config.js';
-import type { AuditDiff, AuditResult, BrandProfile, ProgressFn, VisibilityRun } from '../core/types.js';
+import type {
+  AuditDiff,
+  AuditResult,
+  BrandProfile,
+  ProgressFn,
+  VisibilityRun,
+} from '../core/types.js';
 import type { RunAuditOptions } from '../audit/index.js';
 import { diffAudits } from './diff.js';
 import {
@@ -114,7 +120,10 @@ export async function runScheduledOnce(
       const wantVisibility = !site.schedule?.visibility && !!site.schedule?.audit;
       const budget = spendLeft(opts.config, store);
       if (wantVisibility && !budget.ok)
-        log(`Skipping AI visibility: $${budget.spent.toFixed(2)} spent this month (cap $${opts.config.ai.maxMonthUsd}).`, 'warn');
+        log(
+          `Skipping AI visibility: $${budget.spent.toFixed(2)} spent this month (cap $${opts.config.ai.maxMonthUsd}).`,
+          'warn',
+        );
       const audit = await d.runAudit({
         url: site.url,
         siteConfig: site,
@@ -233,7 +242,10 @@ export interface StartSchedulerOptions {
   timezone?: string;
 }
 
-export function startScheduler(config: AvcConfig, opts: StartSchedulerOptions = {}): SchedulerHandle {
+export function startScheduler(
+  config: AvcConfig,
+  opts: StartSchedulerOptions = {},
+): SchedulerHandle {
   const running = new Set<string>();
   const crons: Cron[] = [];
   const jobs: SchedulerHandle['jobs'] = [];
@@ -331,7 +343,9 @@ interface CronParts {
 function parseCron(cron: string): CronParts {
   const parts = cron.trim().split(/\s+/);
   if (parts.length !== 5)
-    throw new Error(`Use a 5-field cron expression (minute hour day month weekday), got "${cron}".`);
+    throw new Error(
+      `Use a 5-field cron expression (minute hour day month weekday), got "${cron}".`,
+    );
   const [minute, hour, dom, month, dow] = parts;
   return { minute, hour, dom, month, dow };
 }
@@ -352,7 +366,8 @@ export function installSystemSchedule(
 ): SystemScheduleInstructions {
   const platform = opts.platform ?? (process.platform as SystemPlatform);
   const kind = opts.kind ?? 'audit';
-  const command = opts.command ?? `avc monitor run ${siteId}${kind === 'visibility' ? ' --visibility' : ''}`;
+  const command =
+    opts.command ?? `avc monitor run ${siteId}${kind === 'visibility' ? ' --visibility' : ''}`;
   const c = parseCron(cron);
   const label = `com.devs-core.avc.${siteId.replace(/[^a-z0-9.-]/gi, '-')}.${kind}`;
 
@@ -366,7 +381,9 @@ export function installSystemSchedule(
     const dicts: string[] = [];
     if (!minutes || !hours || !doms || !months || !dows) {
       warning = `launchd cannot express "${cron}" exactly (ranges and steps are not supported). This plist runs daily at 09:00 instead; edit it, or keep \`avc monitor start\` running.`;
-      dicts.push('<dict><key>Hour</key><integer>9</integer><key>Minute</key><integer>0</integer></dict>');
+      dicts.push(
+        '<dict><key>Hour</key><integer>9</integer><key>Minute</key><integer>0</integer></dict>',
+      );
     } else {
       for (const mi of minutes)
         for (const h of hours)
@@ -428,9 +445,12 @@ ${args}
     let sched: string | null = null;
     if (c.hour === '*' && mi?.length === 1 && c.dom === '*' && c.month === '*' && c.dow === '*')
       sched = `/SC HOURLY /ST 00:${String(mi[0]).padStart(2, '0')}`;
-    else if (time && c.dom === '*' && c.month === '*' && c.dow === '*') sched = `/SC DAILY /ST ${time}`;
+    else if (time && c.dom === '*' && c.month === '*' && c.dow === '*')
+      sched = `/SC DAILY /ST ${time}`;
     else if (time && c.dom === '*' && c.month === '*' && listOf(c.dow.replace(/\b7\b/g, '0')))
-      sched = `/SC WEEKLY /D ${listOf(c.dow.replace(/\b7\b/g, '0'))!.map((n) => DOW_NAMES[n]).join(',')} /ST ${time}`;
+      sched = `/SC WEEKLY /D ${listOf(c.dow.replace(/\b7\b/g, '0'))!
+        .map((n) => DOW_NAMES[n])
+        .join(',')} /ST ${time}`;
     else if (time && listOf(c.dom) && c.month === '*' && c.dow === '*')
       sched = `/SC MONTHLY /D ${listOf(c.dom)!.join(',')} /ST ${time}`;
     const warning = sched

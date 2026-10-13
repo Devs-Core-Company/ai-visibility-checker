@@ -263,7 +263,9 @@ export function staticFile(
           : `Ghost only serves robots.txt from the theme. For \`/${relPath}\`, self-hosted sites can add an nginx \`location = /${relPath}\` block that serves the file; Ghost(Pro) sites need a redirect (in \`redirects.yaml\`, Settings → Labs) or a Cloudflare Worker.`,
         verify,
       ],
-      files: [relPath === 'robots.txt' ? 'content/themes/<theme>/robots.txt' : `nginx: /${relPath}`],
+      files: [
+        relPath === 'robots.txt' ? 'content/themes/<theme>/robots.txt' : `nginx: /${relPath}`,
+      ],
       snippet,
     }),
     drupal: inFolder(
@@ -305,7 +307,10 @@ export function jsonLdFix(
         'The script is rendered on the server, so crawlers that do not run JavaScript still see it.',
         check,
       ],
-      files: ['components/json-ld.tsx', scope === 'site' ? 'app/layout.tsx' : 'app/<route>/page.tsx'],
+      files: [
+        'components/json-ld.tsx',
+        scope === 'site' ? 'app/layout.tsx' : 'app/<route>/page.tsx',
+      ],
       snippet: {
         language: 'tsx',
         code: `// components/json-ld.tsx
@@ -475,7 +480,7 @@ export const onRenderBody = ({ setHeadComponents }) => {
         snippet: {
           language: 'php',
           code: `add_action('wp_head', function () {
-  ${scope === 'page' ? "if (!is_singular()) return; // narrow to the right template\n  " : ''}$data = json_decode(<<<'JSON'
+  ${scope === 'page' ? 'if (!is_singular()) return; // narrow to the right template\n  ' : ''}$data = json_decode(<<<'JSON'
 ${body}
 JSON, true);
   echo '<script type="application/ld+json">' . wp_json_encode($data, JSON_UNESCAPED_SLASHES) . '</script>' . "\\n";
@@ -511,7 +516,10 @@ JSON, true);
         check,
       ],
       files: ['Wix: Settings → Custom code'],
-      snippet: { language: scope === 'site' ? 'html' : 'json', code: scope === 'site' ? scriptTag : body },
+      snippet: {
+        language: scope === 'site' ? 'html' : 'json',
+        code: scope === 'site' ? scriptTag : body,
+      },
     }),
     squarespace: () => ({
       steps: [
@@ -609,7 +617,8 @@ export interface MetaSpec {
 
 export function metaFix(input: RecipeInput, spec: MetaSpec): StackFix {
   const f = spec.field;
-  const ex = spec.example ?? (f === 'title' ? 'Page title – Brand' : 'One-sentence summary of the page.');
+  const ex =
+    spec.example ?? (f === 'title' ? 'Page title – Brand' : 'One-sentence summary of the page.');
   const plugin = wpPlugin(input.stack);
   const label: Record<MetaSpec['field'], string> = {
     title: 'title tag',
@@ -665,7 +674,9 @@ ${f === 'robots' ? '    robots: { index: true, follow: true },\n' : ''}  };
       },
     }),
     'nextjs-pages': () => ({
-      steps: [`Set the ${name} with \`next/head\` in each page component (or a shared \`<Seo>\` component).`],
+      steps: [
+        `Set the ${name} with \`next/head\` in each page component (or a shared \`<Seo>\` component).`,
+      ],
       files: ['pages/<route>.tsx', 'components/seo.tsx'],
       snippet: {
         language: 'tsx',
@@ -715,7 +726,9 @@ useHead({ link: [{ rel: 'canonical', href: '${input.origin}' + useRoute().path }
       },
     }),
     sveltekit: () => ({
-      steps: ['Return the values from `+page.ts`/`+page.server.ts` and render them in `<svelte:head>`.'],
+      steps: [
+        'Return the values from `+page.ts`/`+page.server.ts` and render them in `<svelte:head>`.',
+      ],
       files: ['src/routes/<route>/+page.svelte'],
       snippet: {
         language: 'svelte',
@@ -825,7 +838,9 @@ useHead({ link: [{ rel: 'canonical', href: '${input.origin}' + useRoute().path }
       files: ['Squarespace: Page settings → SEO'],
     }),
     ghost: () => ({
-      steps: [`Open the post or page → Settings → Meta data → ${f === 'title' ? 'Meta title' : 'Meta description'}.`],
+      steps: [
+        `Open the post or page → Settings → Meta data → ${f === 'title' ? 'Meta title' : 'Meta description'}.`,
+      ],
       files: ['Ghost: Post settings → Meta data'],
     }),
     drupal: () => ({
@@ -845,7 +860,9 @@ useHead({ link: [{ rel: 'canonical', href: '${input.origin}' + useRoute().path }
       files: ['HubSpot: page settings'],
     }),
     framer: () => ({
-      steps: [`Page settings (gear icon) → SEO → ${f === 'title' ? 'Title' : 'Description'}. For CMS pages, bind to fields.`],
+      steps: [
+        `Page settings (gear icon) → SEO → ${f === 'title' ? 'Title' : 'Description'}. For CMS pages, bind to fields.`,
+      ],
       files: ['Framer: page settings'],
     }),
     hugo: () => ({
@@ -892,10 +909,18 @@ function h1Fix(input: RecipeInput): StackFix {
           ],
           files: [],
         }),
-        shopify: () => ({ steps: ['Check the section templates use one `<h1>` (usually the product/page title).'], files: [] }),
-        hosted: () => ({ steps: ['In the designer, set the main heading’s tag to H1 and other headings to H2–H4.'], files: [] }),
+        shopify: () => ({
+          steps: ['Check the section templates use one `<h1>` (usually the product/page title).'],
+          files: [],
+        }),
+        hosted: () => ({
+          steps: ['In the designer, set the main heading’s tag to H1 and other headings to H2–H4.'],
+          files: [],
+        }),
         unknown: () => ({
-          steps: ['Usually this is the page component or template that renders the main heading; logos and card titles should not be H1s.'],
+          steps: [
+            'Usually this is the page component or template that renders the main heading; logos and card titles should not be H1s.',
+          ],
           files: [],
         }),
       }).steps[0],
@@ -934,7 +959,11 @@ export function templateFile(input: RecipeInput): string {
 }
 
 export function escapeHtml(s: string): string {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
 
 export function brandOf(input: { brand?: { name?: string }; origin: string }): string {
@@ -963,7 +992,11 @@ export type HostTarget =
   | 'headers-file';
 
 /** Config that adds `headers` to responses matching `path` (default: every path). */
-export function headerConfig(target: HostTarget, headers: Record<string, string>, path = '/*'): string {
+export function headerConfig(
+  target: HostTarget,
+  headers: Record<string, string>,
+  path = '/*',
+): string {
   const entries = Object.entries(headers);
   const regexPath = path === '/*' ? '/(.*)' : path.replace(/\*/g, '(.*)');
   switch (target) {
@@ -1078,7 +1111,9 @@ export function headersFix(
   opts: { path?: string; why?: string } = {},
 ): StackFix {
   const id = input.stack.id;
-  const verify = `Verify with \`curl -sI ${input.urls[0] ?? input.origin}\` and look for ${Object.keys(headers)
+  const verify = `Verify with \`curl -sI ${input.urls[0] ?? input.origin}\` and look for ${Object.keys(
+    headers,
+  )
     .map((h) => `\`${h}\``)
     .join(', ')}.`;
   if (isHosted(id) || id === 'shopify') {
@@ -1112,11 +1147,19 @@ export function headersFix(
     steps: [
       `Add the headers in \`${HOST_FILES[primary]}\` (below).`,
       ...(primary === 'vercel'
-        ? ['If `vercel.json` already has a `headers` array, add this entry to it rather than replacing it.']
+        ? [
+            'If `vercel.json` already has a `headers` array, add this entry to it rather than replacing it.',
+          ]
         : []),
       ...others.map(
         (t) =>
-          `Alternative: \`${HOST_FILES[t]}\` — ${headerConfig(t, headers, opts.path).split('\n').slice(0, 1)[0].replace(/^[#/ ]+/, '').slice(0, 80) || 'same headers'}.`,
+          `Alternative: \`${HOST_FILES[t]}\` — ${
+            headerConfig(t, headers, opts.path)
+              .split('\n')
+              .slice(0, 1)[0]
+              .replace(/^[#/ ]+/, '')
+              .slice(0, 80) || 'same headers'
+          }.`,
       ),
       'Set each header in one place only; duplicates from two layers can conflict.',
       verify,

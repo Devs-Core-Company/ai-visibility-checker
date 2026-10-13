@@ -1,0 +1,15 @@
+# Northwind Joinery
+
+> Handmade solid wood kitchens, fitted wardrobes and bespoke furniture, made in Leeds.
+
+## Services
+
+Northwind Joinery designs, makes and fits solid wood kitchens and fitted wardrobes for homes within 40 miles of Leeds. Every piece is made to measure in our workshop.
+
+## How long does a handmade kitchen take?
+
+From the measuring visit to fitting, a handmade kitchen usually takes eight to twelve weeks. Design takes one to two weeks, making four to six, and fitting one to two.
+
+## Contact
+
+Ask for a quote through {{ORIGIN}}/contact.

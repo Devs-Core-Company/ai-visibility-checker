@@ -119,7 +119,8 @@ export async function crawlSite(
       /* a progress handler must never break the crawl */
     }
   };
-  const log = (level: 'info' | 'warn' | 'error', message: string) => emit({ type: 'log', level, message });
+  const log = (level: 'info' | 'warn' | 'error', message: string) =>
+    emit({ type: 'log', level, message });
 
   const startHost = new URL(options.startUrl).hostname;
   const fetcher = createFetcher({
@@ -138,19 +139,30 @@ export async function crawlSite(
   emit({ type: 'phase', phase: 'robots', message: 'Reading robots.txt' });
   const startFetch = await fetcher.fetch(options.startUrl);
   let origin = new URL(options.startUrl).origin;
-  if (startFetch.status > 0 && startFetch.finalUrl && sameSite(startFetch.finalUrl, options.startUrl))
+  if (
+    startFetch.status > 0 &&
+    startFetch.finalUrl &&
+    sameSite(startFetch.finalUrl, options.startUrl)
+  )
     origin = new URL(startFetch.finalUrl).origin;
-  if (startFetch.status === 0) log('error', `Could not reach ${options.startUrl}: ${startFetch.error ?? 'network error'}`);
+  if (startFetch.status === 0)
+    log('error', `Could not reach ${options.startUrl}: ${startFetch.error ?? 'network error'}`);
 
   const robots = await loadRobots(origin, fetcher);
-  const robotsUnreachable = robots.status === null || robots.status === 0 || (robots.status ?? 0) >= 500;
+  const robotsUnreachable =
+    robots.status === null || robots.status === 0 || (robots.status ?? 0) >= 500;
   if (robotsUnreachable)
-    log('warn', `robots.txt returned ${robots.status ?? 'no response'}; search engines treat the whole site as blocked. Crawling anyway.`);
+    log(
+      'warn',
+      `robots.txt returned ${robots.status ?? 'no response'}; search engines treat the whole site as blocked. Crawling anyway.`,
+    );
 
   emit({ type: 'phase', phase: 'sitemaps', message: 'Reading sitemaps' });
   const sitemaps = await loadSitemaps(origin, robots, fetcher);
   const sitemapUrls = new Map<string, string>(); // normalised → sitemap file
-  for (const s of sitemaps) for (const u of s.urls) if (!sitemapUrls.has(normaliseUrl(u.loc))) sitemapUrls.set(normaliseUrl(u.loc), s.url);
+  for (const s of sitemaps)
+    for (const u of s.urls)
+      if (!sitemapUrls.has(normaliseUrl(u.loc))) sitemapUrls.set(normaliseUrl(u.loc), s.url);
 
   const pages = new Map<string, PageData>();
   const inlinks = new Map<string, Set<string>>();
@@ -163,7 +175,8 @@ export async function crawlSite(
 
   const isBlocked = (url: string) =>
     !robots.isAllowed(url, token) || !robots.isAllowed(url, 'Googlebot');
-  const mayFetch = (url: string) => !options.respectRobots || robotsUnreachable || robots.isAllowed(url, token);
+  const mayFetch = (url: string) =>
+    !options.respectRobots || robotsUnreachable || robots.isAllowed(url, token);
   const inScope = (url: string, isStart = false) => {
     if (isStart) return true;
     if (exclude.some((r) => r.test(url))) return false;
@@ -172,7 +185,11 @@ export async function crawlSite(
   };
 
   const addFrom = (page: PageData, from?: string) => {
-    if (from && page.discoveredFrom.length < MAX_DISCOVERED_FROM && !page.discoveredFrom.includes(from))
+    if (
+      from &&
+      page.discoveredFrom.length < MAX_DISCOVERED_FROM &&
+      !page.discoveredFrom.includes(from)
+    )
       page.discoveredFrom.push(from);
   };
 
@@ -230,7 +247,13 @@ export async function crawlSite(
       enqueue(link.href, childDepth, src, !looksLikeHtmlUrl(link.href));
     }
     // Followed but not counted as inlinks.
-    const refs = [page.canonical, page.canonicalHeader, page.pagination.next, page.pagination.prev, ...page.hreflang.map((h) => h.href)];
+    const refs = [
+      page.canonical,
+      page.canonicalHeader,
+      page.pagination.next,
+      page.pagination.prev,
+      ...page.hreflang.map((h) => h.href),
+    ];
     for (const r of refs) if (r) enqueue(r, childDepth, src);
   };
 
@@ -246,9 +269,17 @@ export async function crawlSite(
       addFrom(stub, item.from);
       store(stub);
       const finalKey = normaliseUrl(res.finalUrl);
-      if (res.status > 0 && sameSite(res.finalUrl, origin) && !pages.has(finalKey) && inScope(finalKey)) {
+      if (
+        res.status > 0 &&
+        sameSite(res.finalUrl, origin) &&
+        !pages.has(finalKey) &&
+        inScope(finalKey)
+      ) {
         seen.add(finalKey);
-        const target = extractPage({ ...res, url: res.finalUrl, redirects: [] }, { origin, depth: item.depth, url: finalKey });
+        const target = extractPage(
+          { ...res, url: res.finalUrl, redirects: [] },
+          { origin, depth: item.depth, url: finalKey },
+        );
         addFrom(target, item.url);
         store(target);
         if (target.isHtml) recordLinks(target);
@@ -265,7 +296,21 @@ export async function crawlSite(
   const processItem = async (item: QueueItem): Promise<void> => {
     if (!mayFetch(item.url)) {
       const stub = basePage(
-        { url: item.url, finalUrl: item.url, status: 0, ok: false, headers: {}, redirects: [], body: '', bytes: 0, truncated: false, contentType: '', ttfbMs: 0, totalMs: 0, error: `Not crawled: robots.txt disallows ${token}` },
+        {
+          url: item.url,
+          finalUrl: item.url,
+          status: 0,
+          ok: false,
+          headers: {},
+          redirects: [],
+          body: '',
+          bytes: 0,
+          truncated: false,
+          contentType: '',
+          ttfbMs: 0,
+          totalMs: 0,
+          error: `Not crawled: robots.txt disallows ${token}`,
+        },
         { origin, depth: item.depth, url: item.url },
       );
       addFrom(stub, item.from);
@@ -278,10 +323,17 @@ export async function crawlSite(
       res = await fetcher.fetch(item.url, { method: 'HEAD' });
       if (res.status === 0 || res.status === 405 || res.status === 501 || res.status === 403)
         res = await fetcher.fetch(item.url, { maxBytes: 64 * 1024 });
-      else if (res.ok && /text\/html|xhtml/i.test(res.contentType)) res = await fetcher.fetch(item.url);
+      else if (res.ok && /text\/html|xhtml/i.test(res.contentType))
+        res = await fetcher.fetch(item.url);
     } else res = await fetcher.fetch(item.url);
     const page = handleResult(item, res);
-    emit({ type: 'page', url: item.url, status: page.status, crawled: pages.size, queued: queue.length - qHead });
+    emit({
+      type: 'page',
+      url: item.url,
+      status: page.status,
+      crawled: pages.size,
+      queued: queue.length - qHead,
+    });
   };
 
   // ---- Crawl ----
@@ -289,7 +341,10 @@ export async function crawlSite(
   const startKey = normaliseUrl(options.startUrl);
   seen.add(startKey);
   if (options.respectRobots && !robotsUnreachable && !robots.isAllowed(options.startUrl, token)) {
-    log('warn', `robots.txt disallows ${token} from ${options.startUrl}. Turn off "respect robots.txt" to audit it anyway.`);
+    log(
+      'warn',
+      `robots.txt disallows ${token} from ${options.startUrl}. Turn off "respect robots.txt" to audit it anyway.`,
+    );
     await processItem({ url: startKey, depth: 0 });
   } else {
     fetched++;
@@ -348,14 +403,20 @@ export async function crawlSite(
       added++;
     }
     if (added) {
-      log('info', `${added} URLs from the sitemap were not linked from crawled pages; crawling them too.`);
+      log(
+        'info',
+        `${added} URLs from the sitemap were not linked from crawled pages; crawling them too.`,
+      );
       await runWorkers();
     }
   }
 
   const notCrawled = queue.length - qHead + knownDepth.size;
   if (!budgetLeft() && queue.length - qHead > 0)
-    log('info', `Stopped at the ${options.maxPages}-page limit; ${queue.length - qHead} URLs were left in the queue.`);
+    log(
+      'info',
+      `Stopped at the ${options.maxPages}-page limit; ${queue.length - qHead} URLs were left in the queue.`,
+    );
 
   // ---- Assets ----
   const site: SiteContext = {
@@ -384,7 +445,11 @@ export async function crawlSite(
   if (options.render) {
     const targets = chooseRenderTargets([...pages.values()], options, startKey);
     if (targets.length) {
-      emit({ type: 'phase', phase: 'render', message: `Rendering ${targets.length} pages with Chrome` });
+      emit({
+        type: 'phase',
+        phase: 'render',
+        message: `Rendering ${targets.length} pages with Chrome`,
+      });
       const summary = await renderPages(targets, {
         chromePath: options.chromePath,
         limit: options.renderLimit,
@@ -403,7 +468,10 @@ export async function crawlSite(
   // ---- Stack ----
   const home = pages.get(startKey);
   const homeFinal = home?.redirects.length ? pages.get(normaliseUrl(home.finalUrl)) : home;
-  const stackPages = [homeFinal, ...[...pages.values()].filter((p) => p.isHtml && p !== homeFinal).slice(0, 4)].filter(Boolean) as PageData[];
+  const stackPages = [
+    homeFinal,
+    ...[...pages.values()].filter((p) => p.isHtml && p !== homeFinal).slice(0, 4),
+  ].filter(Boolean) as PageData[];
   try {
     site.stack = detectStack(stackPages, homeFinal?.headers ?? startFetch.headers);
   } catch (e) {
@@ -426,8 +494,14 @@ export async function crawlSite(
 }
 
 /** Which pages to render: all HTML up to the limit (true) or home + thin pages + a small sample ('auto'). */
-export function chooseRenderTargets(pages: PageData[], options: CrawlOptions, startKey: string): PageData[] {
-  const html = pages.filter((p) => p.isHtml && p.status >= 200 && p.status < 300 && !p.redirects.length);
+export function chooseRenderTargets(
+  pages: PageData[],
+  options: CrawlOptions,
+  startKey: string,
+): PageData[] {
+  const html = pages.filter(
+    (p) => p.isHtml && p.status >= 200 && p.status < 300 && !p.redirects.length,
+  );
   const limit = Math.max(0, options.renderLimit);
   if (!limit || !html.length) return [];
   const byDepth = [...html].sort((a, b) => depthKey(a) - depthKey(b));
@@ -435,7 +509,11 @@ export function chooseRenderTargets(pages: PageData[], options: CrawlOptions, st
   const picked = new Set<PageData>();
   const home = html.find((p) => p.url === startKey) ?? byDepth[0];
   if (home) picked.add(home);
-  for (const p of byDepth) if (p.wordCount < THIN_RAW_WORDS) picked.add(p);
+  // Thinnest first: an empty raw page is the likeliest to be built by JavaScript.
+  const thin = byDepth
+    .filter((p) => p.wordCount < THIN_RAW_WORDS)
+    .sort((a, b) => a.wordCount - b.wordCount);
+  for (const p of thin) picked.add(p);
   // One page per top-level section, shallowest first: covers distinct templates.
   const sections = new Set<string>();
   let sample = 0;
@@ -461,13 +539,21 @@ async function headImages(
   log: (l: 'info' | 'warn' | 'error', m: string) => void,
 ): Promise<void> {
   const srcs = new Set<string>();
-  for (const p of site.pages.values()) for (const img of p.images) if (srcs.size < MAX_IMAGE_CHECKS) srcs.add(img.src);
+  for (const p of site.pages.values())
+    for (const img of p.images) if (srcs.size < MAX_IMAGE_CHECKS) srcs.add(img.src);
   if (!srcs.size) return;
   const info = new Map<string, { status: number; bytes?: number; type?: string }>();
   await mapLimit([...srcs], Math.max(2, concurrency * 2), async (src) => {
-    let res = await fetcher.fetch(src, { method: 'HEAD', timeoutMs: 10_000, headers: { accept: 'image/avif,image/webp,image/*,*/*;q=0.8' } });
+    let res = await fetcher.fetch(src, {
+      method: 'HEAD',
+      timeoutMs: 10_000,
+      headers: { accept: 'image/avif,image/webp,image/*,*/*;q=0.8' },
+    });
     if (res.status === 405 || res.status === 501 || res.status === 403 || res.status === 0)
-      res = await fetcher.fetch(src, { timeoutMs: 15_000, headers: { accept: 'image/*,*/*;q=0.8' } });
+      res = await fetcher.fetch(src, {
+        timeoutMs: 15_000,
+        headers: { accept: 'image/*,*/*;q=0.8' },
+      });
     const len = Number(res.headers['content-length']);
     info.set(src, {
       status: res.status,
@@ -485,7 +571,8 @@ async function headImages(
       if (i.bytes !== undefined) img.bytes = i.bytes;
       if (i.type) img.contentType = i.type;
     }
-  if (srcs.size >= MAX_IMAGE_CHECKS) log('info', `Checked the first ${MAX_IMAGE_CHECKS} images only.`);
+  if (srcs.size >= MAX_IMAGE_CHECKS)
+    log('info', `Checked the first ${MAX_IMAGE_CHECKS} images only.`);
 }
 
 async function checkExternal(
@@ -501,14 +588,20 @@ async function checkExternal(
   await mapLimit([...hrefs], Math.max(2, concurrency * 2), async (href) => {
     let res = await fetcher.fetch(href, { method: 'HEAD', timeoutMs: 10_000 });
     // Many servers refuse HEAD or bots; confirm with a small GET before calling it broken.
-    if (res.status === 0 || res.status >= 400) res = await fetcher.fetch(href, { timeoutMs: 15_000, maxBytes: 32 * 1024 });
+    if (res.status === 0 || res.status >= 400)
+      res = await fetcher.fetch(href, { timeoutMs: 15_000, maxBytes: 32 * 1024 });
     statuses.set(href, res.status);
   });
   externalStatuses.set(site, statuses);
-  if (hrefs.size >= MAX_EXTERNAL_CHECKS) log('info', `Checked the first ${MAX_EXTERNAL_CHECKS} external links only.`);
+  if (hrefs.size >= MAX_EXTERNAL_CHECKS)
+    log('info', `Checked the first ${MAX_EXTERNAL_CHECKS} external links only.`);
 }
 
-async function mapLimit<T>(items: T[], limit: number, fn: (item: T) => Promise<void>): Promise<void> {
+async function mapLimit<T>(
+  items: T[],
+  limit: number,
+  fn: (item: T) => Promise<void>,
+): Promise<void> {
   let next = 0;
   await Promise.all(
     Array.from({ length: Math.min(limit, items.length) }, async () => {

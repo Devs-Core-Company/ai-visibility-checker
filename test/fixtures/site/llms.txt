@@ -1,0 +1,9 @@
+# Northwind Joinery
+
+> Handmade solid wood kitchens, fitted wardrobes and bespoke furniture, made in Leeds.
+
+## Pages
+
+- [Services]({{ORIGIN}}/services/): what we make
+- [How long does a handmade kitchen take?]({{ORIGIN}}/blog/how-long-does-a-kitchen-take): timelines
+- [Contact]({{ORIGIN}}/contact): ask for a quote

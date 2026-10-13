@@ -30,12 +30,19 @@ export { ExitError };
 export function int(name: string) {
   return (v: string): number => {
     const n = Number(v);
-    if (!Number.isInteger(n) || n < 0) throw new InvalidArgumentError(`${name} must be a whole number.`);
+    if (!Number.isInteger(n) || n < 0)
+      throw new InvalidArgumentError(`${name} must be a whole number.`);
     return n;
   };
 }
 
-const collect = (v: string, prev: string[] = []) => [...prev, ...v.split(',').map((s) => s.trim()).filter(Boolean)];
+const collect = (v: string, prev: string[] = []) => [
+  ...prev,
+  ...v
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean),
+];
 
 /** Wrap an async action so errors print cleanly and set the exit code. */
 function run<A extends unknown[]>(fn: (...args: A) => Promise<void> | void) {
@@ -86,15 +93,27 @@ export function buildProgram(): Command {
     .addOption(new Option('--no-render', 'never render with Chrome'))
     .option('--include <regex>', 'only crawl URLs matching (repeatable)', collect)
     .option('--exclude <regex>', 'skip URLs matching (repeatable)', collect)
-    .option('--only <checks>', 'run only these checks: ids, id prefixes, categories or pillars', collect)
+    .option(
+      '--only <checks>',
+      'run only these checks: ids, id prefixes, categories or pillars',
+      collect,
+    )
     .option('--skip <checks>', 'skip these checks (same selectors as --only)', collect)
     .option('--visibility', 'also ask AI engines about your brand (uses your AI keys)')
-    .option('--engines <list>', 'engines for --visibility: chatgpt,claude,gemini,perplexity,grok,deepseek', collect)
+    .option(
+      '--engines <list>',
+      'engines for --visibility: chatgpt,claude,gemini,perplexity,grok,deepseek',
+      collect,
+    )
     .option('--repeats <n>', 'ask each prompt this many times per engine', int('--repeats'))
     .option('--mock', 'fake AI answers, no spend')
     .option('-f, --format <list>', 'report formats: html,json,md,csv,sarif', 'html,json')
     .option('-o, --out <dir>', 'where to write reports', 'avc-reports')
-    .option('--fail-under <score>', 'exit with code 2 when the score is below this (for CI)', int('--fail-under'))
+    .option(
+      '--fail-under <score>',
+      'exit with code 2 when the score is below this (for CI)',
+      int('--fail-under'),
+    )
     .option('--open', 'open the HTML report when done')
     .option('--json', 'print the result as JSON to stdout (no progress output)')
     .option('-q, --quiet', 'no progress output')
@@ -124,7 +143,9 @@ export function buildProgram(): Command {
 
   program
     .command('fix')
-    .description('Plan fixes from an audit, preview the changes, and apply them to WordPress or a local repo.')
+    .description(
+      'Plan fixes from an audit, preview the changes, and apply them to WordPress or a local repo.',
+    )
     .argument('[ref]', 'site URL, site id or audit id (default: latest audit)')
     .addOption(new Option('--target <target>', 'where to apply').choices(['wordpress', 'repo']))
     .option('--repo <path>', 'path to the site source (for --target repo)')
@@ -133,6 +154,7 @@ export function buildProgram(): Command {
     .option('--apply', 'apply the changes (asks first unless --yes)')
     .option('-y, --yes', 'do not ask for confirmation')
     .option('--json', 'print the plan as JSON')
+    .option('--rollback <file>', 'undo a previous apply from its snapshot (same as `avc rollback`)')
     .action(run(cmdFix));
 
   program
@@ -144,7 +166,9 @@ export function buildProgram(): Command {
 
   program
     .command('generate')
-    .description('Generate llms.txt, robots.txt, Organization JSON-LD or an A2A agent card for a site.')
+    .description(
+      'Generate llms.txt, robots.txt, Organization JSON-LD or an A2A agent card for a site.',
+    )
     .addArgument(
       new Argument('<kind>', 'llms-txt | robots | schema | agent-card').choices([
         'llms-txt',
@@ -167,27 +191,28 @@ export function buildProgram(): Command {
     .command('connect')
     .description('Connect a data source or fix target, and test it.')
     .addArgument(
-      new Argument('<source>', 'google | gsc | ga4 | psi | bing | wordpress | logs | repo | status').choices([
-        'google',
-        'gsc',
-        'ga4',
-        'psi',
-        'bing',
-        'wordpress',
-        'logs',
-        'repo',
-        'status',
-      ]),
+      new Argument(
+        '<source>',
+        'google | gsc | ga4 | psi | bing | wordpress | logs | repo | status',
+      ).choices(['google', 'gsc', 'ga4', 'psi', 'bing', 'wordpress', 'logs', 'repo', 'status']),
     )
     .argument('[site]', 'site URL or id (default: the only configured site)')
-    .option('--property <id>', 'GSC property (sc-domain:example.com) or GA4 property (properties/123)')
+    .option(
+      '--property <id>',
+      'GSC property (sc-domain:example.com) or GA4 property (properties/123)',
+    )
     .option('--key <key>', 'API key (PSI, Bing)')
     .option('--client-id <id>', 'Google OAuth client id (Desktop app)')
     .option('--client-secret <secret>', 'Google OAuth client secret')
     .option('--service-account <file>', 'Google service-account JSON key file')
     .option('--wp-url <url>', 'WordPress site URL')
+    .option('--url <url>', 'same as --wp-url')
     .option('--wp-user <user>', 'WordPress user name')
-    .option('--wp-app-password <password>', 'WordPress application password (or set AVC_WP_APP_PASSWORD)')
+    .option('--user <user>', 'same as --wp-user')
+    .option(
+      '--wp-app-password <password>',
+      'WordPress application password (or set AVC_WP_APP_PASSWORD)',
+    )
     .option('--path <paths>', 'log file paths/globs or repo path', collect)
     .option('--no-test', 'save settings without testing them')
     .action(run(cmdConnect));
@@ -264,7 +289,9 @@ export function buildProgram(): Command {
 
   program
     .command('schedule')
-    .description('Set a schedule for a site and print the line to add to cron, launchd or Task Scheduler.')
+    .description(
+      'Set a schedule for a site and print the line to add to cron, launchd or Task Scheduler.',
+    )
     .argument('<site>', 'site URL or id')
     .option('--cron <expr>', 'cron expression for audits, e.g. "0 6 * * 1"')
     .option('--visibility-cron <expr>', 'cron expression for AI visibility runs')
@@ -299,7 +326,10 @@ export function buildProgram(): Command {
     .command('checks')
     .description('List every check with its pillar, severity and fix tier.')
     .option('--category <id>', 'filter by category')
-    .option('--pillar <id>', 'filter by pillar: technical, content, ai-access, geo, agentic, ai-visibility')
+    .option(
+      '--pillar <id>',
+      'filter by pillar: technical, content, ai-access, geo, agentic, ai-visibility',
+    )
     .option('-s, --search <text>', 'search titles and ids')
     .option('--json', 'print as JSON')
     .action(run(cmdChecks));

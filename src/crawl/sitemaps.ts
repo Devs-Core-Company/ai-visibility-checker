@@ -52,7 +52,13 @@ export async function loadSitemaps(
   while (queue.length && files < SITEMAP_LIMITS.maxFiles) {
     const item = queue.shift()!;
     files++;
-    const info = await fetchOne(item.url, item.source, fetcher, origin, SITEMAP_LIMITS.maxUrls - totalUrls);
+    const info = await fetchOne(
+      item.url,
+      item.source,
+      fetcher,
+      origin,
+      SITEMAP_LIMITS.maxUrls - totalUrls,
+    );
     totalUrls += info.urls.length;
     out.push(info);
     for (const child of info.children) push(child, 'child');
@@ -138,7 +144,10 @@ async function fetchOne(
 
   if (!trimmed.startsWith('<')) {
     // Plain-text sitemap.
-    const lines = trimmed.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+    const lines = trimmed
+      .split(/\r?\n/)
+      .map((l) => l.trim())
+      .filter(Boolean);
     for (const line of lines) {
       if (info.urls.length >= Math.min(urlBudget, SITEMAP_LIMITS.maxUrlsPerFile)) break;
       if (isHttpUrl(line)) info.urls.push({ loc: line });
@@ -184,7 +193,11 @@ async function fetchOne(
     const lastmod = tagText(block, 'lastmod');
     if (lastmod) {
       entry.lastmod = lastmod;
-      if (!/^\d{4}(-\d{2}(-\d{2}(T\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:\d{2})?)?)?)?$/.test(lastmod))
+      if (
+        !/^\d{4}(-\d{2}(-\d{2}(T\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:\d{2})?)?)?)?$/.test(
+          lastmod,
+        )
+      )
         badLastmod++;
     }
     const images = (block.match(/<(?:image:)?image[\s>]/gi) ?? []).length;
@@ -226,7 +239,9 @@ function tagText(block: string, tag: string): string | null {
   // Unprefixed first, so <loc> wins over <image:loc>.
   const m =
     new RegExp(`<${tag}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/${tag}>`, 'i').exec(block) ??
-    new RegExp(`<(?:[\\w-]+:)?${tag}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/(?:[\\w-]+:)?${tag}>`, 'i').exec(block);
+    new RegExp(`<(?:[\\w-]+:)?${tag}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/(?:[\\w-]+:)?${tag}>`, 'i').exec(
+      block,
+    );
   if (!m) return null;
   let v = m[1]!.trim();
   const cdata = /^<!\[CDATA\[([\s\S]*)\]\]>$/.exec(v);

@@ -51,7 +51,13 @@ export interface SiteConfig {
   url: string; // start URL
   brand?: Partial<BrandProfile>;
   prompts?: TrackedPrompt[];
-  crawl?: { maxPages?: number; maxDepth?: number; render?: boolean | 'auto'; include?: string[]; exclude?: string[] };
+  crawl?: {
+    maxPages?: number;
+    maxDepth?: number;
+    render?: boolean | 'auto';
+    include?: string[];
+    exclude?: string[];
+  };
   connections?: {
     gscProperty?: string; // 'sc-domain:example.com' or 'https://example.com/'
     ga4Property?: string; // 'properties/123456'
@@ -97,16 +103,20 @@ function envOverrides(): Partial<AvcConfig> {
   const google: NonNullable<AvcConfig['google']> = {};
   if (e.GOOGLE_CLIENT_ID) google.clientId = e.GOOGLE_CLIENT_ID;
   if (e.GOOGLE_CLIENT_SECRET) google.clientSecret = e.GOOGLE_CLIENT_SECRET;
-  if (e.GOOGLE_APPLICATION_CREDENTIALS) google.serviceAccountFile = e.GOOGLE_APPLICATION_CREDENTIALS;
+  if (e.GOOGLE_APPLICATION_CREDENTIALS)
+    google.serviceAccountFile = e.GOOGLE_APPLICATION_CREDENTIALS;
   if (e.PSI_API_KEY) google.psiKey = e.PSI_API_KEY;
   const out: Partial<AvcConfig> = { ai: ai as AvcConfig['ai'], google };
   if (e.BING_WEBMASTER_API_KEY) out.bing = { apiKey: e.BING_WEBMASTER_API_KEY };
   if (e.AVC_WEBHOOK_URL || e.AVC_ALERT_EMAIL)
     out.alerts = {
       webhookUrl: e.AVC_WEBHOOK_URL,
-      email: e.AVC_ALERT_EMAIL ? { to: e.AVC_ALERT_EMAIL, smtpUrl: e.AVC_SMTP_URL, from: e.AVC_SMTP_FROM } : undefined,
+      email: e.AVC_ALERT_EMAIL
+        ? { to: e.AVC_ALERT_EMAIL, smtpUrl: e.AVC_SMTP_URL, from: e.AVC_SMTP_FROM }
+        : undefined,
     };
-  if (e.AVC_PORT) out.server = { port: Number(e.AVC_PORT), host: e.AVC_HOST || DEFAULTS.server.host };
+  if (e.AVC_PORT)
+    out.server = { port: Number(e.AVC_PORT), host: e.AVC_HOST || DEFAULTS.server.host };
   return out;
 }
 
@@ -114,7 +124,13 @@ function merge(...parts: Partial<AvcConfig>[]): AvcConfig {
   const out: AvcConfig = structuredClone(DEFAULTS);
   for (const p of parts) {
     if (p.dataDir) out.dataDir = p.dataDir;
-    if (p.sites?.length) out.sites = p.sites;
+    if (p.sites?.length) {
+      // Merge by id so sites added from the dashboard (user file) and the project file
+      // both show; the later source wins for the same id.
+      const byId = new Map(out.sites.map((x) => [x.id, x]));
+      for (const site of p.sites) byId.set(site.id, { ...byId.get(site.id), ...site });
+      out.sites = [...byId.values()];
+    }
     if (p.ai) out.ai = { ...out.ai, ...strip(p.ai) };
     if (p.google) out.google = { ...out.google, ...strip(p.google) };
     if (p.bing) out.bing = { ...out.bing, ...strip(p.bing) };
@@ -125,7 +141,9 @@ function merge(...parts: Partial<AvcConfig>[]): AvcConfig {
 }
 
 function strip<T extends object>(o: T): Partial<T> {
-  return Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined && v !== '')) as Partial<T>;
+  return Object.fromEntries(
+    Object.entries(o).filter(([, v]) => v !== undefined && v !== ''),
+  ) as Partial<T>;
 }
 
 let cached: AvcConfig | null = null;
@@ -156,5 +174,8 @@ export function saveUserConfig(patch: Partial<AvcConfig>): AvcConfig {
 }
 
 export function siteIdFromUrl(url: string): string {
-  return new URL(url).host.replace(/^www\./, '').replace(/[^a-z0-9.-]/gi, '-').toLowerCase();
+  return new URL(url).host
+    .replace(/^www\./, '')
+    .replace(/[^a-z0-9.-]/gi, '-')
+    .toLowerCase();
 }

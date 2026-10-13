@@ -109,7 +109,11 @@ export function resolveUrl(href: string | null | undefined, base: string): strin
   if (href == null) return null;
   const h = href.trim();
   if (!h) return null;
-  if (/^(javascript|mailto|tel|sms|data|blob|about|file|ftp|chrome|intent|whatsapp|skype|callto):/i.test(h))
+  if (
+    /^(javascript|mailto|tel|sms|data|blob|about|file|ftp|chrome|intent|whatsapp|skype|callto):/i.test(
+      h,
+    )
+  )
     return null;
   try {
     const u = new URL(h, base);
@@ -129,7 +133,10 @@ export function bareHost(urlOrHost: string): string {
   } catch {
     /* keep */
   }
-  return host.toLowerCase().replace(/^www\./, '').replace(/\.$/, '');
+  return host
+    .toLowerCase()
+    .replace(/^www\./, '')
+    .replace(/\.$/, '');
 }
 
 /**
@@ -258,7 +265,18 @@ export const ASSET_EXTENSIONS = new Set([
   'iso',
   'bin',
 ]);
-const HTML_EXTENSIONS = new Set(['', 'html', 'htm', 'xhtml', 'php', 'asp', 'aspx', 'jsp', 'cfm', 'shtml']);
+const HTML_EXTENSIONS = new Set([
+  '',
+  'html',
+  'htm',
+  'xhtml',
+  'php',
+  'asp',
+  'aspx',
+  'jsp',
+  'cfm',
+  'shtml',
+]);
 
 export function isImageUrl(url: string): boolean {
   return IMAGE_EXTENSIONS.has(extensionOf(url));

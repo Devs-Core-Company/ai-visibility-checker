@@ -65,9 +65,11 @@ export function executiveSummary(r: AuditResult, diff?: AuditDiff): string[] {
     let t = `AI engines (${engines.join(', ')}) named ${r.visibility.brand.name} in ${pct(v.mentionRate)} of answers to ${plural(r.visibility.prompts.length, 'tracked prompt')}.`;
     if (rivals.length)
       t += ` Most named competitors: ${rivals.map((x) => `${x.name} (${pct(x.share)} share of voice)`).join(', ')}.`;
-    if (v.ownPagesCited.length) t += ` ${plural(v.ownPagesCited.length, 'of your pages', 'of your pages')} were cited as sources.`;
+    if (v.ownPagesCited.length)
+      t += ` ${plural(v.ownPagesCited.length, 'of your pages', 'of your pages')} were cited as sources.`;
     else t += ' None of your pages were cited as a source.';
-    if (v.factIssues) t += ` ${plural(v.factIssues, 'answer claim')} about you looked wrong or out of date.`;
+    if (v.factIssues)
+      t += ` ${plural(v.factIssues, 'answer claim')} about you looked wrong or out of date.`;
     out.push(t);
   }
 

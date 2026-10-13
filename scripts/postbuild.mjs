@@ -25,7 +25,8 @@ try {
 }
 
 for (const asset of ['public/app.css', 'public/app.js']) {
-  if (!existsSync(join(root, asset))) console.warn(`postbuild: ${asset} is missing; the dashboard will look unstyled.`);
+  if (!existsSync(join(root, asset)))
+    console.warn(`postbuild: ${asset} is missing; the dashboard will look unstyled.`);
 }
 
 console.log('postbuild: dist/cli.js is ready.');

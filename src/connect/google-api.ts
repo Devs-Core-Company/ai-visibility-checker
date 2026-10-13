@@ -55,7 +55,8 @@ export function googleError(
   } catch {
     /* not JSON */
   }
-  const msg = body.error?.message || body.error_description || bodyText.slice(0, 300) || `HTTP ${status}`;
+  const msg =
+    body.error?.message || body.error_description || bodyText.slice(0, 300) || `HTTP ${status}`;
   const reasons = (body.error?.details ?? []).map((d) => d.reason ?? '');
   const meta = (body.error?.details ?? []).find((d) => d.metadata?.activationUrl)?.metadata;
   const who = opts.principal || 'your Google account';
@@ -110,7 +111,13 @@ export async function googleJson<T>(
   ctx: GoogleApiContext,
   api: string,
   url: string,
-  init: { method?: string; body?: unknown; resource?: string; where?: string; retries?: number } = {},
+  init: {
+    method?: string;
+    body?: unknown;
+    resource?: string;
+    where?: string;
+    retries?: number;
+  } = {},
 ): Promise<T> {
   const f = ctx.fetch ?? fetch;
   const retries = init.retries ?? 2;

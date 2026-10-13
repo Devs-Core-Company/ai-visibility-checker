@@ -44,7 +44,10 @@ function slug(s: string): string {
 }
 
 export function mockCompetitors(brand: BrandProfile): { name: string; domain: string }[] {
-  const named = brand.competitors.map((c) => ({ name: c.name, domain: c.domain ?? `${slug(c.name)}.example` }));
+  const named = brand.competitors.map((c) => ({
+    name: c.name,
+    domain: c.domain ?? `${slug(c.name)}.example`,
+  }));
   const fill = FAKE_COMPETITORS.filter((n) => !named.some((c) => c.name === n)).map((n) => ({
     name: n,
     domain: `${slug(n)}.example`,
@@ -59,7 +62,11 @@ function ownPages(brand: BrandProfile, site?: SiteContext): string[] {
         .map((p) => p.finalUrl || p.url)
     : [];
   if (pages.length) return pages.slice(0, 6);
-  return [`https://${brand.domain}/`, `https://${brand.domain}/services`, `https://${brand.domain}/about`];
+  return [
+    `https://${brand.domain}/`,
+    `https://${brand.domain}/services`,
+    `https://${brand.domain}/about`,
+  ];
 }
 
 function pick<T>(rnd: () => number, items: T[]): T {
@@ -103,7 +110,9 @@ export function mockAnswer(input: {
   let mentioned = false;
 
   if (prompt.kind === 'brand') {
-    const knows = prompt.search ? rnd() > 0.1 : !(engine === 'chatgpt' || engine === 'deepseek') && rnd() > 0.3;
+    const knows = prompt.search
+      ? rnd() > 0.1
+      : !(engine === 'chatgpt' || engine === 'deepseek') && rnd() > 0.3;
     if (knows) {
       mentioned = true;
       // Occasionally states a wrong founding year, so the fact check has something to find.
@@ -112,7 +121,9 @@ export function mockAnswer(input: {
         `${brand.name} is a ${service} provider${brand.location ? ` based in ${brand.location}` : ''}.`,
         year ? `It was founded in ${year}.` : '',
         `It is ${pick(rnd, PRAISE)}.`,
-        brand.services.length > 1 ? `Services include ${brand.services.slice(0, 3).join(', ')}.` : '',
+        brand.services.length > 1
+          ? `Services include ${brand.services.slice(0, 3).join(', ')}.`
+          : '',
       ]
         .filter(Boolean)
         .join(' ');
@@ -121,15 +132,25 @@ export function mockAnswer(input: {
     }
     if (searching) {
       if (mentioned) citations.push({ url: own[0]!, title: `${brand.name}` });
-      citations.push({ url: `https://www.linkedin.com/company/${slug(brand.name)}`, title: 'LinkedIn' });
+      citations.push({
+        url: `https://www.linkedin.com/company/${slug(brand.name)}`,
+        title: 'LinkedIn',
+      });
       queries.push(brand.name, `${brand.name} reviews`);
     }
   } else {
     const base = BIAS[engine] ?? 0.4;
     const chance = prompt.kind === 'comparison' ? 1 : prompt.kind === 'problem' ? base * 0.6 : base;
-    mentioned = prompt.kind === 'comparison' ? prompt.text.toLowerCase().includes(brand.name.toLowerCase()) || rnd() < base : rnd() < chance;
+    mentioned =
+      prompt.kind === 'comparison'
+        ? prompt.text.toLowerCase().includes(brand.name.toLowerCase()) || rnd() < base
+        : rnd() < chance;
     const listed = competitors.slice(0, 3 + Math.floor(rnd() * 2));
-    if (mentioned) listed.splice(Math.floor(rnd() * (listed.length + 1)), 0, { name: brand.name, domain: brand.domain });
+    if (mentioned)
+      listed.splice(Math.floor(rnd() * (listed.length + 1)), 0, {
+        name: brand.name,
+        domain: brand.domain,
+      });
     const intro =
       prompt.kind === 'problem'
         ? `A few providers can help with this${where}:`
@@ -139,19 +160,40 @@ export function mockAnswer(input: {
     text = [
       intro,
       '',
-      ...listed.map((c, i) => `${i + 1}. **${c.name}** — ${c.name === brand.name ? pick(rnd, PRAISE.slice(2)) : pick(rnd, PRAISE)}.`),
+      ...listed.map(
+        (c, i) =>
+          `${i + 1}. **${c.name}** — ${c.name === brand.name ? pick(rnd, PRAISE.slice(2)) : pick(rnd, PRAISE)}.`,
+      ),
       '',
       'Check recent reviews and ask for case studies before you decide.',
     ].join('\n');
     if (searching) {
       const top = listed.find((c) => c.name !== brand.name)!;
-      citations.push({ url: `https://${top.domain}/blog/best-${slug(service)}${brand.location ? `-${slug(brand.location)}` : ''}`, title: `Best ${service}${where}` });
-      citations.push({ url: `https://clutch.co/directory/${slug(service)}`, title: `Top ${service} companies` });
-      if (rnd() < 0.5) citations.push({ url: `https://www.reddit.com/r/smallbusiness/comments/${slug(service).slice(0, 20)}`, title: 'Reddit thread' });
-      if (rnd() < 0.4) citations.push({ url: `https://${listed[listed.length - 1]!.domain}/`, title: listed[listed.length - 1]!.name });
+      citations.push({
+        url: `https://${top.domain}/blog/best-${slug(service)}${brand.location ? `-${slug(brand.location)}` : ''}`,
+        title: `Best ${service}${where}`,
+      });
+      citations.push({
+        url: `https://clutch.co/directory/${slug(service)}`,
+        title: `Top ${service} companies`,
+      });
+      if (rnd() < 0.5)
+        citations.push({
+          url: `https://www.reddit.com/r/smallbusiness/comments/${slug(service).slice(0, 20)}`,
+          title: 'Reddit thread',
+        });
+      if (rnd() < 0.4)
+        citations.push({
+          url: `https://${listed[listed.length - 1]!.domain}/`,
+          title: listed[listed.length - 1]!.name,
+        });
       if (mentioned && rnd() < 0.7) citations.push({ url: pick(rnd, own), title: brand.name });
       if (engine !== 'perplexity')
-        queries.push(`best ${service}${brand.location ? ` ${brand.location}` : ''}`, `${service} reviews`, `top ${service} companies`);
+        queries.push(
+          `best ${service}${brand.location ? ` ${brand.location}` : ''}`,
+          `${service} reviews`,
+          `top ${service} companies`,
+        );
     }
   }
 

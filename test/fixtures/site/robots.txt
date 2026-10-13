@@ -1,0 +1,12 @@
+# Northwind Joinery robots.txt
+User-agent: *
+Disallow: /private/
+Allow: /
+
+User-agent: GPTBot
+Disallow: /blog/
+
+User-agent: CCBot
+Disallow: /
+
+Sitemap: {{ORIGIN}}/sitemap_index.xml

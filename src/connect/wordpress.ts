@@ -43,7 +43,10 @@ async function getJson(
   url: string,
   headers: Record<string, string>,
 ): Promise<{ status: number; json: unknown; text: string; headers: Headers }> {
-  const res = await f(url, { headers: { accept: 'application/json', ...headers }, redirect: 'follow' });
+  const res = await f(url, {
+    headers: { accept: 'application/json', ...headers },
+    redirect: 'follow',
+  });
   const text = await res.text();
   let json: unknown = null;
   try {
@@ -56,7 +59,8 @@ async function getJson(
 
 function restRoute(restUrl: string, route: string): string {
   // restUrl is either https://site/wp-json/ or https://site/?rest_route=/
-  if (restUrl.includes('rest_route=')) return `${restUrl.replace(/\/$/, '')}${route.replace('?', '&')}`;
+  if (restUrl.includes('rest_route='))
+    return `${restUrl.replace(/\/$/, '')}${route.replace('?', '&')}`;
   return `${restUrl.replace(/\/$/, '')}${route}`;
 }
 
@@ -83,12 +87,13 @@ export async function checkWordPress(
     : {};
 
   // 1. REST root (pretty permalinks first, then the ?rest_route= fallback).
-  let index: { name?: string; namespaces?: string[] } | null = null;
+  type RestIndex = { name?: string; namespaces?: string[] };
+  let index: RestIndex | null = null;
   for (const candidate of [`${site}/wp-json/`, `${site}/?rest_route=/`]) {
     try {
       const r = await getJson(f, candidate, {});
       if (r.status === 200 && r.json && typeof r.json === 'object' && 'namespaces' in r.json) {
-        index = r.json as typeof index;
+        index = r.json as RestIndex;
         out.restUrl = candidate;
         break;
       }
@@ -151,7 +156,9 @@ export async function checkWordPress(
       uploadFiles: !!caps.upload_files,
     };
     if (!out.can.editPosts) {
-      out.problems.push('This user cannot edit posts, so fixes cannot be applied. Use an Editor or Administrator account.');
+      out.problems.push(
+        'This user cannot edit posts, so fixes cannot be applied. Use an Editor or Administrator account.',
+      );
     }
     out.ok = true;
   } catch (e) {
@@ -171,8 +178,14 @@ async function detectVersion(f: FetchFn, site: string): Promise<string | undefin
     }
   };
   return (
-    (await grab(`${site}/`, /<meta[^>]+name=["']generator["'][^>]+content=["']WordPress\s+([\d.]+)/i)) ??
-    (await grab(`${site}/feed/`, /<generator>https?:\/\/wordpress\.org\/\?v=([\d.]+)<\/generator>/i))
+    (await grab(
+      `${site}/`,
+      /<meta[^>]+name=["']generator["'][^>]+content=["']WordPress\s+([\d.]+)/i,
+    )) ??
+    (await grab(
+      `${site}/feed/`,
+      /<generator>https?:\/\/wordpress\.org\/\?v=([\d.]+)<\/generator>/i,
+    ))
   );
 }
 
@@ -182,6 +195,7 @@ export async function requireWordPress(
   opts: { fetch?: FetchFn } = {},
 ): Promise<WordPressCheck> {
   const r = await checkWordPress(creds, opts);
-  if (!r.ok) throw new ConnectError(`WordPress connection failed for ${creds.url}.`, r.problems.join(' '));
+  if (!r.ok)
+    throw new ConnectError(`WordPress connection failed for ${creds.url}.`, r.problems.join(' '));
   return r;
 }

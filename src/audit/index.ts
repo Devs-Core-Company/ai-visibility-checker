@@ -28,12 +28,7 @@ import type {
 } from '../core/types.js';
 import { APP_VERSION } from '../core/version.js';
 import { runChecks, type SiteWithVisibility } from './run-checks.js';
-import {
-  PILLAR_LABELS,
-  rankPriorities,
-  scoreAudit,
-  type ScoreBreakdown,
-} from './score.js';
+import { PILLAR_LABELS, rankPriorities, scoreAudit, type ScoreBreakdown } from './score.js';
 
 export { runChecks, unmetRequirement, normaliseIssues } from './run-checks.js';
 export {
@@ -148,7 +143,10 @@ function fallbackBrand(site: SiteContext): BrandProfile {
 }
 
 export function newAuditId(at = new Date()): string {
-  const stamp = at.toISOString().replace(/[-:TZ]/g, '').slice(0, 14);
+  const stamp = at
+    .toISOString()
+    .replace(/[-:TZ]/g, '')
+    .slice(0, 14);
   return `${stamp}-${randomBytes(3).toString('hex')}`;
 }
 
@@ -412,7 +410,9 @@ export function summariseForCli(result: AuditResult, opts: { top?: number } = {}
     result.priorities.slice(0, top).forEach((p, i) => {
       const def = result.checks[p.checkId];
       const where = def?.scope === 'page' ? `${p.affected} page(s)` : 'site-wide';
-      lines.push(`  ${i + 1}. ${def?.title ?? p.checkId} ${pc.dim(`(${where}, ${def?.severity})`)}`);
+      lines.push(
+        `  ${i + 1}. ${def?.title ?? p.checkId} ${pc.dim(`(${where}, ${def?.severity})`)}`,
+      );
     });
   }
   return lines.join('\n');

@@ -55,9 +55,12 @@ export function findChrome(explicit?: string): string | null {
       'Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
       'Brave Browser.app/Contents/MacOS/Brave Browser',
     ];
-    for (const a of apps) candidates.push(join('/Applications', a), join(homedir(), 'Applications', a));
+    for (const a of apps)
+      candidates.push(join('/Applications', a), join(homedir(), 'Applications', a));
   } else if (process.platform === 'win32') {
-    const roots = [env['PROGRAMFILES'], env['PROGRAMFILES(X86)'], env['LOCALAPPDATA']].filter(Boolean) as string[];
+    const roots = [env['PROGRAMFILES'], env['PROGRAMFILES(X86)'], env['LOCALAPPDATA']].filter(
+      Boolean,
+    ) as string[];
     for (const r of roots) {
       candidates.push(
         join(r, 'Google', 'Chrome', 'Application', 'chrome.exe'),
@@ -136,7 +139,9 @@ const PERF_INIT = `(() => {
 
 export async function renderPages(pages: PageData[], opts: RenderOptions): Promise<RenderSummary> {
   const log = opts.log ?? ((level, m) => (level === 'error' ? console.error(m) : console.warn(m)));
-  const todo = pages.filter((p) => p.isHtml && p.status >= 200 && p.status < 400).slice(0, Math.max(0, opts.limit));
+  const todo = pages
+    .filter((p) => p.isHtml && p.status >= 200 && p.status < 400)
+    .slice(0, Math.max(0, opts.limit));
   if (!todo.length) return { rendered: 0, failed: 0, skipped: true, reason: 'No pages to render.' };
 
   const chromePath = findChrome(opts.chromePath);
@@ -153,7 +158,12 @@ export async function renderPages(pages: PageData[], opts: RenderOptions): Promi
     browser = await chromium.launch({
       executablePath: chromePath,
       headless: true,
-      args: ['--no-first-run', '--no-default-browser-check', '--disable-extensions', '--mute-audio'],
+      args: [
+        '--no-first-run',
+        '--no-default-browser-check',
+        '--disable-extensions',
+        '--mute-audio',
+      ],
     });
   } catch (e) {
     const reason = `JavaScript rendering skipped: the browser at ${chromePath} could not start (${oneLine((e as Error).message).slice(0, 200)}).`;
@@ -186,18 +196,24 @@ export async function renderPages(pages: PageData[], opts: RenderOptions): Promi
     }
 
     let next = 0;
-    const workers = Array.from({ length: Math.min(opts.concurrency ?? 2, todo.length) }, async () => {
-      while (next < todo.length) {
-        const page = todo[next++]!;
-        try {
-          await renderOne(context, page, opts.timeoutMs ?? 20_000, Boolean(opts.loadImages));
-          rendered++;
-        } catch (e) {
-          failed++;
-          log('warn', `Could not render ${page.url}: ${oneLine((e as Error).message).slice(0, 200)}`);
+    const workers = Array.from(
+      { length: Math.min(opts.concurrency ?? 2, todo.length) },
+      async () => {
+        while (next < todo.length) {
+          const page = todo[next++]!;
+          try {
+            await renderOne(context, page, opts.timeoutMs ?? 20_000, Boolean(opts.loadImages));
+            rendered++;
+          } catch (e) {
+            failed++;
+            log(
+              'warn',
+              `Could not render ${page.url}: ${oneLine((e as Error).message).slice(0, 200)}`,
+            );
+          }
         }
-      }
-    });
+      },
+    );
     await Promise.all(workers);
     await context.close().catch(() => {});
   } catch (e) {
@@ -218,10 +234,12 @@ async function renderOne(
   const consoleErrors: string[] = [];
   const failedRequests: string[] = [];
   tab.on('console', (msg) => {
-    if (msg.type() === 'error' && consoleErrors.length < 50) consoleErrors.push(oneLine(msg.text()).slice(0, 500));
+    if (msg.type() === 'error' && consoleErrors.length < 50)
+      consoleErrors.push(oneLine(msg.text()).slice(0, 500));
   });
   tab.on('pageerror', (err) => {
-    if (consoleErrors.length < 50) consoleErrors.push(oneLine(`Uncaught: ${err.message}`).slice(0, 500));
+    if (consoleErrors.length < 50)
+      consoleErrors.push(oneLine(`Uncaught: ${err.message}`).slice(0, 500));
   });
   tab.on('requestfailed', (req) => {
     const why = req.failure()?.errorText ?? 'failed';
@@ -230,7 +248,8 @@ async function renderOne(
     if (failedRequests.length < 100) failedRequests.push(`${req.url()} (${why})`);
   });
   tab.on('response', (res) => {
-    if (res.status() >= 400 && failedRequests.length < 100) failedRequests.push(`${res.url()} (HTTP ${res.status()})`);
+    if (res.status() >= 400 && failedRequests.length < 100)
+      failedRequests.push(`${res.url()} (HTTP ${res.status()})`);
   });
 
   try {
@@ -242,7 +261,8 @@ async function renderOne(
     const metrics = (await tab
       .evaluate(() => {
         const w = window as unknown as { __avcPerf?: { lcp: number; cls: number; tbt: number } };
-        const nav = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
+        const nav = performance.getEntriesByType('navigation')[0] as
+          PerformanceNavigationTiming | undefined;
         return {
           domContentLoaded: nav ? nav.domContentLoadedEventEnd : undefined,
           load: nav ? nav.loadEventEnd : undefined,
@@ -275,6 +295,7 @@ async function renderOne(
 
 function clean<T extends object>(o: T): T {
   const out: Record<string, unknown> = {};
-  for (const [k, v] of Object.entries(o)) if (typeof v === 'number' && Number.isFinite(v)) out[k] = Math.round(v * 1000) / 1000;
+  for (const [k, v] of Object.entries(o))
+    if (typeof v === 'number' && Number.isFinite(v)) out[k] = Math.round(v * 1000) / 1000;
   return out as T;
 }

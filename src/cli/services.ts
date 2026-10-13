@@ -14,6 +14,7 @@ import type {
   Check,
   CheckDef,
   EngineId,
+  Fix,
   Issue,
   ProgressFn,
   SiteContext,
@@ -24,17 +25,27 @@ import { ALL_CHECKS } from '../checks/index.js';
 import { runAudit } from '../audit/index.js';
 import { openStore } from '../monitor/store.js';
 import { diffAudits } from '../monitor/diff.js';
-import {
-  renderHtmlReport,
-  renderMarkdownReport,
-  toCsv,
-  toJson,
-  toSarif,
-} from '../report/index.js';
-import { runVisibility, suggestPrompts, inferBrand } from '../ai/index.js';
-import { mergeBrand } from '../ai/brand.js';
+import { renderHtmlReport, renderMarkdownReport, toCsv, toJson, toSarif } from '../report/index.js';
+import { runVisibility } from '../ai/run.js';
+import { suggestPrompts } from '../ai/suggest.js';
+import { inferBrand, mergeBrand } from '../ai/brand.js';
 import { engineStatus, defaultEngines } from '../ai/engines.js';
 import { expectedCallCost } from '../ai/pricing.js';
+import { buildFixes } from '../fixes/index.js';
+import {
+  applyFixes,
+  listSnapshots,
+  rollback,
+  type ApplyFixesOutcome,
+} from '../fixes/apply/index.js';
+import {
+  generateAgentCard,
+  generateLlmsTxt,
+  generateRobotsTxt,
+  generateSiteGraphJsonLd,
+  siteData,
+} from '../fixes/generate.js';
+import { AI_BOTS } from '../agentic/bots.js';
 
 export type Store = ReturnType<typeof openStore>;
 
@@ -62,7 +73,8 @@ export function isUrlish(input: string): boolean {
 export function resolveSite(input: string, config = getConfig()): SiteConfig {
   const byId = config.sites.find((s) => s.id === input);
   if (byId) return byId;
-  if (!isUrlish(input)) throw new Error(`No site called "${input}". Run \`avc init\` or pass a URL.`);
+  if (!isUrlish(input))
+    throw new Error(`No site called "${input}". Run \`avc init\` or pass a URL.`);
   const url = toUrl(input);
   const id = siteIdFromUrl(url);
   const known = config.sites.find((s) => s.id === id);
@@ -101,7 +113,8 @@ export function patchUserConfig<K extends keyof AvcConfig>(
   const prev = (current[section] ?? {}) as object;
   const next = { ...prev, ...patch } as AvcConfig[K];
   // Empty strings clear a value.
-  for (const [k, v] of Object.entries(next as object)) if (v === '' || v === null) delete (next as Record<string, unknown>)[k];
+  for (const [k, v] of Object.entries(next as object))
+    if (v === '' || v === null) delete (next as Record<string, unknown>)[k];
   return saveUserConfig({ [section]: next } as Partial<AvcConfig>);
 }
 
@@ -110,10 +123,13 @@ export function patchSiteConnections(
   patch: Partial<NonNullable<SiteConfig['connections']>>,
 ): AvcConfig {
   const config = getConfig();
-  const site = config.sites.find((s) => s.id === siteId) ?? readUserConfig().sites?.find((s) => s.id === siteId);
+  const site =
+    config.sites.find((s) => s.id === siteId) ??
+    readUserConfig().sites?.find((s) => s.id === siteId);
   if (!site) throw new Error(`No site called "${siteId}".`);
   const connections = { ...site.connections, ...patch };
-  for (const [k, v] of Object.entries(connections)) if (v === '' || v == null) delete (connections as Record<string, unknown>)[k];
+  for (const [k, v] of Object.entries(connections))
+    if (v === '' || v == null) delete (connections as Record<string, unknown>)[k];
   return upsertUserSite({ ...site, connections });
 }
 
@@ -155,7 +171,9 @@ export function findAudit(ref: string | undefined, config = getConfig()): AuditR
 }
 
 /** Every site we know about: configured ones first, then ones that only exist in history. */
-export function allSites(config = getConfig()): (SiteConfig & { lastAuditAt?: string | null; configured: boolean })[] {
+export function allSites(
+  config = getConfig(),
+): (SiteConfig & { lastAuditAt?: string | null; configured: boolean })[] {
   const out = new Map<string, SiteConfig & { lastAuditAt?: string | null; configured: boolean }>();
   for (const s of config.sites) out.set(s.id, { ...s, configured: true });
   try {
@@ -180,7 +198,10 @@ export function allSites(config = getConfig()): (SiteConfig & { lastAuditAt?: st
  */
 export function selectChecks(only?: string[], skip?: string[]): string[] | undefined {
   const norm = (xs?: string[]) =>
-    (xs ?? []).flatMap((x) => x.split(',')).map((x) => x.trim()).filter(Boolean);
+    (xs ?? [])
+      .flatMap((x) => x.split(','))
+      .map((x) => x.trim())
+      .filter(Boolean);
   const inc = norm(only);
   const exc = norm(skip);
   if (!inc.length && !exc.length) return undefined;
@@ -195,7 +216,9 @@ export function selectChecks(only?: string[], skip?: string[]): string[] | undef
   return list.map((c) => c.def.id);
 }
 
-export function listChecks(filter: { category?: string; pillar?: string; search?: string } = {}): CheckDef[] {
+export function listChecks(
+  filter: { category?: string; pillar?: string; search?: string } = {},
+): CheckDef[] {
   const q = filter.search?.toLowerCase();
   return ALL_CHECKS.map((c) => c.def).filter(
     (d) =>
@@ -260,7 +283,11 @@ export async function audit(req: AuditRequest, config = getConfig()): Promise<Au
       const store = getStore(config);
       if (!store.getAudit(result.id)) store.saveAudit(result, site.id);
     } catch (err) {
-      req.onProgress?.({ type: 'log', level: 'warn', message: `Could not save the audit: ${errMsg(err)}` });
+      req.onProgress?.({
+        type: 'log',
+        level: 'warn',
+        message: `Could not save the audit: ${errMsg(err)}`,
+      });
     }
   }
   return result;
@@ -273,14 +300,19 @@ export async function audit(req: AuditRequest, config = getConfig()): Promise<Au
 export const FORMATS = ['html', 'json', 'md', 'csv', 'sarif'] as const;
 export type Format = (typeof FORMATS)[number];
 
-export function parseFormats(input: string | undefined, fallback: Format[] = ['html', 'json']): Format[] {
+export function parseFormats(
+  input: string | undefined,
+  fallback: Format[] = ['html', 'json'],
+): Format[] {
   if (!input) return fallback;
   const out = input
     .split(',')
     .map((s) => s.trim().toLowerCase())
     .map((s) => (s === 'markdown' ? 'md' : s))
     .filter(Boolean);
-  for (const f of out) if (!(FORMATS as readonly string[]).includes(f)) throw new Error(`Unknown format "${f}". Use ${FORMATS.join(', ')}.`);
+  for (const f of out)
+    if (!(FORMATS as readonly string[]).includes(f))
+      throw new Error(`Unknown format "${f}". Use ${FORMATS.join(', ')}.`);
   return [...new Set(out)] as Format[];
 }
 
@@ -312,11 +344,19 @@ export function renderReport(
         },
       ];
     case 'md':
-      return [{ filename: `${base}.md`, contentType: 'text/markdown; charset=utf-8', body: renderMarkdownReport(result) }];
+      return [
+        {
+          filename: `${base}.md`,
+          contentType: 'text/markdown; charset=utf-8',
+          body: renderMarkdownReport(result),
+        },
+      ];
     case 'json':
       return [{ filename: `${base}.json`, contentType: 'application/json', body: toJson(result) }];
     case 'sarif':
-      return [{ filename: `${base}.sarif`, contentType: 'application/sarif+json', body: toSarif(result) }];
+      return [
+        { filename: `${base}.sarif`, contentType: 'application/sarif+json', body: toSarif(result) },
+      ];
     case 'csv': {
       const kinds: ('issues' | 'pages')[] = extras.csv ? [extras.csv] : ['issues', 'pages'];
       return kinds.map((k) => ({
@@ -354,7 +394,10 @@ export function writeReports(
 /** The audit before `result` for the same site, if any. */
 export function previousAudit(result: AuditResult, config = getConfig()): AuditResult | null {
   const store = getStore(config);
-  return store.previousAudit(result.id) ?? store.latestAudit(siteIdFromUrl(result.startUrl || result.site), { before: result.at });
+  return (
+    store.previousAudit(result.id) ??
+    store.latestAudit(siteIdFromUrl(result.startUrl || result.site), { before: result.at })
+  );
 }
 
 export function diff(a: AuditResult, b: AuditResult): AuditDiff {
@@ -369,7 +412,10 @@ export function engines(config = getConfig()) {
   return engineStatus(config);
 }
 
-export function pickEngines(input: string[] | string | undefined, config = getConfig()): EngineId[] {
+export function pickEngines(
+  input: string[] | string | undefined,
+  config = getConfig(),
+): EngineId[] {
   const list = (Array.isArray(input) ? input : input ? [input] : [])
     .flatMap((x) => x.split(','))
     .map((x) => x.trim().toLowerCase())
@@ -379,7 +425,8 @@ export function pickEngines(input: string[] | string | undefined, config = getCo
   const out: EngineId[] = [];
   for (const id of list) {
     const s = status.find((e) => e.engine === id);
-    if (!s) throw new Error(`Unknown engine "${id}". Use ${status.map((e) => e.engine).join(', ')}.`);
+    if (!s)
+      throw new Error(`Unknown engine "${id}". Use ${status.map((e) => e.engine).join(', ')}.`);
     if (!s.available) throw new Error(`${s.label} is not available: ${s.note ?? 'no key set.'}`);
     out.push(s.engine);
   }
@@ -392,7 +439,13 @@ export function estimateVisibilityCost(
   prompts: { search: boolean }[],
   repeats = 1,
   config = getConfig(),
-): { perEngine: Record<string, number>; perAnswer: Record<string, number>; total: number; answers: number; mock: boolean } {
+): {
+  perEngine: Record<string, number>;
+  perAnswer: Record<string, number>;
+  total: number;
+  answers: number;
+  mock: boolean;
+} {
   const status = engineStatus(config);
   const perEngine: Record<string, number> = {};
   const perAnswer: Record<string, number> = {};
@@ -402,18 +455,31 @@ export function estimateVisibilityCost(
     const s = status.find((e) => e.engine === id);
     if (!s) continue;
     if (s.via !== 'mock') mock = false;
-    const unit = s.via === 'mock' ? 0 : expectedCallCost(s.model, 'answer', true, id) + expectedCallCost(s.model, 'judge', false);
+    const unit =
+      s.via === 'mock'
+        ? 0
+        : expectedCallCost(s.model, 'answer', true, id) + expectedCallCost(s.model, 'judge', false);
     perAnswer[id] = unit;
-    const cost = prompts.reduce(
-      (sum, p) =>
-        sum +
-        (s.via === 'mock' ? 0 : expectedCallCost(s.model, 'answer', p.search, id) + expectedCallCost(s.model, 'judge', false)),
-      0,
-    ) * repeats;
+    const cost =
+      prompts.reduce(
+        (sum, p) =>
+          sum +
+          (s.via === 'mock'
+            ? 0
+            : expectedCallCost(s.model, 'answer', p.search, id) +
+              expectedCallCost(s.model, 'judge', false)),
+        0,
+      ) * repeats;
     perEngine[id] = cost;
     total += cost;
   }
-  return { perEngine, perAnswer, total, answers: engineIds.length * prompts.length * repeats, mock };
+  return {
+    perEngine,
+    perAnswer,
+    total,
+    answers: engineIds.length * prompts.length * repeats,
+    mock,
+  };
 }
 
 export function monthSpend(config = getConfig()): number {
@@ -432,12 +498,25 @@ export function readPromptsFile(path: string): TrackedPrompt[] {
 
 export function parsePrompts(raw: string): TrackedPrompt[] {
   const trimmed = raw.trim();
+  let arr: (string | Partial<TrackedPrompt>)[] | null = null;
   if (trimmed.startsWith('[')) {
-    const arr = JSON.parse(trimmed) as (string | Partial<TrackedPrompt>)[];
+    try {
+      const parsed: unknown = JSON.parse(trimmed);
+      if (Array.isArray(parsed)) arr = parsed as (string | Partial<TrackedPrompt>)[];
+    } catch {
+      arr = null; // a plain list whose first line starts with a [tag]
+    }
+  }
+  if (arr) {
     return arr.map((p, i) =>
       typeof p === 'string'
         ? { id: `p${i + 1}`, text: p, kind: 'custom', search: true }
-        : { id: p.id ?? `p${i + 1}`, text: String(p.text ?? ''), kind: p.kind ?? 'custom', search: p.search ?? true },
+        : {
+            id: p.id ?? `p${i + 1}`,
+            text: String(p.text ?? ''),
+            kind: p.kind ?? 'custom',
+            search: p.search ?? true,
+          },
     );
   }
   return trimmed
@@ -466,9 +545,16 @@ export async function quickContext(
 ): Promise<SiteContext | null> {
   try {
     const { crawlSite } = await import('../crawl/index.js');
-    return await crawlSite({ startUrl: toUrl(site.url), maxPages, maxDepth: 2, render: false }, onProgress);
+    return await crawlSite(
+      { startUrl: toUrl(site.url), maxPages, maxDepth: 2, render: false },
+      onProgress,
+    );
   } catch (err) {
-    onProgress?.({ type: 'log', level: 'warn', message: `Could not read the site first: ${errMsg(err)}` });
+    onProgress?.({
+      type: 'log',
+      level: 'warn',
+      message: `Could not read the site first: ${errMsg(err)}`,
+    });
     return null;
   }
 }
@@ -477,7 +563,13 @@ export function brandFor(site: SiteConfig, context?: SiteContext | null): BrandP
   const host = new URL(toUrl(site.url)).host.replace(/^www\./, '');
   const base: BrandProfile = context
     ? inferBrand(context)
-    : { name: host.split('.')[0] ?? host, domain: host, aliases: [], services: [], competitors: [] };
+    : {
+        name: host.split('.')[0] ?? host,
+        domain: host,
+        aliases: [],
+        services: [],
+        competitors: [],
+      };
   return mergeBrand(base, site.brand);
 }
 
@@ -492,8 +584,20 @@ export async function promptSuggestions(
   return suggestPrompts(brand, ctx ?? undefined, { config, custom: site.prompts, count });
 }
 
-export async function visibility(req: VisibilityRequest, config = getConfig()): Promise<VisibilityRun> {
-  const context = req.context === undefined ? await quickContext(req.site, req.onProgress) : req.context;
+export function suggestPromptsFor(
+  brand: BrandProfile,
+  context: SiteContext | null | undefined,
+  config = getConfig(),
+): Promise<TrackedPrompt[]> {
+  return suggestPrompts(brand, context ?? undefined, { config });
+}
+
+export async function visibility(
+  req: VisibilityRequest,
+  config = getConfig(),
+): Promise<VisibilityRun> {
+  const context =
+    req.context === undefined ? await quickContext(req.site, req.onProgress) : req.context;
   const brand = brandFor(req.site, context);
   const prompts = req.prompts?.length
     ? req.prompts
@@ -514,7 +618,11 @@ export async function visibility(req: VisibilityRequest, config = getConfig()): 
   try {
     getStore(config).saveVisibility(run, req.site.id);
   } catch (err) {
-    req.onProgress?.({ type: 'log', level: 'warn', message: `Could not save the run: ${errMsg(err)}` });
+    req.onProgress?.({
+      type: 'log',
+      level: 'warn',
+      message: `Could not save the run: ${errMsg(err)}`,
+    });
   }
   return run;
 }
@@ -541,7 +649,11 @@ export function filterIssues(result: AuditResult, f: IssueFilter): Issue[] {
     if (f.severity && (i.severity ?? def?.severity) !== f.severity) return false;
     if (f.checkId && i.checkId !== f.checkId) return false;
     if (f.url && i.url !== f.url) return false;
-    if (q && !`${i.checkId} ${def?.title ?? ''} ${i.message} ${i.url ?? ''}`.toLowerCase().includes(q)) return false;
+    if (
+      q &&
+      !`${i.checkId} ${def?.title ?? ''} ${i.message} ${i.url ?? ''}`.toLowerCase().includes(q)
+    )
+      return false;
     return true;
   });
 }
@@ -549,4 +661,210 @@ export function filterIssues(result: AuditResult, f: IssueFilter): Issue[] {
 export function errMsg(err: unknown): string {
   if (err instanceof Error) return err.message;
   return String(err);
+}
+
+// ---------------------------------------------------------------------------
+// Fixes
+// ---------------------------------------------------------------------------
+
+export function planFixes(result: AuditResult, only?: string[]): Fix[] {
+  const ids = selectChecks(only);
+  const fixes = buildFixes(result);
+  return ids ? fixes.filter((f: Fix) => ids.includes(f.checkId)) : fixes;
+}
+
+export type FixTarget = 'wordpress' | 'repo';
+
+/** Run the fix applier and normalise its outcome for the surfaces. */
+export async function applyFixesFor(args: {
+  result: AuditResult;
+  site: SiteConfig;
+  target: FixTarget;
+  dryRun: boolean;
+  only?: string[];
+  config?: AvcConfig;
+}): Promise<ApplyReport> {
+  const config = args.config ?? getConfig();
+  const out = await applyFixes({
+    result: args.result,
+    config,
+    site: args.site,
+    target: args.target,
+    dryRun: args.dryRun,
+    only: selectChecks(args.only),
+    repoPath: args.site.connections?.repoPath,
+  });
+  return normaliseApply(out);
+}
+
+export function normaliseApply(out: ApplyFixesOutcome): ApplyReport {
+  if (out.target === 'wordpress') {
+    return {
+      target: 'wordpress',
+      dryRun: out.dryRun,
+      snapshotFile: out.snapshotFile ?? null,
+      summary: out.summary,
+      counts: {
+        planned: out.planned,
+        applied: out.applied,
+        skipped: out.skipped,
+        failed: out.failed,
+      },
+      changes: out.outcome.results
+        .filter((r) => r.status !== 'skipped')
+        .map((r) => ({
+          checkId: r.change.checkIds.join(', '),
+          title: `${r.change.kind.replace(/-/g, ' ')}${r.change.note ? ` (${r.change.note})` : ''}`,
+          url: r.change.url ?? r.change.route,
+          before: r.change.before,
+          after: r.change.after,
+          status: r.status,
+          error: r.status === 'failed' ? r.reason : undefined,
+        })),
+      skipped: [
+        ...out.plan.skipped.map((x) => ({
+          checkId: x.checkId,
+          reason: `${x.url ? x.url + ': ' : ''}${x.reason}`,
+        })),
+        ...out.outcome.results
+          .filter((r) => r.status === 'skipped')
+          .map((r) => ({ checkId: r.change.checkIds.join(', '), reason: r.reason ?? 'skipped' })),
+      ],
+    };
+  }
+  const status = new Map(out.outcome.results.map((r) => [r.path, r]));
+  return {
+    target: 'repo',
+    dryRun: out.dryRun,
+    snapshotFile: out.snapshotFile ?? null,
+    summary: out.summary,
+    patch: out.diff,
+    counts: {
+      planned: out.planned,
+      applied: out.applied,
+      skipped: out.skipped,
+      failed: out.failed,
+    },
+    changes: out.plan.changes.map((ch) => {
+      const r = status.get(ch.path);
+      return {
+        checkId: ch.checkIds.join(', '),
+        title: ch.description.join('; ') || `${ch.action} ${ch.path}`,
+        file: ch.path,
+        diff: ch.diff,
+        status: r?.status ?? (out.dryRun ? 'planned' : undefined),
+        error: r?.status === 'failed' ? r.reason : undefined,
+      };
+    }),
+    skipped: out.plan.skipped,
+    notes: out.plan.notes,
+  };
+}
+
+export function snapshots(config = getConfig(), siteId?: string): string[] {
+  try {
+    return listSnapshots(config.dataDir, siteId);
+  } catch {
+    return [];
+  }
+}
+
+export async function rollbackSnapshot(file: string): Promise<unknown> {
+  return rollback(file);
+}
+
+/** What the surfaces read from an apply report (duck-typed; extra fields are shown raw). */
+export interface ApplyReport {
+  dryRun?: boolean;
+  target?: string;
+  snapshot?: string | null;
+  snapshotFile?: string | null;
+  changes?: {
+    checkId?: string;
+    title?: string;
+    description?: string;
+    file?: string;
+    url?: string;
+    diff?: string;
+    before?: unknown;
+    after?: unknown;
+    status?: string;
+    error?: string;
+  }[];
+  skipped?: { checkId?: string; reason?: string }[];
+  errors?: string[];
+  notes?: string[];
+  summary?: string;
+  patch?: string;
+  counts?: { planned: number; applied: number; skipped: number; failed: number };
+  [k: string]: unknown;
+}
+
+// ---------------------------------------------------------------------------
+// Generators
+// ---------------------------------------------------------------------------
+
+export type GenerateKind = 'llms-txt' | 'robots' | 'schema' | 'agent-card';
+export type RobotsChoice = 'allow-all' | 'allow-search' | 'block-training' | 'block-all';
+
+export function generate(
+  kind: GenerateKind,
+  result: AuditResult,
+  site: SiteConfig,
+  opts: { policy?: RobotsChoice } = {},
+): { filename: string; contentType: string; body: string; where: string } {
+  const data = siteData(result);
+  const b = site.brand ?? {};
+  const facts = {
+    name: b.name,
+    description: b.description,
+    url: result.site,
+    services: b.services,
+    location: b.location,
+  };
+  switch (kind) {
+    case 'llms-txt':
+      return {
+        filename: 'llms.txt',
+        contentType: 'text/plain; charset=utf-8',
+        body: generateLlmsTxt(data, { name: b.name, summary: b.description }),
+        where: 'Publish at /llms.txt on your site root.',
+      };
+    case 'robots': {
+      const policy = opts.policy ?? 'allow-search';
+      const mapped =
+        policy === 'allow-all'
+          ? generateRobotsTxt(result.robots.body, 'allow-all-ai')
+          : policy === 'allow-search' || policy === 'block-training'
+            ? generateRobotsTxt(result.robots.body, 'allow-search-block-training')
+            : generateRobotsTxt(result.robots.body, 'custom', {
+                custom: Object.fromEntries(AI_BOTS.map((bot) => [bot.token, 'block' as const])),
+              });
+      return {
+        filename: 'robots.txt',
+        contentType: 'text/plain; charset=utf-8',
+        body: mapped,
+        where: 'Replace /robots.txt. The AI crawler rules sit between the BEGIN/END AVC markers.',
+      };
+    }
+    case 'schema': {
+      const json = generateSiteGraphJsonLd(data, facts);
+      return {
+        filename: 'organization.jsonld',
+        contentType: 'application/ld+json',
+        body: JSON.stringify(json, null, 2),
+        where: 'Add inside <script type="application/ld+json"> in the <head> of your home page.',
+      };
+    }
+    case 'agent-card': {
+      const name = b.name ?? siteIdFromUrl(result.site);
+      return {
+        filename: 'agent-card.json',
+        contentType: 'application/json',
+        body: JSON.stringify(generateAgentCard({ ...facts, name, url: result.site }), null, 2),
+        where:
+          'Only if you run an A2A agent: publish at /.well-known/agent-card.json and set its real endpoint.',
+      };
+    }
+  }
 }
