@@ -10,8 +10,8 @@
   "4xx": 6
  },
  "max_pages": 5000,
- "target": "http://127.0.0.1:33187",
+ "target": "http://127.0.0.1:41967",
  "robots_seed_blocked": false,
- "elapsed_s": 263.1,
- "pages_per_sec": 3.82
+ "elapsed_s": 231,
+ "pages_per_sec": 4.36
 }

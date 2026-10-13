@@ -51,15 +51,15 @@
   {
    "tool": "avc",
    "type": "response.client-error",
-   "url": "/prices-2023",
-   "message": "HTTP 404 | /old-prices, /prices-2023",
+   "url": "/blog/whitening-myths-old",
+   "message": "HTTP 404 | /blog/whitening-myths",
    "severity": "medium"
   },
   {
    "tool": "avc",
    "type": "response.client-error",
-   "url": "/blog/whitening-myths-old",
-   "message": "HTTP 404 | /blog/whitening-myths",
+   "url": "/prices-2023",
+   "message": "HTTP 404 | /old-prices, /prices-2023",
    "severity": "medium"
   },
   {
@@ -93,13 +93,6 @@
    "url": "/book-now",
    "message": "2 redirects before the final URL | /book-now (301) → /booking (301) → /book",
    "severity": "medium"
-  },
-  {
-   "tool": "avc",
-   "type": "redirects.chain",
-   "url": "/special-offer",
-   "message": "3 redirects before the final URL | /special-offer (301) → /special-offer-2024 (301) → /special-offer (0) → /special-offer",
-   "severity": "high"
   },
   {
    "tool": "avc",
@@ -182,12 +175,6 @@
   {
    "tool": "avc",
    "type": "onpage.title-h1-mismatch",
-   "url": "/team",
-   "message": "The title and H1 have no meaningful words in common | title: Meet Our Dentists and Hygienists | Harbourline | h1: Our dental team"
-  },
-  {
-   "tool": "avc",
-   "type": "onpage.title-h1-mismatch",
    "url": "/blog/tag/whitening",
    "message": "The title and H1 have no meaningful words in common | title: Articles Tagged Whitening | Harbourline Dental | h1: Cosmetic dentistry"
   },
@@ -196,6 +183,12 @@
    "type": "onpage.title-h1-mismatch",
    "url": "/blog/healthy-snacks",
    "message": "The title and H1 have no meaningful words in common | title: Healthy Eating for Healthy Teeth | Harbourline Dental Studio | h1: Tooth-friendly snacks for children"
+  },
+  {
+   "tool": "avc",
+   "type": "onpage.title-h1-mismatch",
+   "url": "/team",
+   "message": "The title and H1 have no meaningful words in common | title: Meet Our Dentists and Hygienists | Harbourline | h1: Our dental team"
   },
   {
    "tool": "avc",
@@ -212,20 +205,8 @@
   {
    "tool": "avc",
    "type": "onpage.description-too-long",
-   "url": "/developers",
-   "message": "Description is 149 characters (about 944px; Google shows about 920px) | How software and AI agents can find Harbourline Dental Studio’s booking API, its machine-readable catalogue and the agent discovery files we publish."
-  },
-  {
-   "tool": "avc",
-   "type": "onpage.description-too-long",
    "url": "/legal/terms",
    "message": "Description is 333 characters (about 2131px; Google shows about 920px) | These terms of treatment explain how Harbourline Dental Studio books appointments, sets and quotes fees, takes deposits and payments, handles cancellations and missed appointments, offers guarantees on crowns, bridges, implants and veneers, manages refunds and remakes, and resolves complaints at ou…"
-  },
-  {
-   "tool": "avc",
-   "type": "onpage.description-too-long",
-   "url": "/legal/accessibility",
-   "message": "Description is 149 characters (about 924px; Google shows about 920px) | How accessible the Harbourline Dental Studio website is, the standard we aim for, known limitations and how to ask for information in another format."
   },
   {
    "tool": "avc",
@@ -292,6 +273,12 @@
    "type": "headings.empty",
    "url": "/blog/teeth-grinding",
    "message": "1 empty heading (H2)"
+  },
+  {
+   "tool": "avc",
+   "type": "headings.no-subheadings",
+   "url": "/blog/history-of-dentistry",
+   "message": "524 words of main content with no subheading (H2–H6)"
   },
   {
    "tool": "avc",
@@ -374,6 +361,12 @@
   {
    "tool": "avc",
    "type": "onpage.description-thin-for-ai",
+   "url": "/blog/healthy-snacks",
+   "message": "Description is 105 characters; about 120+ gives AI enough context | Tooth-friendly snack ideas for school lunchboxes and after-school hunger, chosen by our dental therapist."
+  },
+  {
+   "tool": "avc",
+   "type": "onpage.description-thin-for-ai",
    "url": "/blog/electric-vs-manual-toothbrush",
    "message": "Description is 117 characters; about 120+ gives AI enough context | Do electric toothbrushes clean better? What the research says, which features matter and when a manual brush is fine."
   },
@@ -406,12 +399,6 @@
    "type": "onpage.description-thin-for-ai",
    "url": "/blog/teeth-grinding",
    "message": "Description is 109 characters; about 120+ gives AI enough context | Jaw ache, headaches and worn teeth can be signs of night-time grinding. How bruxism is diagnosed and treated."
-  },
-  {
-   "tool": "avc",
-   "type": "onpage.description-thin-for-ai",
-   "url": "/blog/healthy-snacks",
-   "message": "Description is 105 characters; about 120+ gives AI enough context | Tooth-friendly snack ideas for school lunchboxes and after-school hunger, chosen by our dental therapist."
   },
   {
    "tool": "avc",
@@ -677,6 +664,12 @@
   },
   {
    "tool": "avc",
+   "type": "links-internal.generic-anchors",
+   "url": "/blog/whitening-at-home",
+   "message": "2 internal links use generic anchor text | \"Click here\", \"read more\""
+  },
+  {
+   "tool": "avc",
    "type": "links-internal.single-inlink",
    "url": "/services/veneers",
    "message": "Only one internal page links here"
@@ -779,6 +772,12 @@
   },
   {
    "tool": "avc",
+   "type": "images.dimensions-missing",
+   "url": "/blog/what-to-expect-implants",
+   "message": "1 image without width and height | /images/blog/post-04.jpg"
+  },
+  {
+   "tool": "avc",
    "type": "images.large",
    "url": "/about",
    "message": "1 image over 200 KB | /images/clinic-panorama.jpg (580 KB)",
@@ -831,6 +830,18 @@
    "type": "schema.invalid-json",
    "url": "/blog/dental-implants-cost",
    "message": "1 JSON-LD block with a syntax error | Expected double-quoted property name in JSON at position 239 (line 8 column 1)"
+  },
+  {
+   "tool": "avc",
+   "type": "schema.type-unknown",
+   "url": "/services/childrens-dentistry",
+   "message": "1 type not in the schema.org vocabulary: \"DentalPractice\" | \"DentalPractice\""
+  },
+  {
+   "tool": "avc",
+   "type": "schema.date-order",
+   "url": "/blog/open-evening-november",
+   "message": "1 node with an end before its start | Event: endDate 2026-11-20T16:00:00+00:00 is before startDate 2026-11-20T18:00:00+00:00"
   },
   {
    "tool": "avc",
@@ -915,12 +926,6 @@
   {
    "tool": "avc",
    "type": "schema.article-missing",
-   "url": "/blog/dental-implants-cost",
-   "message": "Looks like an article but has no Article/BlogPosting markup"
-  },
-  {
-   "tool": "avc",
-   "type": "schema.article-missing",
    "url": "/blog/mouthwash-guide",
    "message": "Looks like an article but has no Article/BlogPosting markup"
   },
@@ -947,6 +952,24 @@
    "type": "mobile.zoom-disabled",
    "url": "/locations/bristol",
    "message": "Viewport prevents zooming | width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.horizontal-scroll",
+   "url": "/locations/bath",
+   "message": "Content is 620px wide on a 412px screen"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.horizontal-scroll",
+   "url": "/legal/privacy",
+   "message": "Content is 461px wide on a 412px screen"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.horizontal-scroll",
+   "url": "/legal/complaints",
+   "message": "Content is 981px wide on a 412px screen"
   },
   {
    "tool": "avc",
@@ -1010,10 +1033,442 @@
   },
   {
    "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/services/dental-implants",
+   "message": "13 tap targets smaller than 24×24px | \"Home\" 42×19, \"Treatments\" 80×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20 and 8 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/services/teeth-whitening",
+   "message": "13 tap targets smaller than 24×24px | \"Home\" 42×19, \"Treatments\" 80×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20 and 8 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/services/emergency-dentist",
+   "message": "13 tap targets smaller than 24×24px | \"Home\" 42×19, \"Treatments\" 80×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20 and 8 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/services/hygiene",
+   "message": "13 tap targets smaller than 24×24px | \"Home\" 42×19, \"Treatments\" 80×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20 and 8 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/services/childrens-dentistry",
+   "message": "13 tap targets smaller than 24×24px | \"Home\" 42×19, \"Treatments\" 80×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20 and 8 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/locations/bristol",
+   "message": "13 tap targets smaller than 24×24px | \"Home\" 42×19, \"Clinics\" 47×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20 and 8 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/locations/bath",
+   "message": "13 tap targets smaller than 24×24px | \"Home\" 42×19, \"Clinics\" 47×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20 and 8 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/locations/leeds",
+   "message": "13 tap targets smaller than 24×24px | \"Home\" 42×19, \"Clinics\" 47×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20 and 8 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/choosing-a-toothpaste",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Oral health\" 77×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/wisdom-teeth",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Oral health\" 77×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/dental-checkups-how-often",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Oral health\" 77×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/about",
+   "message": "12 tap targets smaller than 24×24px | \"Home\" 42×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20, \"Careers\" 63×20 and 7 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/finance",
+   "message": "12 tap targets smaller than 24×24px | \"Home\" 42×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20, \"Careers\" 63×20 and 7 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/careers",
+   "message": "12 tap targets smaller than 24×24px | \"Home\" 42×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20, \"Careers\" 63×20 and 7 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/referrals",
+   "message": "12 tap targets smaller than 24×24px | \"Home\" 42×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20, \"Careers\" 63×20 and 7 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/developers",
+   "message": "12 tap targets smaller than 24×24px | \"Home\" 42×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20, \"Careers\" 63×20 and 7 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/legal/privacy",
+   "message": "12 tap targets smaller than 24×24px | \"Home\" 42×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20, \"Careers\" 63×20 and 7 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/legal/cookies",
+   "message": "12 tap targets smaller than 24×24px | \"Home\" 42×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20, \"Careers\" 63×20 and 7 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/legal/terms",
+   "message": "12 tap targets smaller than 24×24px | \"Home\" 42×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20, \"Careers\" 63×20 and 7 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/legal/complaints",
+   "message": "12 tap targets smaller than 24×24px | \"Home\" 42×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20, \"Careers\" 63×20 and 7 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/legal/accessibility",
+   "message": "12 tap targets smaller than 24×24px | \"Home\" 42×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20, \"Careers\" 63×20 and 7 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/services/invisalign",
+   "message": "13 tap targets smaller than 24×24px | \"Home\" 42×19, \"Treatments\" 80×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20 and 8 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/services/veneers",
+   "message": "13 tap targets smaller than 24×24px | \"Home\" 42×19, \"Treatments\" 80×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20 and 8 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/services/sedation",
+   "message": "11 tap targets smaller than 24×24px | \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20, \"Careers\" 63×20, \"Referrals for dentists\" 167×20 and 6 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/nervous-patients",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Practice news\" 100×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/open-evening-november",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Practice news\" 100×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/smile-makeover",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Cosmetic dentistry\" 134×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/clinic-refurbishment",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Practice news\" 100×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/root-canal-myths",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Oral health\" 77×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/history-of-dentistry",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Practice news\" 100×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/whitening-at-home",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Cosmetic dentistry\" 134×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/invisalign-vs-braces",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Cosmetic dentistry\" 134×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/scale-and-polish-explained",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Oral health\" 77×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/pregnancy-and-dental-care",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Oral health\" 77×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/new-parking-at-bristol",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Practice news\" 100×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/page/2",
+   "message": "20 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Page 1\" 52×20, \"Page 3\" 56×20, \"Oral health\" 88×20 and 15 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/category/oral-health",
+   "message": "15 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Do you need mouthwash?\" 208×20, \"See older oral health articles\" 229×20, \"About Harbourline\" 147×20 and 10 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/page/3",
+   "message": "20 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Do you need mouthwash?\" 208×20, \"Page 1\" 52×20, \"Page 2\" 56×20 and 15 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/category/cosmetic",
+   "message": "13 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20 and 8 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/category/news",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"our 2019 open day\" 149×20, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/tag/whitening",
+   "message": "13 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20 and 8 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/tag/kids",
+   "message": "13 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20 and 8 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/us/new-patients",
+   "message": "12 tap targets smaller than 24×24px | \"Home\" 42×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20, \"Careers\" 63×20 and 7 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/how-to-floss-properly",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Oral health\" 77×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/team/tom-ellis",
+   "message": "13 tap targets smaller than 24×24px | \"Home\" 42×19, \"Our team\" 65×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20 and 8 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/team/dr-rohan-mehta",
+   "message": "13 tap targets smaller than 24×24px | \"Home\" 42×19, \"Our team\" 65×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20 and 8 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/team/dr-amelia-hart",
+   "message": "13 tap targets smaller than 24×24px | \"Home\" 42×19, \"Our team\" 65×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20 and 8 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/team/dr-sophie-lang",
+   "message": "13 tap targets smaller than 24×24px | \"Home\" 42×19, \"Our team\" 65×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20 and 8 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/team/priya-shah",
+   "message": "13 tap targets smaller than 24×24px | \"Home\" 42×19, \"Our team\" 65×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20 and 8 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/how-to-brush-your-teeth",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Oral health\" 77×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/dental-implants-cost",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Practice news\" 100×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/cracked-tooth-first-aid",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Oral health\" 77×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/what-to-expect-implants",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Cosmetic dentistry\" 134×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/whitening-myths",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Cosmetic dentistry\" 134×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/fluoride-facts",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Oral health\" 77×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/Top-10-Brushing-Mistakes",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Oral health\" 77×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/gum_disease_signs",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Oral health\" 77×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/sugar-and-teeth",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Oral health\" 77×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/healthy-snacks",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Oral health\" 77×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/electric-vs-manual-toothbrush",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Oral health\" 77×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/mouthwash-guide",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Oral health\" 77×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/bad-breath-causes",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Oral health\" 77×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/dry-mouth",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Oral health\" 77×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/sensitive-teeth",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Oral health\" 77×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/kids-first-visit",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Oral health\" 77×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/teeth-grinding",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Oral health\" 77×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/team",
+   "message": "12 tap targets smaller than 24×24px | \"Home\" 42×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20, \"Careers\" 63×20 and 7 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/invisalign-guide",
+   "message": "12 tap targets smaller than 24×24px | \"Home\" 42×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20, \"Careers\" 63×20 and 7 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/us/invisalign-guide",
+   "message": "12 tap targets smaller than 24×24px | \"Home\" 42×19, \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20, \"Careers\" 63×20 and 7 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/patient-stories",
+   "message": "11 tap targets smaller than 24×24px | \"About Harbourline\" 147×20, \"New patients\" 105×20, \"Paying for treatment\" 164×20, \"Careers\" 63×20, \"Referrals for dentists\" 167×20 and 6 more"
+  },
+  {
+   "tool": "avc",
+   "type": "mobile.tap-targets",
+   "url": "/blog/retainer-care",
+   "message": "14 tap targets smaller than 24×24px | \"Home\" 42×19, \"Advice\" 49×19, \"Cosmetic dentistry\" 134×19, \"About Harbourline\" 147×20, \"New patients\" 105×20 and 9 more"
+  },
+  {
+   "tool": "avc",
    "type": "performance.ttfb-slow",
    "url": "/team",
-   "message": "Time to first byte was 2517 ms",
+   "message": "Time to first byte was 2512 ms",
    "severity": "high"
+  },
+  {
+   "tool": "avc",
+   "type": "performance.no-compression",
+   "url": "/blog/category/oral-health",
+   "message": "10 KB of HTML sent without compression although the request accepted gzip and br (gzip would save about 7 KB) | Content-Encoding: (none)"
   },
   {
    "tool": "avc",
@@ -1032,8 +1487,22 @@
    "tool": "avc",
    "type": "performance.rendered-cls",
    "url": "/pricing",
-   "message": "CLS 0.11 in the local render",
+   "message": "CLS 0.11 in the local desktop render | desktop 0.109, phone 0.000",
    "severity": "low"
+  },
+  {
+   "tool": "avc",
+   "type": "performance.rendered-cls",
+   "url": "/blog/clinic-refurbishment",
+   "message": "CLS 0.10 in the local phone render | desktop 0.066, phone 0.102",
+   "severity": "low"
+  },
+  {
+   "tool": "avc",
+   "type": "performance.rendered-cls",
+   "url": "/patient-stories",
+   "message": "CLS 0.35 in the local desktop render | desktop 0.346, phone 0.000",
+   "severity": "medium"
   },
   {
    "tool": "avc",
@@ -1212,12 +1681,6 @@
   {
    "tool": "avc",
    "type": "security.not-https",
-   "url": "/team",
-   "message": "Page loads over http://"
-  },
-  {
-   "tool": "avc",
-   "type": "security.not-https",
    "url": "/legal/complaints",
    "message": "Page loads over http://"
   },
@@ -1320,13 +1783,13 @@
   {
    "tool": "avc",
    "type": "security.not-https",
-   "url": "/blog/page/3",
+   "url": "/blog/category/oral-health",
    "message": "Page loads over http://"
   },
   {
    "tool": "avc",
    "type": "security.not-https",
-   "url": "/blog/category/oral-health",
+   "url": "/blog/page/3",
    "message": "Page loads over http://"
   },
   {
@@ -1452,6 +1915,12 @@
   {
    "tool": "avc",
    "type": "security.not-https",
+   "url": "/blog/healthy-snacks",
+   "message": "Page loads over http://"
+  },
+  {
+   "tool": "avc",
+   "type": "security.not-https",
    "url": "/blog/electric-vs-manual-toothbrush",
    "message": "Page loads over http://"
   },
@@ -1494,13 +1963,13 @@
   {
    "tool": "avc",
    "type": "security.not-https",
-   "url": "/blog/healthy-snacks",
+   "url": "/whitening-offer",
    "message": "Page loads over http://"
   },
   {
    "tool": "avc",
    "type": "security.not-https",
-   "url": "/whitening-offer",
+   "url": "/team",
    "message": "Page loads over http://"
   },
   {
@@ -1589,6 +2058,24 @@
   },
   {
    "tool": "avc",
+   "type": "accessibility.clickable-div",
+   "url": "/blog/smile-makeover",
+   "message": "2 elements styled as clickable (cursor: pointer) that are not a link, button or control and cannot be focused | <span class=\"tab is-active\" data-tab=\"before\">Before treatment</span> \"Before treatment\", <span class=\"tab\" data-tab=\"after\">After treatment</span> \"After treatment\""
+  },
+  {
+   "tool": "avc",
+   "type": "accessibility.clickable-div",
+   "url": "/team/tom-ellis",
+   "message": "1 element styled as clickable (cursor: pointer) that is not a link, button or control and cannot be focused | <div class=\"btn\" data-href=\"/book\">Book with Tom</div> \"Book with Tom\""
+  },
+  {
+   "tool": "avc",
+   "type": "accessibility.autocomplete-invalid",
+   "url": "/new-patients",
+   "message": "2 fields with an invalid autocomplete value | autocomplete=\"e-mail\" (\"e-mail\" is not an autofill field name), autocomplete=\"phone\" (\"phone\" is not an autofill field name)"
+  },
+  {
+   "tool": "avc",
    "type": "accessibility.main-landmark-missing",
    "url": "/blog/category/news",
    "message": "No <main> or role=\"main\""
@@ -1625,6 +2112,30 @@
   },
   {
    "tool": "avc",
+   "type": "accessibility.list-structure",
+   "url": "/services",
+   "message": "1 element other than <li> directly inside a <ul>/<ol> | <ul> > <div class=\"list-intro\">"
+  },
+  {
+   "tool": "avc",
+   "type": "accessibility.low-contrast-rendered",
+   "url": "/blog/whitening-myths",
+   "message": "1 text sample below the WCAG AA contrast ratio | \"Peroxide gels used under dent…\" 1.98:1 (rgb(184, 184, 184) on rgb(255, 255, 255))"
+  },
+  {
+   "tool": "avc",
+   "type": "js-rendering.loading-placeholder",
+   "url": "/pricing",
+   "message": "The HTML shows \"Loading prices…\" where JavaScript later adds 54 words | Loading prices…"
+  },
+  {
+   "tool": "avc",
+   "type": "js-rendering.h1-only-rendered",
+   "url": "/patient-stories",
+   "message": "No H1 in the HTML; one appears after rendering | Patient stories"
+  },
+  {
+   "tool": "avc",
    "type": "js-rendering.console-errors",
    "url": "/blog/category/cosmetic",
    "message": "1 console error | Uncaught: initLightbox is not defined",
@@ -1641,6 +2152,12 @@
    "type": "ai-crawlers.page-nosnippet",
    "url": "/locations/leeds",
    "message": "Page forbids text snippets, which also keeps it out of AI answers. | nosnippet, "
+  },
+  {
+   "tool": "avc",
+   "type": "ai-crawlers.rendered-headings-missing",
+   "url": "/patient-stories",
+   "message": "5 headings appear only in the rendered page. | H1: Patient stories\nH2: Margaret, 67, Bristol\nH2: James, 34, Bath\nH2: Aisha, 29, Leeds\nH2: The Okafor family, Bristol"
   },
   {
    "tool": "avc",
@@ -1753,7 +2270,7 @@
   {
    "tool": "avc",
    "type": "geo-content.no-author",
-   "url": "/blog/category/oral-health",
+   "url": "/blog/sugar-and-teeth",
    "message": "No visible byline and no author in the schema."
   },
   {
@@ -1761,12 +2278,6 @@
    "type": "geo-content.author-not-in-schema",
    "url": "/blog/dental-implants-cost",
    "message": "Byline \"By Dr Rohan Mehta, Implant dentist · Published 9 February 2026 · Updated 1 March 2026\" is visible but no schema author is set."
-  },
-  {
-   "tool": "avc",
-   "type": "geo-content.author-not-in-schema",
-   "url": "/blog/sugar-and-teeth",
-   "message": "Byline \"Published 6 May 2025\" is visible but no schema author is set."
   },
   {
    "tool": "avc",
@@ -1878,18 +2389,6 @@
   },
   {
    "tool": "avc",
-   "type": "geo-content.missing-article-schema",
-   "url": "/blog/category/oral-health",
-   "message": "Article-like page with no Article/BlogPosting schema."
-  },
-  {
-   "tool": "avc",
-   "type": "geo-content.missing-article-schema",
-   "url": "/blog/dental-implants-cost",
-   "message": "Article-like page with no Article/BlogPosting schema."
-  },
-  {
-   "tool": "avc",
    "type": "geo-content.isolated-article",
    "url": "/blog/retainer-care",
    "message": "Only 0 internal links point here."
@@ -1903,9 +2402,21 @@
   },
   {
    "tool": "avc",
+   "type": "geo-entity.nap-page-mismatch",
+   "url": "/locations/bath",
+   "message": "The markup gives a phone number the page does not show (01632 960 245 on the page). | Dentist telephone \"+44 1632 960999\""
+  },
+  {
+   "tool": "avc",
    "type": "agentic.webmcp-form-incomplete",
    "url": "/contact",
    "message": "1 problem with WebMCP form tools. | \"send_enquiry\" has no tooldescription"
+  },
+  {
+   "tool": "avc",
+   "type": "agentic.webmcp-schema-invalid",
+   "url": "/book",
+   "message": "1 registered tool with an invalid inputSchema (seen at runtime). | request_appointment: #/type \"objekt\" is not a JSON Schema type; #/required must be an array of property names; #/properties/date/type \"date\" is not a JSON Schema type"
   },
   {
    "tool": "avc",
@@ -1957,6 +2468,12 @@
   },
   {
    "tool": "avc",
+   "type": "duplicates.copied-content",
+   "url": "/blog/scale-and-polish-explained",
+   "message": "84% of the main text (147 words) is copied word for word from another page | /services/hygiene"
+  },
+  {
+   "tool": "avc",
    "type": "links-internal.orphan",
    "url": "/invisalign-guide",
    "message": "In the sitemap but no crawled page links to it"
@@ -1972,6 +2489,12 @@
    "type": "links-internal.orphan",
    "url": "/blog/retainer-care",
    "message": "In the sitemap but no crawled page links to it"
+  },
+  {
+   "tool": "avc",
+   "type": "schema.localbusiness-missing",
+   "url": "/locations/leeds",
+   "message": "No LocalBusiness markup, unlike 2 of 2 sibling pages (Dentist) | /locations/bristol, /locations/bath"
   },
   {
    "tool": "avc",
@@ -1996,6 +2519,42 @@
    "type": "mobile.touch-icon-missing",
    "url": "/",
    "message": "Home page has no apple-touch-icon link"
+  },
+  {
+   "tool": "avc",
+   "type": "security.csp-missing",
+   "url": "/pricing",
+   "message": "No Content-Security-Policy on this page, although 81 of 82 pages send it"
+  },
+  {
+   "tool": "avc",
+   "type": "security.nosniff-missing",
+   "url": "/pricing",
+   "message": "No X-Content-Type-Options: nosniff on this page, although 81 of 82 pages send it"
+  },
+  {
+   "tool": "avc",
+   "type": "security.frame-protection-missing",
+   "url": "/pricing",
+   "message": "No X-Frame-Options or frame-ancestors on this page, although 81 of 82 pages send it"
+  },
+  {
+   "tool": "avc",
+   "type": "security.referrer-policy-missing",
+   "url": "/pricing",
+   "message": "No Referrer-Policy on this page, although 81 of 82 pages send it"
+  },
+  {
+   "tool": "avc",
+   "type": "security.version-disclosure",
+   "url": "/legal/cookies",
+   "message": "2 headers reveal software versions | server: Apache/2.4.29 (Ubuntu), x-powered-by: PHP/7.2.24"
+  },
+  {
+   "tool": "avc",
+   "type": "security.security-txt-invalid",
+   "url": null,
+   "message": "security.txt: no Expires field (required) | Contact: mailto:security@harbourline.example Preferred-Languages: en Canonical: /.well-known/security.txt"
   },
   {
    "tool": "avc",
@@ -2083,6 +2642,19 @@
   },
   {
    "tool": "avc",
+   "type": "ai-crawlers.path-blocked",
+   "url": null,
+   "message": "robots.txt blocks 1 AI bot from 5 indexable pages while allowing the rest of the site. | ClaudeBot (line 17: Disallow: /team/): 5 pages, e.g. /team/tom-ellis",
+   "severity": "medium"
+  },
+  {
+   "tool": "avc",
+   "type": "ai-crawlers.sample-pages-blocked",
+   "url": "/services/general-dentistry",
+   "message": "4 AI bots blocked on this page while a browser got HTTP 200. | GPTBot: HTTP 403\nOAI-SearchBot: HTTP 403\nClaude-User: HTTP 403\nPerplexityBot: HTTP 403"
+  },
+  {
+   "tool": "avc",
    "type": "ai-crawlers.bing-webmaster",
    "url": null,
    "message": "The home page has no msvalidate.01 verification tag."
@@ -2126,6 +2698,12 @@
   },
   {
    "tool": "avc",
+   "type": "llms-txt.markdown-alternate-broken",
+   "url": "/about",
+   "message": "The page links to a markdown version that returns HTTP 404. | /about.md"
+  },
+  {
+   "tool": "avc",
    "type": "geo-entity.org-no-sameas",
    "url": "/",
    "message": "The Organization schema has no sameAs."
@@ -2162,6 +2740,12 @@
   },
   {
    "tool": "avc",
+   "type": "agentic.a2a-endpoint-unreachable",
+   "url": null,
+   "message": "The agent card's endpoint does not respond: /a2a (HTTP 404). | /a2a (HTTP 404)"
+  },
+  {
+   "tool": "avc",
    "type": "agentic.oauth-issuer-mismatch",
    "url": null,
    "message": "oauth-authorization-server says issuer https://auth.harbourline-dental.example, but it is served from . | /.well-known/oauth-authorization-server"
@@ -2177,6 +2761,12 @@
    "type": "agentic.prm-invalid",
    "url": null,
    "message": "Protected resource metadata has problems: 1 error. | Missing \"resource\" (required)."
+  },
+  {
+   "tool": "avc",
+   "type": "agentic.api-catalog-broken-link",
+   "url": null,
+   "message": "1 link in the API catalog is broken. | service-desc /openapi.json (HTTP 404)"
   },
   {
    "tool": "avc",
@@ -2200,7 +2790,7 @@
    "tool": "avc",
    "type": "agentic.feed-missing",
    "url": null,
-   "message": "34 articles and no feed found."
+   "message": "32 articles and no feed found."
   },
   {
    "tool": "avc",
@@ -2233,8 +2823,8 @@
    },
    "note": "Defaults otherwise (depth 10). --max-pages 0 lifts the default 500-page cap so the whole site is audited. AVC_DATA_DIR is a throwaway folder deleted after the run."
   },
-  "durationMs": 49823,
-  "peakRssMb": 1101,
+  "durationMs": 68233,
+  "peakRssMb": 1262,
   "pagesAudited": 96,
   "errors": []
  }

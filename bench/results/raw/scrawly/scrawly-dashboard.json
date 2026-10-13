@@ -1,7 +1,7 @@
 {
  "crawl_id": 1,
- "target_url": "http://127.0.0.1:38005/",
- "started_at": "2026-10-13T11:50:17.700967",
+ "target_url": "http://127.0.0.1:34719/",
+ "started_at": "2026-10-13T19:28:45.816023",
  "health_score": 28,
  "totals": {
   "urls": 88,
@@ -42,11 +42,11 @@
    "count": 23
   },
   {
-   "category": "Performance",
+   "category": "Content & Meta",
    "count": 21
   },
   {
-   "category": "Content & Meta",
+   "category": "Performance",
    "count": 21
   },
   {
@@ -89,8 +89,8 @@
   "avg_readability": 47.3
  },
  "cwv": {
-  "avg_lcp_s": 0.16,
-  "avg_cls": 0.012,
+  "avg_lcp_s": 0.15,
+  "avg_cls": 0.009,
   "samples": 87
  }
 }

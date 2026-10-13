@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-10-13T12:35:32.423Z",
+ "generatedAt": "2026-10-13T20:12:30.279Z",
  "groundTruth": {
   "defects": 121,
   "controls": 12,
@@ -35,82 +35,82 @@
      },
      "note": "Defaults otherwise (depth 10). --max-pages 0 lifts the default 500-page cap so the whole site is audited. AVC_DATA_DIR is a throwaway folder deleted after the run."
     },
-    "durationMs": 49823,
-    "peakRssMb": 1101,
+    "durationMs": 68233,
+    "peakRssMb": 1262,
     "pagesAudited": 96,
     "errors": []
    },
    "score": {
     "tool": "avc",
     "totals": {
-     "findings": 364,
-     "uniqueFindings": 363,
-     "mappedFindings": 155,
-     "unmappedFindings": 208
+     "findings": 462,
+     "uniqueFindings": 461,
+     "mappedFindings": 181,
+     "unmappedFindings": 280
     },
     "areas": {
      "technical": {
       "defects": 40,
-      "detected": 33,
-      "recall": 0.825,
-      "mappedFindings": 76,
-      "matchingFindings": 59,
-      "precision": 0.7763157894736842,
+      "detected": 40,
+      "recall": 1,
+      "mappedFindings": 84,
+      "matchingFindings": 70,
+      "precision": 0.8333333333333334,
       "controlFalsePositives": 0
      },
      "content": {
       "defects": 24,
-      "detected": 22,
-      "recall": 0.9166666666666666,
-      "mappedFindings": 46,
-      "matchingFindings": 36,
-      "precision": 0.782608695652174,
-      "controlFalsePositives": 2
+      "detected": 24,
+      "recall": 1,
+      "mappedFindings": 47,
+      "matchingFindings": 40,
+      "precision": 0.851063829787234,
+      "controlFalsePositives": 0
      },
      "accessibility": {
       "defects": 17,
-      "detected": 15,
-      "recall": 0.8823529411764706,
-      "mappedFindings": 16,
-      "matchingFindings": 16,
+      "detected": 17,
+      "recall": 1,
+      "mappedFindings": 18,
+      "matchingFindings": 18,
       "precision": 1,
       "controlFalsePositives": 0
      },
      "ai-access": {
       "defects": 12,
-      "detected": 8,
-      "recall": 0.6666666666666666,
-      "mappedFindings": 20,
-      "matchingFindings": 17,
-      "precision": 0.85,
+      "detected": 12,
+      "recall": 1,
+      "mappedFindings": 26,
+      "matchingFindings": 23,
+      "precision": 0.8846153846153846,
       "controlFalsePositives": 0
      },
      "geo": {
       "defects": 15,
-      "detected": 9,
-      "recall": 0.6,
-      "mappedFindings": 19,
-      "matchingFindings": 12,
-      "precision": 0.631578947368421,
+      "detected": 15,
+      "recall": 1,
+      "mappedFindings": 21,
+      "matchingFindings": 19,
+      "precision": 0.9047619047619048,
       "controlFalsePositives": 0
      },
      "agentic": {
       "defects": 13,
-      "detected": 6,
-      "recall": 0.46153846153846156,
-      "mappedFindings": 7,
-      "matchingFindings": 6,
-      "precision": 0.8571428571428571,
+      "detected": 13,
+      "recall": 1,
+      "mappedFindings": 15,
+      "matchingFindings": 13,
+      "precision": 0.8666666666666667,
       "controlFalsePositives": 0
      },
      "overall": {
       "defects": 121,
-      "detected": 93,
-      "recall": 0.768595041322314,
-      "mappedFindings": 155,
-      "matchingFindings": 124,
-      "precision": 0.8,
-      "controlFalsePositives": 2
+      "detected": 121,
+      "recall": 1,
+      "mappedFindings": 181,
+      "matchingFindings": 159,
+      "precision": 0.8784530386740331,
+      "controlFalsePositives": 0
      }
     },
     "detected": {
@@ -177,6 +177,13 @@
       "content.thin @ /blog/tag/whitening",
       "content.thin @ /whitening-offer"
      ],
+     "GT-048": [
+      "redirects.linked-internally @ /locations/bristol-clinic",
+      "links-internal.to-redirect @ /locations"
+     ],
+     "GT-026": [
+      "response.doctype-missing @ /blog/tag/kids"
+     ],
      "GT-045": [
       "onpage.title-missing @ /team/dr-rohan-mehta"
      ],
@@ -209,7 +216,9 @@
      ],
      "GT-086": [
       "headings.h1-missing @ /patient-stories",
-      "content.thin @ /patient-stories"
+      "content.thin @ /patient-stories",
+      "js-rendering.h1-only-rendered @ /patient-stories",
+      "ai-crawlers.rendered-headings-missing @ /patient-stories"
      ],
      "GT-042": [
       "headings.h1-multiple @ /services/teeth-whitening"
@@ -219,6 +228,9 @@
      ],
      "GT-056": [
       "headings.empty @ /blog/teeth-grinding"
+     ],
+     "GT-105": [
+      "headings.no-subheadings @ /blog/history-of-dentistry"
      ],
      "GT-043": [
       "content.thin @ /services/emergency-dentist"
@@ -235,7 +247,8 @@
       "geo-content.no-schema-dates @ /blog/healthy-snacks"
      ],
      "GT-107": [
-      "content.modified-before-published @ /blog/root-canal-myths"
+      "content.modified-before-published @ /blog/root-canal-myths",
+      "geo-content.date-invalid @ /blog/root-canal-myths"
      ],
      "GT-019": [
       "canonical.missing @ /blog/page/3"
@@ -261,14 +274,14 @@
       "canonical.to-error @ /blog/whitening-myths",
       "sitemaps.canonicalised-urls @ /blog/whitening-myths"
      ],
-     "GT-048": [
-      "links-internal.to-redirect @ /locations"
-     ],
      "GT-060": [
       "links-internal.nofollow @ /blog/invisalign-vs-braces"
      ],
      "GT-062": [
       "links-internal.uncrawlable @ /blog/category/oral-health"
+     ],
+     "GT-061": [
+      "links-internal.generic-anchors @ /blog/whitening-at-home"
      ],
      "GT-068": [
       "images.alt-missing @ /team/dr-amelia-hart"
@@ -279,6 +292,9 @@
      "GT-041": [
       "images.alt-stuffed @ /services/dental-implants"
      ],
+     "GT-011": [
+      "images.dimensions-missing @ /blog/what-to-expect-implants"
+     ],
      "GT-027": [
       "images.large @ /about"
      ],
@@ -287,6 +303,12 @@
      ],
      "GT-100": [
       "schema.invalid-json @ /blog/dental-implants-cost"
+     ],
+     "GT-094": [
+      "schema.type-unknown @ /services/childrens-dentistry"
+     ],
+     "GT-106": [
+      "schema.date-order @ /blog/open-evening-november"
      ],
      "GT-104": [
       "schema.date-format @ /blog/sensitive-teeth",
@@ -316,8 +338,14 @@
      "GT-005": [
       "performance.ttfb-slow @ /team"
      ],
+     "GT-021": [
+      "performance.no-compression @ /blog/category/oral-health"
+     ],
      "GT-031": [
       "performance.dom-size @ /legal/privacy"
+     ],
+     "GT-110": [
+      "performance.rendered-cls @ /blog/clinic-refurbishment"
      ],
      "GT-014": [
       "urls.uppercase @ /blog/Top-10-Brushing-Mistakes"
@@ -341,6 +369,15 @@
      "GT-081": [
       "accessibility.button-name-missing @ /book"
      ],
+     "GT-111": [
+      "accessibility.clickable-div @ /blog/smile-makeover"
+     ],
+     "GT-109": [
+      "accessibility.clickable-div @ /team/tom-ellis"
+     ],
+     "GT-114": [
+      "accessibility.autocomplete-invalid @ /new-patients"
+     ],
      "GT-077": [
       "accessibility.main-landmark-missing @ /blog/category/news"
      ],
@@ -359,11 +396,29 @@
      "GT-066": [
       "accessibility.invalid-aria-attribute @ /services/general-dentistry"
      ],
+     "GT-065": [
+      "accessibility.list-structure @ /services"
+     ],
+     "GT-072": [
+      "accessibility.low-contrast-rendered @ /blog/whitening-myths"
+     ],
+     "GT-085": [
+      "js-rendering.loading-placeholder @ /pricing"
+     ],
      "GT-022": [
       "js-rendering.console-errors @ /blog/category/cosmetic"
      ],
+     "GT-101": [
+      "geo-content.no-author @ /blog/sugar-and-teeth"
+     ],
+     "GT-098": [
+      "geo-entity.nap-page-mismatch @ /locations/bath"
+     ],
      "GT-112": [
       "agentic.webmcp-form-incomplete @ /contact"
+     ],
+     "GT-113": [
+      "agentic.webmcp-schema-invalid @ /book"
      ],
      "GT-035": [
       "crawlability.robots-blocks-resources @ site"
@@ -380,8 +435,29 @@
       "headings.h1-duplicate @ /blog/category/cosmetic",
       "headings.h1-duplicate @ /blog/tag/whitening"
      ],
+     "GT-058": [
+      "duplicates.copied-content @ /blog/scale-and-polish-explained"
+     ],
      "GT-016": [
       "links-internal.orphan @ /blog/retainer-care"
+     ],
+     "GT-099": [
+      "schema.localbusiness-missing @ /locations/leeds"
+     ],
+     "GT-030": [
+      "hreflang.missing-return @ /invisalign-guide"
+     ],
+     "GT-028": [
+      "security.csp-missing @ /pricing",
+      "security.nosniff-missing @ /pricing",
+      "security.frame-protection-missing @ /pricing",
+      "security.referrer-policy-missing @ /pricing"
+     ],
+     "GT-032": [
+      "security.version-disclosure @ /legal/cookies"
+     ],
+     "GT-040": [
+      "security.security-txt-invalid @ site"
      ],
      "GT-038": [
       "sitemaps.parse-errors @ site"
@@ -401,11 +477,20 @@
      "GT-087": [
       "ai-crawlers.training-bots-blocked @ site"
      ],
+     "GT-090": [
+      "ai-crawlers.path-blocked @ site"
+     ],
+     "GT-093": [
+      "ai-crawlers.sample-pages-blocked @ /services/general-dentistry"
+     ],
      "GT-091": [
       "llms-txt.no-h1 @ site"
      ],
      "GT-092": [
       "llms-txt.broken-links @ site"
+     ],
+     "GT-083": [
+      "llms-txt.markdown-alternate-broken @ /about"
      ],
      "GT-096": [
       "geo-entity.org-name-conflict @ site"
@@ -419,65 +504,22 @@
      "GT-115": [
       "agentic.a2a-card-invalid @ site"
      ],
+     "GT-116": [
+      "agentic.a2a-endpoint-unreachable @ site"
+     ],
      "GT-119": [
       "agentic.oauth-issuer-mismatch @ site"
      ],
      "GT-120": [
       "agentic.prm-invalid @ site"
+     ],
+     "GT-121": [
+      "agentic.api-catalog-broken-link @ site"
      ]
     },
-    "missed": [
-     "GT-011",
-     "GT-021",
-     "GT-026",
-     "GT-028",
-     "GT-030",
-     "GT-032",
-     "GT-040",
-     "GT-058",
-     "GT-061",
-     "GT-065",
-     "GT-072",
-     "GT-083",
-     "GT-085",
-     "GT-090",
-     "GT-093",
-     "GT-094",
-     "GT-098",
-     "GT-099",
-     "GT-101",
-     "GT-105",
-     "GT-106",
-     "GT-109",
-     "GT-110",
-     "GT-111",
-     "GT-113",
-     "GT-114",
-     "GT-116",
-     "GT-121"
-    ],
-    "controlFalsePositives": [
-     {
-      "type": "onpage.description-too-long",
-      "url": "/developers",
-      "message": "Description is 149 characters (about 944px; Google shows about 920px) | How software and AI agents can find Harbourline Dental Studio’s booking API, its machine"
-     },
-     {
-      "type": "onpage.description-too-long",
-      "url": "/legal/accessibility",
-      "message": "Description is 149 characters (about 924px; Google shows about 920px) | How accessible the Harbourline Dental Studio website is, the standard we aim for, known "
-     }
-    ],
+    "missed": [],
+    "controlFalsePositives": [],
     "falsePositiveSample": [
-     {
-      "type": "response.client-error",
-      "url": "/prices-2023",
-      "maps": [
-       "http-404",
-       "http-410",
-       "http-4xx"
-      ]
-     },
      {
       "type": "response.client-error",
       "url": "/blog/whitening-myths-old",
@@ -488,31 +530,12 @@
       ]
      },
      {
-      "type": "redirects.chain",
-      "url": "/special-offer",
+      "type": "response.client-error",
+      "url": "/prices-2023",
       "maps": [
-       "redirect-chain"
-      ]
-     },
-     {
-      "type": "redirects.linked-internally",
-      "url": "/locations/bristol-clinic",
-      "maps": [
-       "internal-link-to-redirect"
-      ]
-     },
-     {
-      "type": "onpage.description-too-long",
-      "url": "/developers",
-      "maps": [
-       "meta-description-too-long"
-      ]
-     },
-     {
-      "type": "onpage.description-too-long",
-      "url": "/legal/accessibility",
-      "maps": [
-       "meta-description-too-long"
+       "http-404",
+       "http-410",
+       "http-4xx"
       ]
      },
      {
@@ -614,13 +637,6 @@
       ]
      },
      {
-      "type": "schema.article-missing",
-      "url": "/blog/dental-implants-cost",
-      "maps": [
-       "missing-article-schema"
-      ]
-     },
-     {
       "type": "performance.rendered-cls",
       "url": "/pricing",
       "maps": [
@@ -628,17 +644,10 @@
       ]
      },
      {
-      "type": "geo-content.no-author",
-      "url": "/blog/category/oral-health",
+      "type": "performance.rendered-cls",
+      "url": "/patient-stories",
       "maps": [
-       "missing-author"
-      ]
-     },
-     {
-      "type": "geo-content.date-invalid",
-      "url": "/blog/root-canal-myths",
-      "maps": [
-       "schema-invalid-date"
+       "layout-shift"
       ]
      },
      {
@@ -646,20 +655,6 @@
       "url": "/legal/privacy",
       "maps": [
        "no-subheadings"
-      ]
-     },
-     {
-      "type": "geo-content.missing-article-schema",
-      "url": "/blog/category/oral-health",
-      "maps": [
-       "missing-article-schema"
-      ]
-     },
-     {
-      "type": "geo-content.missing-article-schema",
-      "url": "/blog/dental-implants-cost",
-      "maps": [
-       "missing-article-schema"
       ]
      },
      {
@@ -682,13 +677,6 @@
       "maps": [
        "schema-conflicting-entity"
       ]
-     },
-     {
-      "type": "hreflang.missing-return",
-      "url": "/invisalign-guide",
-      "maps": [
-       "hreflang-missing-return-link"
-      ]
      }
     ]
    }
@@ -705,20 +693,20 @@
      "failure": "an audit is a finding when its score is below 0.9 (Lighthouse pass threshold); informative/manual/n.a. audits ignored",
      "runs": "one page at a time, sequentially; durationMs and peakRssMb are the sum and the max over pages"
     },
-    "durationMs": 728010,
-    "peakRssMb": 1501,
+    "durationMs": 700687,
+    "peakRssMb": 1497,
     "pagesAudited": 60,
     "errors": [
-     "http://127.0.0.1:38005/services/root-canal: ERRORED_DOCUMENT_REQUEST Lighthouse was unable to reliably load the page you requested. Make sure you are testing the correct URL and that the server is properly responding to all requests. (Status code: 404)"
+     "http://127.0.0.1:34719/services/root-canal: ERRORED_DOCUMENT_REQUEST Lighthouse was unable to reliably load the page you requested. Make sure you are testing the correct URL and that the server is properly responding to all requests. (Status code: 404)"
     ]
    },
    "score": {
     "tool": "lighthouse",
     "totals": {
-     "findings": 266,
-     "uniqueFindings": 266,
+     "findings": 265,
+     "uniqueFindings": 265,
      "mappedFindings": 135,
-     "unmappedFindings": 131
+     "unmappedFindings": 130
     },
     "areas": {
      "technical": {
@@ -1271,11 +1259,11 @@
     "version": "pyseoanalyzer 2025.4.3",
     "settings": {
      "command": "python-seo-analyzer <url> --output-format json --sitemap <robots.txt sitemap>",
-     "sitemap": "http://127.0.0.1:38005/sitemap.xml",
+     "sitemap": "http://127.0.0.1:34719/sitemap.xml",
      "note": "follow links is the default; --analyze-headings/--analyze-extra-tags only add data, not warnings, so they were left off"
     },
-    "durationMs": 10122,
-    "peakRssMb": 154,
+    "durationMs": 9164,
+    "peakRssMb": 152,
     "pagesAudited": 63,
     "errors": [
      "tool output: Error occurred during crawling: 'NoneType' object is not subscriptable"
@@ -1823,27 +1811,27 @@
      },
      "localhost": "no private-IP/localhost blocking exists in the crawler; nothing had to be enabled"
     },
-    "durationMs": 35975,
-    "peakRssMb": 1506,
+    "durationMs": 32322,
+    "peakRssMb": 1490,
     "pagesAudited": 88,
     "errors": []
    },
    "score": {
     "tool": "scrawly",
     "totals": {
-     "findings": 1301,
-     "uniqueFindings": 1301,
-     "mappedFindings": 450,
+     "findings": 1299,
+     "uniqueFindings": 1299,
+     "mappedFindings": 448,
      "unmappedFindings": 851
     },
     "areas": {
      "technical": {
       "defects": 40,
-      "detected": 24,
-      "recall": 0.6,
+      "detected": 25,
+      "recall": 0.625,
       "mappedFindings": 153,
-      "matchingFindings": 46,
-      "precision": 0.3006535947712418,
+      "matchingFindings": 47,
+      "precision": 0.30718954248366015,
       "controlFalsePositives": 12
      },
      "content": {
@@ -1886,35 +1874,24 @@
       "defects": 13,
       "detected": 2,
       "recall": 0.15384615384615385,
-      "mappedFindings": 10,
+      "mappedFindings": 8,
       "matchingFindings": 4,
-      "precision": 0.4,
+      "precision": 0.5,
       "controlFalsePositives": 0
      },
      "overall": {
       "defects": 121,
-      "detected": 57,
-      "recall": 0.47107438016528924,
-      "mappedFindings": 449,
-      "matchingFindings": 87,
-      "precision": 0.19376391982182628,
+      "detected": 58,
+      "recall": 0.4793388429752066,
+      "mappedFindings": 447,
+      "matchingFindings": 88,
+      "precision": 0.19686800894854586,
       "controlFalsePositives": 45
      }
     },
     "detected": {
-     "GT-008": [
-      "B01 @ /services/gum-treatment",
-      "B04 @ /services/gum-treatment",
-      "B04 @ /blog/how-to-floss-properly"
-     ],
-     "GT-023": [
-      "B01 @ /blog/open-day-2019",
-      "B04 @ /blog/open-day-2019",
-      "B04 @ /blog/category/news"
-     ],
-     "GT-036": [
-      "B01 @ /services/root-canal",
-      "K02 @ /services/root-canal"
+     "GT-046": [
+      "D09 @ /team/dr-sophie-lang"
      ],
      "GT-005": [
       "N04 @ /team"
@@ -1928,52 +1905,20 @@
       "S05 @ /team",
       "F05 @ /team"
      ],
-     "GT-046": [
-      "D09 @ /team/dr-sophie-lang"
+     "GT-042": [
+      "D13 @ /services/teeth-whitening"
      ],
      "GT-102": [
       "E12 @ /blog/healthy-snacks"
      ],
-     "GT-021": [
-      "N07 @ /blog/category/oral-health"
+     "GT-047": [
+      "E08 @ /team/tom-ellis"
      ],
-     "GT-044": [
-      "D03 @ /services/childrens-dentistry"
+     "GT-084": [
+      "A14 @ /faq"
      ],
-     "GT-049": [
-      "D04 @ /locations/bath"
-     ],
-     "GT-051": [
-      "D05 @ /blog/electric-vs-manual-toothbrush"
-     ],
-     "GT-110": [
-      "N03 @ /blog/clinic-refurbishment",
-      "S08 @ /blog/clinic-refurbishment"
-     ],
-     "GT-076": [
-      "Q07 @ /blog/whitening-at-home"
-     ],
-     "GT-086": [
-      "E04 @ /patient-stories",
-      "D12 @ /patient-stories",
-      "R05 @ /patient-stories"
-     ],
-     "GT-043": [
-      "E04 @ /services/emergency-dentist"
-     ],
-     "GT-025": [
-      "E04 @ /whitening-offer",
-      "B12 @ /whitening-offer"
-     ],
-     "GT-057": [
-      "E04 @ /blog/new-parking-at-bristol"
-     ],
-     "GT-001": [
-      "E04 @ /services/sedation",
-      "B03 @ /services/sedation"
-     ],
-     "GT-022": [
-      "P04 @ /blog/category/cosmetic"
+     "GT-082": [
+      "A14 @ /locations/leeds"
      ],
      "GT-052": [
       "D07 @ /blog/mouthwash-guide"
@@ -1981,60 +1926,89 @@
      "GT-059": [
       "D19 @ /blog/invisalign-vs-braces"
      ],
-     "GT-016": [
-      "A09 @ /blog/retainer-care",
-      "F01 @ /blog/retainer-care"
+     "GT-002": [
+      "A04 @ /services/invisalign",
+      "A12 @ /services/invisalign",
+      "K03 @ /services/invisalign"
      ],
-     "GT-055": [
-      "D12 @ /blog/kids-first-visit"
+     "GT-013": [
+      "A12 @ /blog/fluoride-facts",
+      "A05 @ /blog/fluoride-facts",
+      "K03 @ /blog/fluoride-facts"
+     ],
+     "GT-060": [
+      "F09 @ /blog/invisalign-vs-braces"
+     ],
+     "GT-015": [
+      "T09 @ /blog/gum_disease_signs"
+     ],
+     "GT-034": [
+      "D20 @ /legal/complaints",
+      "O01 @ /legal/complaints"
      ],
      "GT-028": [
       "M06 @ /pricing"
+     ],
+     "GT-110": [
+      "N03 @ /blog/clinic-refurbishment",
+      "S08 @ /blog/clinic-refurbishment"
      ],
      "GT-080": [
       "Q05 @ /pricing",
       "S07 @ /pricing"
      ],
-     "GT-060": [
-      "F09 @ /blog/invisalign-vs-braces"
+     "GT-032": [
+      "M08 @ /legal/cookies"
      ],
-     "GT-033": [
-      "C09 @ /legal/terms"
+     "GT-044": [
+      "D03 @ /services/childrens-dentistry"
+     ],
+     "GT-036": [
+      "B01 @ /services/root-canal",
+      "K02 @ /services/root-canal"
+     ],
+     "GT-008": [
+      "B01 @ /services/gum-treatment",
+      "B04 @ /blog/how-to-floss-properly",
+      "B04 @ /services/gum-treatment"
+     ],
+     "GT-023": [
+      "B01 @ /blog/open-day-2019",
+      "B04 @ /blog/category/news",
+      "B04 @ /blog/open-day-2019"
      ],
      "GT-054": [
       "D11 @ /blog/sensitive-teeth"
      ],
-     "GT-013": [
-      "A05 @ /blog/fluoride-facts",
-      "A12 @ /blog/fluoride-facts",
-      "K03 @ /blog/fluoride-facts"
+     "GT-014": [
+      "T01 @ /blog/Top-10-Brushing-Mistakes"
      ],
-     "GT-002": [
-      "A12 @ /services/invisalign",
-      "A04 @ /services/invisalign",
-      "K03 @ /services/invisalign"
+     "GT-076": [
+      "Q07 @ /blog/whitening-at-home"
      ],
-     "GT-032": [
-      "M08 @ /legal/cookies"
+     "GT-021": [
+      "N07 @ /blog/category/oral-health"
+     ],
+     "GT-049": [
+      "D04 @ /locations/bath"
      ],
      "GT-066": [
       "Q02 @ /services/general-dentistry"
      ],
-     "GT-004": [
-      "C05 @ /services/veneers"
+     "GT-016": [
+      "A09 @ /blog/retainer-care",
+      "F01 @ /blog/retainer-care"
      ],
-     "GT-031": [
-      "N09 @ /legal/privacy"
-     ],
-     "GT-082": [
-      "A14 @ /locations/leeds"
-     ],
-     "GT-084": [
-      "A14 @ /faq"
+     "GT-022": [
+      "P04 @ /blog/category/cosmetic"
      ],
      "GT-009": [
       "C02 @ /blog/nervous-patients",
       "K03 @ /blog/nervous-patients"
+     ],
+     "GT-010": [
+      "C02 @ /blog/whitening-myths",
+      "K03 @ /blog/whitening-myths"
      ],
      "GT-017": [
       "C02 @ /blog/page/2",
@@ -2042,40 +2016,54 @@
       "C11 @ /blog/page/2",
       "U03 @ /blog/page/2"
      ],
-     "GT-010": [
-      "C02 @ /blog/whitening-myths",
-      "K03 @ /blog/whitening-myths"
-     ],
-     "GT-042": [
-      "D13 @ /services/teeth-whitening"
-     ],
-     "GT-015": [
-      "T09 @ /blog/gum_disease_signs"
-     ],
-     "GT-078": [
-      "Q03 @ /contact"
+     "GT-004": [
+      "C05 @ /services/veneers"
      ],
      "GT-073": [
       "D15 @ /blog/what-to-expect-implants"
      ],
-     "GT-047": [
-      "E08 @ /team/tom-ellis"
+     "GT-031": [
+      "N09 @ /legal/privacy"
      ],
      "GT-045": [
       "D01 @ /team/dr-rohan-mehta"
      ],
-     "GT-014": [
-      "T01 @ /blog/Top-10-Brushing-Mistakes"
+     "GT-078": [
+      "Q03 @ /contact"
      ],
-     "GT-034": [
-      "D20 @ /legal/complaints",
-      "O01 @ /legal/complaints"
+     "GT-001": [
+      "E04 @ /services/sedation",
+      "B03 @ /services/sedation"
+     ],
+     "GT-043": [
+      "E04 @ /services/emergency-dentist"
+     ],
+     "GT-086": [
+      "E04 @ /patient-stories",
+      "D12 @ /patient-stories",
+      "R05 @ /patient-stories"
+     ],
+     "GT-057": [
+      "E04 @ /blog/new-parking-at-bristol"
+     ],
+     "GT-025": [
+      "E04 @ /whitening-offer",
+      "B12 @ /whitening-offer"
+     ],
+     "GT-055": [
+      "D12 @ /blog/kids-first-visit"
+     ],
+     "GT-051": [
+      "D05 @ /blog/electric-vs-manual-toothbrush"
+     ],
+     "GT-033": [
+      "C09 @ /legal/terms"
      ],
      "GT-019": [
       "C01 @ /blog/page/3"
      ],
      "GT-091": [
-      "S02 @ /",
+      "S02 @ /llms.txt",
       "AGT.LLMS_TXT @ site"
      ],
      "GT-018": [
@@ -2083,16 +2071,19 @@
       "B04 @ /blog/page/2"
      ],
      "GT-050": [
-      "D02 @ /blog/sugar-and-teeth",
-      "D02 @ /blog/healthy-snacks"
+      "D02 @ /blog/healthy-snacks",
+      "D02 @ /blog/sugar-and-teeth"
      ],
      "GT-053": [
-      "D08 @ /blog/bad-breath-causes",
-      "D08 @ /blog/dry-mouth"
+      "D08 @ /blog/dry-mouth",
+      "D08 @ /blog/bad-breath-causes"
      ],
      "GT-063": [
       "D14 @ /blog/category/cosmetic",
       "D14 @ /blog/tag/whitening"
+     ],
+     "GT-030": [
+      "I01 @ /invisalign-guide"
      ],
      "GT-087": [
       "R01 @ /"
@@ -2115,7 +2106,6 @@
      "GT-026",
      "GT-027",
      "GT-029",
-     "GT-030",
      "GT-035",
      "GT-037",
      "GT-038",
@@ -2172,186 +2162,6 @@
     ],
     "controlFalsePositives": [
      {
-      "type": "N04",
-      "url": "/developers",
-      "message": "TTFB slow (>~0.8s)"
-     },
-     {
-      "type": "N04",
-      "url": "/careers",
-      "message": "TTFB slow (>~0.8s)"
-     },
-     {
-      "type": "N04",
-      "url": "/referrals",
-      "message": "TTFB slow (>~0.8s)"
-     },
-     {
-      "type": "N04",
-      "url": "/finance",
-      "message": "TTFB slow (>~0.8s)"
-     },
-     {
-      "type": "N04",
-      "url": "/blog/choosing-a-toothpaste",
-      "message": "TTFB slow (>~0.8s)"
-     },
-     {
-      "type": "N04",
-      "url": "/",
-      "message": "TTFB slow (>~0.8s)"
-     },
-     {
-      "type": "N04",
-      "url": "/blog/dental-checkups-how-often",
-      "message": "TTFB slow (>~0.8s)"
-     },
-     {
-      "type": "N04",
-      "url": "/blog",
-      "message": "TTFB slow (>~0.8s)"
-     },
-     {
-      "type": "N04",
-      "url": "/blog/cracked-tooth-first-aid",
-      "message": "TTFB slow (>~0.8s)"
-     },
-     {
-      "type": "N04",
-      "url": "/blog/pregnancy-and-dental-care",
-      "message": "TTFB slow (>~0.8s)"
-     },
-     {
-      "type": "N04",
-      "url": "/blog/wisdom-teeth",
-      "message": "TTFB slow (>~0.8s)"
-     },
-     {
-      "type": "N04",
-      "url": "/legal/accessibility",
-      "message": "TTFB slow (>~0.8s)"
-     },
-     {
-      "type": "Q01",
-      "url": "/developers",
-      "message": "Interactive element missing accessible name/label"
-     },
-     {
-      "type": "Q01",
-      "url": "/careers",
-      "message": "Interactive element missing accessible name/label"
-     },
-     {
-      "type": "Q01",
-      "url": "/referrals",
-      "message": "Interactive element missing accessible name/label"
-     },
-     {
-      "type": "Q01",
-      "url": "/finance",
-      "message": "Interactive element missing accessible name/label"
-     },
-     {
-      "type": "Q01",
-      "url": "/blog/choosing-a-toothpaste",
-      "message": "Interactive element missing accessible name/label"
-     },
-     {
-      "type": "Q01",
-      "url": "/",
-      "message": "Interactive element missing accessible name/label"
-     },
-     {
-      "type": "Q01",
-      "url": "/blog/dental-checkups-how-often",
-      "message": "Interactive element missing accessible name/label"
-     },
-     {
-      "type": "Q01",
-      "url": "/blog",
-      "message": "Interactive element missing accessible name/label"
-     },
-     {
-      "type": "Q01",
-      "url": "/blog/cracked-tooth-first-aid",
-      "message": "Interactive element missing accessible name/label"
-     },
-     {
-      "type": "Q01",
-      "url": "/blog/pregnancy-and-dental-care",
-      "message": "Interactive element missing accessible name/label"
-     },
-     {
-      "type": "Q01",
-      "url": "/blog/wisdom-teeth",
-      "message": "Interactive element missing accessible name/label"
-     },
-     {
-      "type": "Q01",
-      "url": "/legal/accessibility",
-      "message": "Interactive element missing accessible name/label"
-     },
-     {
-      "type": "S05",
-      "url": "/developers",
-      "message": "Accessibility tree fails agent-centric names/labels"
-     },
-     {
-      "type": "S05",
-      "url": "/careers",
-      "message": "Accessibility tree fails agent-centric names/labels"
-     },
-     {
-      "type": "S05",
-      "url": "/referrals",
-      "message": "Accessibility tree fails agent-centric names/labels"
-     },
-     {
-      "type": "S05",
-      "url": "/finance",
-      "message": "Accessibility tree fails agent-centric names/labels"
-     },
-     {
-      "type": "S05",
-      "url": "/blog/choosing-a-toothpaste",
-      "message": "Accessibility tree fails agent-centric names/labels"
-     },
-     {
-      "type": "S05",
-      "url": "/",
-      "message": "Accessibility tree fails agent-centric names/labels"
-     },
-     {
-      "type": "S05",
-      "url": "/blog/dental-checkups-how-often",
-      "message": "Accessibility tree fails agent-centric names/labels"
-     },
-     {
-      "type": "S05",
-      "url": "/blog",
-      "message": "Accessibility tree fails agent-centric names/labels"
-     },
-     {
-      "type": "S05",
-      "url": "/blog/cracked-tooth-first-aid",
-      "message": "Accessibility tree fails agent-centric names/labels"
-     },
-     {
-      "type": "S05",
-      "url": "/blog/pregnancy-and-dental-care",
-      "message": "Accessibility tree fails agent-centric names/labels"
-     },
-     {
-      "type": "S05",
-      "url": "/blog/wisdom-teeth",
-      "message": "Accessibility tree fails agent-centric names/labels"
-     },
-     {
-      "type": "S05",
-      "url": "/legal/accessibility",
-      "message": "Accessibility tree fails agent-centric names/labels"
-     },
-     {
       "type": "D09",
       "url": "/blog/cracked-tooth-first-aid",
       "message": "Meta description too thin for AI"
@@ -2362,8 +2172,188 @@
       "message": "Meta description too thin for AI"
      },
      {
-      "type": "E12",
+      "type": "N04",
+      "url": "/careers",
+      "message": "TTFB slow (>~0.8s)"
+     },
+     {
+      "type": "N04",
       "url": "/developers",
+      "message": "TTFB slow (>~0.8s)"
+     },
+     {
+      "type": "N04",
+      "url": "/blog/cracked-tooth-first-aid",
+      "message": "TTFB slow (>~0.8s)"
+     },
+     {
+      "type": "N04",
+      "url": "/blog/dental-checkups-how-often",
+      "message": "TTFB slow (>~0.8s)"
+     },
+     {
+      "type": "N04",
+      "url": "/blog/choosing-a-toothpaste",
+      "message": "TTFB slow (>~0.8s)"
+     },
+     {
+      "type": "N04",
+      "url": "/blog/wisdom-teeth",
+      "message": "TTFB slow (>~0.8s)"
+     },
+     {
+      "type": "N04",
+      "url": "/referrals",
+      "message": "TTFB slow (>~0.8s)"
+     },
+     {
+      "type": "N04",
+      "url": "/legal/accessibility",
+      "message": "TTFB slow (>~0.8s)"
+     },
+     {
+      "type": "N04",
+      "url": "/blog/pregnancy-and-dental-care",
+      "message": "TTFB slow (>~0.8s)"
+     },
+     {
+      "type": "N04",
+      "url": "/",
+      "message": "TTFB slow (>~0.8s)"
+     },
+     {
+      "type": "N04",
+      "url": "/blog",
+      "message": "TTFB slow (>~0.8s)"
+     },
+     {
+      "type": "N04",
+      "url": "/finance",
+      "message": "TTFB slow (>~0.8s)"
+     },
+     {
+      "type": "Q01",
+      "url": "/careers",
+      "message": "Interactive element missing accessible name/label"
+     },
+     {
+      "type": "Q01",
+      "url": "/developers",
+      "message": "Interactive element missing accessible name/label"
+     },
+     {
+      "type": "Q01",
+      "url": "/blog/cracked-tooth-first-aid",
+      "message": "Interactive element missing accessible name/label"
+     },
+     {
+      "type": "Q01",
+      "url": "/blog/dental-checkups-how-often",
+      "message": "Interactive element missing accessible name/label"
+     },
+     {
+      "type": "Q01",
+      "url": "/blog/choosing-a-toothpaste",
+      "message": "Interactive element missing accessible name/label"
+     },
+     {
+      "type": "Q01",
+      "url": "/blog/wisdom-teeth",
+      "message": "Interactive element missing accessible name/label"
+     },
+     {
+      "type": "Q01",
+      "url": "/referrals",
+      "message": "Interactive element missing accessible name/label"
+     },
+     {
+      "type": "Q01",
+      "url": "/legal/accessibility",
+      "message": "Interactive element missing accessible name/label"
+     },
+     {
+      "type": "Q01",
+      "url": "/blog/pregnancy-and-dental-care",
+      "message": "Interactive element missing accessible name/label"
+     },
+     {
+      "type": "Q01",
+      "url": "/",
+      "message": "Interactive element missing accessible name/label"
+     },
+     {
+      "type": "Q01",
+      "url": "/blog",
+      "message": "Interactive element missing accessible name/label"
+     },
+     {
+      "type": "Q01",
+      "url": "/finance",
+      "message": "Interactive element missing accessible name/label"
+     },
+     {
+      "type": "S05",
+      "url": "/careers",
+      "message": "Accessibility tree fails agent-centric names/labels"
+     },
+     {
+      "type": "S05",
+      "url": "/developers",
+      "message": "Accessibility tree fails agent-centric names/labels"
+     },
+     {
+      "type": "S05",
+      "url": "/blog/cracked-tooth-first-aid",
+      "message": "Accessibility tree fails agent-centric names/labels"
+     },
+     {
+      "type": "S05",
+      "url": "/blog/dental-checkups-how-often",
+      "message": "Accessibility tree fails agent-centric names/labels"
+     },
+     {
+      "type": "S05",
+      "url": "/blog/choosing-a-toothpaste",
+      "message": "Accessibility tree fails agent-centric names/labels"
+     },
+     {
+      "type": "S05",
+      "url": "/blog/wisdom-teeth",
+      "message": "Accessibility tree fails agent-centric names/labels"
+     },
+     {
+      "type": "S05",
+      "url": "/referrals",
+      "message": "Accessibility tree fails agent-centric names/labels"
+     },
+     {
+      "type": "S05",
+      "url": "/legal/accessibility",
+      "message": "Accessibility tree fails agent-centric names/labels"
+     },
+     {
+      "type": "S05",
+      "url": "/blog/pregnancy-and-dental-care",
+      "message": "Accessibility tree fails agent-centric names/labels"
+     },
+     {
+      "type": "S05",
+      "url": "/",
+      "message": "Accessibility tree fails agent-centric names/labels"
+     },
+     {
+      "type": "S05",
+      "url": "/blog",
+      "message": "Accessibility tree fails agent-centric names/labels"
+     },
+     {
+      "type": "S05",
+      "url": "/finance",
+      "message": "Accessibility tree fails agent-centric names/labels"
+     },
+     {
+      "type": "E12",
+      "url": "/",
       "message": "Missing/duplicate publish + modified dates"
      },
      {
@@ -2373,7 +2363,7 @@
      },
      {
       "type": "E12",
-      "url": "/referrals",
+      "url": "/developers",
       "message": "Missing/duplicate publish + modified dates"
      },
      {
@@ -2388,7 +2378,7 @@
      },
      {
       "type": "E12",
-      "url": "/",
+      "url": "/referrals",
       "message": "Missing/duplicate publish + modified dates"
      },
      {
@@ -2399,73 +2389,190 @@
     ],
     "falsePositiveSample": [
      {
-      "type": "B01",
-      "url": "/prices-2023",
+      "type": "D09",
+      "url": "/blog/how-to-brush-your-teeth",
       "maps": [
-       "http-404",
-       "http-410",
-       "http-4xx"
+       "meta-description-too-short"
       ]
      },
      {
-      "type": "N04",
-      "url": "/services/root-canal",
+      "type": "D09",
+      "url": "/blog/what-to-expect-implants",
       "maps": [
-       "slow-server-response"
+       "meta-description-too-short"
       ]
      },
      {
-      "type": "N04",
-      "url": "/developers",
+      "type": "D09",
+      "url": "/blog/teeth-grinding",
       "maps": [
-       "slow-server-response"
+       "meta-description-too-short"
       ]
      },
      {
-      "type": "N04",
-      "url": "/services/dental-implants",
+      "type": "D09",
+      "url": "/blog/healthy-snacks",
       "maps": [
-       "slow-server-response"
+       "meta-description-too-short"
       ]
      },
      {
-      "type": "N04",
-      "url": "/book",
+      "type": "D09",
+      "url": "/whitening-offer",
       "maps": [
-       "slow-server-response"
+       "meta-description-too-short"
       ]
      },
      {
-      "type": "N04",
+      "type": "D09",
+      "url": "/blog/sensitive-teeth",
+      "maps": [
+       "meta-description-too-short"
+      ]
+     },
+     {
+      "type": "D09",
+      "url": "/blog/page/2",
+      "maps": [
+       "meta-description-too-short"
+      ]
+     },
+     {
+      "type": "D09",
+      "url": "/blog/clinic-refurbishment",
+      "maps": [
+       "meta-description-too-short"
+      ]
+     },
+     {
+      "type": "D09",
+      "url": "/blog/electric-vs-manual-toothbrush",
+      "maps": [
+       "meta-description-too-short"
+      ]
+     },
+     {
+      "type": "D09",
+      "url": "/team/tom-ellis",
+      "maps": [
+       "meta-description-too-short"
+      ]
+     },
+     {
+      "type": "D09",
+      "url": "/blog/scale-and-polish-explained",
+      "maps": [
+       "meta-description-too-short"
+      ]
+     },
+     {
+      "type": "D09",
+      "url": "/blog/retainer-care",
+      "maps": [
+       "meta-description-too-short"
+      ]
+     },
+     {
+      "type": "D09",
+      "url": "/blog/cracked-tooth-first-aid",
+      "maps": [
+       "meta-description-too-short"
+      ]
+     },
+     {
+      "type": "D09",
+      "url": "/blog/dental-implants-cost",
+      "maps": [
+       "meta-description-too-short"
+      ]
+     },
+     {
+      "type": "D09",
+      "url": "/about",
+      "maps": [
+       "meta-description-too-short"
+      ]
+     },
+     {
+      "type": "D09",
+      "url": "/services/sedation",
+      "maps": [
+       "meta-description-too-short"
+      ]
+     },
+     {
+      "type": "D09",
       "url": "/blog/how-to-floss-properly",
       "maps": [
-       "slow-server-response"
+       "meta-description-too-short"
       ]
      },
      {
-      "type": "N04",
+      "type": "D09",
+      "url": "/blog/dental-checkups-how-often",
+      "maps": [
+       "meta-description-too-short"
+      ]
+     },
+     {
+      "type": "D09",
+      "url": "/blog/page/3",
+      "maps": [
+       "meta-description-too-short"
+      ]
+     },
+     {
+      "type": "D09",
+      "url": "/blog/bad-breath-causes",
+      "maps": [
+       "meta-description-too-short"
+      ]
+     },
+     {
+      "type": "D09",
+      "url": "/blog/whitening-at-home",
+      "maps": [
+       "meta-description-too-short"
+      ]
+     },
+     {
+      "type": "D09",
+      "url": "/blog/new-parking-at-bristol",
+      "maps": [
+       "meta-description-too-short"
+      ]
+     },
+     {
+      "type": "D09",
       "url": "/blog/fluoride-facts",
       "maps": [
-       "slow-server-response"
+       "meta-description-too-short"
+      ]
+     },
+     {
+      "type": "D09",
+      "url": "/blog/dry-mouth",
+      "maps": [
+       "meta-description-too-short"
+      ]
+     },
+     {
+      "type": "D09",
+      "url": "/blog/kids-first-visit",
+      "maps": [
+       "meta-description-too-short"
       ]
      },
      {
       "type": "N04",
-      "url": "/legal/cookies",
+      "url": "/services/teeth-whitening",
       "maps": [
        "slow-server-response"
       ]
      },
      {
       "type": "N04",
-      "url": "/offers",
-      "maps": [
-       "slow-server-response"
-      ]
-     },
-     {
-      "type": "N04",
-      "url": "/blog/category/oral-health",
+      "url": "/blog/mouthwash-guide",
       "maps": [
        "slow-server-response"
       ]
@@ -2479,7 +2586,7 @@
      },
      {
       "type": "N04",
-      "url": "/invisalign-guide",
+      "url": "/blog/teeth-grinding",
       "maps": [
        "slow-server-response"
       ]
@@ -2493,154 +2600,7 @@
      },
      {
       "type": "N04",
-      "url": "/blog/teeth-grinding",
-      "maps": [
-       "slow-server-response"
-      ]
-     },
-     {
-      "type": "N04",
-      "url": "/legal/privacy",
-      "maps": [
-       "slow-server-response"
-      ]
-     },
-     {
-      "type": "N04",
-      "url": "/services/veneers",
-      "maps": [
-       "slow-server-response"
-      ]
-     },
-     {
-      "type": "N04",
-      "url": "/faq",
-      "maps": [
-       "slow-server-response"
-      ]
-     },
-     {
-      "type": "N04",
-      "url": "/whitening-offer",
-      "maps": [
-       "slow-server-response"
-      ]
-     },
-     {
-      "type": "N04",
-      "url": "/us/invisalign-guide",
-      "maps": [
-       "slow-server-response"
-      ]
-     },
-     {
-      "type": "N04",
-      "url": "/careers",
-      "maps": [
-       "slow-server-response"
-      ]
-     },
-     {
-      "type": "N04",
-      "url": "/blog/whitening-myths",
-      "maps": [
-       "slow-server-response"
-      ]
-     },
-     {
-      "type": "N04",
-      "url": "/services/childrens-dentistry",
-      "maps": [
-       "slow-server-response"
-      ]
-     },
-     {
-      "type": "N04",
-      "url": "/referrals",
-      "maps": [
-       "slow-server-response"
-      ]
-     },
-     {
-      "type": "N04",
-      "url": "/blog/history-of-dentistry",
-      "maps": [
-       "slow-server-response"
-      ]
-     },
-     {
-      "type": "N04",
-      "url": "/services/teeth-whitening",
-      "maps": [
-       "slow-server-response"
-      ]
-     },
-     {
-      "type": "N04",
-      "url": "/services",
-      "maps": [
-       "slow-server-response"
-      ]
-     },
-     {
-      "type": "N04",
-      "url": "/locations/bath",
-      "maps": [
-       "slow-server-response"
-      ]
-     },
-     {
-      "type": "N04",
-      "url": "/finance",
-      "maps": [
-       "slow-server-response"
-      ]
-     },
-     {
-      "type": "N04",
-      "url": "/blog/choosing-a-toothpaste",
-      "maps": [
-       "slow-server-response"
-      ]
-     },
-     {
-      "type": "N04",
-      "url": "/blog/new-parking-at-bristol",
-      "maps": [
-       "slow-server-response"
-      ]
-     },
-     {
-      "type": "N04",
-      "url": "/blog/tag/kids",
-      "maps": [
-       "slow-server-response"
-      ]
-     },
-     {
-      "type": "N04",
-      "url": "/blog/gum_disease_signs",
-      "maps": [
-       "slow-server-response"
-      ]
-     },
-     {
-      "type": "N04",
-      "url": "/",
-      "maps": [
-       "slow-server-response"
-      ]
-     },
-     {
-      "type": "N04",
-      "url": "/us/new-patients",
-      "maps": [
-       "slow-server-response"
-      ]
-     },
-     {
-      "type": "N04",
-      "url": "/contact",
+      "url": "/new-patients",
       "maps": [
        "slow-server-response"
       ]
@@ -2654,28 +2614,56 @@
      },
      {
       "type": "N04",
-      "url": "/blog/electric-vs-manual-toothbrush",
+      "url": "/blog/category/news",
       "maps": [
        "slow-server-response"
       ]
      },
      {
       "type": "N04",
-      "url": "/blog/clinic-refurbishment",
+      "url": "/careers",
       "maps": [
        "slow-server-response"
       ]
      },
      {
       "type": "N04",
-      "url": "/blog/what-to-expect-implants",
+      "url": "/team/tom-ellis",
       "maps": [
        "slow-server-response"
       ]
      },
      {
       "type": "N04",
-      "url": "/blog/kids-first-visit",
+      "url": "/developers",
+      "maps": [
+       "slow-server-response"
+      ]
+     },
+     {
+      "type": "N04",
+      "url": "/blog/retainer-care",
+      "maps": [
+       "slow-server-response"
+      ]
+     },
+     {
+      "type": "N04",
+      "url": "/faq",
+      "maps": [
+       "slow-server-response"
+      ]
+     },
+     {
+      "type": "N04",
+      "url": "/blog/cracked-tooth-first-aid",
+      "maps": [
+       "slow-server-response"
+      ]
+     },
+     {
+      "type": "N04",
+      "url": "/blog/category/cosmetic",
       "maps": [
        "slow-server-response"
       ]
@@ -2692,17 +2680,17 @@
      "defaults": "crawler + robots.txt + sitemap, dynamicSampling 8, maxRoutes 200, mobile, 4 categories (no agentic-browsing by default)",
      "failure": "audit score < 0.9 in the per-route Lighthouse report"
     },
-    "durationMs": 541374,
-    "peakRssMb": 3205,
+    "durationMs": 521034,
+    "peakRssMb": 3192,
     "pagesAudited": 51,
     "errors": []
    },
    "score": {
     "tool": "unlighthouse",
     "totals": {
-     "findings": 172,
-     "uniqueFindings": 172,
-     "mappedFindings": 60,
+     "findings": 173,
+     "uniqueFindings": 173,
+     "mappedFindings": 61,
      "unmappedFindings": 112
     },
     "areas": {
@@ -2717,10 +2705,10 @@
      },
      "content": {
       "defects": 24,
-      "detected": 2,
-      "recall": 0.08333333333333333,
-      "mappedFindings": 2,
-      "matchingFindings": 2,
+      "detected": 3,
+      "recall": 0.125,
+      "mappedFindings": 3,
+      "matchingFindings": 3,
       "precision": 1,
       "controlFalsePositives": 0
      },
@@ -2762,11 +2750,11 @@
      },
      "overall": {
       "defects": 121,
-      "detected": 26,
-      "recall": 0.21487603305785125,
-      "mappedFindings": 60,
-      "matchingFindings": 27,
-      "precision": 0.45,
+      "detected": 27,
+      "recall": 0.2231404958677686,
+      "mappedFindings": 61,
+      "matchingFindings": 28,
+      "precision": 0.45901639344262296,
       "controlFalsePositives": 2
      }
     },
@@ -2786,9 +2774,6 @@
      "GT-021": [
       "document-latency-insight @ /blog/category/oral-health"
      ],
-     "GT-074": [
-      "aria-roles @ /blog/electric-vs-manual-toothbrush"
-     ],
      "GT-026": [
       "doctype @ /blog/tag/kids"
      ],
@@ -2797,6 +2782,12 @@
      ],
      "GT-073": [
       "heading-order @ /blog/what-to-expect-implants"
+     ],
+     "GT-076": [
+      "html-has-lang @ /blog/whitening-at-home"
+     ],
+     "GT-061": [
+      "link-text @ /blog/whitening-at-home"
      ],
      "GT-081": [
       "button-name @ /book"
@@ -2902,12 +2893,11 @@
      "GT-058",
      "GT-059",
      "GT-060",
-     "GT-061",
      "GT-063",
      "GT-064",
      "GT-072",
+     "GT-074",
      "GT-075",
-     "GT-076",
      "GT-082",
      "GT-083",
      "GT-084",
@@ -2963,13 +2953,6 @@
     "falsePositiveSample": [
      {
       "type": "image-delivery-insight",
-      "url": "/blog/Top-10-Brushing-Mistakes",
-      "maps": [
-       "image-oversized-file"
-      ]
-     },
-     {
-      "type": "image-delivery-insight",
       "url": "/blog/choosing-a-toothpaste",
       "maps": [
        "image-oversized-file"
@@ -2977,7 +2960,14 @@
      },
      {
       "type": "image-delivery-insight",
-      "url": "/blog/electric-vs-manual-toothbrush",
+      "url": "/blog/dry-mouth",
+      "maps": [
+       "image-oversized-file"
+      ]
+     },
+     {
+      "type": "image-delivery-insight",
+      "url": "/blog/healthy-snacks",
       "maps": [
        "image-oversized-file"
       ]
@@ -2991,21 +2981,14 @@
      },
      {
       "type": "image-delivery-insight",
-      "url": "/blog/kids-first-visit",
+      "url": "/blog/how-to-brush-your-teeth",
       "maps": [
        "image-oversized-file"
       ]
      },
      {
       "type": "image-delivery-insight",
-      "url": "/blog/open-evening-november",
-      "maps": [
-       "image-oversized-file"
-      ]
-     },
-     {
-      "type": "image-delivery-insight",
-      "url": "/blog/sugar-and-teeth",
+      "url": "/blog/new-parking-at-bristol",
       "maps": [
        "image-oversized-file"
       ]
@@ -3013,6 +2996,13 @@
      {
       "type": "image-delivery-insight",
       "url": "/blog/what-to-expect-implants",
+      "maps": [
+       "image-oversized-file"
+      ]
+     },
+     {
+      "type": "image-delivery-insight",
+      "url": "/blog/whitening-at-home",
       "maps": [
        "image-oversized-file"
       ]
@@ -3212,12 +3202,12 @@
      },
      "note": "Defaults otherwise (depth 10). --max-pages 0 lifts the default 500-page cap so the whole site is audited. AVC_DATA_DIR is a throwaway folder deleted after the run."
     },
-    "durationMs": 96552,
-    "peakRssMb": 1118,
+    "durationMs": 233192,
+    "peakRssMb": 1477,
     "pagesAudited": 1006,
     "errors": []
    },
-   "findings": 9241
+   "findings": 10211
   },
   {
    "tool": "scrawly",
@@ -3237,8 +3227,8 @@
      },
      "localhost": "no private-IP/localhost blocking exists in the crawler; nothing had to be enabled"
     },
-    "durationMs": 265785,
-    "peakRssMb": 1543,
+    "durationMs": 233408,
+    "peakRssMb": 1490,
     "pagesAudited": 1006,
     "errors": []
    },
@@ -3257,8 +3247,8 @@
      "failure": "an audit is a finding when its score is below 0.9 (Lighthouse pass threshold); informative/manual/n.a. audits ignored",
      "runs": "one page at a time, sequentially; durationMs and peakRssMb are the sum and the max over pages"
     },
-    "durationMs": 615717,
-    "peakRssMb": 1407,
+    "durationMs": 577380,
+    "peakRssMb": 1402,
     "pagesAudited": 50,
     "errors": []
    },
@@ -3266,7 +3256,7 @@
   },
   {
    "tool": "unlighthouse",
-   "note": "sample capped at 50 pages (Lighthouse-based); its default dynamic sampling (8 per route group) picked 28",
+   "note": "sample capped at 50 pages (Lighthouse-based)",
    "meta": {
     "version": "@unlighthouse/cli 0.19.1 (lighthouse 13.5.0)",
     "settings": {
@@ -3274,12 +3264,12 @@
      "defaults": "crawler + robots.txt + sitemap, dynamicSampling 8, maxRoutes 200, mobile, 4 categories (no agentic-browsing by default)",
      "failure": "audit score < 0.9 in the per-route Lighthouse report"
     },
-    "durationMs": 300603,
-    "peakRssMb": 3184,
+    "durationMs": 280798,
+    "peakRssMb": 3203,
     "pagesAudited": 28,
     "errors": []
    },
-   "findings": 104
+   "findings": 106
   },
   {
    "tool": "pyseoanalyzer",
@@ -3288,11 +3278,11 @@
     "version": "pyseoanalyzer 2025.4.3",
     "settings": {
      "command": "python-seo-analyzer <url> --output-format json --sitemap <robots.txt sitemap>",
-     "sitemap": "http://127.0.0.1:33187/sitemap.xml",
+     "sitemap": "http://127.0.0.1:41967/sitemap.xml",
      "note": "follow links is the default; --analyze-headings/--analyze-extra-tags only add data, not warnings, so they were left off"
     },
-    "durationMs": 37561,
-    "peakRssMb": 204,
+    "durationMs": 31481,
+    "peakRssMb": 202,
     "pagesAudited": 1007,
     "errors": []
    },

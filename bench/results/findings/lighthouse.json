@@ -27,7 +27,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/",
-   "message": "Render-blocking requests (Est savings of 90 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -55,7 +55,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/services",
-   "message": "Render-blocking requests (Est savings of 70 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -97,7 +97,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/services/general-dentistry",
-   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 120 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -125,7 +125,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/services/dental-implants",
-   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 120 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -153,7 +153,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/services/teeth-whitening",
-   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 120 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -188,7 +188,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/services/invisalign",
-   "message": "Render-blocking requests (Est savings of 90 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 130 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -216,7 +216,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/services/emergency-dentist",
-   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 120 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -244,7 +244,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/services/hygiene",
-   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 120 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -272,7 +272,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/services/childrens-dentistry",
-   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 120 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -307,14 +307,14 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/services/veneers",
-   "message": "Render-blocking requests (Est savings of 90 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
    "tool": "lighthouse",
    "type": "speed-index",
    "url": "/team",
-   "message": "Speed Index (4.0 s)",
+   "message": "Speed Index (3.9 s)",
    "severity": "warn"
   },
   {
@@ -384,7 +384,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/team",
-   "message": "Render-blocking requests (Est savings of 90 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -503,7 +503,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/team/dr-sophie-lang",
-   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 120 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -531,7 +531,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/team/priya-shah",
-   "message": "Render-blocking requests (Est savings of 80 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -601,7 +601,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/locations",
-   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 120 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -636,7 +636,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/locations/bristol",
-   "message": "Render-blocking requests (Est savings of 130 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 120 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -720,7 +720,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/blog",
-   "message": "Render-blocking requests (Est savings of 80 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 90 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -755,7 +755,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/blog/category/oral-health",
-   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 150 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -783,7 +783,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/blog/category/cosmetic",
-   "message": "Render-blocking requests (Est savings of 120 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -811,7 +811,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/blog/category/news",
-   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 90 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -832,7 +832,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/blog/tag/whitening",
-   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -909,7 +909,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/about",
-   "message": "Render-blocking requests (Est savings of 130 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 120 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -951,7 +951,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/contact",
-   "message": "Render-blocking requests (Est savings of 150 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -972,7 +972,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/faq",
-   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 90 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -1063,7 +1063,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/book",
-   "message": "Render-blocking requests (Est savings of 70 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -1098,7 +1098,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/new-patients",
-   "message": "Render-blocking requests (Est savings of 150 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -1119,7 +1119,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/us/new-patients",
-   "message": "Render-blocking requests (Est savings of 120 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -1161,7 +1161,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/us/invisalign-guide",
-   "message": "Render-blocking requests (Est savings of 60 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 120 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -1203,14 +1203,14 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/patient-stories",
-   "message": "Render-blocking requests | /assets/css/site.css",
-   "severity": "warn"
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "severity": "fail"
   },
   {
    "tool": "lighthouse",
    "type": "max-potential-fid",
    "url": "/legal/privacy",
-   "message": "Max Potential First Input Delay (230 ms)",
+   "message": "Max Potential First Input Delay (170 ms)",
    "severity": "warn"
   },
   {
@@ -1218,13 +1218,6 @@
    "type": "llms-txt",
    "url": "/legal/privacy",
    "message": "llms.txt does not follow recommendations",
-   "severity": "fail"
-  },
-  {
-   "tool": "lighthouse",
-   "type": "forced-reflow-insight",
-   "url": "/legal/privacy",
-   "message": "Forced reflow",
    "severity": "fail"
   },
   {
@@ -1259,7 +1252,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/legal/cookies",
-   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -1287,7 +1280,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/legal/terms",
-   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 130 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -1308,7 +1301,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/legal/complaints",
-   "message": "Render-blocking requests (Est savings of 150 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -1336,33 +1329,33 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/legal/accessibility",
-   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
-   "severity": "fail"
-  },
-  {
-   "tool": "lighthouse",
-   "type": "llms-txt",
-   "url": "/careers",
-   "message": "llms.txt does not follow recommendations",
-   "severity": "fail"
-  },
-  {
-   "tool": "lighthouse",
-   "type": "network-dependency-tree-insight",
-   "url": "/careers",
-   "message": "Network dependency tree",
-   "severity": "fail"
-  },
-  {
-   "tool": "lighthouse",
-   "type": "render-blocking-insight",
-   "url": "/careers",
    "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
    "tool": "lighthouse",
    "type": "llms-txt",
+   "url": "/careers",
+   "message": "llms.txt does not follow recommendations",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/careers",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "render-blocking-insight",
+   "url": "/careers",
+   "message": "Render-blocking requests (Est savings of 120 ms) | /assets/css/site.css",
+   "severity": "fail"
+  },
+  {
+   "tool": "lighthouse",
+   "type": "llms-txt",
    "url": "/finance",
    "message": "llms.txt does not follow recommendations",
    "severity": "fail"
@@ -1378,7 +1371,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/finance",
-   "message": "Render-blocking requests (Est savings of 70 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -1399,7 +1392,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/referrals",
-   "message": "Render-blocking requests (Est savings of 120 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 90 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -1448,7 +1441,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/blog/how-to-floss-properly",
-   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 120 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -1511,7 +1504,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/blog/whitening-myths",
-   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -1553,7 +1546,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/blog/what-to-expect-implants",
-   "message": "Render-blocking requests (Est savings of 80 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -1581,7 +1574,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/blog/dental-implants-cost",
-   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 120 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -1616,7 +1609,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/blog/fluoride-facts",
-   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 120 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -1672,7 +1665,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/blog/gum_disease_signs",
-   "message": "Render-blocking requests (Est savings of 90 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 120 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -1728,7 +1721,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/blog/healthy-snacks",
-   "message": "Render-blocking requests (Est savings of 90 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -1770,7 +1763,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/blog/electric-vs-manual-toothbrush",
-   "message": "Render-blocking requests (Est savings of 110 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
    "severity": "fail"
   },
   {
@@ -1861,7 +1854,7 @@
    "tool": "lighthouse",
    "type": "render-blocking-insight",
    "url": "/blog/dry-mouth",
-   "message": "Render-blocking requests (Est savings of 100 ms) | /assets/css/site.css",
+   "message": "Render-blocking requests (Est savings of 80 ms) | /assets/css/site.css",
    "severity": "fail"
   }
  ],
@@ -1875,11 +1868,11 @@
    "failure": "an audit is a finding when its score is below 0.9 (Lighthouse pass threshold); informative/manual/n.a. audits ignored",
    "runs": "one page at a time, sequentially; durationMs and peakRssMb are the sum and the max over pages"
   },
-  "durationMs": 728010,
-  "peakRssMb": 1501,
+  "durationMs": 700687,
+  "peakRssMb": 1497,
   "pagesAudited": 60,
   "errors": [
-   "http://127.0.0.1:38005/services/root-canal: ERRORED_DOCUMENT_REQUEST Lighthouse was unable to reliably load the page you requested. Make sure you are testing the correct URL and that the server is properly responding to all requests. (Status code: 404)"
+   "http://127.0.0.1:34719/services/root-canal: ERRORED_DOCUMENT_REQUEST Lighthouse was unable to reliably load the page you requested. Make sure you are testing the correct URL and that the server is properly responding to all requests. (Status code: 404)"
   ]
  }
 }

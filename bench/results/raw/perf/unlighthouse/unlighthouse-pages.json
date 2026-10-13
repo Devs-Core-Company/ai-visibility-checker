@@ -2,8 +2,8 @@
  "version": "0.19.1",
  "pages": [
   {
-   "requestedUrl": "http://127.0.0.1:33187/about",
-   "finalUrl": "http://127.0.0.1:33187/about",
+   "requestedUrl": "http://127.0.0.1:41967/about",
+   "finalUrl": "http://127.0.0.1:41967/about",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -28,13 +28,13 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
+     "items": "http://127.0.0.1:41967/assets/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:33187/c/bulbs",
-   "finalUrl": "http://127.0.0.1:33187/c/bulbs",
+   "requestedUrl": "http://127.0.0.1:41967/c/compost",
+   "finalUrl": "http://127.0.0.1:41967/c/compost",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -65,13 +65,13 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
+     "items": "http://127.0.0.1:41967/assets/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:33187/c/garden-furniture",
-   "finalUrl": "http://127.0.0.1:33187/c/garden-furniture",
+   "requestedUrl": "http://127.0.0.1:41967/c/fruit-trees",
+   "finalUrl": "http://127.0.0.1:41967/c/fruit-trees",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -102,13 +102,13 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
+     "items": "http://127.0.0.1:41967/assets/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:33187/c/hand-tools",
-   "finalUrl": "http://127.0.0.1:33187/c/hand-tools",
+   "requestedUrl": "http://127.0.0.1:41967/c/garden-furniture",
+   "finalUrl": "http://127.0.0.1:41967/c/garden-furniture",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -139,13 +139,13 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
+     "items": "http://127.0.0.1:41967/assets/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:33187/c/lawn-care",
-   "finalUrl": "http://127.0.0.1:33187/c/lawn-care",
+   "requestedUrl": "http://127.0.0.1:41967/c/gloves-and-clothing",
+   "finalUrl": "http://127.0.0.1:41967/c/gloves-and-clothing",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -176,13 +176,13 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
+     "items": "http://127.0.0.1:41967/assets/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:33187/c/lighting",
-   "finalUrl": "http://127.0.0.1:33187/c/lighting",
+   "requestedUrl": "http://127.0.0.1:41967/c/hand-tools",
+   "finalUrl": "http://127.0.0.1:41967/c/hand-tools",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -213,13 +213,13 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
+     "items": "http://127.0.0.1:41967/assets/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:33187/c/paving",
-   "finalUrl": "http://127.0.0.1:33187/c/paving",
+   "requestedUrl": "http://127.0.0.1:41967/c/lighting",
+   "finalUrl": "http://127.0.0.1:41967/c/lighting",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -250,13 +250,13 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
+     "items": "http://127.0.0.1:41967/assets/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:33187/c/pruning",
-   "finalUrl": "http://127.0.0.1:33187/c/pruning",
+   "requestedUrl": "http://127.0.0.1:41967/c/pruning",
+   "finalUrl": "http://127.0.0.1:41967/c/pruning",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -287,13 +287,13 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
+     "items": "http://127.0.0.1:41967/assets/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:33187/c/shrubs",
-   "finalUrl": "http://127.0.0.1:33187/c/shrubs",
+   "requestedUrl": "http://127.0.0.1:41967/c/wildlife",
+   "finalUrl": "http://127.0.0.1:41967/c/wildlife",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -324,13 +324,13 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
+     "items": "http://127.0.0.1:41967/assets/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:33187/contact",
-   "finalUrl": "http://127.0.0.1:33187/contact",
+   "requestedUrl": "http://127.0.0.1:41967/contact",
+   "finalUrl": "http://127.0.0.1:41967/contact",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -349,13 +349,13 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
+     "items": "http://127.0.0.1:41967/assets/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:33187/journal/growing-herbs-in-pots-part-5",
-   "finalUrl": "http://127.0.0.1:33187/journal/growing-herbs-in-pots-part-5",
+   "requestedUrl": "http://127.0.0.1:41967/journal/attracting-bees-part-5",
+   "finalUrl": "http://127.0.0.1:41967/journal/attracting-bees-part-5",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -386,38 +386,13 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
+     "items": "http://127.0.0.1:41967/assets/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:33187/journal",
-   "finalUrl": "http://127.0.0.1:33187/journal",
-   "runtimeError": null,
-   "categories": {
-    "performance": 1,
-    "accessibility": 1,
-    "best-practices": 1,
-    "seo": 1
-   },
-   "failing": [
-    {
-     "id": "network-dependency-tree-insight",
-     "score": 0,
-     "displayValue": null,
-     "items": ""
-    },
-    {
-     "id": "render-blocking-insight",
-     "score": 0.5,
-     "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
-    }
-   ]
-  },
-  {
-   "requestedUrl": "http://127.0.0.1:33187/journal/lighting-a-small-garden-part-4",
-   "finalUrl": "http://127.0.0.1:33187/journal/lighting-a-small-garden-part-4",
+   "requestedUrl": "http://127.0.0.1:41967/journal/controlling-slugs-without-pellets-part-2",
+   "finalUrl": "http://127.0.0.1:41967/journal/controlling-slugs-without-pellets-part-2",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -448,38 +423,13 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
+     "items": "http://127.0.0.1:41967/assets/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:33187/journal/page-4",
-   "finalUrl": "http://127.0.0.1:33187/journal/page-4",
-   "runtimeError": null,
-   "categories": {
-    "performance": 1,
-    "accessibility": 1,
-    "best-practices": 1,
-    "seo": 1
-   },
-   "failing": [
-    {
-     "id": "network-dependency-tree-insight",
-     "score": 0,
-     "displayValue": null,
-     "items": ""
-    },
-    {
-     "id": "render-blocking-insight",
-     "score": 0.5,
-     "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
-    }
-   ]
-  },
-  {
-   "requestedUrl": "http://127.0.0.1:33187/journal/planting-a-fruit-tree-part-5",
-   "finalUrl": "http://127.0.0.1:33187/journal/planting-a-fruit-tree-part-5",
+   "requestedUrl": "http://127.0.0.1:41967/journal/dividing-perennials-part-2",
+   "finalUrl": "http://127.0.0.1:41967/journal/dividing-perennials-part-2",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -510,13 +460,13 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
+     "items": "http://127.0.0.1:41967/assets/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:33187/journal/planting-bulbs-for-spring-colour-part-2",
-   "finalUrl": "http://127.0.0.1:33187/journal/planting-bulbs-for-spring-colour-part-2",
+   "requestedUrl": "http://127.0.0.1:41967/journal/dividing-perennials-part-5",
+   "finalUrl": "http://127.0.0.1:41967/journal/dividing-perennials-part-5",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -547,13 +497,38 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
+     "items": "http://127.0.0.1:41967/assets/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:33187/journal/renovating-a-tired-lawn",
-   "finalUrl": "http://127.0.0.1:33187/journal/renovating-a-tired-lawn",
+   "requestedUrl": "http://127.0.0.1:41967/journal",
+   "finalUrl": "http://127.0.0.1:41967/journal",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:41967/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:41967/journal/lighting-a-small-garden-part-2",
+   "finalUrl": "http://127.0.0.1:41967/journal/lighting-a-small-garden-part-2",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -584,13 +559,13 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
+     "items": "http://127.0.0.1:41967/assets/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:33187/journal/starting-seeds-on-a-windowsill-part-2",
-   "finalUrl": "http://127.0.0.1:33187/journal/starting-seeds-on-a-windowsill-part-2",
+   "requestedUrl": "http://127.0.0.1:41967/journal/planting-a-wildlife-hedge-part-4",
+   "finalUrl": "http://127.0.0.1:41967/journal/planting-a-wildlife-hedge-part-4",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -621,13 +596,13 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
+     "items": "http://127.0.0.1:41967/assets/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:33187/journal/watering-in-a-heatwave-part-5",
-   "finalUrl": "http://127.0.0.1:33187/journal/watering-in-a-heatwave-part-5",
+   "requestedUrl": "http://127.0.0.1:41967/journal/protecting-plants-from-frost-part-4",
+   "finalUrl": "http://127.0.0.1:41967/journal/protecting-plants-from-frost-part-4",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -658,13 +633,50 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
+     "items": "http://127.0.0.1:41967/assets/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:33187/",
-   "finalUrl": "http://127.0.0.1:33187/",
+   "requestedUrl": "http://127.0.0.1:41967/journal/starting-seeds-on-a-windowsill-part-3",
+   "finalUrl": "http://127.0.0.1:41967/journal/starting-seeds-on-a-windowsill-part-3",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+   },
+   "failing": [
+    {
+     "id": "image-delivery-insight",
+     "score": 0.5,
+     "displayValue": "Est savings of 7 KiB",
+     "items": "body > main#main > img"
+    },
+    {
+     "id": "lcp-discovery-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0.5,
+     "displayValue": null,
+     "items": "http://127.0.0.1:41967/assets/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:41967/",
+   "finalUrl": "http://127.0.0.1:41967/",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -689,13 +701,13 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
+     "items": "http://127.0.0.1:41967/assets/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:33187/p/copper-staging-1470",
-   "finalUrl": "http://127.0.0.1:33187/p/copper-staging-1470",
+   "requestedUrl": "http://127.0.0.1:41967/p/classic-plum-tree-1524",
+   "finalUrl": "http://127.0.0.1:41967/p/classic-plum-tree-1524",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -726,13 +738,13 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
+     "items": "http://127.0.0.1:41967/assets/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:33187/p/dwarf-transplanter-1347",
-   "finalUrl": "http://127.0.0.1:33187/p/dwarf-transplanter-1347",
+   "requestedUrl": "http://127.0.0.1:41967/p/compact-polytunnel-1670",
+   "finalUrl": "http://127.0.0.1:41967/p/compact-polytunnel-1670",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -763,13 +775,13 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
+     "items": "http://127.0.0.1:41967/assets/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:33187/p/galvanised-viburnum-1863",
-   "finalUrl": "http://127.0.0.1:33187/p/galvanised-viburnum-1863",
+   "requestedUrl": "http://127.0.0.1:41967/p/dwarf-fleece-1774",
+   "finalUrl": "http://127.0.0.1:41967/p/dwarf-fleece-1774",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -800,13 +812,13 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
+     "items": "http://127.0.0.1:41967/assets/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:33187/p/heritage-terracotta-pot-1012",
-   "finalUrl": "http://127.0.0.1:33187/p/heritage-terracotta-pot-1012",
+   "requestedUrl": "http://127.0.0.1:41967/p/galvanised-hebe-1343",
+   "finalUrl": "http://127.0.0.1:41967/p/galvanised-hebe-1343",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -837,13 +849,13 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
+     "items": "http://127.0.0.1:41967/assets/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:33187/p/professional-path-light-1697",
-   "finalUrl": "http://127.0.0.1:33187/p/professional-path-light-1697",
+   "requestedUrl": "http://127.0.0.1:41967/p/lightweight-netting-1394",
+   "finalUrl": "http://127.0.0.1:41967/p/lightweight-netting-1394",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -874,13 +886,13 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
+     "items": "http://127.0.0.1:41967/assets/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:33187/p/scented-basil-seeds-1340",
-   "finalUrl": "http://127.0.0.1:33187/p/scented-basil-seeds-1340",
+   "requestedUrl": "http://127.0.0.1:41967/p/organic-gardening-gloves-1619",
+   "finalUrl": "http://127.0.0.1:41967/p/organic-gardening-gloves-1619",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -911,13 +923,13 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
+     "items": "http://127.0.0.1:41967/assets/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:33187/p/trailing-aerator-1653",
-   "finalUrl": "http://127.0.0.1:33187/p/trailing-aerator-1653",
+   "requestedUrl": "http://127.0.0.1:41967/p/recycled-stepping-stones-1258",
+   "finalUrl": "http://127.0.0.1:41967/p/recycled-stepping-stones-1258",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -948,13 +960,13 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
+     "items": "http://127.0.0.1:41967/assets/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:33187/p/trailing-folding-chair-1816",
-   "finalUrl": "http://127.0.0.1:33187/p/trailing-folding-chair-1816",
+   "requestedUrl": "http://127.0.0.1:41967/p/trailing-echinacea-1282",
+   "finalUrl": "http://127.0.0.1:41967/p/trailing-echinacea-1282",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -985,7 +997,7 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:33187/assets/site.css"
+     "items": "http://127.0.0.1:41967/assets/site.css"
     }
    ]
   }

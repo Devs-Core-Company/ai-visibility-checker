@@ -6,13 +6,13 @@
  "discovered": 95,
  "queue": 0,
  "status_tally": {
-  "4xx": 4,
   "2xx": 83,
+  "4xx": 4,
   "5xx": 1
  },
  "max_pages": 5000,
- "target": "http://127.0.0.1:38005/",
+ "target": "http://127.0.0.1:34719/",
  "robots_seed_blocked": false,
- "elapsed_s": 33.7,
- "pages_per_sec": 2.61
+ "elapsed_s": 30.6,
+ "pages_per_sec": 2.88
 }

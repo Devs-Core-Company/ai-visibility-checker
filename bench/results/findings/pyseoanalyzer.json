@@ -12035,25 +12035,25 @@
   {
    "tool": "pyseoanalyzer",
    "type": "duplicate-pages",
-   "url": "/team/dr-hart",
-   "message": "Duplicate content: /team/dr-hart, /team/dr-amelia-hart"
+   "url": "/team/dr-amelia-hart",
+   "message": "Duplicate content: /team/dr-amelia-hart, /team/dr-hart"
   },
   {
    "tool": "pyseoanalyzer",
    "type": "duplicate-pages",
-   "url": "/team/dr-amelia-hart",
-   "message": "Duplicate content: /team/dr-hart, /team/dr-amelia-hart"
+   "url": "/team/dr-hart",
+   "message": "Duplicate content: /team/dr-amelia-hart, /team/dr-hart"
   }
  ],
  "meta": {
   "version": "pyseoanalyzer 2025.4.3",
   "settings": {
    "command": "python-seo-analyzer <url> --output-format json --sitemap <robots.txt sitemap>",
-   "sitemap": "http://127.0.0.1:38005/sitemap.xml",
+   "sitemap": "http://127.0.0.1:34719/sitemap.xml",
    "note": "follow links is the default; --analyze-headings/--analyze-extra-tags only add data, not warnings, so they were left off"
   },
-  "durationMs": 10122,
-  "peakRssMb": 154,
+  "durationMs": 9164,
+  "peakRssMb": 152,
   "pagesAudited": 63,
   "errors": [
    "tool output: Error occurred during crawling: 'NoneType' object is not subscriptable"

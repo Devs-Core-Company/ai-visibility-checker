@@ -4,6 +4,10 @@ An honest comparison by capability. It is based on each tool's public documentat
 writing (October 2026); check their sites for the latest. If something here is wrong or out of date,
 please open an issue.
 
+Measured, not just listed: an open benchmark of AVC, Scrawly, Google Lighthouse, Unlighthouse and
+python-seo-analyzer on a site with 121 planted defects is in the [README](../README.md#benchmark)
+and [`bench/`](../bench/).
+
 ## AI Visibility Checker vs Scrawly
 
 [Scrawly](https://github.com/IliasSami/scrawly-seo-crawler) is a free, MIT-licensed desktop SEO

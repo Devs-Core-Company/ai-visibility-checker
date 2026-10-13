@@ -32,27 +32,6 @@
   },
   {
    "tool": "unlighthouse",
-   "type": "image-delivery-insight",
-   "url": "/blog/Top-10-Brushing-Mistakes",
-   "message": "Improve image delivery (Est savings of 35 KiB) | body > main#main > article > img",
-   "severity": "warn"
-  },
-  {
-   "tool": "unlighthouse",
-   "type": "network-dependency-tree-insight",
-   "url": "/blog/Top-10-Brushing-Mistakes",
-   "message": "Network dependency tree",
-   "severity": "fail"
-  },
-  {
-   "tool": "unlighthouse",
-   "type": "render-blocking-insight",
-   "url": "/blog/Top-10-Brushing-Mistakes",
-   "message": "Render-blocking requests | /assets/css/site.css",
-   "severity": "warn"
-  },
-  {
-   "tool": "unlighthouse",
    "type": "errors-in-console",
    "url": "/blog/category/cosmetic",
    "message": "Browser errors were logged to the console",
@@ -144,29 +123,43 @@
   },
   {
    "tool": "unlighthouse",
-   "type": "aria-roles",
-   "url": "/blog/electric-vs-manual-toothbrush",
-   "message": "`[role]` values are not valid | main#main > article > p > span.tag",
-   "severity": "fail"
-  },
-  {
-   "tool": "unlighthouse",
    "type": "image-delivery-insight",
-   "url": "/blog/electric-vs-manual-toothbrush",
-   "message": "Improve image delivery (Est savings of 37 KiB) | body > main#main > article > img",
+   "url": "/blog/dry-mouth",
+   "message": "Improve image delivery (Est savings of 32 KiB) | body > main#main > article > img",
    "severity": "warn"
   },
   {
    "tool": "unlighthouse",
    "type": "network-dependency-tree-insight",
-   "url": "/blog/electric-vs-manual-toothbrush",
+   "url": "/blog/dry-mouth",
    "message": "Network dependency tree",
    "severity": "fail"
   },
   {
    "tool": "unlighthouse",
    "type": "render-blocking-insight",
-   "url": "/blog/electric-vs-manual-toothbrush",
+   "url": "/blog/dry-mouth",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "image-delivery-insight",
+   "url": "/blog/healthy-snacks",
+   "message": "Improve image delivery (Est savings of 35 KiB) | body > main#main > article > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/healthy-snacks",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/healthy-snacks",
    "message": "Render-blocking requests | /assets/css/site.css",
    "severity": "warn"
   },
@@ -194,21 +187,21 @@
   {
    "tool": "unlighthouse",
    "type": "image-delivery-insight",
-   "url": "/blog/kids-first-visit",
+   "url": "/blog/how-to-brush-your-teeth",
    "message": "Improve image delivery (Est savings of 34 KiB) | body > main#main > article > img",
    "severity": "warn"
   },
   {
    "tool": "unlighthouse",
    "type": "network-dependency-tree-insight",
-   "url": "/blog/kids-first-visit",
+   "url": "/blog/how-to-brush-your-teeth",
    "message": "Network dependency tree",
    "severity": "fail"
   },
   {
    "tool": "unlighthouse",
    "type": "render-blocking-insight",
-   "url": "/blog/kids-first-visit",
+   "url": "/blog/how-to-brush-your-teeth",
    "message": "Render-blocking requests | /assets/css/site.css",
    "severity": "warn"
   },
@@ -229,42 +222,21 @@
   {
    "tool": "unlighthouse",
    "type": "image-delivery-insight",
-   "url": "/blog/open-evening-november",
-   "message": "Improve image delivery (Est savings of 33 KiB) | body > main#main > article > img",
+   "url": "/blog/new-parking-at-bristol",
+   "message": "Improve image delivery (Est savings of 32 KiB) | body > main#main > article > img",
    "severity": "warn"
   },
   {
    "tool": "unlighthouse",
    "type": "network-dependency-tree-insight",
-   "url": "/blog/open-evening-november",
+   "url": "/blog/new-parking-at-bristol",
    "message": "Network dependency tree",
    "severity": "fail"
   },
   {
    "tool": "unlighthouse",
    "type": "render-blocking-insight",
-   "url": "/blog/open-evening-november",
-   "message": "Render-blocking requests | /assets/css/site.css",
-   "severity": "warn"
-  },
-  {
-   "tool": "unlighthouse",
-   "type": "image-delivery-insight",
-   "url": "/blog/sugar-and-teeth",
-   "message": "Improve image delivery (Est savings of 37 KiB) | body > main#main > article > img",
-   "severity": "warn"
-  },
-  {
-   "tool": "unlighthouse",
-   "type": "network-dependency-tree-insight",
-   "url": "/blog/sugar-and-teeth",
-   "message": "Network dependency tree",
-   "severity": "fail"
-  },
-  {
-   "tool": "unlighthouse",
-   "type": "render-blocking-insight",
-   "url": "/blog/sugar-and-teeth",
+   "url": "/blog/new-parking-at-bristol",
    "message": "Render-blocking requests | /assets/css/site.css",
    "severity": "warn"
   },
@@ -335,6 +307,41 @@
    "tool": "unlighthouse",
    "type": "render-blocking-insight",
    "url": "/blog/what-to-expect-implants",
+   "message": "Render-blocking requests | /assets/css/site.css",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "html-has-lang",
+   "url": "/blog/whitening-at-home",
+   "message": "`<html>` element does not have a `[lang]` attribute | html",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "link-text",
+   "url": "/blog/whitening-at-home",
+   "message": "Links do not have descriptive text (2 links found) | /services/teeth-whitening, /pricing",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "image-delivery-insight",
+   "url": "/blog/whitening-at-home",
+   "message": "Improve image delivery (Est savings of 37 KiB) | body > main#main > article > img",
+   "severity": "warn"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "network-dependency-tree-insight",
+   "url": "/blog/whitening-at-home",
+   "message": "Network dependency tree",
+   "severity": "fail"
+  },
+  {
+   "tool": "unlighthouse",
+   "type": "render-blocking-insight",
+   "url": "/blog/whitening-at-home",
    "message": "Render-blocking requests | /assets/css/site.css",
    "severity": "warn"
   },
@@ -1084,7 +1091,7 @@
    "tool": "unlighthouse",
    "type": "largest-contentful-paint",
    "url": "/team",
-   "message": "Largest Contentful Paint (2.7 s)",
+   "message": "Largest Contentful Paint (2.6 s)",
    "severity": "warn"
   },
   {
@@ -1214,8 +1221,8 @@
    "defaults": "crawler + robots.txt + sitemap, dynamicSampling 8, maxRoutes 200, mobile, 4 categories (no agentic-browsing by default)",
    "failure": "audit score < 0.9 in the per-route Lighthouse report"
   },
-  "durationMs": 541374,
-  "peakRssMb": 3205,
+  "durationMs": 521034,
+  "peakRssMb": 3192,
   "pagesAudited": 51,
   "errors": []
  }

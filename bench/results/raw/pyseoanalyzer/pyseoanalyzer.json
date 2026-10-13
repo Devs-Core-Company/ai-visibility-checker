@@ -1,7 +1,7 @@
 {
  "pages": [
   {
-   "url": "http://127.0.0.1:38005/",
+   "url": "http://127.0.0.1:34719/",
    "title": "Harbourline Dental Studio",
    "description": "Independent dental practice with clinics in Bristol, Bath and Leeds. Check-ups, hygiene, implants, aligners and same-day emergency appointments.",
    "author": "",
@@ -52,10 +52,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "c62e283478c8481e8917c2aaf6890c553e06023e"
+   "content_hash": "152e76ba64292d85b73590e30747d890621c1c82"
   },
   {
-   "url": "http://127.0.0.1:38005/services",
+   "url": "http://127.0.0.1:34719/services",
    "title": "Dental Treatments at Harbourline Dental Studio",
    "description": "All treatments offered at Harbourline: general dentistry, hygiene, implants, whitening, aligners, veneers, children’s care and emergencies.",
    "author": "",
@@ -102,10 +102,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "6e0f016d6349fc2fdb0a97aba0ec65d37a1fadb2"
+   "content_hash": "456f0028c841bd06d2a64bcd1a0bcc93164a80dc"
   },
   {
-   "url": "http://127.0.0.1:38005/team",
+   "url": "http://127.0.0.1:34719/team",
    "title": "Meet Our Dentists and Hygienists",
    "description": "Meet the dentists, hygienists and therapists at Harbourline Dental Studio, with their qualifications, interests and clinic days.",
    "author": "",
@@ -149,10 +149,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "7414d8791a7b200c44ac2e1c941053bf4a5a9674"
+   "content_hash": "605bfc0a1f751c33585e238578eb241c39f15c6c"
   },
   {
-   "url": "http://127.0.0.1:38005/locations",
+   "url": "http://127.0.0.1:34719/locations",
    "title": "Our Dental Clinics in Bristol, Bath and Leeds",
    "description": "Addresses, opening hours, parking and travel information for Harbourline Dental Studio clinics in Bristol, Bath and Leeds.",
    "author": "",
@@ -192,10 +192,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "632ee32ae8cb634e869d9646729b25ceb1c1679d"
+   "content_hash": "47066374ab634ffd7998fc17b229698bbb075157"
   },
   {
-   "url": "http://127.0.0.1:38005/pricing",
+   "url": "http://127.0.0.1:34719/pricing",
    "title": "Dental Treatment Prices and Fees",
    "description": "Current fees for check-ups, hygiene, fillings, crowns, implants, whitening and aligners at Harbourline Dental Studio clinics.",
    "author": "",
@@ -233,10 +233,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "34ad887a16ba5aa63f8555997552297f6cc15b44"
+   "content_hash": "3f29e604ed968a960324e34701c6a84bb5633597"
   },
   {
-   "url": "http://127.0.0.1:38005/blog",
+   "url": "http://127.0.0.1:34719/blog",
    "title": "Dental Advice and Practice News",
    "description": "Practical advice on looking after your teeth and gums from the Harbourline team, plus news from our Bristol, Bath and Leeds clinics.",
    "author": "",
@@ -292,10 +292,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "465f2e1e83055a0ca6163b7351468e9bb2f43e2e"
+   "content_hash": "d493c52a2d7288ea68a4d9a32889c81a2411a774"
   },
   {
-   "url": "http://127.0.0.1:38005/faq",
+   "url": "http://127.0.0.1:34719/faq",
    "title": "Frequently Asked Questions",
    "description": "Answers to common questions about new patient appointments, fees, emergency care, children’s check-ups, parking and paying for treatment.",
    "author": "",
@@ -333,10 +333,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "578692c6728f64070a750ea41c0eb482250f340f"
+   "content_hash": "9232c35093f1053601467c20998b2a26bdebc1c1"
   },
   {
-   "url": "http://127.0.0.1:38005/contact",
+   "url": "http://127.0.0.1:34719/contact",
    "title": "Contact Harbourline Dental Studio",
    "description": "Telephone numbers, email and addresses for Harbourline clinics in Bristol, Bath and Leeds, plus an enquiry form for non-urgent questions.",
    "author": "",
@@ -376,10 +376,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "84a862a45fc9f41fb31959107d689d7de6047936"
+   "content_hash": "f7ff3f400ce66084b5093eae74592d99bc9329f0"
   },
   {
-   "url": "http://127.0.0.1:38005/book",
+   "url": "http://127.0.0.1:34719/book",
    "title": "Book a Dental Appointment Online",
    "description": "Request a check-up, hygiene visit or consultation at our Bristol, Bath or Leeds clinic. We confirm every request by phone or email.",
    "author": "",
@@ -416,10 +416,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "9a7945a76771640cc2513c24eaa6085f0be8a531"
+   "content_hash": "a18c6fa5a9d810f717411bd3db4ec94f653cdd7b"
   },
   {
-   "url": "http://127.0.0.1:38005/new-patients",
+   "url": "http://127.0.0.1:34719/new-patients",
    "title": "Information for New Patients",
    "description": "Joining Harbourline: what your first appointment involves, what it costs, what to bring and how to register online before you arrive.",
    "author": "",
@@ -457,10 +457,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "dfeaea8955f4abb76f631441d91b5d78f4da5d22"
+   "content_hash": "282f3c263f4ccaac0797bd3432c071cc53f83433"
   },
   {
-   "url": "http://127.0.0.1:38005/services/general-dentistry",
+   "url": "http://127.0.0.1:34719/services/general-dentistry",
    "title": "General Dentistry in Bristol, Bath and Leeds",
    "description": "Check-ups, fillings, root canal treatment and crowns from Harbourline Dental Studio. NHS-style care standards with private appointment times.",
    "author": "",
@@ -499,10 +499,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "78c8ee1179f2610b5ba502a53cddb9ba64d9f774"
+   "content_hash": "bde71d706c20964892607283f1341fbf5fc758d1"
   },
   {
-   "url": "http://127.0.0.1:38005/services/dental-implants",
+   "url": "http://127.0.0.1:34719/services/dental-implants",
    "title": "Dental Implants: Replace Missing Teeth",
    "description": "Single implants, implant bridges and implant-retained dentures placed by Dr Rohan Mehta. Free consultation and a written plan before you commit.",
    "author": "",
@@ -541,10 +541,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "1ca332cff1780f304a3cb4bef54ebab250115b08"
+   "content_hash": "517654066c5cf279b7d7c9fdd40c307d8df697b9"
   },
   {
-   "url": "http://127.0.0.1:38005/services/teeth-whitening",
+   "url": "http://127.0.0.1:34719/services/teeth-whitening",
    "title": "Professional Teeth Whitening",
    "description": "Dentist-supervised home whitening with custom trays. Safe peroxide strengths, a shade check before and after, and advice on keeping results.",
    "author": "",
@@ -583,10 +583,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "a4447366c2785f57a9149283f8ab348fef999632"
+   "content_hash": "e734a243740d4cb9df30f6e8ecb3ee2f0dd25243"
   },
   {
-   "url": "http://127.0.0.1:38005/services/emergency-dentist",
+   "url": "http://127.0.0.1:34719/services/emergency-dentist",
    "title": "Emergency Dentist Appointments",
    "description": "Same-day emergency dental appointments for toothache, swelling, broken teeth and knocked-out teeth at our Bristol, Bath and Leeds clinics.",
    "author": "",
@@ -625,10 +625,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "77dec1cab9bbb1c828cb71f1dc6fd8d81ef7d63e"
+   "content_hash": "219a05e85f06bcad931dc7c44864340a40876c82"
   },
   {
-   "url": "http://127.0.0.1:38005/services/hygiene",
+   "url": "http://127.0.0.1:34719/services/hygiene",
    "title": "Dental Hygienist Appointments",
    "description": "Scale and polish, gum disease treatment and stain removal with our dental hygienists. Book a 30 or 45 minute hygiene visit online.",
    "author": "",
@@ -669,10 +669,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "de6186c2d8a9c9a11f04b3f46c73475c8efd84ec"
+   "content_hash": "241adf30ba2696e2187bfc219bbf15262db4f8f1"
   },
   {
-   "url": "http://127.0.0.1:38005/services/childrens-dentistry",
+   "url": "http://127.0.0.1:34719/services/childrens-dentistry",
    "title": "Children's Dentistry, Fissure Sealants, Fluoride Varnish and First Dental Visits for Babies, Toddlers and Teenagers",
    "description": "Gentle dental care for children from their first tooth. Fluoride varnish, fissure sealants and practical advice for parents at every clinic.",
    "author": "",
@@ -712,10 +712,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "3b11f2e9eaa6edea8244e0bd62996d3b68f589cb"
+   "content_hash": "183d3b53e41277d5697928edb10a6d978aa98ab0"
   },
   {
-   "url": "http://127.0.0.1:38005/locations/bristol",
+   "url": "http://127.0.0.1:34719/locations/bristol",
    "title": "Harbourline Bristol: Dentist on Quay Street, BS1",
    "description": "Our Bristol clinic on Quay Street is five minutes from the city centre bus station. Open six days a week with early and late appointments.",
    "author": "",
@@ -757,10 +757,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "d27d68a472bf361e73e76c5ac553e6164846bbf8"
+   "content_hash": "86eb7b7e3594a4a6999237a9351c38b302ed1530"
   },
   {
-   "url": "http://127.0.0.1:38005/locations/bath",
+   "url": "http://127.0.0.1:34719/locations/bath",
    "title": "Bath",
    "description": "Harbourline Bath sits behind the Abbey and focuses on Invisalign, veneers and cosmetic care, alongside routine check-ups and hygiene visits.",
    "author": "",
@@ -802,10 +802,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "9faa696a6145025cc65241815cd8bed90a642b1d"
+   "content_hash": "bfbf2617cd7501fa6b76d57146abca1beb45e4ce"
   },
   {
-   "url": "http://127.0.0.1:38005/locations/leeds",
+   "url": "http://127.0.0.1:34719/locations/leeds",
    "title": "Harbourline Leeds: Dentist at Granary Wharf",
    "description": "Harbourline Leeds at Granary Wharf offers check-ups, hygiene, gum disease treatment and children’s dentistry, with Saturday appointments.",
    "author": "",
@@ -847,10 +847,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "c0e0ea7f85ab90052f73b12f28df1b7d8226fd9d"
+   "content_hash": "7405915a2f18ded2091327ecf1568b4f5e8030f3"
   },
   {
-   "url": "http://127.0.0.1:38005/blog/choosing-a-toothpaste",
+   "url": "http://127.0.0.1:34719/blog/choosing-a-toothpaste",
    "title": "How to Choose a Toothpaste That Works",
    "description": "What to look for on a toothpaste label: fluoride strength, sensitivity ingredients, whitening claims and what you can ignore.",
    "author": "Tom Ellis",
@@ -893,10 +893,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "bab51a3bf7ed8a23406a065a18b6aedfa480f8e9"
+   "content_hash": "4929196e3199f64a7f8e50b666a06508327aeff7"
   },
   {
-   "url": "http://127.0.0.1:38005/blog/wisdom-teeth",
+   "url": "http://127.0.0.1:34719/blog/wisdom-teeth",
    "title": "Wisdom Teeth: When Do They Need Removing?",
    "description": "Most wisdom teeth never need removing. The signs that one is causing problems, how removal works and how long recovery takes.",
    "author": "Dr Rohan Mehta",
@@ -939,10 +939,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "8200cce576c8e70a109b4894ec18f7518844fcc1"
+   "content_hash": "ada5376b434c2642e2711c32d4953cc295ce76b8"
   },
   {
-   "url": "http://127.0.0.1:38005/blog/dental-checkups-how-often",
+   "url": "http://127.0.0.1:34719/blog/dental-checkups-how-often",
    "title": "How Often Should You Have a Dental Check-Up?",
    "description": "Six months is not the rule for everyone. How dentists decide your recall interval, from three months to two years.",
    "author": "Dr Amelia Hart",
@@ -985,10 +985,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "023f609509971582307177066ccad1fe7354774b"
+   "content_hash": "19b94786581570ab0d894d144bc84f3a1825483a"
   },
   {
-   "url": "http://127.0.0.1:38005/about",
+   "url": "http://127.0.0.1:34719/about",
    "title": "About Harbourline Dental Studio: Our Story",
    "description": "How Harbourline Dental Studio started in 2012, how we work, and what patients can expect from our dentists and staff.",
    "author": "",
@@ -1027,10 +1027,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "42759def2a3dbd7e20809a8bfbeacd0dd5b32541"
+   "content_hash": "7148815b7be1aef698fb4d364c653b1c1b2f8992"
   },
   {
-   "url": "http://127.0.0.1:38005/finance",
+   "url": "http://127.0.0.1:34719/finance",
    "title": "Paying for Dental Treatment and Finance",
    "description": "Ways to pay at Harbourline: card payments, deposits for laboratory work, interest-free finance over twelve months and itemised receipts for insurers.",
    "author": "",
@@ -1066,10 +1066,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "de73b65cce6c076ad8e57cb794fc9571064a72ce"
+   "content_hash": "bcba9714ab65c96415d671b1f97e75a1e14c0c14"
   },
   {
-   "url": "http://127.0.0.1:38005/careers",
+   "url": "http://127.0.0.1:34719/careers",
    "title": "Careers in Dentistry at Harbourline Dental Studio",
    "description": "Work at Harbourline: current vacancies for dental nurses, receptionists and hygienists, plus training, pay and what it is like to work here.",
    "author": "",
@@ -1105,10 +1105,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "90faef2f5cbe14c292034f9e4ec05fb14b20948b"
+   "content_hash": "ed75cda0b39b3bf9143af5912bad77dd5f9075c2"
   },
   {
-   "url": "http://127.0.0.1:38005/referrals",
+   "url": "http://127.0.0.1:34719/referrals",
    "title": "Referrals for Dentists: Implants and Aligners",
    "description": "Information for referring dentists: how to refer patients for implants, clear aligners or gum treatment, what we send back and typical waiting times.",
    "author": "",
@@ -1144,10 +1144,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "30ecbe716e303b901ab1ab7864fc40fef875f640"
+   "content_hash": "cb695231e0a6699a5676111200b0792de18d7549"
   },
   {
-   "url": "http://127.0.0.1:38005/developers",
+   "url": "http://127.0.0.1:34719/developers",
    "title": "Developer Information and Booking API",
    "description": "How software and AI agents can find Harbourline Dental Studio’s booking API, its machine-readable catalogue and the agent discovery files we publish.",
    "author": "",
@@ -1185,10 +1185,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "ab49f34e673ef99087163c1d423f64160944f890"
+   "content_hash": "650b7c0047f4a3d44262ed3cb1a47368535f7eb6"
   },
   {
-   "url": "http://127.0.0.1:38005/legal/privacy",
+   "url": "http://127.0.0.1:34719/legal/privacy",
    "title": "Privacy Notice for Patients",
    "description": "How Harbourline Dental Studio collects, uses, stores and shares personal and health information, and your rights under UK GDPR.",
    "author": "",
@@ -1225,10 +1225,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "b3fa72c30408933f143173943b307292255ddb05"
+   "content_hash": "531b1fd7b6c14f1ddd070301c16dd017bafc4a93"
   },
   {
-   "url": "http://127.0.0.1:38005/legal/cookies",
+   "url": "http://127.0.0.1:34719/legal/cookies",
    "title": "Cookie Policy",
    "description": "The cookies used on the Harbourline Dental Studio website, what each one does, how long it lasts and how to control them.",
    "author": "",
@@ -1265,10 +1265,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "64d209f68ed4435a374bb012ea6979a421e9fe22"
+   "content_hash": "93776356b52cb544d76b5ae1852d107d2bd9dc98"
   },
   {
-   "url": "http://127.0.0.1:38005/legal/terms",
+   "url": "http://127.0.0.1:34719/legal/terms",
    "title": "Terms of Treatment",
    "description": "These terms of treatment explain how Harbourline Dental Studio books appointments, sets and quotes fees, takes deposits and payments, handles cancellations and missed appointments, offers guarantees on crowns, bridges, implants and veneers, manages refunds and remakes, and resolves complaints at our Bristol, Bath and Leeds clinics.",
    "author": "",
@@ -1306,10 +1306,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "54394012b4ee6e090a6f654ed53324efbca7180f"
+   "content_hash": "e22071d16ffeafa6631e6bc96d0cfc4b882bf2c2"
   },
   {
-   "url": "http://127.0.0.1:38005/legal/complaints",
+   "url": "http://127.0.0.1:34719/legal/complaints",
    "title": "Complaints Procedure",
    "description": "How to raise a concern or complaint about treatment at Harbourline, how quickly we respond and where to go if you are not satisfied.",
    "author": "",
@@ -1346,10 +1346,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "01f74ab18cf02fce4146d13e632129e3aa06c359"
+   "content_hash": "942fbf145e7b03c60ebabed5b42d8133c2e3eae0"
   },
   {
-   "url": "http://127.0.0.1:38005/legal/accessibility",
+   "url": "http://127.0.0.1:34719/legal/accessibility",
    "title": "Website Accessibility Statement",
    "description": "How accessible the Harbourline Dental Studio website is, the standard we aim for, known limitations and how to ask for information in another format.",
    "author": "",
@@ -1385,10 +1385,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "5d688f73e6fcf490275597f007698437159dce23"
+   "content_hash": "63499b38f8a5a120a18a787b24b9cd5e73d4c69e"
   },
   {
-   "url": "http://127.0.0.1:38005/services/invisalign",
+   "url": "http://127.0.0.1:34719/services/invisalign",
    "title": "Invisalign Clear Aligners for Adults",
    "description": "Straighten teeth with near-invisible aligners. Digital scan, simulated result and monthly reviews with Dr Sophie Lang at our Bath clinic.",
    "author": "",
@@ -1428,10 +1428,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "667d46d0b0078cb6323b821c0adc796d16a86a36"
+   "content_hash": "7e2a01da4bf2ee179050baef7a364f8fc766694d"
   },
   {
-   "url": "http://127.0.0.1:38005/services/veneers",
+   "url": "http://127.0.0.1:34719/services/veneers",
    "title": "Porcelain and Composite Veneers",
    "description": "Change the shape, colour and length of front teeth with porcelain or composite veneers. Digital smile design and a trial smile before treatment.",
    "author": "",
@@ -1470,10 +1470,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "f44cffb025b97617576a15a32e186ca702c1dd77"
+   "content_hash": "774e0613b694c1b6cc89d0b9117a36aca208df5e"
   },
   {
-   "url": "http://127.0.0.1:38005/services/sedation",
+   "url": "http://127.0.0.1:34719/services/sedation",
    "title": "Page not found",
    "description": "Sorry, we could not find the page you were looking for.",
    "author": "",
@@ -1511,10 +1511,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "470263cf2e9a15cf76c11fea2e04626cd5a6b26d"
+   "content_hash": "6115f95e02e90914c787e4549606b537d66484d0"
   },
   {
-   "url": "http://127.0.0.1:38005/blog/nervous-patients",
+   "url": "http://127.0.0.1:34719/blog/nervous-patients",
    "title": "Dental Anxiety: How We Help Nervous Patients",
    "description": "What we do differently for patients who feel anxious about dental treatment, from longer appointments to agreed stop signals.",
    "author": "Dr Amelia Hart",
@@ -1557,10 +1557,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "3419396db52e69b519b227f3c1d974fa7f8556ff"
+   "content_hash": "b2f446bd3436ffb9ba341221bc6258db64454190"
   },
   {
-   "url": "http://127.0.0.1:38005/team/dr-amelia-hart",
+   "url": "http://127.0.0.1:34719/team/dr-amelia-hart",
    "title": "Dr Amelia Hart, Principal Dentist",
    "description": "Dr Amelia Hart founded Harbourline Dental Studio in 2012. She has 18 years of experience in general and restorative dentistry in Bristol.",
    "author": "Dr Amelia Hart",
@@ -1601,15 +1601,15 @@
     "Anchor missing title tag: /legal/accessibility",
     "Image missing alt tag: <img height=\"300\" src=\"/images/team/dr-amelia-hart.jpg\" width=\"300\"/>"
    ],
-   "content_hash": "9df04b50cf6b556e74568721e841f6e38aa70016"
+   "content_hash": "406a63a06cef0328ca66980b5418a8f2b534fa3e"
   },
   {
-   "url": "http://127.0.0.1:38005/team/dr-rohan-mehta",
+   "url": "http://127.0.0.1:34719/team/dr-rohan-mehta",
    "title": "Dr Rohan Mehta",
    "description": "Dr Rohan Mehta places and restores dental implants at Harbourline Bristol. He holds a master’s degree in implant dentistry.",
    "author": "Dr Rohan Mehta",
    "hostname": "",
-   "sitename": "127.0.0.1:38005",
+   "sitename": "127.0.0.1:34719",
    "date": "2010-01-01",
    "word_count": 259,
    "warnings": [
@@ -1647,10 +1647,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "b73aefe54bb718caeb5fcad219b0cd0d9d0f5f8e"
+   "content_hash": "f55dab7d6a2a6c3c15925fc4df0248e7e6f0d8cb"
   },
   {
-   "url": "http://127.0.0.1:38005/team/dr-sophie-lang",
+   "url": "http://127.0.0.1:34719/team/dr-sophie-lang",
    "title": "Dr Sophie Lang, Cosmetic Dentist in Bath",
    "description": "Dentist.",
    "author": "Dr Sophie Lang",
@@ -1690,10 +1690,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "0b4d363e2d71d86c42ad3364bf1f21b4f4851de8"
+   "content_hash": "f78576ef49698f20ff997088ff6765791cb2307d"
   },
   {
-   "url": "http://127.0.0.1:38005/team/priya-shah",
+   "url": "http://127.0.0.1:34719/team/priya-shah",
    "title": "Priya Shah, Dental Hygienist",
    "description": "Priya Shah is a dental hygienist at Harbourline Leeds, with a special interest in gum disease and helping nervous patients feel at ease.",
    "author": "Priya Shah",
@@ -1733,10 +1733,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "d0f4854eab5bd59bd19e6d7b932249e0501f9c04"
+   "content_hash": "6819beb4e89bc5bea08431b41a0270fed2bde73e"
   },
   {
-   "url": "http://127.0.0.1:38005/team/tom-ellis",
+   "url": "http://127.0.0.1:34719/team/tom-ellis",
    "title": "Tom Ellis, Dental Therapist",
    "description": "Tom Ellis is a dental therapist at Harbourline Bristol who provides fillings, children’s care and preventive treatment.",
    "author": "Tom Ellis",
@@ -1776,10 +1776,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "dd8f642e1b20901c517376bf514c8d8999ca1c5f"
+   "content_hash": "c6432b6f85b0e4fdb9ce61ea8dca47e32b8d9b56"
   },
   {
-   "url": "http://127.0.0.1:38005/locations/bristol-clinic",
+   "url": "http://127.0.0.1:34719/locations/bristol-clinic",
    "title": "Harbourline Bristol: Dentist on Quay Street, BS1",
    "description": "Our Bristol clinic on Quay Street is five minutes from the city centre bus station. Open six days a week with early and late appointments.",
    "author": "",
@@ -1821,10 +1821,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "d27d68a472bf361e73e76c5ac553e6164846bbf8"
+   "content_hash": "86eb7b7e3594a4a6999237a9351c38b302ed1530"
   },
   {
-   "url": "http://127.0.0.1:38005/blog/open-evening-november",
+   "url": "http://127.0.0.1:34719/blog/open-evening-november",
    "title": "Implant Open Evening, November 2026",
    "description": "Join Dr Rohan Mehta at our Bristol clinic for a free implant open evening on 20 November 2026, with short talks and private questions.",
    "author": "Dr Amelia Hart",
@@ -1867,10 +1867,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "77e4b8b574e1292836a6a3f3bf894c6976d7e693"
+   "content_hash": "6d61df77ae70737d986608b2420c8ed2fbd44ce2"
   },
   {
-   "url": "http://127.0.0.1:38005/blog/smile-makeover",
+   "url": "http://127.0.0.1:34719/blog/smile-makeover",
    "title": "Planning a Smile Makeover: Where to Start",
    "description": "A smile makeover usually combines straightening, whitening and bonding. How we plan the order of treatment and set realistic goals.",
    "author": "Dr Sophie Lang",
@@ -1913,10 +1913,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "a86a34bae2150bfa90e5e3c5c153334789e80bca"
+   "content_hash": "577c635f9abb4be1e44b445d0af8bb7115324b41"
   },
   {
-   "url": "http://127.0.0.1:38005/blog/clinic-refurbishment",
+   "url": "http://127.0.0.1:34719/blog/clinic-refurbishment",
    "title": "Our Refurbished Bristol Surgeries Are Now Open",
    "description": "Two refurbished surgeries at Harbourline Bristol add ceiling screens, quieter equipment and a new decontamination room.",
    "author": "Dr Amelia Hart",
@@ -1959,10 +1959,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "2445de0b595968ee713bd13239fbd78f6d2dfad2"
+   "content_hash": "91868c2ba1fa50760fd41e23768cd6c410756428"
   },
   {
-   "url": "http://127.0.0.1:38005/blog/root-canal-myths",
+   "url": "http://127.0.0.1:34719/blog/root-canal-myths",
    "title": "Root Canal Treatment: Myths and Facts",
    "description": "Is root canal treatment painful? Is it better to extract? Common worries about root canal treatment, answered by a dentist.",
    "author": "Dr Amelia Hart",
@@ -2005,10 +2005,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "cf26c4faa2ae4003e429fc74de96069623274a8a"
+   "content_hash": "2b2c32ca1813c1f3144ac9afaa97860f83e29b4e"
   },
   {
-   "url": "http://127.0.0.1:38005/blog/history-of-dentistry",
+   "url": "http://127.0.0.1:34719/blog/history-of-dentistry",
    "title": "A Short History of Dentistry in Britain",
    "description": "From barber-surgeons to the NHS: how dental care in Britain developed over five centuries, and what changed for patients.",
    "author": "Dr Amelia Hart",
@@ -2051,10 +2051,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "ea2c9a6ba173394021afef8f8b7faefc629eb0da"
+   "content_hash": "46121ea4cea14781c729f591c1c3ea77f02624e4"
   },
   {
-   "url": "http://127.0.0.1:38005/blog/whitening-at-home",
+   "url": "http://127.0.0.1:34719/blog/whitening-at-home",
    "title": "Whitening at Home: Making Your Results Last",
    "description": "How to keep teeth white after professional whitening: top-ups, stain-causing drinks, straws and toothpaste choices.",
    "author": "Dr Sophie Lang",
@@ -2100,15 +2100,15 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "e428cdf30d502d8ea7f817c163c274b01c4689e1"
+   "content_hash": "307bd0c676a0f0093518572a73b62d0fca510a19"
   },
   {
-   "url": "http://127.0.0.1:38005/blog/invisalign-vs-braces",
+   "url": "http://127.0.0.1:34719/blog/invisalign-vs-braces",
    "title": "Clear aligners or fixed braces?",
    "description": "Clear aligners and fixed braces compared on appearance, comfort, treatment time, cost and the cases each one suits best.",
    "author": "Dr Sophie Lang",
    "hostname": "",
-   "sitename": "127.0.0.1:38005",
+   "sitename": "127.0.0.1:34719",
    "date": "2026-05-12",
    "word_count": 231,
    "warnings": [
@@ -2150,10 +2150,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "7cfd20e2fa64611960bf4a8b16e9f5d44b8ce920"
+   "content_hash": "32b472c93ec329d3f26c8ef347c4bc8f16b324f1"
   },
   {
-   "url": "http://127.0.0.1:38005/blog/scale-and-polish-explained",
+   "url": "http://127.0.0.1:34719/blog/scale-and-polish-explained",
    "title": "Scale and Polish Explained",
    "description": "What a scale and polish involves, how long it takes and how often to book one, explained by our hygiene team.",
    "author": "Priya Shah",
@@ -2196,10 +2196,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "b38ad6ba1ab3cf349a3b974f1d36ef519affad69"
+   "content_hash": "8c4a090beaaf27bf7d706b308da45152171da504"
   },
   {
-   "url": "http://127.0.0.1:38005/blog/pregnancy-and-dental-care",
+   "url": "http://127.0.0.1:34719/blog/pregnancy-and-dental-care",
    "title": "Dental Care During Pregnancy",
    "description": "Why gums bleed more in pregnancy, which dental treatment is safe, and how to manage morning sickness without harming your teeth.",
    "author": "Priya Shah",
@@ -2242,10 +2242,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "763702e483eea404a0168cf50aa9233620120065"
+   "content_hash": "2a1a8e94241c30c2e7557d862f1aa0a84bfed5d5"
   },
   {
-   "url": "http://127.0.0.1:38005/blog/new-parking-at-bristol",
+   "url": "http://127.0.0.1:34719/blog/new-parking-at-bristol",
    "title": "New Patient Parking at Our Bristol Clinic",
    "description": "From March 2026 patients at Harbourline Bristol can park for free for up to two hours at the Trenchard Street car park.",
    "author": "Dr Amelia Hart",
@@ -2285,10 +2285,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "ec423fe32d66d6a652e07df3ee1afd9baa587395"
+   "content_hash": "e0664f246b8949bdf6587657f52e5725a5cf26d2"
   },
   {
-   "url": "http://127.0.0.1:38005/blog/page/2",
+   "url": "http://127.0.0.1:34719/blog/page/2",
    "title": "Dental Advice and News, Page 2",
    "description": "Older dental advice articles and practice news from Harbourline Dental Studio, page 2 of 3.",
    "author": "",
@@ -2346,10 +2346,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "93efcefe818c7c12f847ed3abf87b0acc10f3a61"
+   "content_hash": "665740efc59d314a3ec7a378f17c49fb75b469d2"
   },
   {
-   "url": "http://127.0.0.1:38005/blog/page/3",
+   "url": "http://127.0.0.1:34719/blog/page/3",
    "title": "Dental Advice and News, Page 3",
    "description": "Older dental advice articles and practice news from Harbourline Dental Studio, page 3 of 3.",
    "author": "",
@@ -2402,10 +2402,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "a7f638cd3e1bf721321825566b56f45bfea49998"
+   "content_hash": "a287a25cb7e6d7cc7ed39cba3caa5567985ee6c1"
   },
   {
-   "url": "http://127.0.0.1:38005/blog/category/oral-health",
+   "url": "http://127.0.0.1:34719/blog/category/oral-health",
    "title": "Oral health Articles",
    "description": "Harbourline articles on brushing, cleaning between teeth, diet and the common problems our dentists and hygienists see at check-ups.",
    "author": "",
@@ -2465,10 +2465,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "e36df305a2efced4b3ba9bde0327b332bd1777c7"
+   "content_hash": "67bbbb6119653d4f948e7a785cb69dc96d0fba55"
   },
   {
-   "url": "http://127.0.0.1:38005/blog/category/cosmetic",
+   "url": "http://127.0.0.1:34719/blog/category/cosmetic",
    "title": "Cosmetic dentistry Articles",
    "description": "Harbourline articles on teeth whitening, clear aligners, veneers and planning cosmetic dental treatment, with realistic costs and results.",
    "author": "",
@@ -2511,10 +2511,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "cf90727bb74df8e0158f3c538a01ee01ae04717a"
+   "content_hash": "9b65f5b41fcb5e7df010f9aa59d302b2a23c7d2e"
   },
   {
-   "url": "http://127.0.0.1:38005/blog/category/news",
+   "url": "http://127.0.0.1:34719/blog/category/news",
    "title": "Practice news Articles",
    "description": "News from Harbourline Dental Studio clinics in Bristol, Bath and Leeds: new services, opening hours, events and building improvements.",
    "author": "",
@@ -2559,10 +2559,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "a6caf661a08540b6a26e936b4244aec2752b173d"
+   "content_hash": "11c940afecef1e9d9e7c7f483c470ad6848fbf6b"
   },
   {
-   "url": "http://127.0.0.1:38005/blog/tag/whitening",
+   "url": "http://127.0.0.1:34719/blog/tag/whitening",
    "title": "Articles Tagged Whitening",
    "description": "Every Harbourline article about teeth whitening: safety and sensitivity, the risks of salon kits, and how to keep your results for longer.",
    "author": "",
@@ -2604,10 +2604,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "79e844f05046a75d5fb18dc2b73c2de96572abdb"
+   "content_hash": "85960408c8e6938cc9387aceb0def0c88df80cfb"
   },
   {
-   "url": "http://127.0.0.1:38005/blog/tag/kids",
+   "url": "http://127.0.0.1:34719/blog/tag/kids",
    "title": "Articles Tagged Children",
    "description": "Harbourline advice for parents on children’s teeth: first visits, brushing routines, tooth-friendly snacks and preventive treatments.",
    "author": "",
@@ -2647,10 +2647,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "e7adb707612faf9d47972ffbee516c879a99a127"
+   "content_hash": "c48c1bd9e05da49f7f1cdb5103ee1c44eefd14f8"
   },
   {
-   "url": "http://127.0.0.1:38005/us/new-patients",
+   "url": "http://127.0.0.1:34719/us/new-patients",
    "title": "New Patients Visiting from the US",
    "description": "Visiting the UK from the United States? How American visitors can see a Harbourline dentist, pay for care and claim on US dental insurance.",
    "author": "",
@@ -2687,10 +2687,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "f13a02c1761f017529ab5d4148c65aa7b25a92b8"
+   "content_hash": "fdc7aa087c4dda73eca5f2e9a0331d0e311dad18"
   },
   {
-   "url": "http://127.0.0.1:38005/book-now",
+   "url": "http://127.0.0.1:34719/book-now",
    "title": "Book a Dental Appointment Online",
    "description": "Request a check-up, hygiene visit or consultation at our Bristol, Bath or Leeds clinic. We confirm every request by phone or email.",
    "author": "",
@@ -2727,10 +2727,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "9a7945a76771640cc2513c24eaa6085f0be8a531"
+   "content_hash": "a18c6fa5a9d810f717411bd3db4ec94f653cdd7b"
   },
   {
-   "url": "http://127.0.0.1:38005/blog/how-to-floss-properly",
+   "url": "http://127.0.0.1:34719/blog/how-to-floss-properly",
    "title": "How to Floss Properly: A Hygienist’s Guide",
    "description": "Step-by-step flossing technique from our Leeds hygienist, plus when interdental brushes are a better choice than floss.",
    "author": "Priya Shah",
@@ -2774,10 +2774,10 @@
     "Anchor missing title tag: /legal/complaints",
     "Anchor missing title tag: /legal/accessibility"
    ],
-   "content_hash": "76babc13fd1bd3264698f74e141fb2709caae283"
+   "content_hash": "6a4414c83cb26c0d03aea93a78c4cbdc912e68cb"
   },
   {
-   "url": "http://127.0.0.1:38005/team/dr-hart",
+   "url": "http://127.0.0.1:34719/team/dr-hart",
    "title": "Dr Amelia Hart, Principal Dentist",
    "description": "Dr Amelia Hart founded Harbourline Dental Studio in 2012. She has 18 years of experience in general and restorative dentistry in Bristol.",
    "author": "Dr Amelia Hart",
@@ -2818,7 +2818,7 @@
     "Anchor missing title tag: /legal/accessibility",
     "Image missing alt tag: <img height=\"300\" src=\"/images/team/dr-amelia-hart.jpg\" width=\"300\"/>"
    ],
-   "content_hash": "9df04b50cf6b556e74568721e841f6e38aa70016"
+   "content_hash": "406a63a06cef0328ca66980b5418a8f2b534fa3e"
   }
  ],
  "keywords": [
@@ -3024,19 +3024,19 @@
   }
  ],
  "errors": [],
- "total_time": 7.408990383148193,
+ "total_time": 7.171196222305298,
  "duplicate_pages": [
   [
-   "http://127.0.0.1:38005/book",
-   "http://127.0.0.1:38005/book-now"
+   "http://127.0.0.1:34719/book",
+   "http://127.0.0.1:34719/book-now"
   ],
   [
-   "http://127.0.0.1:38005/locations/bristol",
-   "http://127.0.0.1:38005/locations/bristol-clinic"
+   "http://127.0.0.1:34719/locations/bristol",
+   "http://127.0.0.1:34719/locations/bristol-clinic"
   ],
   [
-   "http://127.0.0.1:38005/team/dr-hart",
-   "http://127.0.0.1:38005/team/dr-amelia-hart"
+   "http://127.0.0.1:34719/team/dr-amelia-hart",
+   "http://127.0.0.1:34719/team/dr-hart"
   ]
  ]
 }

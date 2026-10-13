@@ -2,71 +2,71 @@
  "lighthouseVersion": "13.5.0",
  "cap": 60,
  "urls": [
-  "http://127.0.0.1:38005/",
-  "http://127.0.0.1:38005/services",
-  "http://127.0.0.1:38005/services/general-dentistry",
-  "http://127.0.0.1:38005/services/dental-implants",
-  "http://127.0.0.1:38005/services/teeth-whitening",
-  "http://127.0.0.1:38005/services/invisalign",
-  "http://127.0.0.1:38005/services/emergency-dentist",
-  "http://127.0.0.1:38005/services/hygiene",
-  "http://127.0.0.1:38005/services/childrens-dentistry",
-  "http://127.0.0.1:38005/services/veneers",
-  "http://127.0.0.1:38005/team",
-  "http://127.0.0.1:38005/team/dr-amelia-hart",
-  "http://127.0.0.1:38005/team/dr-rohan-mehta",
-  "http://127.0.0.1:38005/team/dr-sophie-lang",
-  "http://127.0.0.1:38005/team/priya-shah",
-  "http://127.0.0.1:38005/team/tom-ellis",
-  "http://127.0.0.1:38005/locations",
-  "http://127.0.0.1:38005/locations/bristol",
-  "http://127.0.0.1:38005/locations/bath",
-  "http://127.0.0.1:38005/locations/leeds",
-  "http://127.0.0.1:38005/blog",
-  "http://127.0.0.1:38005/blog/category/oral-health",
-  "http://127.0.0.1:38005/blog/category/cosmetic",
-  "http://127.0.0.1:38005/blog/category/news",
-  "http://127.0.0.1:38005/blog/tag/whitening",
-  "http://127.0.0.1:38005/blog/tag/kids",
-  "http://127.0.0.1:38005/about",
-  "http://127.0.0.1:38005/contact",
-  "http://127.0.0.1:38005/faq",
-  "http://127.0.0.1:38005/pricing",
-  "http://127.0.0.1:38005/book",
-  "http://127.0.0.1:38005/new-patients",
-  "http://127.0.0.1:38005/us/new-patients",
-  "http://127.0.0.1:38005/invisalign-guide",
-  "http://127.0.0.1:38005/us/invisalign-guide",
-  "http://127.0.0.1:38005/patient-stories",
-  "http://127.0.0.1:38005/legal/privacy",
-  "http://127.0.0.1:38005/legal/cookies",
-  "http://127.0.0.1:38005/legal/terms",
-  "http://127.0.0.1:38005/legal/complaints",
-  "http://127.0.0.1:38005/legal/accessibility",
-  "http://127.0.0.1:38005/careers",
-  "http://127.0.0.1:38005/finance",
-  "http://127.0.0.1:38005/referrals",
-  "http://127.0.0.1:38005/developers",
-  "http://127.0.0.1:38005/services/root-canal",
-  "http://127.0.0.1:38005/blog/how-to-floss-properly",
-  "http://127.0.0.1:38005/blog/nervous-patients",
-  "http://127.0.0.1:38005/blog/whitening-myths",
-  "http://127.0.0.1:38005/blog/what-to-expect-implants",
-  "http://127.0.0.1:38005/blog/dental-implants-cost",
-  "http://127.0.0.1:38005/blog/fluoride-facts",
-  "http://127.0.0.1:38005/blog/Top-10-Brushing-Mistakes",
-  "http://127.0.0.1:38005/blog/gum_disease_signs",
-  "http://127.0.0.1:38005/blog/sugar-and-teeth",
-  "http://127.0.0.1:38005/blog/healthy-snacks",
-  "http://127.0.0.1:38005/blog/electric-vs-manual-toothbrush",
-  "http://127.0.0.1:38005/blog/mouthwash-guide",
-  "http://127.0.0.1:38005/blog/bad-breath-causes",
-  "http://127.0.0.1:38005/blog/dry-mouth"
+  "http://127.0.0.1:34719/",
+  "http://127.0.0.1:34719/services",
+  "http://127.0.0.1:34719/services/general-dentistry",
+  "http://127.0.0.1:34719/services/dental-implants",
+  "http://127.0.0.1:34719/services/teeth-whitening",
+  "http://127.0.0.1:34719/services/invisalign",
+  "http://127.0.0.1:34719/services/emergency-dentist",
+  "http://127.0.0.1:34719/services/hygiene",
+  "http://127.0.0.1:34719/services/childrens-dentistry",
+  "http://127.0.0.1:34719/services/veneers",
+  "http://127.0.0.1:34719/team",
+  "http://127.0.0.1:34719/team/dr-amelia-hart",
+  "http://127.0.0.1:34719/team/dr-rohan-mehta",
+  "http://127.0.0.1:34719/team/dr-sophie-lang",
+  "http://127.0.0.1:34719/team/priya-shah",
+  "http://127.0.0.1:34719/team/tom-ellis",
+  "http://127.0.0.1:34719/locations",
+  "http://127.0.0.1:34719/locations/bristol",
+  "http://127.0.0.1:34719/locations/bath",
+  "http://127.0.0.1:34719/locations/leeds",
+  "http://127.0.0.1:34719/blog",
+  "http://127.0.0.1:34719/blog/category/oral-health",
+  "http://127.0.0.1:34719/blog/category/cosmetic",
+  "http://127.0.0.1:34719/blog/category/news",
+  "http://127.0.0.1:34719/blog/tag/whitening",
+  "http://127.0.0.1:34719/blog/tag/kids",
+  "http://127.0.0.1:34719/about",
+  "http://127.0.0.1:34719/contact",
+  "http://127.0.0.1:34719/faq",
+  "http://127.0.0.1:34719/pricing",
+  "http://127.0.0.1:34719/book",
+  "http://127.0.0.1:34719/new-patients",
+  "http://127.0.0.1:34719/us/new-patients",
+  "http://127.0.0.1:34719/invisalign-guide",
+  "http://127.0.0.1:34719/us/invisalign-guide",
+  "http://127.0.0.1:34719/patient-stories",
+  "http://127.0.0.1:34719/legal/privacy",
+  "http://127.0.0.1:34719/legal/cookies",
+  "http://127.0.0.1:34719/legal/terms",
+  "http://127.0.0.1:34719/legal/complaints",
+  "http://127.0.0.1:34719/legal/accessibility",
+  "http://127.0.0.1:34719/careers",
+  "http://127.0.0.1:34719/finance",
+  "http://127.0.0.1:34719/referrals",
+  "http://127.0.0.1:34719/developers",
+  "http://127.0.0.1:34719/services/root-canal",
+  "http://127.0.0.1:34719/blog/how-to-floss-properly",
+  "http://127.0.0.1:34719/blog/nervous-patients",
+  "http://127.0.0.1:34719/blog/whitening-myths",
+  "http://127.0.0.1:34719/blog/what-to-expect-implants",
+  "http://127.0.0.1:34719/blog/dental-implants-cost",
+  "http://127.0.0.1:34719/blog/fluoride-facts",
+  "http://127.0.0.1:34719/blog/Top-10-Brushing-Mistakes",
+  "http://127.0.0.1:34719/blog/gum_disease_signs",
+  "http://127.0.0.1:34719/blog/sugar-and-teeth",
+  "http://127.0.0.1:34719/blog/healthy-snacks",
+  "http://127.0.0.1:34719/blog/electric-vs-manual-toothbrush",
+  "http://127.0.0.1:34719/blog/mouthwash-guide",
+  "http://127.0.0.1:34719/blog/bad-breath-causes",
+  "http://127.0.0.1:34719/blog/dry-mouth"
  ],
  "pages": [
   {
-   "requestedUrl": "http://127.0.0.1:38005/",
-   "finalUrl": "http://127.0.0.1:38005/",
+   "requestedUrl": "http://127.0.0.1:34719/",
+   "finalUrl": "http://127.0.0.1:34719/",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -97,14 +97,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 90 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 100 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/services",
-   "finalUrl": "http://127.0.0.1:38005/services",
+   "requestedUrl": "http://127.0.0.1:34719/services",
+   "finalUrl": "http://127.0.0.1:34719/services",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -135,14 +135,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 70 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 110 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/services/general-dentistry",
-   "finalUrl": "http://127.0.0.1:38005/services/general-dentistry",
+   "requestedUrl": "http://127.0.0.1:34719/services/general-dentistry",
+   "finalUrl": "http://127.0.0.1:34719/services/general-dentistry",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -185,14 +185,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 110 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 120 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/services/dental-implants",
-   "finalUrl": "http://127.0.0.1:38005/services/dental-implants",
+   "requestedUrl": "http://127.0.0.1:34719/services/dental-implants",
+   "finalUrl": "http://127.0.0.1:34719/services/dental-implants",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -223,14 +223,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 110 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 120 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/services/teeth-whitening",
-   "finalUrl": "http://127.0.0.1:38005/services/teeth-whitening",
+   "requestedUrl": "http://127.0.0.1:34719/services/teeth-whitening",
+   "finalUrl": "http://127.0.0.1:34719/services/teeth-whitening",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -261,14 +261,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 100 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 120 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/services/invisalign",
-   "finalUrl": "http://127.0.0.1:38005/services/invisalign",
+   "requestedUrl": "http://127.0.0.1:34719/services/invisalign",
+   "finalUrl": "http://127.0.0.1:34719/services/invisalign",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -305,14 +305,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 90 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 130 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/services/emergency-dentist",
-   "finalUrl": "http://127.0.0.1:38005/services/emergency-dentist",
+   "requestedUrl": "http://127.0.0.1:34719/services/emergency-dentist",
+   "finalUrl": "http://127.0.0.1:34719/services/emergency-dentist",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -343,14 +343,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 110 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 120 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/services/hygiene",
-   "finalUrl": "http://127.0.0.1:38005/services/hygiene",
+   "requestedUrl": "http://127.0.0.1:34719/services/hygiene",
+   "finalUrl": "http://127.0.0.1:34719/services/hygiene",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -381,14 +381,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 100 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 120 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/services/childrens-dentistry",
-   "finalUrl": "http://127.0.0.1:38005/services/childrens-dentistry",
+   "requestedUrl": "http://127.0.0.1:34719/services/childrens-dentistry",
+   "finalUrl": "http://127.0.0.1:34719/services/childrens-dentistry",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -419,14 +419,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 100 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 120 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/services/veneers",
-   "finalUrl": "http://127.0.0.1:38005/services/veneers",
+   "requestedUrl": "http://127.0.0.1:34719/services/veneers",
+   "finalUrl": "http://127.0.0.1:34719/services/veneers",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -463,14 +463,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 90 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 110 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/team",
-   "finalUrl": "http://127.0.0.1:38005/team",
+   "requestedUrl": "http://127.0.0.1:34719/team",
+   "finalUrl": "http://127.0.0.1:34719/team",
    "runtimeError": null,
    "categories": {
     "performance": 0.98,
@@ -482,15 +482,15 @@
    "failing": [
     {
      "id": "speed-index",
-     "score": 0.81,
-     "displayValue": "4.0 s",
+     "score": 0.82,
+     "displayValue": "3.9 s",
      "items": ""
     },
     {
      "id": "server-response-time",
      "score": 0,
      "displayValue": "Root document took 2,500 ms",
-     "items": "http://127.0.0.1:38005/team"
+     "items": "http://127.0.0.1:34719/team"
     },
     {
      "id": "link-name",
@@ -543,14 +543,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 90 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 110 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/team/dr-amelia-hart",
-   "finalUrl": "http://127.0.0.1:38005/team/dr-amelia-hart",
+   "requestedUrl": "http://127.0.0.1:34719/team/dr-amelia-hart",
+   "finalUrl": "http://127.0.0.1:34719/team/dr-amelia-hart",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -588,13 +588,13 @@
      "id": "render-blocking-insight",
      "score": 0,
      "displayValue": "Est savings of 110 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/team/dr-rohan-mehta",
-   "finalUrl": "http://127.0.0.1:38005/team/dr-rohan-mehta",
+   "requestedUrl": "http://127.0.0.1:34719/team/dr-rohan-mehta",
+   "finalUrl": "http://127.0.0.1:34719/team/dr-rohan-mehta",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -638,13 +638,13 @@
      "id": "render-blocking-insight",
      "score": 0,
      "displayValue": "Est savings of 110 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/team/dr-sophie-lang",
-   "finalUrl": "http://127.0.0.1:38005/team/dr-sophie-lang",
+   "requestedUrl": "http://127.0.0.1:34719/team/dr-sophie-lang",
+   "finalUrl": "http://127.0.0.1:34719/team/dr-sophie-lang",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -687,14 +687,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 110 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 120 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/team/priya-shah",
-   "finalUrl": "http://127.0.0.1:38005/team/priya-shah",
+   "requestedUrl": "http://127.0.0.1:34719/team/priya-shah",
+   "finalUrl": "http://127.0.0.1:34719/team/priya-shah",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -725,14 +725,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 80 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 110 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/team/tom-ellis",
-   "finalUrl": "http://127.0.0.1:38005/team/tom-ellis",
+   "requestedUrl": "http://127.0.0.1:34719/team/tom-ellis",
+   "finalUrl": "http://127.0.0.1:34719/team/tom-ellis",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -770,13 +770,13 @@
      "id": "render-blocking-insight",
      "score": 0,
      "displayValue": "Est savings of 120 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/locations",
-   "finalUrl": "http://127.0.0.1:38005/locations",
+   "requestedUrl": "http://127.0.0.1:34719/locations",
+   "finalUrl": "http://127.0.0.1:34719/locations",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -813,14 +813,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 110 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 120 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/locations/bristol",
-   "finalUrl": "http://127.0.0.1:38005/locations/bristol",
+   "requestedUrl": "http://127.0.0.1:34719/locations/bristol",
+   "finalUrl": "http://127.0.0.1:34719/locations/bristol",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -857,14 +857,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 130 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 120 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/locations/bath",
-   "finalUrl": "http://127.0.0.1:38005/locations/bath",
+   "requestedUrl": "http://127.0.0.1:34719/locations/bath",
+   "finalUrl": "http://127.0.0.1:34719/locations/bath",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -902,13 +902,13 @@
      "id": "render-blocking-insight",
      "score": 0,
      "displayValue": "Est savings of 150 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/locations/leeds",
-   "finalUrl": "http://127.0.0.1:38005/locations/leeds",
+   "requestedUrl": "http://127.0.0.1:34719/locations/leeds",
+   "finalUrl": "http://127.0.0.1:34719/locations/leeds",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -940,13 +940,13 @@
      "id": "render-blocking-insight",
      "score": 0,
      "displayValue": "Est savings of 120 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/blog",
-   "finalUrl": "http://127.0.0.1:38005/blog",
+   "requestedUrl": "http://127.0.0.1:34719/blog",
+   "finalUrl": "http://127.0.0.1:34719/blog",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -971,14 +971,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 80 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 90 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/blog/category/oral-health",
-   "finalUrl": "http://127.0.0.1:38005/blog/category/oral-health",
+   "requestedUrl": "http://127.0.0.1:34719/blog/category/oral-health",
+   "finalUrl": "http://127.0.0.1:34719/blog/category/oral-health",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -1015,14 +1015,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 110 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 150 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/blog/category/cosmetic",
-   "finalUrl": "http://127.0.0.1:38005/blog/category/cosmetic",
+   "requestedUrl": "http://127.0.0.1:34719/blog/category/cosmetic",
+   "finalUrl": "http://127.0.0.1:34719/blog/category/cosmetic",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -1053,14 +1053,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 120 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 110 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/blog/category/news",
-   "finalUrl": "http://127.0.0.1:38005/blog/category/news",
+   "requestedUrl": "http://127.0.0.1:34719/blog/category/news",
+   "finalUrl": "http://127.0.0.1:34719/blog/category/news",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -1091,14 +1091,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 110 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 90 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/blog/tag/whitening",
-   "finalUrl": "http://127.0.0.1:38005/blog/tag/whitening",
+   "requestedUrl": "http://127.0.0.1:34719/blog/tag/whitening",
+   "finalUrl": "http://127.0.0.1:34719/blog/tag/whitening",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -1123,14 +1123,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 110 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 100 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/blog/tag/kids",
-   "finalUrl": "http://127.0.0.1:38005/blog/tag/kids",
+   "requestedUrl": "http://127.0.0.1:34719/blog/tag/kids",
+   "finalUrl": "http://127.0.0.1:34719/blog/tag/kids",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -1162,13 +1162,13 @@
      "id": "render-blocking-insight",
      "score": 0,
      "displayValue": "Est savings of 110 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/about",
-   "finalUrl": "http://127.0.0.1:38005/about",
+   "requestedUrl": "http://127.0.0.1:34719/about",
+   "finalUrl": "http://127.0.0.1:34719/about",
    "runtimeError": null,
    "categories": {
     "performance": 0.87,
@@ -1180,7 +1180,7 @@
    "failing": [
     {
      "id": "largest-contentful-paint",
-     "score": 0.47,
+     "score": 0.48,
      "displayValue": "4.1 s",
      "items": ""
     },
@@ -1217,14 +1217,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 130 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 120 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/contact",
-   "finalUrl": "http://127.0.0.1:38005/contact",
+   "requestedUrl": "http://127.0.0.1:34719/contact",
+   "finalUrl": "http://127.0.0.1:34719/contact",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -1267,14 +1267,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 150 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 110 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/faq",
-   "finalUrl": "http://127.0.0.1:38005/faq",
+   "requestedUrl": "http://127.0.0.1:34719/faq",
+   "finalUrl": "http://127.0.0.1:34719/faq",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -1299,14 +1299,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 100 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 90 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/pricing",
-   "finalUrl": "http://127.0.0.1:38005/pricing",
+   "requestedUrl": "http://127.0.0.1:34719/pricing",
+   "finalUrl": "http://127.0.0.1:34719/pricing",
    "runtimeError": null,
    "categories": {
     "performance": 0.92,
@@ -1362,13 +1362,13 @@
      "id": "render-blocking-insight",
      "score": 0,
      "displayValue": "Est savings of 110 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/book",
-   "finalUrl": "http://127.0.0.1:38005/book",
+   "requestedUrl": "http://127.0.0.1:34719/book",
+   "finalUrl": "http://127.0.0.1:34719/book",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -1405,14 +1405,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 70 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 110 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/new-patients",
-   "finalUrl": "http://127.0.0.1:38005/new-patients",
+   "requestedUrl": "http://127.0.0.1:34719/new-patients",
+   "finalUrl": "http://127.0.0.1:34719/new-patients",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -1449,14 +1449,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 150 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 110 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/us/new-patients",
-   "finalUrl": "http://127.0.0.1:38005/us/new-patients",
+   "requestedUrl": "http://127.0.0.1:34719/us/new-patients",
+   "finalUrl": "http://127.0.0.1:34719/us/new-patients",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -1481,14 +1481,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 120 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 100 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/invisalign-guide",
-   "finalUrl": "http://127.0.0.1:38005/invisalign-guide",
+   "requestedUrl": "http://127.0.0.1:34719/invisalign-guide",
+   "finalUrl": "http://127.0.0.1:34719/invisalign-guide",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -1514,13 +1514,13 @@
      "id": "render-blocking-insight",
      "score": 0,
      "displayValue": "Est savings of 90 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/us/invisalign-guide",
-   "finalUrl": "http://127.0.0.1:38005/us/invisalign-guide",
+   "requestedUrl": "http://127.0.0.1:34719/us/invisalign-guide",
+   "finalUrl": "http://127.0.0.1:34719/us/invisalign-guide",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -1545,14 +1545,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 60 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 120 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/patient-stories",
-   "finalUrl": "http://127.0.0.1:38005/patient-stories",
+   "requestedUrl": "http://127.0.0.1:34719/patient-stories",
+   "finalUrl": "http://127.0.0.1:34719/patient-stories",
    "runtimeError": null,
    "categories": {
     "performance": 0.78,
@@ -1594,15 +1594,15 @@
     },
     {
      "id": "render-blocking-insight",
-     "score": 0.5,
-     "displayValue": null,
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "score": 0,
+     "displayValue": "Est savings of 110 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/legal/privacy",
-   "finalUrl": "http://127.0.0.1:38005/legal/privacy",
+   "requestedUrl": "http://127.0.0.1:34719/legal/privacy",
+   "finalUrl": "http://127.0.0.1:34719/legal/privacy",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -1614,18 +1614,12 @@
    "failing": [
     {
      "id": "max-potential-fid",
-     "score": 0.55,
-     "displayValue": "230 ms",
+     "score": 0.76,
+     "displayValue": "170 ms",
      "items": ""
     },
     {
      "id": "llms-txt",
-     "score": 0,
-     "displayValue": null,
-     "items": ""
-    },
-    {
-     "id": "forced-reflow-insight",
      "score": 0,
      "displayValue": null,
      "items": ""
@@ -1640,13 +1634,13 @@
      "id": "render-blocking-insight",
      "score": 0.5,
      "displayValue": null,
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/legal/cookies",
-   "finalUrl": "http://127.0.0.1:38005/legal/cookies",
+   "requestedUrl": "http://127.0.0.1:34719/legal/cookies",
+   "finalUrl": "http://127.0.0.1:34719/legal/cookies",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -1671,14 +1665,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 110 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 100 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/legal/terms",
-   "finalUrl": "http://127.0.0.1:38005/legal/terms",
+   "requestedUrl": "http://127.0.0.1:34719/legal/terms",
+   "finalUrl": "http://127.0.0.1:34719/legal/terms",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -1709,14 +1703,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 110 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 130 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/legal/complaints",
-   "finalUrl": "http://127.0.0.1:38005/legal/complaints",
+   "requestedUrl": "http://127.0.0.1:34719/legal/complaints",
+   "finalUrl": "http://127.0.0.1:34719/legal/complaints",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -1741,8 +1735,8 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 150 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 110 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     },
     {
      "id": "viewport-insight",
@@ -1753,40 +1747,8 @@
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/legal/accessibility",
-   "finalUrl": "http://127.0.0.1:38005/legal/accessibility",
-   "runtimeError": null,
-   "categories": {
-    "performance": 1,
-    "accessibility": 1,
-    "best-practices": 1,
-    "seo": 1,
-    "agentic-browsing": 0.67
-   },
-   "failing": [
-    {
-     "id": "llms-txt",
-     "score": 0,
-     "displayValue": null,
-     "items": ""
-    },
-    {
-     "id": "network-dependency-tree-insight",
-     "score": 0,
-     "displayValue": null,
-     "items": ""
-    },
-    {
-     "id": "render-blocking-insight",
-     "score": 0,
-     "displayValue": "Est savings of 100 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
-    }
-   ]
-  },
-  {
-   "requestedUrl": "http://127.0.0.1:38005/careers",
-   "finalUrl": "http://127.0.0.1:38005/careers",
+   "requestedUrl": "http://127.0.0.1:34719/legal/accessibility",
+   "finalUrl": "http://127.0.0.1:34719/legal/accessibility",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -1812,45 +1774,13 @@
      "id": "render-blocking-insight",
      "score": 0,
      "displayValue": "Est savings of 110 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/finance",
-   "finalUrl": "http://127.0.0.1:38005/finance",
-   "runtimeError": null,
-   "categories": {
-    "performance": 1,
-    "accessibility": 1,
-    "best-practices": 1,
-    "seo": 1,
-    "agentic-browsing": 0.67
-   },
-   "failing": [
-    {
-     "id": "llms-txt",
-     "score": 0,
-     "displayValue": null,
-     "items": ""
-    },
-    {
-     "id": "network-dependency-tree-insight",
-     "score": 0,
-     "displayValue": null,
-     "items": ""
-    },
-    {
-     "id": "render-blocking-insight",
-     "score": 0,
-     "displayValue": "Est savings of 70 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
-    }
-   ]
-  },
-  {
-   "requestedUrl": "http://127.0.0.1:38005/referrals",
-   "finalUrl": "http://127.0.0.1:38005/referrals",
+   "requestedUrl": "http://127.0.0.1:34719/careers",
+   "finalUrl": "http://127.0.0.1:34719/careers",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -1876,13 +1806,77 @@
      "id": "render-blocking-insight",
      "score": 0,
      "displayValue": "Est savings of 120 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/developers",
-   "finalUrl": "http://127.0.0.1:38005/developers",
+   "requestedUrl": "http://127.0.0.1:34719/finance",
+   "finalUrl": "http://127.0.0.1:34719/finance",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1,
+    "agentic-browsing": 0.67
+   },
+   "failing": [
+    {
+     "id": "llms-txt",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0,
+     "displayValue": "Est savings of 100 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:34719/referrals",
+   "finalUrl": "http://127.0.0.1:34719/referrals",
+   "runtimeError": null,
+   "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1,
+    "agentic-browsing": 0.67
+   },
+   "failing": [
+    {
+     "id": "llms-txt",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "network-dependency-tree-insight",
+     "score": 0,
+     "displayValue": null,
+     "items": ""
+    },
+    {
+     "id": "render-blocking-insight",
+     "score": 0,
+     "displayValue": "Est savings of 90 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
+    }
+   ]
+  },
+  {
+   "requestedUrl": "http://127.0.0.1:34719/developers",
+   "finalUrl": "http://127.0.0.1:34719/developers",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -1908,13 +1902,13 @@
      "id": "render-blocking-insight",
      "score": 0,
      "displayValue": "Est savings of 110 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/services/root-canal",
-   "finalUrl": "http://127.0.0.1:38005/services/root-canal",
+   "requestedUrl": "http://127.0.0.1:34719/services/root-canal",
+   "finalUrl": "http://127.0.0.1:34719/services/root-canal",
    "runtimeError": {
     "code": "ERRORED_DOCUMENT_REQUEST",
     "message": "Lighthouse was unable to reliably load the page you requested. Make sure you are testing the correct URL and that the server is properly responding to all requests. (Status code: 404)",
@@ -1931,8 +1925,8 @@
    "failing": []
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/blog/how-to-floss-properly",
-   "finalUrl": "http://127.0.0.1:38005/blog/how-to-floss-properly",
+   "requestedUrl": "http://127.0.0.1:34719/blog/how-to-floss-properly",
+   "finalUrl": "http://127.0.0.1:34719/blog/how-to-floss-properly",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -1963,14 +1957,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 100 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 120 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/blog/nervous-patients",
-   "finalUrl": "http://127.0.0.1:38005/blog/nervous-patients",
+   "requestedUrl": "http://127.0.0.1:34719/blog/nervous-patients",
+   "finalUrl": "http://127.0.0.1:34719/blog/nervous-patients",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -2002,13 +1996,13 @@
      "id": "render-blocking-insight",
      "score": 0,
      "displayValue": "Est savings of 110 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/blog/whitening-myths",
-   "finalUrl": "http://127.0.0.1:38005/blog/whitening-myths",
+   "requestedUrl": "http://127.0.0.1:34719/blog/whitening-myths",
+   "finalUrl": "http://127.0.0.1:34719/blog/whitening-myths",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -2045,14 +2039,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 100 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 110 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/blog/what-to-expect-implants",
-   "finalUrl": "http://127.0.0.1:38005/blog/what-to-expect-implants",
+   "requestedUrl": "http://127.0.0.1:34719/blog/what-to-expect-implants",
+   "finalUrl": "http://127.0.0.1:34719/blog/what-to-expect-implants",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -2095,14 +2089,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 80 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 110 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/blog/dental-implants-cost",
-   "finalUrl": "http://127.0.0.1:38005/blog/dental-implants-cost",
+   "requestedUrl": "http://127.0.0.1:34719/blog/dental-implants-cost",
+   "finalUrl": "http://127.0.0.1:34719/blog/dental-implants-cost",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -2133,14 +2127,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 100 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 120 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/blog/fluoride-facts",
-   "finalUrl": "http://127.0.0.1:38005/blog/fluoride-facts",
+   "requestedUrl": "http://127.0.0.1:34719/blog/fluoride-facts",
+   "finalUrl": "http://127.0.0.1:34719/blog/fluoride-facts",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -2177,14 +2171,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 100 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 120 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/blog/Top-10-Brushing-Mistakes",
-   "finalUrl": "http://127.0.0.1:38005/blog/Top-10-Brushing-Mistakes",
+   "requestedUrl": "http://127.0.0.1:34719/blog/Top-10-Brushing-Mistakes",
+   "finalUrl": "http://127.0.0.1:34719/blog/Top-10-Brushing-Mistakes",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -2216,13 +2210,13 @@
      "id": "render-blocking-insight",
      "score": 0,
      "displayValue": "Est savings of 100 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/blog/gum_disease_signs",
-   "finalUrl": "http://127.0.0.1:38005/blog/gum_disease_signs",
+   "requestedUrl": "http://127.0.0.1:34719/blog/gum_disease_signs",
+   "finalUrl": "http://127.0.0.1:34719/blog/gum_disease_signs",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -2253,14 +2247,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 90 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 120 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/blog/sugar-and-teeth",
-   "finalUrl": "http://127.0.0.1:38005/blog/sugar-and-teeth",
+   "requestedUrl": "http://127.0.0.1:34719/blog/sugar-and-teeth",
+   "finalUrl": "http://127.0.0.1:34719/blog/sugar-and-teeth",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -2292,13 +2286,13 @@
      "id": "render-blocking-insight",
      "score": 0,
      "displayValue": "Est savings of 110 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/blog/healthy-snacks",
-   "finalUrl": "http://127.0.0.1:38005/blog/healthy-snacks",
+   "requestedUrl": "http://127.0.0.1:34719/blog/healthy-snacks",
+   "finalUrl": "http://127.0.0.1:34719/blog/healthy-snacks",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -2329,14 +2323,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 90 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 110 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/blog/electric-vs-manual-toothbrush",
-   "finalUrl": "http://127.0.0.1:38005/blog/electric-vs-manual-toothbrush",
+   "requestedUrl": "http://127.0.0.1:34719/blog/electric-vs-manual-toothbrush",
+   "finalUrl": "http://127.0.0.1:34719/blog/electric-vs-manual-toothbrush",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -2379,14 +2373,14 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 110 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 100 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/blog/mouthwash-guide",
-   "finalUrl": "http://127.0.0.1:38005/blog/mouthwash-guide",
+   "requestedUrl": "http://127.0.0.1:34719/blog/mouthwash-guide",
+   "finalUrl": "http://127.0.0.1:34719/blog/mouthwash-guide",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -2424,13 +2418,13 @@
      "id": "render-blocking-insight",
      "score": 0,
      "displayValue": "Est savings of 120 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/blog/bad-breath-causes",
-   "finalUrl": "http://127.0.0.1:38005/blog/bad-breath-causes",
+   "requestedUrl": "http://127.0.0.1:34719/blog/bad-breath-causes",
+   "finalUrl": "http://127.0.0.1:34719/blog/bad-breath-causes",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -2462,13 +2456,13 @@
      "id": "render-blocking-insight",
      "score": 0,
      "displayValue": "Est savings of 110 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   },
   {
-   "requestedUrl": "http://127.0.0.1:38005/blog/dry-mouth",
-   "finalUrl": "http://127.0.0.1:38005/blog/dry-mouth",
+   "requestedUrl": "http://127.0.0.1:34719/blog/dry-mouth",
+   "finalUrl": "http://127.0.0.1:34719/blog/dry-mouth",
    "runtimeError": null,
    "categories": {
     "performance": 1,
@@ -2499,8 +2493,8 @@
     {
      "id": "render-blocking-insight",
      "score": 0,
-     "displayValue": "Est savings of 100 ms",
-     "items": "http://127.0.0.1:38005/assets/css/site.css"
+     "displayValue": "Est savings of 80 ms",
+     "items": "http://127.0.0.1:34719/assets/css/site.css"
     }
    ]
   }

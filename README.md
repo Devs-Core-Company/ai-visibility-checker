@@ -13,6 +13,9 @@ npx github:Devs-Core-Company/ai-visibility-checker audit https://yoursite.com
 That one line crawls the site, runs every check, and writes an HTML and JSON report to
 `./avc-reports`. No account, no sign-up.
 
+**In an open benchmark against Scrawly, Google Lighthouse, Unlighthouse and python-seo-analyzer,
+AVC found all 121 planted defects; the next best found 48%.** [See the benchmark](#benchmark).
+
 ## Who it is for
 
 - **Site owners and marketers** who want to know why AI assistants recommend a competitor and not them.
@@ -142,6 +145,85 @@ key**, and measures:
 
 Answers come from the providers' APIs (with web search where the engine supports it). They are
 samples, not recordings of the consumer apps, and can differ from what a person sees.
+
+## Benchmark
+
+We tested AVC against four widely used free or open-source audit tools on the same site, on the
+same machine, under rules written before any tool ran ([bench/SPEC.md](bench/SPEC.md)). Everything
+is in [`bench/`](bench/) so anyone can rerun it: the test site, the ground truth with a public
+source for every defect, the runner for each tool, the mapping tables and the raw outputs.
+
+**Result (13 October 2026):** AVC found all 121 planted defects with no false alarms on the
+clean control pages. The next best tool, Scrawly, found 48%. On a 1,000-page site AVC matched
+Scrawly's speed and memory while rendering every page twice (desktop and phone).
+
+### What was measured
+
+- **Detection.** An 86-page test site (a fictional dental practice) with **121 planted defects**
+  in six areas and **12 clean control pages**. Defects come from public sources: Google Search
+  Central, Lighthouse audits, WCAG 2.2, RFC 9309 (robots.txt), llmstxt.org, the A2A, MCP, OAuth
+  and api-catalog specs, and the topic list of Scrawly's own check manifest, so every tool is
+  tested on what it claims to cover. _Recall_ is the share of planted defects a tool reports.
+  _Precision_ is the share of its matching findings that point at a real planted defect.
+- **Speed and memory** on a generated 1,000-page site, full audit, each tool's defaults plus
+  the settings a normal user needs to audit a whole site (listed in
+  [RESULTS.md](bench/results/RESULTS.md)).
+
+### Detection
+
+| Tool                          | Defects found |   Recall | Precision | False alarms on clean pages |
+| ----------------------------- | ------------: | -------: | --------: | --------------------------: |
+| **AI Visibility Checker 1.0** | **121 / 121** | **100%** |   **88%** |                       **0** |
+| Scrawly 1.0 (git 8fdebcf)     |      58 / 121 |      48% |       20% |                          45 |
+| Google Lighthouse 13.5        |      31 / 121 |      26% |       51% |                           1 |
+| Unlighthouse 0.19             |      27 / 121 |      22% |       46% |                           2 |
+| python-seo-analyzer 2025.4.3  |       7 / 121 |       6% |       13% |                           5 |
+
+Recall by area:
+
+| Area (defects)           |      AVC | Scrawly | Lighthouse | Unlighthouse | python-seo-analyzer |
+| ------------------------ | -------: | ------: | ---------: | -----------: | ------------------: |
+| Technical SEO (40)       | **100%** |     63% |        28% |          23% |                  0% |
+| Content and on-page (24) | **100%** |     71% |        13% |          13% |                 25% |
+| Accessibility (17)       | **100%** |     41% |        88% |          82% |                  6% |
+| AI crawler access (12)   | **100%** |     50% |         8% |           0% |                  0% |
+| AEO / GEO readiness (15) | **100%** |      7% |         0% |           0% |                  0% |
+| Agentic web (13)         | **100%** |     15% |         8% |           8% |                  0% |
+
+### Speed and memory (1,000-page site)
+
+| Tool                                                                     |       Pages audited |    Time | Peak memory |
+| ------------------------------------------------------------------------ | ------------------: | ------: | ----------: |
+| **AI Visibility Checker 1.0** (every page rendered on desktop and phone) |               1,006 | 3.9 min |    1,477 MB |
+| Scrawly 1.0 (every page rendered once)                                   |               1,006 | 3.9 min |    1,490 MB |
+| Unlighthouse 0.19                                                        | 28 (its own sample) | 4.7 min |    3,203 MB |
+| Google Lighthouse 13.5                                                   |         50 (sample) | 9.6 min |    1,402 MB |
+| python-seo-analyzer 2025.4.3 (no rendering)                              |               1,007 |    32 s |      202 MB |
+
+On the 86-page detection site AVC took 68 s and Scrawly 32 s; python-seo-analyzer is the fastest
+tool by far because it checks the least. Machine: 4 vCPU Intel Xeon 2.8 GHz, 15 GB RAM, Linux,
+Node 22. Lighthouse-based tools were given a 50-page sample because a full run takes hours.
+
+### Read this before quoting the numbers
+
+- **We built both the tool and the test site.** To limit the bias: the site was built from
+  public sources by a separate process that did not see AVC's check list; the rules, the
+  mapping tables and every raw output are published; AVC changes made after a run must be
+  general rules (no site-specific special cases) and are listed in
+  [CHANGES.md](bench/results/CHANGES.md). AVC scored 77% in the first run; the gaps it showed
+  were fixed with general, standards-based checks and the benchmark was rerun for every tool.
+- **Commercial tools were not tested.** Screaming Frog, Sitebulb, Ahrefs and Semrush need paid
+  licences or accounts and could not be run under the same conditions. We make no claims about
+  them.
+- **A planted-defect site is not the web.** It shows what each tool can detect, not how a real
+  site will score. Lighthouse also measures lab performance in ways this suite does not reward.
+- **AI visibility tracking is not in this benchmark.** None of the other tools asks AI engines
+  anything, so there is nothing to compare.
+- python-seo-analyzer stopped after 63 pages on the detection site with an internal error; its
+  score is what it reported before stopping.
+
+Rerun it yourself: [bench/RUNNING.md](bench/RUNNING.md). Full tables, including precision by
+area and per-tool settings: [bench/results/RESULTS.md](bench/results/RESULTS.md).
 
 ## Free web version vs this app
 
