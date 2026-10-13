@@ -152,7 +152,7 @@ Devs Core also runs a free web checker at
 | Fixes                | Advice                             | Stack-specific code, agent prompts, WordPress auto-apply with rollback, repo patches |
 | Monitoring           | No                                 | Schedules, diffs, trends, alerts, GitHub Action                                      |
 | Where it runs        | Devs Core servers                  | Your machine                                                                         |
-| Cost                 | Free                               | Free (AGPL-3.0); AI checks use your own API keys                                          |
+| Cost                 | Free                               | Free (AGPL-3.0); AI checks use your own API keys                                     |
 
 Use the web version for a quick look at any site; use this app to work on your own.
 
