@@ -461,3 +461,20 @@ describe('crawlSite', () => {
     ).toBe(true);
   }, 30_000);
 });
+
+describe('robots Crawl-delay', () => {
+  it('reads the delay for the matching group and ignores invalid values', () => {
+    const r = buildRobots(
+      'https://example.com/robots.txt',
+      'User-agent: AVC\nCrawl-delay: 2\n\nUser-agent: *\nCrawl-delay: nope\nDisallow:\n',
+      { status: 200, found: true },
+    );
+    expect(r.crawlDelay?.('AVC')).toBe(2);
+    expect(r.crawlDelay?.('OtherBot')).toBeUndefined();
+  });
+
+  it('has no delay when robots.txt was not found', () => {
+    const r = buildRobots('https://example.com/robots.txt', '', { status: 404, found: false });
+    expect(r.crawlDelay?.('AVC')).toBeUndefined();
+  });
+});

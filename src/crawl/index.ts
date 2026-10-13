@@ -128,6 +128,8 @@ export async function crawlSite(
     if (v !== undefined) (options as unknown as Record<string, unknown>)[k] = v;
   }
   options.startUrl = coerceStartUrl(options.startUrl);
+  // A delay the caller set is honoured exactly; the default adapts to the server.
+  const explicitDelay = input.delayMs !== undefined;
   // An explicit render: true ("--render: always render") renders every crawled HTML page,
   // within the page limit, unless a render limit was given. 'auto' keeps its small sample.
   if (options.render === true && input.renderLimit === undefined)
@@ -498,6 +500,17 @@ export async function crawlSite(
       waiters = [];
       for (const fn of w) fn();
     };
+    // Politeness. robots.txt Crawl-delay always wins (split across workers, as the delay is
+    // per crawler). An explicit --delay is used as given. Otherwise the pause adapts to the
+    // server, like Scrapy's AutoThrottle: as long as the last request took (a slow server gets
+    // breathing room), never more than the default.
+    const robotsDelayMs = (robots.crawlDelay?.(token) ?? 0) * 1000;
+    const politeDelay = (lastMs: number): number => {
+      if (robotsDelayMs > 0)
+        return Math.max(options.delayMs, robotsDelayMs * Math.max(1, options.concurrency));
+      if (explicitDelay) return options.delayMs;
+      return Math.min(options.delayMs, Math.max(0, Math.round(lastMs)));
+    };
     const worker = async () => {
       for (;;) {
         if (!budgetLeft()) return;
@@ -508,6 +521,7 @@ export async function crawlSite(
         }
         const item = queue[qHead++]!;
         active++;
+        const began = Date.now();
         try {
           await processItem(item);
         } catch (e) {
@@ -517,7 +531,8 @@ export async function crawlSite(
           active--;
           wake();
         }
-        if (options.delayMs > 0) await sleep(options.delayMs);
+        const pause = politeDelay(Date.now() - began);
+        if (pause > 0) await sleep(pause);
       }
     };
     await Promise.all(Array.from({ length: Math.max(1, options.concurrency) }, worker));

@@ -127,13 +127,20 @@ export function findChrome(explicit?: string): string | null {
 
 /** Collects LCP, CLS and long tasks inside the page before any script runs. */
 const PERF_INIT = `(() => {
-  const s = (window.__avcPerf = { lcp: 0, cls: 0, tbt: 0 });
+  const s = (window.__avcPerf = { lcp: 0, cls: 0, tbt: 0, last: 0 });
+  // Last time anything happened on the page (DOM change, finished request, layout shift):
+  // the renderer waits for a quiet spell instead of a fixed pause.
+  const touch = () => { s.last = performance.now(); };
+  try {
+    new MutationObserver(touch).observe(document, { childList: true, subtree: true, attributes: true, characterData: true });
+  } catch {}
+  try { new PerformanceObserver(touch).observe({ type: 'resource', buffered: false }); } catch {}
   try {
     new PerformanceObserver((l) => { for (const e of l.getEntries()) s.lcp = Math.max(s.lcp, e.renderTime || e.loadTime || e.startTime); })
       .observe({ type: 'largest-contentful-paint', buffered: true });
   } catch {}
   try {
-    new PerformanceObserver((l) => { for (const e of l.getEntries()) if (!e.hadRecentInput) s.cls += e.value; })
+    new PerformanceObserver((l) => { touch(); for (const e of l.getEntries()) if (!e.hadRecentInput) s.cls += e.value; })
       .observe({ type: 'layout-shift', buffered: true });
   } catch {}
   try {
@@ -288,9 +295,6 @@ export const MOBILE_SCRIPT = `(() => {
   return { viewportWidth: Math.min(sw, vw), scrollWidth: Math.max(doc.scrollWidth, document.body ? document.body.scrollWidth : 0), smallTargets: small, interstitial, minFontPx: minFont || undefined };
 })()`;
 
-/** How long after the load event a render keeps observing layout shifts and late content. */
-export const SETTLE_MS = 1_500;
-
 /** The tab now shows a different document than the one requested (path or query changed). */
 export function navigatedAway(requested: string, current: string): boolean {
   try {
@@ -304,6 +308,32 @@ export function navigatedAway(requested: string, current: string): boolean {
 }
 
 /** True when the page runs any script (JSON data blocks excluded). */
+/** Quiet spell the renderer waits for after load: no DOM change, request or layout shift. */
+export const QUIET_MS = 800;
+
+/**
+ * Waits until the page has been quiet for QUIET_MS, or until `capMs` after `loadedAt`.
+ * Late banners and lazy content keep resetting the clock, so they are still observed; a
+ * page that does nothing after load is done in QUIET_MS instead of a fixed pause.
+ */
+async function waitQuiet(
+  tab: import('playwright-core').Page,
+  loadedAt: number,
+  capMs: number,
+): Promise<void> {
+  for (;;) {
+    const idle = (await tab
+      .evaluate(() => {
+        const w = window as unknown as { __avcPerf?: { last: number } };
+        return performance.now() - (w.__avcPerf?.last ?? 0);
+      })
+      .catch(() => QUIET_MS)) as number;
+    const left = capMs - (Date.now() - loadedAt);
+    if (idle >= QUIET_MS || left <= 0) return;
+    await tab.waitForTimeout(Math.min(QUIET_MS - idle + 20, left, 250)).catch(() => {});
+  }
+}
+
 async function hasScripts(tab: import('playwright-core').Page): Promise<boolean> {
   return (await tab
     .evaluate(
@@ -481,12 +511,11 @@ async function renderOne(
     await tab.goto(page.finalUrl || page.url, { waitUntil: 'load', timeout: timeoutMs });
     const loadedAt = Date.now();
     const left = Math.max(1_000, timeoutMs - (Date.now() - started));
-    await tab.waitForLoadState('networkidle', { timeout: Math.min(5_000, left) }).catch(() => {});
-    // CLS counts shifts for the page's whole life, and banners or late content often arrive
-    // a moment after load: keep observing until SETTLE_MS after the load event.
-    // Pages without scripts cannot change after load (images and fonts are stand-ins).
-    const settle = SETTLE_MS - (Date.now() - loadedAt);
-    if (settle > 0 && (await hasScripts(tab))) await tab.waitForTimeout(settle).catch(() => {});
+    // CLS counts shifts for the page's whole life, and banners, fetched content and late
+    // scripts often arrive a moment after load: wait for a quiet spell (each change resets
+    // it), up to 5 s. Pages without scripts cannot change after load (images and fonts are
+    // stand-ins), so they need no wait.
+    if (await hasScripts(tab)) await waitQuiet(tab, loadedAt, Math.min(5_000, left));
     // A meta refresh or script sent the browser to another page: what we would read now is
     // that page, not this one, so there is nothing to compare with the raw HTML.
     if (navigatedAway(page.finalUrl || page.url, tab.url())) return;
@@ -589,10 +618,8 @@ async function renderMobile(
   try {
     await tab.goto(page.finalUrl || page.url, { waitUntil: 'load', timeout: timeoutMs });
     const loadedAt = Date.now();
-    await tab.waitForLoadState('networkidle', { timeout: 5_000 }).catch(() => {});
-    // Pop-ups and late content often appear a moment after load.
-    const settle = Math.max(1_000, SETTLE_MS - (Date.now() - loadedAt));
-    if (await hasScripts(tab)) await tab.waitForTimeout(settle).catch(() => {});
+    // Pop-ups and late content often appear a moment after load: wait for a quiet spell.
+    if (await hasScripts(tab)) await waitQuiet(tab, loadedAt, 5_000);
     const html = await tab.content();
     const m = (await tab.evaluate(MOBILE_SCRIPT)) as Omit<
       MobileRender,

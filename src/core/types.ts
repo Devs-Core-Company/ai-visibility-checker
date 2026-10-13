@@ -355,6 +355,8 @@ export interface RobotsInfo {
   isAllowed(url: string, ua: string): boolean;
   /** 1-based line that decided the rule for a UA + URL, if any. */
   decidingLine(url: string, ua: string): { line: number; rule: string } | null;
+  /** Crawl-delay in seconds for this user agent, when robots.txt sets one. */
+  crawlDelay?(ua: string): number | undefined;
 }
 
 export interface SitemapInfo {

@@ -14,6 +14,7 @@ interface RobotRules {
   isAllowed(url: string, ua?: string): boolean | undefined;
   getMatchingLineNumber(url: string, ua?: string): number;
   getSitemaps(): string[];
+  getCrawlDelay(ua?: string): number | undefined;
 }
 // robots-parser is CommonJS; its typings describe an ES default export.
 const robotsParser = ((robotsParserModule as unknown as { default?: unknown }).default ??
@@ -63,6 +64,11 @@ export function buildRobots(
     found: meta.found,
     body,
     sitemaps,
+    crawlDelay(ua: string): number | undefined {
+      if (!meta.found) return undefined;
+      const d = parser.getCrawlDelay(ua);
+      return typeof d === 'number' && Number.isFinite(d) && d > 0 ? d : undefined;
+    },
     isAllowed(target: string, ua: string): boolean {
       if (unreachable) return false;
       if (!meta.found) return true;
