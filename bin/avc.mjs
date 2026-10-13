@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Launcher for `avc`. Uses the compiled build (dist/) when it exists, as in Docker
-// or a local `npm run build`. Otherwise it runs the TypeScript source through tsx,
+// or a local `npm run compile`. Otherwise it runs the TypeScript source through tsx,
 // so installing straight from GitHub needs no build step.
 import { existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';

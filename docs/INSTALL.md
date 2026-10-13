@@ -80,7 +80,7 @@ dashboard and scheduled monitoring, use `docker compose up -d`; it publishes the
 git clone https://github.com/Devs-Core-Company/ai-visibility-checker.git
 cd ai-visibility-checker
 npm ci
-npm run build
+npm run compile
 npm link        # makes `avc` available
 ```
 

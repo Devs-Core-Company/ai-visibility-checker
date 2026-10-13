@@ -1,4 +1,4 @@
-// Runs after `tsc` in `npm run build`.
+// Runs after `tsc` in `npm run compile`.
 // - makes dist/cli.js executable and makes sure it starts with the node shebang
 // - checks the dashboard assets in public/ are present (they are served from the
 //   package root, so nothing needs copying)

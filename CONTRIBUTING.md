@@ -44,7 +44,13 @@ Each folder has one job: `crawl`, `checks`, `agentic`, `ai`, `fixes`, `connect`,
 ## Pull requests
 
 - One change per pull request, with a test.
-- `npm run check` and `npm run build` must pass (CI runs them on Node 22 and 24).
+- `npm run check` and `npm run compile` must pass (CI runs them on Node 22 and 24).
 - Describe what changed and why; for a check, include an example page where it fires.
 
 By contributing you agree that your contribution is licensed under the MIT licence.
+
+Note: the build script is called `compile`, not `build`. npm prepares git
+dependencies (runs an install and build in a temporary copy) whenever a package
+has a `build`, `prepare`, `prepack` or install script, and that breaks
+`npm install -g github:Devs-Core-Company/ai-visibility-checker`. Keep those
+script names out of package.json.
