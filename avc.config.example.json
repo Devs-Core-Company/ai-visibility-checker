@@ -1,0 +1,37 @@
+{
+  "sites": [
+    {
+      "id": "example.com",
+      "url": "https://example.com/",
+      "brand": {
+        "name": "Example Co",
+        "aliases": ["Example"],
+        "description": "What the business does, in one sentence.",
+        "services": ["Service one", "Service two"],
+        "location": "London, UK",
+        "industry": "Software",
+        "competitors": [{ "name": "Rival Ltd", "domain": "rival.example" }]
+      },
+      "prompts": [
+        {
+          "id": "p1",
+          "text": "Who are the best providers of service one in London?",
+          "kind": "category",
+          "search": true
+        },
+        { "id": "p2", "text": "Example Co vs Rival Ltd", "kind": "comparison", "search": true }
+      ],
+      "crawl": { "maxPages": 500, "maxDepth": 10, "render": "auto", "exclude": ["/wp-admin/", "\\?replytocom="] },
+      "connections": {
+        "gscProperty": "sc-domain:example.com",
+        "ga4Property": "properties/123456789",
+        "logs": ["/var/log/nginx/access.log*"],
+        "repoPath": "../example-site",
+        "wordpress": { "url": "https://example.com", "user": "avc-bot" }
+      },
+      "schedule": { "audit": "0 6 * * 1", "visibility": "0 7 1 * *" }
+    }
+  ],
+  "ai": { "maxRunUsd": 3, "maxMonthUsd": 30 },
+  "server": { "port": 4317, "host": "127.0.0.1" }
+}

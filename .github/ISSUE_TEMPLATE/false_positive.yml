@@ -1,0 +1,22 @@
+name: Wrong result (false positive or negative)
+description: A check flagged something that is fine, or missed a real problem.
+labels: [check-accuracy]
+body:
+  - type: input
+    id: check
+    attributes:
+      label: Check id
+      placeholder: e.g. ai-crawlers.gptbot-blocked
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Example URL (if public)
+  - type: textarea
+    id: why
+    attributes:
+      label: Why the result is wrong
+      description: Include the relevant HTML, header or robots.txt lines.
+    validations:
+      required: true

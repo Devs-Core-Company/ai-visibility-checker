@@ -1,0 +1,39 @@
+name: Bug report
+description: Something does not work as described.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Please do not paste API keys, tokens or passwords. For security problems, follow SECURITY.md instead.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you ran, what you expected, and what you saw.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. avc audit https://example.com --max-pages 50
+        2. ...
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Output of `avc doctor`
+      render: text
+    validations:
+      required: true
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Where
+      options: [CLI, Dashboard (avc ui), MCP server, Docker, GitHub Action, Other]
+  - type: input
+    id: stack
+    attributes:
+      label: Site stack (if relevant)
+      placeholder: WordPress, Next.js, Shopify…

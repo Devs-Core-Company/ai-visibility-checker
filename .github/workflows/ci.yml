@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Node ${{ matrix.node }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [22, 24]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Format
+        run: npm run format:check
+      - name: Test
+        run: npm test
+        env:
+          AVC_LLM_MOCK: '1'
+      - name: Build
+        run: npm run build
+      - name: CLI smoke test
+        run: |
+          node dist/cli.js --version
+          node dist/cli.js checks --json > /dev/null
+          AVC_DATA_DIR="$RUNNER_TEMP/avc" node dist/cli.js doctor || true
+
+  docker:
+    name: Docker image builds
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t avc:ci .
+      - run: docker run --rm avc:ci --version

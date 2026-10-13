@@ -1,0 +1,25 @@
+# Dashboard + scheduled monitoring in one container.
+#   cp .env.example .env   # add the keys you want to use
+#   docker compose up -d
+# The dashboard listens on 127.0.0.1:4317 on the host only. Open the URL printed in
+# `docker compose logs avc` (it carries the session token).
+services:
+  avc:
+    build: .
+    image: avc:latest
+    command: ['ui', '--host', '0.0.0.0', '--port', '4317', '--monitor']
+    ports:
+      - '127.0.0.1:4317:4317'
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      AVC_DATA_DIR: /data
+    volumes:
+      - avc-data:/data
+      # Optional: share a project config (sites, prompts, schedules). Create the file first.
+      # - ./avc.config.json:/app/avc.config.json:ro
+    restart: unless-stopped
+
+volumes:
+  avc-data:

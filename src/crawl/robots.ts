@@ -7,8 +7,17 @@
  *   site as disallowed. `isAllowed` returns false and `decidingLine` explains.
  * - A 2xx that is actually an HTML page (soft 404) counts as not found.
  */
-import robotsParser from 'robots-parser';
+import robotsParserModule from 'robots-parser';
 import type { Fetcher, RobotsInfo } from '../core/types.js';
+
+interface RobotRules {
+  isAllowed(url: string, ua?: string): boolean | undefined;
+  getMatchingLineNumber(url: string, ua?: string): number;
+  getSitemaps(): string[];
+}
+// robots-parser is CommonJS; its typings describe an ES default export.
+const robotsParser = ((robotsParserModule as unknown as { default?: unknown }).default ??
+  robotsParserModule) as unknown as (url: string, body: string) => RobotRules;
 
 const MAX_ROBOTS_BYTES = 500 * 1024; // Google reads the first 500 KiB.
 
