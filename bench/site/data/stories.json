@@ -1,0 +1,26 @@
+{
+  "title": "Patient stories",
+  "intro": "Real treatment journeys from Harbourline patients, shared with their permission and in their own words.",
+  "stories": [
+    {
+      "name": "Margaret, 67, Bristol",
+      "treatment": "Implant-retained denture",
+      "text": "I had worn a lower denture for twenty years and it never stayed put. Two implants changed that. I can eat an apple again, and I stopped worrying about it moving when I talk. Dr Mehta explained every step and the whole thing took about four months."
+    },
+    {
+      "name": "James, 34, Bath",
+      "treatment": "Clear aligners",
+      "text": "My front teeth had crowded again since my braces as a teenager. Eight months of aligners and they are straight. The hardest part was remembering to put them back in after lunch. Dr Lang was honest that I would need to wear a retainer for good."
+    },
+    {
+      "name": "Aisha, 29, Leeds",
+      "treatment": "Gum treatment",
+      "text": "I had not been to a dentist for nine years because I was embarrassed. Priya never made me feel judged. My gums bled every time I brushed; after three cleaning sessions and a lot of practice with interdental brushes, they do not bleed at all."
+    },
+    {
+      "name": "The Okafor family, Bristol",
+      "treatment": "Children’s dentistry",
+      "text": "Both our children have been coming since they were babies. Tom makes the visits feel like a game, and neither of them has needed a filling. They actually ask when the next visit is."
+    }
+  ]
+}

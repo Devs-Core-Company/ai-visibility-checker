@@ -1,0 +1,12 @@
+{
+  "authorization_servers": [
+    "{{ORIGIN}}"
+  ],
+  "scopes_supported": [
+    "availability:read"
+  ],
+  "bearer_methods_supported": [
+    "header"
+  ],
+  "resource_name": "Harbourline availability API"
+}

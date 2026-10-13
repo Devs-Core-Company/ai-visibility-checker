@@ -1,0 +1,3 @@
+Contact: mailto:security@harbourline.example
+Preferred-Languages: en
+Canonical: {{ORIGIN}}/.well-known/security.txt

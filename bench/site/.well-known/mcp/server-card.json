@@ -1,0 +1,8 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/mcp-server-card/v1.json",
+  "name": "harbourline-availability",
+  "version": "0.3.1",
+  "description": "Free appointment slots at Harbourline Dental Studio clinics",
+  "remotes": [
+    { "type": "streamable-http", "url": "{{ORIGIN}}/mcp" },
+  ]

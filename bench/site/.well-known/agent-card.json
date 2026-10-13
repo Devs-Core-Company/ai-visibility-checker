@@ -1,0 +1,21 @@
+{
+  "protocolVersion": "0.3.0",
+  "name": "Harbourline booking assistant",
+  "description": "Answers questions about Harbourline Dental Studio treatments and requests appointments.",
+  "url": "{{ORIGIN}}/a2a",
+  "preferredTransport": "JSONRPC",
+  "provider": {
+    "organization": "Harbourline Dental Studio",
+    "url": "{{ORIGIN}}/"
+  },
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false
+  },
+  "defaultInputModes": [
+    "text/plain"
+  ],
+  "defaultOutputModes": [
+    "text/plain"
+  ]
+}

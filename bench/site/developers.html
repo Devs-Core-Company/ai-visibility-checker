@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Developer Information and Booking API | Harbourline</title>
+<meta name="description" content="How software and AI agents can find Harbourline Dental Studio’s booking API, its machine-readable catalogue and the agent discovery files we publish.">
+<link rel="canonical" href="{{ORIGIN}}/developers">
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="stylesheet" href="/assets/css/site.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Harbourline Dental Studio">
+<meta property="og:title" content="Developer Information and Booking API">
+<meta property="og:description" content="How software and AI agents can find Harbourline Dental Studio’s booking API, its machine-readable catalogue and the agent discovery files we publish.">
+<meta property="og:url" content="{{ORIGIN}}/developers">
+<meta property="og:image" content="{{ORIGIN}}/images/og-default.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "{{ORIGIN}}/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Information for developers",
+      "item": "{{ORIGIN}}/developers"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "{{ORIGIN}}/developers#webpage",
+  "url": "{{ORIGIN}}/developers",
+  "name": "Developer Information and Booking API",
+  "description": "How software and AI agents can find Harbourline Dental Studio’s booking API, its machine-readable catalogue and the agent discovery files we publish.",
+  "isPartOf": {
+    "@id": "{{ORIGIN}}/#website"
+  },
+  "publisher": {
+    "@id": "{{ORIGIN}}/#org"
+  }
+}
+</script>
+<script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-header">
+  <a href="/" class="logo"><img src="/images/logo.png" alt="Harbourline Dental Studio home" width="240" height="60"></a>
+  <nav aria-label="Main">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/services">Treatments</a></li>
+      <li><a href="/team">Our team</a></li>
+      <li><a href="/locations">Clinics</a></li>
+      <li><a href="/pricing">Prices</a></li>
+      <li><a href="/blog">Advice</a></li>
+      <li><a href="/faq">FAQ</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a class="nav-cta" href="/book">Book an appointment</a></li>
+    </ul>
+  </nav>
+</header>
+<nav aria-label="Breadcrumb" class="crumbs"><ol><li><a href="/">Home</a></li><li><span aria-current="page">Information for developers</span></li></ol></nav>
+<main id="main">
+<h1>Information for developers</h1>
+<p class="lead">We are piloting a small booking availability API for partner apps and AI assistants. This page explains what is published and how to request access.</p>
+<h2>What is available</h2>
+<p>The pilot API returns free appointment slots by clinic and appointment type. It does not return any patient information, and making a booking still requires the patient to confirm by phone or email.</p>
+<h2>Discovery files</h2>
+<p>Our API catalogue is published at <a href="/.well-known/api-catalog">/.well-known/api-catalog</a> in the linkset format. A plain-language summary of the website for AI assistants is published at <a href="/llms.txt">/llms.txt</a>.</p>
+<h2>Requesting access</h2>
+<p>Email developers@harbourline.example with the name of your application, how you will use the data and an expected request volume. Access is free during the pilot. We review requests within ten working days.</p>
+<h2>Fair use</h2>
+<p>Please cache availability for at least five minutes and do not make more than one request per second. We may suspend keys that exceed these limits without notice.</p>
+<h2>Versioning and changes</h2>
+<p>The pilot API is versioned in the URL. We give at least ninety days’ notice by email before retiring a version, and we announce new fields on this page. During the pilot we may change response formats after giving thirty days’ notice to registered developers.</p>
+<h2>Data and privacy</h2>
+<p>The availability API never exposes patient names, contact details or clinical information. Appointment requests made through partner applications are treated exactly like requests from our own booking form: a receptionist confirms the details with the patient before anything is booked. We log API requests for thirty days for security monitoring and then delete them.</p>
+</main>
+<footer class="site-footer">
+  <div class="footer-grid">
+    <section aria-labelledby="ft-clinics">
+      <h2 id="ft-clinics">Our clinics</h2>
+      <p><a href="/locations/bristol">Harbourline Dental Studio Bristol</a><br>14 Quay Street, Bristol BS1 4DB<br>Telephone 0117 496 0123</p>
+      <p><a href="/locations/bath">Harbourline Dental Studio Bath</a><br>3 Abbey Green Lane, Bath BA1 1NW<br>Telephone 01632 960 245</p>
+      <p><a href="/locations/leeds">Harbourline Dental Studio Leeds</a><br>41 Wharf Approach, Leeds LS1 4BR<br>Telephone 0113 496 0784</p>
+    </section>
+    <section aria-labelledby="ft-info">
+      <h2 id="ft-info">Information</h2>
+      <ul>
+        <li><a href="/about">About Harbourline</a></li>
+        <li><a href="/new-patients">New patients</a></li>
+        <li><a href="/finance">Paying for treatment</a></li>
+        <li><a href="/careers">Careers</a></li>
+        <li><a href="/referrals">Referrals for dentists</a></li>
+        <li><a href="/developers">Developers</a></li>
+        <li><a href="/legal/privacy">Privacy notice</a></li>
+        <li><a href="/legal/cookies">Cookie policy</a></li>
+        <li><a href="/legal/terms">Terms of treatment</a></li>
+        <li><a href="/legal/complaints">Complaints procedure</a></li>
+        <li><a href="/legal/accessibility">Accessibility statement</a></li>
+      </ul>
+    </section>
+  </div>
+  <p class="small">Harbourline Dental Studio is a fictional dental practice used as a test website. All names, addresses and telephone numbers are fictitious.</p>
+</footer>
+</body>
+</html>

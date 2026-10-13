@@ -1,0 +1,19 @@
+# robots.txt for Harbourline Dental Studio
+User-agent: *
+Disallow: /assets/js/
+Disallow: /search
+Disallow: /thank-you
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /team/
+
+Sitemap: {{ORIGIN}}/sitemap.xml

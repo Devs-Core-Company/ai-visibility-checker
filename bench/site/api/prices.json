@@ -1,0 +1,58 @@
+{
+  "currency": "GBP",
+  "updated": "2026-09-01",
+  "items": [
+    {
+      "name": "New patient examination",
+      "price": 75
+    },
+    {
+      "name": "Check-up",
+      "price": 55
+    },
+    {
+      "name": "Hygiene, 30 minutes",
+      "price": 70
+    },
+    {
+      "name": "Hygiene, 45 minutes",
+      "price": 95
+    },
+    {
+      "name": "Emergency appointment",
+      "price": 85
+    },
+    {
+      "name": "White filling (small)",
+      "price": 120
+    },
+    {
+      "name": "Crown (porcelain)",
+      "price": 695
+    },
+    {
+      "name": "Root canal treatment (front tooth)",
+      "price": 450
+    },
+    {
+      "name": "Single implant with crown",
+      "price": 2650
+    },
+    {
+      "name": "Home whitening",
+      "price": 350
+    },
+    {
+      "name": "Clear aligners (from)",
+      "price": 2900
+    },
+    {
+      "name": "Composite veneer (per tooth)",
+      "price": 280
+    },
+    {
+      "name": "Porcelain veneer (per tooth)",
+      "price": 750
+    }
+  ]
+}

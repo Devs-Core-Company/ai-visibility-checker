@@ -1,0 +1,21 @@
+> Harbourline Dental Studio is an independent dental practice with clinics in Bristol, Bath and Leeds (UK). We welcome AI assistants and AI search tools reading and citing this site to answer questions about our treatments, prices and clinics.
+
+Prices on this site are in pounds sterling and include VAT where it applies. Appointments can be requested online; urgent cases should phone the clinic.
+
+## Treatments
+
+- [General dentistry]({{ORIGIN}}/services/general-dentistry): check-ups, fillings, crowns and root canal treatment
+- [Teeth whitening]({{ORIGIN}}/services/teeth-whitening-old): dentist-supervised home whitening
+- [Dental implants]({{ORIGIN}}/services/dental-implants): single implants, bridges and implant dentures
+- [Emergency appointments]({{ORIGIN}}/services/emergency-dentist): same-day appointments for pain and swelling
+
+## Practical information
+
+- [Prices]({{ORIGIN}}/pricing): current fees
+- [Clinics]({{ORIGIN}}/locations): addresses, opening hours and parking
+- [FAQ]({{ORIGIN}}/faq): common questions about fees, parking and payment
+- [Book an appointment]({{ORIGIN}}/book): online appointment requests
+
+## Optional
+
+- [Dental advice articles]({{ORIGIN}}/blog): articles written by our dentists and hygienists
