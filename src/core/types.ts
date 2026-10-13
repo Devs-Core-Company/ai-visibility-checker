@@ -286,7 +286,13 @@ export interface PageData {
     /** A second render as a phone (only for a sample of pages). */
     mobile?: MobileRender;
     /** WebMCP tools the page registered at runtime (navigator.modelContext), captured in the render. */
-    webmcpTools?: { name: string; description?: string; hasSchema: boolean }[];
+    webmcpTools?: {
+      name: string;
+      description?: string;
+      hasSchema: boolean;
+      /** The inputSchema as registered (JSON round-trip, first 20 KB). */
+      inputSchema?: unknown;
+    }[];
   };
 }
 
@@ -310,6 +316,11 @@ export interface RenderedLayout {
   images: { src: string; width: number; height: number }[];
   /** Text samples whose contrast is below WCAG AA (first 20). */
   lowContrast: { text: string; ratio: number; fg: string; bg: string; large: boolean }[];
+  /**
+   * Elements that set their own cursor: pointer but are not links, buttons or form controls
+   * and have no role or tabindex (first 20): they look clickable but are not operable.
+   */
+  pointerNonControls?: { html: string; text: string }[];
 }
 
 export interface MobileRender {
@@ -325,6 +336,8 @@ export interface MobileRender {
   failedRequests: string[];
   /** Smallest computed font size of body text, px. */
   minFontPx?: number;
+  /** Cumulative Layout Shift observed in the phone render (until shortly after load). */
+  cls?: number;
 }
 
 // ---------------------------------------------------------------------------

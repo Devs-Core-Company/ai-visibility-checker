@@ -240,9 +240,13 @@ const ARTICLE_TYPES = [
 const ARTICLE_PATH =
   /\/(blog|news|insights|articles?|guides?|posts?|learn|resources|knowledge|stories|journal|updates)\//i;
 
+const LISTING_PATH = /\/(tag|tags|category|categories|author|authors|archive|page)(\/|$)/i;
+
 /** Editorial content: Article-type schema, an article-ish URL, or an <article> with a <time>. */
 export function isArticleLike(page: PageData): boolean {
   if (schemaTypes(page).some((t) => ARTICLE_TYPES.includes(t))) return true;
+  // Archives and listings (tags, categories, authors, page 2…) list articles; they are not one.
+  if (LISTING_PATH.test(pathOf(page.url))) return false;
   if (ARTICLE_PATH.test(pathOf(page.url)) && page.wordCount >= 300) return true;
   return /<article\b[\s\S]*?<time\b/i.test(page.html) && page.wordCount >= 300;
 }

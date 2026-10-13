@@ -129,6 +129,9 @@ export function createFetcher(
           headers: {
             accept: DEFAULT_ACCEPT,
             'accept-language': 'en-GB,en;q=0.9',
+            // Stated explicitly (fetch decodes the body either way) so compression checks can
+            // rely on what was offered.
+            'accept-encoding': 'gzip, deflate, br',
             ...options.headers,
             ...authHeaders(current),
             ...opts.headers,

@@ -3,7 +3,8 @@
  * for the types that drive rich results and entity understanding, and
  * consistency with what the page actually shows.
  */
-import type { Issue, PageData } from '../core/types.js';
+import type { Issue, PageData, SiteContext } from '../core/types.js';
+import { isSchemaType, isSubtypeOf, SCHEMA_TYPES } from './schema-vocabulary.js';
 import {
   ISO_DATE,
   REF,
@@ -32,6 +33,10 @@ import {
 } from './_util.js';
 
 export const HEADLINE_MAX = 110;
+/** Folders with at least this many pages are compared for LocalBusiness markup. */
+export const LOCAL_SIBLINGS_MIN = 3;
+/** Share of sibling pages that must carry LocalBusiness markup. */
+export const LOCAL_SIBLINGS_SHARE = 2 / 3;
 export const BREADCRUMB_MIN_DEPTH = 2;
 
 const C = 'content' as const;
@@ -226,6 +231,98 @@ function ratingProblems(r: unknown): string[] {
   return out;
 }
 
+/** Start/end property pairs where the end may not come before the start. */
+const DATE_PAIRS: [string, string][] = [
+  ['startDate', 'endDate'],
+  ['validFrom', 'validThrough'],
+  ['availabilityStarts', 'availabilityEnds'],
+  ['checkinTime', 'checkoutTime'],
+  ['departureTime', 'arrivalTime'],
+];
+
+function hasJsonLdError(page: PageData): boolean {
+  return page.structuredData.some((s) => s.format === 'json-ld' && Boolean(s.error));
+}
+
+/**
+ * @type values of JSON-LD nodes that use the schema.org vocabulary. Blocks whose @context is
+ * another vocabulary are skipped, and so are prefixed (foo:Bar) or full-IRI types from it.
+ */
+function schemaOrgTypes(page: PageData): string[] {
+  const out: string[] = [];
+  const walk = (v: unknown, schemaOrg: boolean, depth: number) => {
+    if (depth > 12 || v == null || typeof v !== 'object') return;
+    if (Array.isArray(v)) return v.forEach((x) => walk(x, schemaOrg, depth + 1));
+    const o = v as SchemaNode;
+    let inSchema = schemaOrg;
+    const ctx = o['@context'];
+    if (ctx !== undefined) {
+      const text = JSON.stringify(ctx);
+      inSchema = /schema\.org/i.test(text) && !/"@vocab"\s*:\s*"(?![^"]*schema\.org)/i.test(text);
+    }
+    if (inSchema)
+      for (const t of asArray(o['@type']))
+        if (typeof t === 'string') {
+          const name = t.replace(/^https?:\/\/schema\.org\//i, '').replace(/^schema:/i, '');
+          if (name && !/[:/#]/.test(name)) out.push(name);
+        }
+    for (const [k, val] of Object.entries(o)) if (k !== '@context') walk(val, inSchema, depth + 1);
+  };
+  for (const s of page.structuredData)
+    if (s.format === 'json-ld' && !s.error) walk(s.raw, false, 0);
+  return out;
+}
+
+function editDistance(a: string, b: string, max: number): number {
+  if (Math.abs(a.length - b.length) > max) return max + 1;
+  let prev = Array.from({ length: b.length + 1 }, (_, j) => j);
+  for (let i = 1; i <= a.length; i++) {
+    const cur = [i];
+    let best = i;
+    for (let j = 1; j <= b.length; j++) {
+      cur[j] = Math.min(
+        prev[j]! + 1,
+        cur[j - 1]! + 1,
+        prev[j - 1]! + (a[i - 1] === b[j - 1] ? 0 : 1),
+      );
+      best = Math.min(best, cur[j]!);
+    }
+    if (best > max) return max + 1;
+    prev = cur;
+  }
+  return prev[b.length]!;
+}
+
+/** The nearest real type by spelling (edit distance up to 2), if any. */
+function closestType(t: string): string | null {
+  let best: string | null = null;
+  let bestD = 3;
+  for (const known of SCHEMA_TYPES.keys()) {
+    const d = editDistance(t.toLowerCase(), known.toLowerCase(), 2);
+    if (d < bestD) {
+      best = known;
+      bestD = d;
+    }
+  }
+  return best;
+}
+
+/** The parent folder of a URL path ("/locations/bath" → "/locations/"). */
+function parentFolder(url: string): string | null {
+  try {
+    const p = new URL(url).pathname.replace(/\/+$/, '');
+    const i = p.lastIndexOf('/');
+    return i > 0 ? p.slice(0, i + 1) : null;
+  } catch {
+    return null;
+  }
+}
+
+/** LocalBusiness nodes (any subtype) on a page. */
+function localBusinessNodes(page: PageData): SchemaNode[] {
+  return allNodes(page).filter((n) => nodeTypes(n).some((t) => isSubtypeOf(t, 'LocalBusiness')));
+}
+
 export const checks = [
   // -------------------------------------------------------------------------
   // Syntax and basics
@@ -339,6 +436,78 @@ export const checks = [
         ? {
             checkId: 'schema.type-misspelled',
             message: list([...bad].map(([a, b]) => `"${a}" should be "${b}"`)),
+          }
+        : null;
+    },
+  ),
+  pageCheck(
+    {
+      id: 'schema.type-unknown',
+      category: 'schema',
+      pillar: T,
+      title: 'Schema type that does not exist',
+      why: 'An @type that is not in the schema.org vocabulary is not understood by Google, Bing or AI engines, so the node and everything in it is ignored. Invented types such as "OnlineShop" or "Agency" are a common cause.',
+      severity: 'high',
+      fixTier: 'guided',
+      fix: 'Use an existing schema.org type (search https://schema.org/docs/full.html), choosing the most specific one that fits, for example "Dentist" or "Store". Use additionalType for a more precise external category.',
+      refs: ['https://schema.org/docs/full.html', 'https://validator.schema.org/'],
+      tags: ['structured-data'],
+    },
+    (page) => {
+      if (!isHtml200(page)) return null;
+      const bad = new Map<string, string | null>();
+      for (const t of schemaOrgTypes(page)) {
+        if (isSchemaType(t) || bad.has(t)) continue;
+        const low = t.toLowerCase();
+        // Case and spelling slips are reported by schema.type-misspelled.
+        if (KNOWN_LOWER.has(low) || MISSPELLINGS[low]) continue;
+        bad.set(t, closestType(t));
+      }
+      if (!bad.size) return null;
+      return {
+        checkId: 'schema.type-unknown',
+        message: `${plural(bad.size, 'type')} not in the schema.org vocabulary: ${list([...bad.keys()].map((t) => `"${t}"`))}`,
+        evidence: list(
+          [...bad].map(([t, near]) => (near ? `"${t}" (did you mean "${near}"?)` : `"${t}"`)),
+        ),
+        data: { types: [...bad.keys()] },
+      };
+    },
+  ),
+  pageCheck(
+    {
+      id: 'schema.date-order',
+      category: 'schema',
+      pillar: T,
+      title: 'Structured data ends before it starts',
+      why: 'An endDate earlier than the startDate (or a validThrough before validFrom) is impossible. Google drops such events and offers, and assistants can give people the wrong times.',
+      severity: 'high',
+      fixTier: 'guided',
+      fix: 'Correct the dates so the end is at or after the start, with the same time zone on both, and make them match the times shown on the page.',
+      refs: [SD('event'), 'https://schema.org/endDate'],
+      tags: ['structured-data'],
+    },
+    (page) => {
+      if (!isHtml200(page)) return null;
+      const bad: string[] = [];
+      for (const n of allNodes(page))
+        for (const [a, b] of DATE_PAIRS) {
+          const start = str(n[a]);
+          const end = str(n[b]);
+          if (!start || !end || !ISO_DATE.test(start) || !ISO_DATE.test(end)) continue;
+          const s = Date.parse(start);
+          const e = Date.parse(end);
+          // Date-only end values mean "that day": compare by day so 2026-05-01 / 2026-05-01T18:00 pass.
+          const dateOnly = !/T|\d \d/.test(end) || !/T|\d \d/.test(start);
+          const late = dateOnly ? start.slice(0, 10) > end.slice(0, 10) : s > e;
+          if (Number.isFinite(s) && Number.isFinite(e) && late)
+            bad.push(`${nodeTypes(n).join('/') || 'node'}: ${b} ${end} is before ${a} ${start}`);
+        }
+      return bad.length
+        ? {
+            checkId: 'schema.date-order',
+            message: `${plural(bad.length, 'node')} with an end before its start`,
+            evidence: list(bad, 3),
           }
         : null;
     },
@@ -993,6 +1162,8 @@ export const checks = [
     (page) => {
       if (!isIndexable(page) || !isArticleLike(page)) return null;
       if (typed(page, ARTICLE_TYPES).length) return null;
+      // A block that failed to parse may hold the Article: schema.invalid-json reports that.
+      if (hasJsonLdError(page)) return null;
       return {
         checkId: 'schema.article-missing',
         message: 'Looks like an article but has no Article/BlogPosting markup',
@@ -1003,6 +1174,49 @@ export const checks = [
   // -------------------------------------------------------------------------
   // Site level
   // -------------------------------------------------------------------------
+  siteCheck(
+    {
+      id: 'schema.localbusiness-missing',
+      category: 'schema',
+      pillar: T,
+      title: 'Location page without LocalBusiness markup that its sibling pages have',
+      why: 'When most pages in a folder (for example one page per branch or clinic) carry LocalBusiness markup and one does not, that location loses its address, opening hours and phone in local results and AI answers. It is almost always a template or CMS field left empty.',
+      severity: 'medium',
+      fixTier: 'guided',
+      fix: 'Add the same LocalBusiness (or subtype) JSON-LD the sibling pages use, with this location’s own name, address, telephone, opening hours and url.',
+      refs: [SD('local-business')],
+      tags: ['structured-data', 'local'],
+    },
+    (site: SiteContext) => {
+      const byFolder = groupBy(
+        indexablePages(site).filter((p) => !isHomepage(p, site)),
+        (p) => parentFolder(p.url),
+      );
+      const out: Issue[] = [];
+      for (const pages of byFolder.values()) {
+        if (pages.length < LOCAL_SIBLINGS_MIN) continue;
+        const withLb = pages.filter((p) => localBusinessNodes(p).length > 0);
+        // At least two siblings and two thirds of the other pages must carry it, so the folder
+        // is clearly one page per location.
+        if (withLb.length < 2 || withLb.length / (pages.length - 1) < LOCAL_SIBLINGS_SHARE)
+          continue;
+        const types = [...new Set(withLb.flatMap((p) => localBusinessNodes(p).flatMap(nodeTypes)))];
+        for (const p of pages) {
+          if (withLb.includes(p)) continue;
+          out.push({
+            checkId: 'schema.localbusiness-missing',
+            url: p.url,
+            message: `No LocalBusiness markup, unlike ${withLb.length} of ${pages.length - 1} sibling pages (${list(types, 3)})`,
+            evidence: list(
+              withLb.map((x) => x.url),
+              3,
+            ),
+          });
+        }
+      }
+      return out;
+    },
+  ),
   siteCheck(
     {
       id: 'schema.organization-missing',

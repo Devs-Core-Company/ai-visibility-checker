@@ -770,6 +770,8 @@ export const checks: Check[] = [
     }),
     (page) => {
       if (!isContent(page) || !isArticleLike(page)) return null;
+      // An unparseable JSON-LD block may hold the Article; schema.invalid-json reports it.
+      if (page.structuredData.some((s) => s.format === 'json-ld' && s.error)) return null;
       return nodesOfType(page, ARTICLE_TYPES).length
         ? null
         : issue(

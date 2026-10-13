@@ -50,6 +50,30 @@ function realImages(page: PageData): ImageRef[] {
   return page.images.filter((i) => i.src && !i.src.startsWith('data:'));
 }
 
+/**
+ * Images whose inline style fixes both dimensions or an aspect ratio, so the browser can
+ * reserve space without width/height attributes (as Lighthouse allows).
+ */
+function cssSizedImages(page: PageData): Set<string> {
+  const out = new Set<string>();
+  for (const m of (page.html || '').matchAll(/<img\b[^>]*>/gi)) {
+    const tag = m[0];
+    const style = /\bstyle\s*=\s*["']([^"']*)/i.exec(tag)?.[1] ?? '';
+    const sized =
+      /aspect-ratio\s*:/i.test(style) ||
+      (/(^|;)\s*width\s*:/i.test(style) && /(^|;)\s*height\s*:/i.test(style));
+    if (!sized) continue;
+    const src = /\bsrc\s*=\s*["']([^"']+)/i.exec(tag)?.[1];
+    if (!src) continue;
+    try {
+      out.add(new URL(src, page.finalUrl || page.url).toString());
+    } catch {
+      /* ignore */
+    }
+  }
+  return out;
+}
+
 function isTracking(img: ImageRef): boolean {
   return (
     (img.width === 1 && img.height === 1) ||
@@ -186,10 +210,16 @@ export const checks = [
     },
     (page) => {
       if (!isHtml200(page)) return null;
+      const sizedByCss = cssSizedImages(page);
       const miss = realImages(page).filter(
-        (i) => (!i.width || !i.height) && ext(i.src) !== 'svg' && !isTracking(i),
+        (i) =>
+          (!i.width || !i.height) &&
+          ext(i.src) !== 'svg' &&
+          !isTracking(i) &&
+          !sizedByCss.has(i.src),
       );
-      return miss.length >= 2
+      // Lighthouse's unsized-images audit fails on any such image, so one is enough.
+      return miss.length >= 1
         ? {
             checkId: 'images.dimensions-missing',
             message: `${plural(miss.length, 'image')} without width and height`,

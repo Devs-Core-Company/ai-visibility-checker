@@ -5,14 +5,14 @@
  * server, CDN and firewall actually do when a bot turns up. Two passes:
  *
  * 1. The start URL as a browser and as every fetching bot in AI_BOTS.
- * 2. A sample of key pages (the most-linked) as a browser and four bots from
+ * 2. A sample of key pages (one per section, most-linked first) as a browser and four bots from
  *    different operators, so blocking that only applies to deeper paths
  *    (a WAF rule on /blog/*, a paywall, a geo rule) is caught too.
  *
  * Results: site.botFetches + site.browserFetch (contract), and full responses
  * kept in module WeakMaps for checks that compare bodies.
  */
-import type { BotFetchResult, FetchResult, SiteContext } from '../core/types.js';
+import type { BotFetchResult, FetchResult, PageData, SiteContext } from '../core/types.js';
 import { countWords, mapLimit, roughText, topLinkedPages } from '../checks/_ai-util.js';
 import { BROWSER_UA, botByToken, fetchingBots, type AiBot } from './bots.js';
 
@@ -20,7 +20,7 @@ import { BROWSER_UA, botByToken, fetchingBots, type AiBot } from './bots.js';
 const CONCURRENCY = 3;
 const TIMEOUT_MS = 15_000;
 const MAX_BYTES = 3 * 1024 * 1024;
-const SAMPLE_PAGES = 5;
+const SAMPLE_PAGES = 8;
 const SAMPLE_BOTS = ['GPTBot', 'OAI-SearchBot', 'Claude-User', 'PerplexityBot'];
 
 export interface SampleBotFetch {
@@ -216,6 +216,37 @@ function toResult(bot: AiBot, res: FetchResult, ms: number, browser: Shot): BotF
 }
 
 /**
+ * Up to `n` pages for the bot sample, covering distinct sections. Pages are grouped by first
+ * path segment and whether they sit below it ("/services" and "/services/*" are different
+ * templates). Larger groups come first, since a rule on a big section (/blog/*, /products/*)
+ * affects the most pages; each group contributes its most-linked page. Remaining room is
+ * filled with the most-linked pages overall.
+ */
+export function samplePagesAcrossSections(site: SiteContext, n: number): PageData[] {
+  const ranked = topLinkedPages(site, 100_000);
+  const groups = new Map<string, PageData[]>();
+  for (const p of ranked) {
+    let key: string;
+    try {
+      const segs = new URL(p.finalUrl || p.url).pathname.split('/').filter(Boolean);
+      key = `${segs[0] ?? ''}/${segs.length > 1 ? '*' : ''}`;
+    } catch {
+      continue;
+    }
+    (groups.get(key) ?? groups.set(key, []).get(key)!).push(p);
+  }
+  const order = [...groups.values()].sort(
+    (a, b) => b.length - a.length || ranked.indexOf(a[0]!) - ranked.indexOf(b[0]!),
+  );
+  const picked: PageData[] = order.slice(0, n).map((g) => g[0]!);
+  for (const p of ranked) {
+    if (picked.length >= n) break;
+    if (!picked.includes(p)) picked.push(p);
+  }
+  return picked;
+}
+
+/**
  * Fetch the start URL as a browser and as every AI bot that fetches, then a
  * sample of key pages as four bots. Fills site.browserFetch and site.botFetches.
  * Never throws.
@@ -237,8 +268,9 @@ export async function fetchAsBots(site: SiteContext): Promise<void> {
   });
   site.botFetches = results;
 
-  // Key-page sample.
-  const pages = topLinkedPages(site, SAMPLE_PAGES)
+  // Key-page sample: the most-linked page of each section and template first (a firewall
+  // rule often covers one path prefix such as /blog/* or /products/*), then the most-linked.
+  const pages = samplePagesAcrossSections(site, SAMPLE_PAGES)
     .map((p) => p.finalUrl || p.url)
     .filter((u) => u !== url && u !== browser.res.finalUrl);
   const sampleBots = SAMPLE_BOTS.map((t) => botByToken(t)).filter((b): b is AiBot =>

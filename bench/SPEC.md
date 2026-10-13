@@ -28,8 +28,9 @@ licences or accounts and could not be run under the same conditions. No claims a
    - Precision = findings that match a planted defect / all findings of mapped types on the site
      (findings on clean control pages count against the tool).
    - A finding matches a defect when its type maps to the defect's type in
-     `bench/mappings/<tool>.json` AND it names the defect's URL (or is site-wide for site-wide
-     defects). Mapping tables are written from each tool's documentation and output, and published.
+     `bench/mappings/<tool>.json` AND it names the defect's URL (its `url`, the linking page `found_on`, or the other end of
+     the relationship `related_url`; or is site-wide for site-wide defects; see
+     [results/CHANGES.md](results/CHANGES.md)). Mapping tables are written from each tool's documentation and output, and published.
 2. **Performance.** A generated 1,000-page site; wall time and peak RSS for a full audit with each
    tool's default settings (Lighthouse-based tools on a 50-page sample, stated as such).
 3. **Capabilities.** Feature matrix verified from each tool's code or docs, with links.

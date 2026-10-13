@@ -41,7 +41,7 @@ Google sign-in when needed, then tests the connection. Options: `--property`, `-
 | --- | --- |
 | `--max-pages <n>` | Stop after n pages (0 = no limit). Default 500 or the site config. |
 | `--depth <n>` | Maximum click depth. |
-| `--render` / `--no-render` | Always / never render with Chrome. Default: `auto`. |
+| `--render` / `--no-render` | Always (every crawled HTML page, within `--max-pages`) / never render with Chrome. Default: `auto` (home page, thin pages and a sample of up to 50). |
 | `--include <regex>`, `--exclude <regex>` | URL filters for the crawl (repeatable). |
 | `--only <sel>`, `--skip <sel>` | Checks to run or skip: ids, id prefixes, categories or pillars. |
 | `--visibility` | Also run an AI visibility check (uses your keys). |

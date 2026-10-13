@@ -28,7 +28,12 @@ export const TITLE_MIN = 20;
 export const DESC_MAX = 160;
 export const DESC_MIN = 70;
 export const H1_MAX = 70;
-export const SUBHEADING_MIN_WORDS = 600;
+/**
+ * Main-content length above which a page needs subheadings. Yoast's readability analysis
+ * flags any section over 300 words (and red over 350); with no subheadings the whole text is
+ * one section.
+ */
+export const SUBHEADING_MIN_WORDS = 350;
 export const HEADING_DENSITY_MAX = 1 / 25; // headings per word, beyond which headings are styling
 export const DUPLICATE_REPORT_LIMIT = 200;
 
@@ -81,6 +86,30 @@ function repeatedWord(text: string): [string, number] | null {
   }
   const top = [...counts.entries()].sort((a, b) => b[1] - a[1])[0];
   return top && top[1] >= 3 ? top : null;
+}
+
+/** Words and H2–H6 count of the main content (main/article, minus header, nav, aside, footer). */
+function mainContent(page: PageData): { words: number; headings: number } | null {
+  const d = doc(page);
+  const root =
+    d.querySelector('main, [role="main"]') ??
+    (d.querySelectorAll('article').length === 1 ? d.querySelector('article') : null) ??
+    d.body;
+  if (!root) return null;
+  const c = root.cloneNode(true) as Element;
+  for (const x of Array.from(
+    c.querySelectorAll(
+      'nav, header, footer, aside, script, style, noscript, template, [role="navigation"], [role="contentinfo"], [role="complementary"]',
+    ),
+  ))
+    x.remove();
+  // Lists of links (archive and category listings, tables of contents) are not running text.
+  for (const li of Array.from(c.querySelectorAll('li')))
+    if (li.querySelector('a[href]')) li.remove();
+  return {
+    words: words(c.textContent || '').length,
+    headings: c.querySelectorAll('h2, h3, h4, h5, h6').length,
+  };
 }
 
 export const checks = [
@@ -347,7 +376,10 @@ export const checks = [
       const d = page.metaDescription?.trim();
       if (!isIndexable(page) || !d) return null;
       const px = textWidthPx(d, 14);
-      if (d.length <= DESC_MAX && px <= DESCRIPTION_LIMIT_PX) return null;
+      // Both limits: the pixel width is an estimate (Google's snippet length also varies by
+      // query and device), so a description is only reported once it is over the usual
+      // ~160-character guideline AND estimated wider than the desktop snippet.
+      if (d.length <= DESC_MAX || px <= DESCRIPTION_LIMIT_PX) return null;
       return {
         checkId: 'onpage.description-too-long',
         message: `Description is ${d.length} characters (about ${px}px; Google shows about ${DESCRIPTION_LIMIT_PX}px)`,
@@ -772,10 +804,15 @@ export const checks = [
     },
     (page) => {
       if (!isIndexable(page) || page.wordCount < SUBHEADING_MIN_WORDS) return null;
-      if (page.headings.some((h) => h.level >= 2 && h.level <= 3 && h.text.trim())) return null;
+      // Count the main content only: headings in the header, navigation, sidebar or footer
+      // ("Our clinics", "Information") do not structure the text.
+      const main = mainContent(page);
+      if (!main) return null;
+      if (main.headings > 0) return null;
+      if (main.words < SUBHEADING_MIN_WORDS) return null;
       return {
         checkId: 'headings.no-subheadings',
-        message: `${page.wordCount} words with no H2 or H3`,
+        message: `${main.words} words of main content with no subheading (H2–H6)`,
       };
     },
   ),

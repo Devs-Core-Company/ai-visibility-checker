@@ -482,9 +482,23 @@ describe('onpage and headings', () => {
       ),
     ).toHaveLength(1);
     expect(await runOne('headings.skipped-level', makePage())).toHaveLength(0);
+    const longText = '<p>' + 'Plain words about teeth and gums. '.repeat(80) + '</p>';
     expect(
-      await runOne('headings.no-subheadings', makePage({ headings: [{ level: 1, text: 'a' }] })),
+      await runOne(
+        'headings.no-subheadings',
+        makePage({
+          headings: [{ level: 1, text: 'a' }],
+          html: htmlDoc({ body: `<h1>a</h1>${longText}` }) + '<footer><h2>Contact</h2></footer>',
+        }),
+      ),
     ).toHaveLength(1);
+    // A heading inside the main content is enough.
+    expect(
+      await runOne(
+        'headings.no-subheadings',
+        makePage({ html: htmlDoc({ body: `<h1>a</h1><h2>b</h2>${longText}` }) }),
+      ),
+    ).toHaveLength(0);
   });
 });
 
@@ -857,7 +871,12 @@ describe('performance', () => {
     expect(
       await runOne('performance.ttfb-slow', makePage({ ttfbMs: 2000 })).then((i) => i[0].severity),
     ).toBe('high');
-    expect(await runOne('performance.no-compression', makePage({ headers: {} }))).toHaveLength(1);
+    const bigHtml = htmlDoc({ body: '<p>Repeated paragraph of ordinary text.</p>'.repeat(200) });
+    expect(
+      await runOne('performance.no-compression', makePage({ headers: {}, html: bigHtml })),
+    ).toHaveLength(1);
+    // Too small for compression to save 1,400 bytes (Lighthouse's threshold).
+    expect(await runOne('performance.no-compression', makePage({ headers: {} }))).toHaveLength(0);
     expect(await runOne('performance.no-compression', makePage())).toHaveLength(0);
     const blocking = makePage({
       html: htmlDoc({ head: '<script src="/a.js"></script><script src="/b.js" defer></script>' }),

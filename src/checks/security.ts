@@ -2,7 +2,7 @@
  * Security signals visible to crawlers and visitors: HTTPS, headers,
  * mixed content, forms, cookies, leaked versions and exposed files.
  */
-import type { PageData, SiteContext } from '../core/types.js';
+import type { Issue, PageData, SiteContext } from '../core/types.js';
 import {
   REF,
   header,
@@ -22,6 +22,14 @@ import * as cu from './_util.js';
 
 export const HSTS_MIN_MAX_AGE = 15_552_000; // 180 days
 export const PROBE_TIMEOUT_MS = 8000;
+/** Response headers that commonly carry server software versions. */
+const VERSION_HEADERS = [
+  'server',
+  'x-powered-by',
+  'x-aspnet-version',
+  'x-aspnetmvc-version',
+  'x-generator',
+];
 
 const T = 'technical' as const;
 
@@ -45,25 +53,41 @@ function samplePages(site: SiteContext, n = 20): PageData[] {
   return (home && isHtml200(home) ? [home, ...rest] : rest).slice(0, n);
 }
 
+/** Most sampled pages report at most this many pages individually. */
+export const HEADER_PAGE_REPORT_LIMIT = 50;
+
+/**
+ * A response header missing from HTML pages. When every page lacks it, one site-wide finding
+ * (on the home page). When only some pages lack it while the others send it, the server or
+ * CDN config misses those routes, so each page is reported. Plain-HTTP pages are included
+ * (these headers protect over HTTP too) unless `httpsOnly`.
+ */
 function headerCheckIssue(
   site: SiteContext,
   checkId: string,
   missing: (p: PageData) => boolean,
   msg: string,
-) {
-  const pages = samplePages(site).filter((p) => p.finalUrl.startsWith('https:'));
+  httpsOnly = false,
+): Issue | Issue[] | null {
+  const pages = htmlPages(site).filter((p) => !httpsOnly || p.finalUrl.startsWith('https:'));
   if (!pages.length) return null;
   const bad = pages.filter(missing);
   if (!bad.length) return null;
-  return {
+  if (bad.length === pages.length) {
+    const home = homePage(site);
+    return {
+      checkId,
+      url: home && bad.includes(home) ? home.url : bad[0].url,
+      message: pages.length === 1 ? msg : `${msg} on any page`,
+      data: { pages: bad.length },
+    };
+  }
+  return bad.slice(0, HEADER_PAGE_REPORT_LIMIT).map((p) => ({
     checkId,
-    url: bad[0].url,
-    message:
-      bad.length === pages.length
-        ? msg
-        : `${msg} on ${bad.length} of ${pages.length} sampled pages`,
+    url: p.url,
+    message: `${msg} on this page, although ${pages.length - bad.length} of ${pages.length} pages send it`,
     data: { pages: bad.length },
-  };
+  }));
 }
 
 async function probe(site: SiteContext, path: string) {
@@ -76,6 +100,36 @@ async function probe(site: SiteContext, path: string) {
   } catch {
     return null;
   }
+}
+
+/** RFC 9116 problems in a security.txt body (signed files are read from the cleartext). */
+export function securityTxtProblems(body: string, now: number): string[] {
+  const fields = new Map<string, string[]>();
+  for (const raw of body.split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line || line.startsWith('#') || line.startsWith('-----')) continue;
+    const m = /^([A-Za-z-]+)\s*:\s*(.*)$/.exec(line);
+    if (!m) continue;
+    const k = m[1]!.toLowerCase();
+    fields.set(k, [...(fields.get(k) ?? []), m[2]!.trim()]);
+  }
+  const out: string[] = [];
+  if (!fields.get('contact')?.length) out.push('no Contact field (required)');
+  const expires = fields.get('expires') ?? [];
+  if (!expires.length) out.push('no Expires field (required)');
+  else if (expires.length > 1) out.push('Expires appears more than once (allowed once)');
+  else {
+    const t = Date.parse(expires[0]!);
+    if (!/^\d{4}-\d{2}-\d{2}T/.test(expires[0]!) || !Number.isFinite(t))
+      out.push(`Expires "${expires[0]}" is not an RFC 3339 date-time`);
+    else if (t < now) out.push(`Expires ${expires[0]} has passed`);
+    else if (t - now > 366 * 86_400_000)
+      out.push(`Expires ${expires[0]} is more than a year ahead (RFC 9116 recommends less)`);
+  }
+  for (const f of ['preferred-languages']) {
+    if ((fields.get(f)?.length ?? 0) > 1) out.push(`${f} appears more than once`);
+  }
+  return out;
 }
 
 export const checks = [
@@ -330,6 +384,7 @@ export const checks = [
             'security.hsts-missing',
             (p) => !header(p, 'strict-transport-security'),
             'No Strict-Transport-Security header',
+            true,
           )
         : null,
   ),
@@ -493,24 +548,52 @@ export const checks = [
       refs: ['https://owasp.org/www-project-secure-headers/'],
     },
     (site) => {
-      const p = samplePages(site)[0];
-      if (!p) return null;
-      const leaks = [
-        'server',
-        'x-powered-by',
-        'x-aspnet-version',
-        'x-aspnetmvc-version',
-        'x-generator',
-      ]
-        .map((h) => [h, header(p, h)] as const)
-        .filter(([, v]) => v && /\d+\.\d+/.test(v))
-        .map(([h, v]) => `${h}: ${v}`);
-      return leaks.length
+      const leaksOf = (p: PageData) =>
+        VERSION_HEADERS.map((h) => [h, header(p, h)] as const)
+          .filter(([, v]) => v && /\d+\.\d+/.test(v))
+          .map(([h, v]) => `${h}: ${v}`);
+      const pages = samplePages(site, Infinity);
+      const leaking = pages.map((p) => ({ p, leaks: leaksOf(p) })).filter((x) => x.leaks.length);
+      if (!leaking.length) return null;
+      // The same leak on every page is one server-wide setting: report it once.
+      const first = leaking[0]!.leaks.join(' | ');
+      if (leaking.length === pages.length && leaking.every((x) => x.leaks.join(' | ') === first))
+        return {
+          checkId: 'security.version-disclosure',
+          url: leaking[0]!.p.url,
+          message: `${plural(leaking[0]!.leaks.length, 'header')} reveal software versions on every page`,
+          evidence: list(leaking[0]!.leaks),
+        };
+      return leaking.slice(0, HEADER_PAGE_REPORT_LIMIT).map(({ p, leaks }) => ({
+        checkId: 'security.version-disclosure',
+        url: p.url,
+        message: `${plural(leaks.length, 'header')} reveal software versions`,
+        evidence: list(leaks),
+      }));
+    },
+  ),
+  siteCheck(
+    {
+      id: 'security.security-txt-invalid',
+      category: 'security',
+      pillar: T,
+      title: 'security.txt is missing required fields',
+      why: 'RFC 9116 requires at least one Contact and exactly one Expires field. Researchers and automated tools ignore a security.txt without them, or one that has expired, so vulnerability reports may never reach you.',
+      severity: 'low',
+      fixTier: 'guided',
+      fix: 'Serve /.well-known/security.txt as text/plain with "Contact: mailto:…" (or an https URL) and "Expires: <date-time less than a year ahead, e.g. 2027-06-30T23:00:00Z>", and renew Expires before it passes.',
+      refs: ['https://www.rfc-editor.org/rfc/rfc9116', 'https://securitytxt.org/'],
+    },
+    (site) => {
+      const p = site.probes?.get('security-txt');
+      if (!p?.found || !p.body) return null;
+      const problems = securityTxtProblems(p.body, Date.now());
+      return problems.length
         ? {
-            checkId: 'security.version-disclosure',
-            url: p.url,
-            message: `${plural(leaks.length, 'header')} reveal software versions`,
-            evidence: list(leaks),
+            checkId: 'security.security-txt-invalid',
+            message: `security.txt: ${list(problems, 4)}`,
+            evidence: truncate(p.body, 300),
+            data: { url: p.url, problems },
           }
         : null;
     },

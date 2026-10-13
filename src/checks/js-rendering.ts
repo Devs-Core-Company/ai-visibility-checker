@@ -7,6 +7,7 @@ import type { PageData } from '../core/types.js';
 import {
   REF,
   declaredCanonical,
+  doc,
   isHtml200,
   list,
   normText,
@@ -60,6 +61,24 @@ function rawMetaRobots(page: PageData): string {
   );
 }
 
+/** Short "loading" texts: Loading…, Loading prices..., Please wait, Fetching data… */
+const PLACEHOLDER =
+  /^(?:loading|fetching|please wait|one moment|retrieving|getting)\b[^.!?]{0,40}(?:\.{3}|…|\.)?$/i;
+
+/** Placeholder texts in the main content (elements with at most six words). */
+function placeholders(d: Document): string[] {
+  const root =
+    d.querySelector('main, [role="main"]') ?? d.querySelector('article') ?? d.body ?? null;
+  if (!root) return [];
+  const out: string[] = [];
+  for (const el of Array.from(root.querySelectorAll('p, div, span, li, td, h2, h3'))) {
+    if (el.children.length > 1) continue;
+    const t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+    if (t && t.split(' ').length <= 6 && PLACEHOLDER.test(t) && !out.includes(t)) out.push(t);
+  }
+  return out;
+}
+
 export const checks = [
   pageCheck(
     {
@@ -111,6 +130,41 @@ export const checks = [
       return {
         checkId: 'js-rendering.content-gap',
         message: `${Math.round((1 - page.wordCount / rd.wordCount) * 100)}% of the words appear only after JavaScript (${page.wordCount} raw vs ${rd.wordCount} rendered)`,
+      };
+    },
+  ),
+  pageCheck(
+    {
+      id: 'js-rendering.loading-placeholder',
+      category: 'js-rendering',
+      pillar: T,
+      title: 'Main content is a loading placeholder until JavaScript runs',
+      why: 'The HTML response shows a placeholder such as "Loading…" where the content should be, and a script fills it in later (usually from an API). Crawlers that do not run JavaScript, including most AI crawlers, index the placeholder instead of the content.',
+      severity: 'high',
+      fixTier: 'guided',
+      fix: 'Render this content on the server (or at build time) so it is in the HTML response, and keep JavaScript for updates. If the data changes often, render the current values and refresh them client-side.',
+      requires: [...R],
+      refs: [REF.js, 'https://web.dev/articles/rendering-on-the-web'],
+      tags: ['ai-crawlers'],
+    },
+    (page) => {
+      const rd = r(page);
+      if (!rd) return null;
+      const raw = placeholders(doc(page));
+      if (!raw.length) return null;
+      const rdoc = renderedDoc(page);
+      if (!rdoc) return null;
+      const after = new Set(placeholders(rdoc).map(normText));
+      // The placeholder was replaced, and the page gained text in its place.
+      const gone = raw.filter((t) => !after.has(normText(t)));
+      if (!gone.length || rd.wordCount <= page.wordCount) return null;
+      return {
+        checkId: 'js-rendering.loading-placeholder',
+        message: `The HTML shows ${list(
+          gone.map((t) => `"${truncate(t, 40)}"`),
+          2,
+        )} where JavaScript later adds ${rd.wordCount - page.wordCount} words`,
+        evidence: list(gone, 2),
       };
     },
   ),

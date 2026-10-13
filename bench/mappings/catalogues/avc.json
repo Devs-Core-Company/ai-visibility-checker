@@ -302,6 +302,13 @@
    "severity": "info",
    "scope": "site"
   },
+  "crawlability.noindex-nofollow": {
+   "title": "Noindex page also blocks link following",
+   "pillar": "technical",
+   "category": "crawlability",
+   "severity": "low",
+   "scope": "page"
+  },
   "response.client-error": {
    "title": "Internal URL returns a 4xx error",
    "pillar": "technical",
@@ -517,6 +524,20 @@
    "pillar": "technical",
    "category": "redirects",
    "severity": "low",
+   "scope": "site"
+  },
+  "response.doctype-missing": {
+   "title": "Missing or misplaced <!DOCTYPE html>",
+   "pillar": "technical",
+   "category": "response",
+   "severity": "low",
+   "scope": "page"
+  },
+  "redirects.mixed-status": {
+   "title": "Same section redirects with both permanent and temporary codes",
+   "pillar": "technical",
+   "category": "redirects",
+   "severity": "medium",
    "scope": "site"
   },
   "onpage.title-missing": {
@@ -757,6 +778,27 @@
    "severity": "low",
    "scope": "site"
   },
+  "onpage.description-thin-for-ai": {
+   "title": "Meta description is too thin to give AI context",
+   "pillar": "content",
+   "category": "onpage",
+   "severity": "low",
+   "scope": "page"
+  },
+  "onpage.title-same-as-h1": {
+   "title": "Title and H1 are identical on almost every page",
+   "pillar": "content",
+   "category": "onpage",
+   "severity": "info",
+   "scope": "site"
+  },
+  "onpage.favicon-broken": {
+   "title": "Favicon does not load",
+   "pillar": "content",
+   "category": "onpage",
+   "severity": "low",
+   "scope": "site"
+  },
   "content.thin": {
    "title": "Thin content",
    "pillar": "content",
@@ -911,6 +953,13 @@
    "severity": "medium",
    "scope": "site"
   },
+  "duplicates.copied-content": {
+   "title": "Main content copied from another page",
+   "pillar": "content",
+   "category": "duplicates",
+   "severity": "medium",
+   "scope": "site"
+  },
   "duplicates.url-variants": {
    "title": "Same page indexable at several URL variants",
    "pillar": "technical",
@@ -930,6 +979,48 @@
    "pillar": "content",
    "category": "duplicates",
    "severity": "medium",
+   "scope": "site"
+  },
+  "content.cannibalisation": {
+   "title": "Several pages target the same topic",
+   "pillar": "content",
+   "category": "content",
+   "severity": "medium",
+   "scope": "site"
+  },
+  "content.repeated-words": {
+   "title": "Doubled words in the text",
+   "pillar": "content",
+   "category": "content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "content.spelling": {
+   "title": "Spelling and grammar mistakes",
+   "pillar": "content",
+   "category": "content",
+   "severity": "low",
+   "scope": "site"
+  },
+  "content.pdf-title-missing": {
+   "title": "PDF has no meaningful title",
+   "pillar": "content",
+   "category": "content",
+   "severity": "low",
+   "scope": "page"
+  },
+  "duplicates.semantic": {
+   "title": "Pages that say the same thing in different words",
+   "pillar": "content",
+   "category": "duplicates",
+   "severity": "low",
+   "scope": "site"
+  },
+  "content.off-topic": {
+   "title": "Pages far from the site's main topics",
+   "pillar": "content",
+   "category": "content",
+   "severity": "info",
    "scope": "site"
   },
   "canonical.missing": {
@@ -1240,6 +1331,13 @@
    "severity": "low",
    "scope": "page"
   },
+  "links-external.unsafe": {
+   "title": "Links to sites flagged for malware or phishing",
+   "pillar": "technical",
+   "category": "links-external",
+   "severity": "high",
+   "scope": "site"
+  },
   "images.alt-missing": {
    "title": "Images without an alt attribute",
    "pillar": "content",
@@ -1352,6 +1450,13 @@
    "severity": "low",
    "scope": "page"
   },
+  "images.oversized-rendered": {
+   "title": "Images far larger than they are displayed",
+   "pillar": "technical",
+   "category": "images",
+   "severity": "low",
+   "scope": "page"
+  },
   "schema.invalid-json": {
    "title": "JSON-LD block cannot be parsed",
    "pillar": "technical",
@@ -1375,6 +1480,20 @@
   },
   "schema.type-misspelled": {
    "title": "Schema type misspelled or wrong case",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "high",
+   "scope": "page"
+  },
+  "schema.type-unknown": {
+   "title": "Schema type that does not exist",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "high",
+   "scope": "page"
+  },
+  "schema.date-order": {
+   "title": "Structured data ends before it starts",
    "pillar": "technical",
    "category": "schema",
    "severity": "high",
@@ -1569,6 +1688,13 @@
    "severity": "low",
    "scope": "page"
   },
+  "schema.localbusiness-missing": {
+   "title": "Location page without LocalBusiness markup that its sibling pages have",
+   "pillar": "technical",
+   "category": "schema",
+   "severity": "medium",
+   "scope": "site"
+  },
   "schema.organization-missing": {
    "title": "No Organization or LocalBusiness markup",
    "pillar": "technical",
@@ -1750,6 +1876,48 @@
    "category": "mobile",
    "severity": "info",
    "scope": "site"
+  },
+  "mobile.horizontal-scroll": {
+   "title": "Page is wider than a phone screen",
+   "pillar": "technical",
+   "category": "mobile",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "mobile.tap-targets": {
+   "title": "Buttons and links too small to tap",
+   "pillar": "content",
+   "category": "mobile",
+   "severity": "low",
+   "scope": "page"
+  },
+  "mobile.content-parity": {
+   "title": "Phones get less content than desktops",
+   "pillar": "technical",
+   "category": "mobile",
+   "severity": "high",
+   "scope": "page"
+  },
+  "mobile.interstitial": {
+   "title": "Pop-up covers the content on phones",
+   "pillar": "content",
+   "category": "mobile",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "mobile.blocked-resources": {
+   "title": "Resources fail to load only on phones",
+   "pillar": "technical",
+   "category": "mobile",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "mobile.rendered-small-text": {
+   "title": "Text renders smaller than 12px on phones",
+   "pillar": "content",
+   "category": "mobile",
+   "severity": "low",
+   "scope": "page"
   },
   "performance.html-heavy": {
    "title": "HTML document is very large",
@@ -1982,6 +2150,13 @@
    "severity": "low",
    "scope": "page"
   },
+  "performance.unminified-assets": {
+   "title": "CSS or JavaScript files are not minified",
+   "pillar": "technical",
+   "category": "performance",
+   "severity": "low",
+   "scope": "site"
+  },
   "security.not-https": {
    "title": "Page served over plain HTTP",
    "pillar": "technical",
@@ -2101,6 +2276,13 @@
    "severity": "low",
    "scope": "site"
   },
+  "security.security-txt-invalid": {
+   "title": "security.txt is missing required fields",
+   "pillar": "technical",
+   "category": "security",
+   "severity": "low",
+   "scope": "site"
+  },
   "security.exposed-files": {
    "title": "Sensitive files are publicly readable",
    "pillar": "technical",
@@ -2113,6 +2295,27 @@
    "pillar": "technical",
    "category": "security",
    "severity": "medium",
+   "scope": "site"
+  },
+  "security.tls-expired": {
+   "title": "TLS certificate has expired",
+   "pillar": "technical",
+   "category": "security",
+   "severity": "critical",
+   "scope": "site"
+  },
+  "security.tls-expiring": {
+   "title": "TLS certificate expires soon",
+   "pillar": "technical",
+   "category": "security",
+   "severity": "high",
+   "scope": "site"
+  },
+  "security.tls-invalid": {
+   "title": "Browsers do not trust the TLS certificate",
+   "pillar": "technical",
+   "category": "security",
+   "severity": "critical",
    "scope": "site"
   },
   "urls.uppercase": {
@@ -2353,6 +2556,13 @@
    "severity": "low",
    "scope": "site"
   },
+  "sitemaps.no-image-entries": {
+   "title": "Content images are not listed in the sitemap",
+   "pillar": "technical",
+   "category": "sitemaps",
+   "severity": "info",
+   "scope": "site"
+  },
   "pagination.canonical-to-first": {
    "title": "Page 2+ canonicalises to page 1",
    "pillar": "technical",
@@ -2416,6 +2626,13 @@
    "severity": "low",
    "scope": "site"
   },
+  "pagination.deep-series": {
+   "title": "Long paginated list with no shortcut to deep pages",
+   "pillar": "technical",
+   "category": "pagination",
+   "severity": "low",
+   "scope": "site"
+  },
   "accessibility.lang-missing": {
    "title": "Page language not declared",
    "pillar": "content",
@@ -2456,6 +2673,13 @@
    "pillar": "content",
    "category": "accessibility",
    "severity": "medium",
+   "scope": "page"
+  },
+  "accessibility.autocomplete-invalid": {
+   "title": "Invalid autocomplete values on form fields",
+   "pillar": "content",
+   "category": "accessibility",
+   "severity": "low",
    "scope": "page"
   },
   "accessibility.main-landmark-missing": {
@@ -2557,7 +2781,7 @@
    "scope": "page"
   },
   "accessibility.list-structure": {
-   "title": "List items outside a list",
+   "title": "List markup is broken",
    "pillar": "content",
    "category": "accessibility",
    "severity": "low",
@@ -2577,6 +2801,20 @@
    "severity": "low",
    "scope": "page"
   },
+  "accessibility.role-nesting": {
+   "title": "ARIA roles used outside their required parent",
+   "pillar": "content",
+   "category": "accessibility",
+   "severity": "low",
+   "scope": "page"
+  },
+  "accessibility.low-contrast-rendered": {
+   "title": "Low colour contrast in the rendered page",
+   "pillar": "content",
+   "category": "accessibility",
+   "severity": "low",
+   "scope": "page"
+  },
   "js-rendering.client-only": {
    "title": "Content only appears after JavaScript runs",
    "pillar": "technical",
@@ -2586,6 +2824,13 @@
   },
   "js-rendering.content-gap": {
    "title": "Much of the content depends on JavaScript",
+   "pillar": "technical",
+   "category": "js-rendering",
+   "severity": "high",
+   "scope": "page"
+  },
+  "js-rendering.loading-placeholder": {
+   "title": "Main content is a loading placeholder until JavaScript runs",
    "pillar": "technical",
    "category": "js-rendering",
    "severity": "high",
@@ -2729,6 +2974,13 @@
    "pillar": "technical",
    "category": "analytics",
    "severity": "info",
+   "scope": "site"
+  },
+  "analytics.no-ai-referrals": {
+   "title": "No AI assistant visits recorded in GA4",
+   "pillar": "technical",
+   "category": "analytics",
+   "severity": "low",
    "scope": "site"
   },
   "cms.wp-version-exposed": {
@@ -2918,6 +3170,13 @@
    "pillar": "ai-access",
    "category": "ai-crawlers",
    "severity": "high",
+   "scope": "site"
+  },
+  "ai-crawlers.path-blocked": {
+   "title": "Sections of the site blocked for specific AI crawlers",
+   "pillar": "ai-access",
+   "category": "ai-crawlers",
+   "severity": "medium",
    "scope": "site"
   },
   "ai-crawlers.wildcard-catches-ai": {
@@ -3361,6 +3620,13 @@
    "severity": "info",
    "scope": "site"
   },
+  "llms-txt.markdown-alternate-broken": {
+   "title": "Advertised markdown version of a page is missing",
+   "pillar": "ai-access",
+   "category": "llms-txt",
+   "severity": "medium",
+   "scope": "site"
+  },
   "geo-content.no-answer-first": {
    "title": "Page does not open with a direct answer",
    "pillar": "geo",
@@ -3606,6 +3872,20 @@
    "severity": "medium",
    "scope": "site"
   },
+  "geo-content.gated-content": {
+   "title": "Content is behind a login or paywall",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "medium",
+   "scope": "page"
+  },
+  "geo-content.no-first-party-facts": {
+   "title": "No first-party facts for AI to cite",
+   "pillar": "geo",
+   "category": "geo-content",
+   "severity": "low",
+   "scope": "site"
+  },
   "geo-entity.no-organization": {
    "title": "No Organization or LocalBusiness schema",
    "pillar": "geo",
@@ -3746,6 +4026,13 @@
    "severity": "medium",
    "scope": "site"
   },
+  "geo-entity.nap-page-mismatch": {
+   "title": "Phone number in the markup differs from the page",
+   "pillar": "geo",
+   "category": "geo-entity",
+   "severity": "medium",
+   "scope": "page"
+  },
   "geo-entity.no-about-page": {
    "title": "No About page found",
    "pillar": "geo",
@@ -3821,6 +4108,13 @@
    "pillar": "agentic",
    "category": "agentic",
    "severity": "medium",
+   "scope": "site"
+  },
+  "agentic.a2a-endpoint-unreachable": {
+   "title": "A2A agent endpoint does not respond",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "high",
    "scope": "site"
   },
   "agentic.a2a-card-incomplete": {
@@ -3900,6 +4194,13 @@
    "severity": "low",
    "scope": "site"
   },
+  "agentic.api-catalog-broken-link": {
+   "title": "API catalog links to a missing document",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "medium",
+   "scope": "site"
+  },
   "agentic.openapi-invalid": {
    "title": "OpenAPI description is invalid",
    "pillar": "agentic",
@@ -3961,6 +4262,13 @@
    "pillar": "agentic",
    "category": "agentic",
    "severity": "low",
+   "scope": "page"
+  },
+  "agentic.webmcp-schema-invalid": {
+   "title": "WebMCP tool input schema is not valid JSON Schema",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "medium",
    "scope": "page"
   },
   "agentic.form-unlabelled": {
@@ -4157,6 +4465,41 @@
    "pillar": "agentic",
    "category": "agentic-commerce",
    "severity": "medium",
+   "scope": "site"
+  },
+  "agentic.link-header-missing": {
+   "title": "Discovery documents not advertised in a Link header",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "info",
+   "scope": "site"
+  },
+  "agentic.dns-aid-missing": {
+   "title": "Agent endpoints not published in DNS (DNS-AID)",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "info",
+   "scope": "site"
+  },
+  "agentic.auth-md-missing": {
+   "title": "No auth.md telling agents how to sign up",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "info",
+   "scope": "site"
+  },
+  "agentic.agent-skills-invalid": {
+   "title": "Agent skills index is invalid",
+   "pillar": "agentic",
+   "category": "agentic",
+   "severity": "low",
+   "scope": "site"
+  },
+  "agentic-commerce.acp-invalid": {
+   "title": "ACP discovery file is invalid",
+   "pillar": "agentic",
+   "category": "agentic-commerce",
+   "severity": "low",
    "scope": "site"
   }
  }

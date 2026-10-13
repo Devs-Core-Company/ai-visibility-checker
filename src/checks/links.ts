@@ -33,7 +33,8 @@ import * as cu from './_util.js';
 
 export const MAX_LINKS_PER_PAGE = 250;
 export const MAX_EXTERNAL_LINKS = 100;
-export const GENERIC_ANCHOR_MIN = 3;
+/** Lighthouse's link-text audit fails on a single generic link. */
+export const GENERIC_ANCHOR_MIN = 1;
 export const LOW_LINK_SCORE_PERCENTILE = 0.1;
 export const CONCENTRATION_TOP_SHARE = 0.1;
 export const CONCENTRATION_MAX = 0.8;
@@ -367,7 +368,7 @@ export const checks = [
         GENERIC_ANCHORS.has(
           l.text
             .toLowerCase()
-            .replace(/[^\p{L}\s]/gu, '')
+            .replace(/[^\p{L}\p{N}\s]/gu, '')
             .replace(/\s+/g, ' ')
             .trim(),
         ),

@@ -27,6 +27,7 @@ import {
   validateUcpProfile,
   validateX402,
   inspectFeed,
+  toolInputSchemaProblems,
   type AiPreference,
   type Validation,
 } from '../agentic/validate.js';
@@ -208,6 +209,32 @@ function keyForms(page: PageData) {
     });
 }
 
+/**
+ * URLs (resolved against `base`) that do not respond: network error, 404, 410 or 5xx.
+ * Other 4xx (405 for a GET to a POST endpoint, 401/403 behind auth) mean something is there.
+ * Each entry is "url (status)".
+ */
+async function deadUrls(site: SiteContext, urls: string[], base: string): Promise<string[]> {
+  const out: string[] = [];
+  for (const raw of urls) {
+    const u = safeUrl(raw, base)?.toString();
+    if (!u || !/^https?:/.test(u)) continue;
+    const known = [...(site.probes?.values() ?? [])].find((x) => x.url === u && x.status);
+    let status = known?.status ?? null;
+    if (status === null) {
+      try {
+        const r = await site.fetcher.fetch(u, { timeoutMs: 10_000, maxBytes: 64 * 1024 });
+        status = r.status;
+      } catch {
+        status = 0;
+      }
+    }
+    if (status === 0 || status === 404 || status === 410 || status >= 500)
+      out.push(`${u} (${status ? `HTTP ${status}` : 'no response'})`);
+  }
+  return out;
+}
+
 // ---------------------------------------------------------------------------
 // Checks
 // ---------------------------------------------------------------------------
@@ -348,6 +375,37 @@ export const checks: Check[] = [
         validateAgentCard(p.parsed),
         p.url,
       );
+    },
+  ),
+
+  siteCheck(
+    agentic({
+      id: 'agentic.a2a-endpoint-unreachable',
+      title: 'A2A agent endpoint does not respond',
+      why: 'The url in the agent card is where A2A clients send messages. If it returns 404 or does not answer, every client that discovers your agent fails at the first call.',
+      severity: 'high',
+      fixTier: 'guided',
+      fix: 'Deploy the A2A endpoint at the url the card gives (and any additionalInterfaces), or correct the card to point at the live endpoint.',
+      refs: [REF.a2a],
+      tags: ['agentic', 'a2a'],
+    }),
+    async (site) => {
+      const p = a2aCard(site);
+      if (!p || !p.parsed || typeof p.parsed !== 'object') return null;
+      const card = p.parsed as JsonNode;
+      const urls = new Set<string>();
+      if (typeof card.url === 'string') urls.add(card.url);
+      for (const key of ['additionalInterfaces', 'supportedInterfaces'])
+        for (const i of (Array.isArray(card[key]) ? card[key] : []) as JsonNode[])
+          if (i && typeof i.url === 'string') urls.add(i.url);
+      const dead = await deadUrls(site, [...urls].slice(0, 5), p.url);
+      return dead.length
+        ? issue(
+            'agentic.a2a-endpoint-unreachable',
+            `The agent card's endpoint ${vb(dead.length, 'does', 'do')} not respond: ${dead.join(', ')}.`,
+            { evidence: ev(dead), data: { card: p.url } },
+          )
+        : null;
     },
   ),
 
@@ -648,6 +706,40 @@ export const checks: Check[] = [
 
   siteCheck(
     agentic({
+      id: 'agentic.api-catalog-broken-link',
+      title: 'API catalog links to a missing document',
+      why: 'Agents follow the api-catalog to the OpenAPI description (service-desc), documentation (service-doc) and metadata. A link that returns 404 leaves them with an API they cannot describe or call.',
+      severity: 'medium',
+      fixTier: 'guided',
+      fix: 'Publish the documents at the hrefs in /.well-known/api-catalog, or correct the hrefs to their real locations.',
+      refs: [REF.rfc9727, 'https://www.rfc-editor.org/rfc/rfc8631'],
+      tags: ['agentic', 'api'],
+    }),
+    async (site) => {
+      const p = found(site, 'api-catalog');
+      if (!p || !p.parsed || typeof p.parsed !== 'object') return null;
+      const linkset = (p.parsed as JsonNode).linkset;
+      const hrefs: string[] = [];
+      for (const ctx of (Array.isArray(linkset) ? linkset : []) as JsonNode[]) {
+        if (!ctx || typeof ctx !== 'object') continue;
+        for (const rel of ['service-desc', 'service-doc', 'service-meta', 'status'])
+          for (const t of (Array.isArray(ctx[rel]) ? ctx[rel] : []) as JsonNode[])
+            if (t && typeof t.href === 'string') hrefs.push(`${rel} ${t.href}`);
+      }
+      const byUrl = new Map(hrefs.slice(0, 10).map((h) => [h.split(' ')[1]!, h.split(' ')[0]!]));
+      const dead = await deadUrls(site, [...byUrl.keys()], p.url);
+      return dead.length
+        ? issue(
+            'agentic.api-catalog-broken-link',
+            `${plural(dead.length, 'link')} in the API catalog ${vb(dead.length, 'is', 'are')} broken.`,
+            { evidence: ev(dead.map((d) => `${byUrl.get(d.split(' ')[0]!) ?? ''} ${d}`.trim())) },
+          )
+        : null;
+    },
+  ),
+
+  siteCheck(
+    agentic({
       id: 'agentic.openapi-invalid',
       title: 'OpenAPI description is invalid',
       why: 'Agent frameworks turn OpenAPI operations into tools. A document without openapi, info or paths produces no tools.',
@@ -914,6 +1006,36 @@ export const checks: Check[] = [
             'agentic.webmcp-tool-incomplete',
             `${plural(bad.length, 'tool registration')} without description or inputSchema.`,
             { url: page.url, evidence: ev(bad.map((m) => m[0]!.slice(0, 120))) },
+          )
+        : null;
+    },
+  ),
+
+  pageCheck(
+    agentic({
+      id: 'agentic.webmcp-schema-invalid',
+      title: 'WebMCP tool input schema is not valid JSON Schema',
+      why: 'Agents build their tool calls from the inputSchema. A schema with an unknown type (such as "text" or "datetime"), a "required" that is not a list, or properties that are not schemas is rejected or misread, so the tool cannot be called correctly.',
+      severity: 'medium',
+      fixTier: 'guided',
+      fix: 'Make inputSchema a JSON Schema object: {"type": "object", "properties": {"date": {"type": "string", "format": "date"}}, "required": ["date"]}. Types must be one of string, number, integer, boolean, object, array or null.',
+      refs: [REF.webmcp, 'https://json-schema.org/draft/2020-12/json-schema-validation'],
+      tags: ['agentic', 'webmcp'],
+    }),
+    (page) => {
+      const live = page.rendered?.webmcpTools ?? [];
+      const bad: string[] = [];
+      for (const t of live) {
+        if (t.inputSchema === undefined) continue;
+        const problems = toolInputSchemaProblems(t.inputSchema);
+        if (problems.length)
+          bad.push(`${t.name || '(unnamed)'}: ${problems.slice(0, 4).join('; ')}`);
+      }
+      return bad.length
+        ? issue(
+            'agentic.webmcp-schema-invalid',
+            `${plural(bad.length, 'registered tool')} with an invalid inputSchema (seen at runtime).`,
+            { url: page.url, evidence: ev(bad) },
           )
         : null;
     },

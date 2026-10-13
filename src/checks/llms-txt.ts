@@ -7,11 +7,13 @@
  * for ranking or citation. It is cheap to do well, so worth doing, but it is
  * not why a site is or is not cited.
  */
-import type { Check, SiteContext } from '../core/types.js';
+import type { Check, Issue, SiteContext } from '../core/types.js';
 import { botByToken } from '../agentic/bots.js';
 import { keyPages, llmsParsed, llmsTxtGrade, type LlmsLink } from '../agentic/llms.js';
 import {
   ev,
+  htmlPages,
+  safeUrl,
   found,
   isNoindex,
   canonicalElsewhere,
@@ -714,6 +716,63 @@ export const checks: Check[] = [
         'llms-txt.no-markdown-variants',
         `No markdown variant at ${suffix.url} and no markdown response to Accept: text/markdown.`,
       );
+    },
+  ),
+
+  siteCheck(
+    def({
+      id: 'llms-txt.markdown-alternate-broken',
+      title: 'Advertised markdown version of a page is missing',
+      why: 'A <link rel="alternate" type="text/markdown"> tells AI agents where to fetch a clean markdown copy of the page. When that URL returns an error, agents that follow it get nothing and may not fall back to the HTML.',
+      severity: 'medium',
+      fixTier: 'guided',
+      fix: 'Publish the markdown file at the advertised URL, or remove the alternate link from pages that have no markdown version.',
+      refs: [SPEC, 'https://html.spec.whatwg.org/multipage/links.html#rel-alternate'],
+    }),
+    async (site) => {
+      // Advertised markdown URL → pages advertising it.
+      const adverts = new Map<string, string[]>();
+      for (const p of htmlPages(site)) {
+        for (const m of (p.html || '').matchAll(/<link\b[^>]*>/gi)) {
+          const tag = m[0];
+          if (!/\brel\s*=\s*["']?[^"'>]*\balternate\b/i.test(tag)) continue;
+          if (!/\btype\s*=\s*["']?text\/(markdown|x-markdown)/i.test(tag)) continue;
+          const href = /\bhref\s*=\s*["']([^"']+)/i.exec(tag)?.[1];
+          const u = href ? safeUrl(href, p.finalUrl || p.url)?.toString() : null;
+          if (!u) continue;
+          adverts.set(u, [...(adverts.get(u) ?? []), p.url]);
+        }
+      }
+      const targets = [...adverts.keys()].slice(0, MAX_LINK_FETCH);
+      const statuses = await mapLimit(targets, 3, async (u) => {
+        const crawled = site.pages.get(u);
+        if (crawled && crawled.status) return crawled.status;
+        try {
+          return (
+            await site.fetcher.fetch(u, {
+              timeoutMs: 10_000,
+              maxBytes: 64 * 1024,
+              headers: { accept: 'text/markdown, text/plain;q=0.9, */*;q=0.5' },
+            })
+          ).status;
+        } catch {
+          return 0;
+        }
+      });
+      const out: Issue[] = [];
+      targets.forEach((u, i) => {
+        const st = statuses[i]!;
+        if (st !== 0 && st < 400) return;
+        for (const page of adverts.get(u)!)
+          out.push(
+            issue(
+              'llms-txt.markdown-alternate-broken',
+              `The page links to a markdown version that ${st ? `returns HTTP ${st}` : 'does not respond'}.`,
+              { url: page, evidence: u },
+            ),
+          );
+      });
+      return out;
     },
   ),
 ];

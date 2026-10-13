@@ -3,6 +3,7 @@
  * render-blocking), from PageSpeed Insights (Core Web Vitals), and from
  * rendered timings.
  */
+import { gzipSync } from 'node:zlib';
 import type { Issue, PageData, PsiResult, SiteContext } from '../core/types.js';
 import {
   REF,
@@ -26,7 +27,9 @@ export const HTML_VERY_HEAVY_BYTES = 2 * 1024 * 1024;
 export const TTFB_SLOW_MS = 800;
 export const TTFB_VERY_SLOW_MS = 1800;
 export const DOWNLOAD_SLOW_MS = 3000;
-export const COMPRESS_MIN_BYTES = 10 * 1024;
+/** Lighthouse: text compression is worth it from 1,400 bytes saved. */
+export const COMPRESS_MIN_BYTES = 1400;
+export const COMPRESS_MIN_SAVING_BYTES = 1400;
 export const HEAD_STYLESHEETS_MAX = 5;
 export const SCRIPTS_MAX = 30;
 export const REQUESTS_MAX = 100;
@@ -209,9 +212,15 @@ export const checks = [
       if (!isHtml200(page) || page.bytes < COMPRESS_MIN_BYTES) return null;
       const enc = (header(page, 'content-encoding') || '').toLowerCase();
       if (/br|gzip|deflate|zstd/.test(enc)) return null;
+      // Lighthouse's uses-text-compression rule: report when gzip would save at least
+      // 1,400 bytes and 10% of the response. The crawler always offers gzip and br.
+      const raw = Buffer.from(page.html || '', 'utf8');
+      const saved = raw.length - gzipSync(raw).length;
+      if (saved < COMPRESS_MIN_SAVING_BYTES || saved / raw.length < 0.1) return null;
       return {
         checkId: 'performance.no-compression',
-        message: `${Math.round(page.bytes / 1024)} KB of HTML sent without compression`,
+        message: `${Math.round(page.bytes / 1024)} KB of HTML sent without compression although the request accepted gzip and br (gzip would save about ${Math.round(saved / 1024)} KB)`,
+        evidence: `Content-Encoding: ${enc || '(none)'}`,
       };
     },
   ),
@@ -906,12 +915,23 @@ export const checks = [
       refs: [REF.cls],
     },
     (page) => {
-      const cls = rendered(page)?.cls;
+      // The larger of the desktop and phone renders (Core Web Vitals are judged per device;
+      // Google indexes mobile first).
+      const desktop = rendered(page)?.cls;
+      const phone = page.rendered?.mobile?.cls;
+      const onPhone = phone != null && (desktop == null || phone > desktop);
+      const cls = onPhone ? phone : desktop;
       return cls != null && cls > CLS_GOOD
         ? {
             checkId: 'performance.rendered-cls',
             severity: cls > CLS_POOR ? 'medium' : 'low',
-            message: `CLS ${cls.toFixed(2)} in the local render`,
+            message: `CLS ${cls.toFixed(2)} in the local ${onPhone ? 'phone' : 'desktop'} render`,
+            evidence: [
+              desktop != null ? `desktop ${desktop.toFixed(3)}` : '',
+              phone != null ? `phone ${phone.toFixed(3)}` : '',
+            ]
+              .filter(Boolean)
+              .join(', '),
           }
         : null;
     },

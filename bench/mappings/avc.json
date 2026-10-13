@@ -389,6 +389,7 @@
    "schema-invalid-date"
   ],
   "geo-content.date-invalid": [
+   "date-modified-before-published",
    "schema-invalid-date"
   ],
   "headings.no-subheadings": [
@@ -438,6 +439,51 @@
   ],
   "agentic.prm-invalid": [
    "oauth-protected-resource-invalid"
+  ],
+  "response.doctype-missing": [
+   "missing-doctype"
+  ],
+  "accessibility.low-contrast-rendered": [
+   "low-contrast-text"
+  ],
+  "accessibility.autocomplete-invalid": [
+   "autocomplete-invalid"
+  ],
+  "schema.type-unknown": [
+   "schema-unknown-type"
+  ],
+  "schema.date-order": [
+   "schema-invalid-value"
+  ],
+  "schema.localbusiness-missing": [
+   "missing-localbusiness-schema"
+  ],
+  "geo-entity.nap-page-mismatch": [
+   "nap-inconsistent"
+  ],
+  "security.security-txt-invalid": [
+   "security-txt-invalid"
+  ],
+  "duplicates.copied-content": [
+   "duplicate-content"
+  ],
+  "llms-txt.markdown-alternate-broken": [
+   "markdown-alternate-broken"
+  ],
+  "js-rendering.loading-placeholder": [
+   "client-side-rendered-content"
+  ],
+  "ai-crawlers.path-blocked": [
+   "robots-blocks-ai-bot-path"
+  ],
+  "agentic.webmcp-schema-invalid": [
+   "webmcp-schema-invalid"
+  ],
+  "agentic.a2a-endpoint-unreachable": [
+   "a2a-endpoint-unreachable"
+  ],
+  "agentic.api-catalog-broken-link": [
+   "api-catalog-broken-link"
   ]
  },
  "groundTruthTypesWithNoMapping": [

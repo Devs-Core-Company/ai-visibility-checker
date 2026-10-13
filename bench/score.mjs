@@ -10,7 +10,8 @@
 // - A finding MATCHES a defect when mappings[tool][finding.type] contains the
 //   defect's type AND the finding names the defect's URL, or the defect is
 //   site-wide (scope: site). The defect's types are its `type` plus `alt_types`.
-//   "Names the URL": the finding's url is the defect's `url` or `found_on`, or
+//   "Names the URL": the finding's url is the defect's `url`, `found_on` or
+//   `related_url` (the other end of the relationship; page-scope defects), or
 //   the finding has no url and its message contains one of those paths.
 // - Recall (area)    = defects matched by >=1 finding / defects in the area.
 // - Precision (area) = mapped findings that match a defect / all mapped findings,
@@ -47,6 +48,10 @@ export function loadGroundTruth(file = join(BENCH, 'ground-truth.json')) {
   const defects = rawDefects.map((d, i) => {
     const urls = [d.url, d.page, d.path, d.found_on, ...(d.urls ?? [])].filter((x) => x !== undefined && x !== null && x !== '');
     const siteWide = Boolean(d.siteWide ?? d.site_wide ?? d.scope === 'site') || urls.length === 0;
+    // related_url is the other end of the same relationship (link target, canonical target,
+    // hreflang partner). Like found_on, a finding on either end names the defect. Added after
+    // run 1 for every tool alike; see results/CHANGES.md.
+    if (d.related_url) urls.push(d.related_url);
     return {
       id: d.id ?? `d${i + 1}`,
       type: d.type,
@@ -177,7 +182,7 @@ export function renderMarkdown(results) {
   const { tools, areas, perf } = results;
   const L = [];
   L.push('# Benchmark results', '');
-  L.push(`Generated ${results.generatedAt}. Rules: [SPEC.md](../SPEC.md). Mappings: [mappings/](../mappings/). Raw outputs: [raw/](raw/).`, '');
+  L.push(`Generated ${results.generatedAt}. Rules: [SPEC.md](../SPEC.md). Mappings: [mappings/](../mappings/). Raw outputs: [raw/](raw/). Changes since earlier runs: [CHANGES.md](CHANGES.md).`, '');
   if (tools.length) {
     L.push(`Ground truth: ${results.groundTruth.defects} planted defects in ${areas.length} areas, ${results.groundTruth.controls} clean control pages.`, '');
     L.push('## Detection: overall', '');

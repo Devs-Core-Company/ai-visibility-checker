@@ -217,11 +217,29 @@ function compute(page: PageData): GeoSignals {
   // Author: visible byline and schema author.
   let bylineVisible: string | null = null;
   if (doc) {
+    // Author-specific markup names the author by definition. A generic "byline" block often
+    // holds only the date ("Published 6 May 2025"), so it counts only when it names someone:
+    // "By <Name>", or a link to a person page.
     const el = doc.querySelector(
-      '[rel~="author"], [itemprop="author"], .author, .byline, .post-author, .entry-author, [class*="byline"], [class*="author-name"]',
+      '[rel~="author"], [itemprop="author"], .author, .post-author, .entry-author, [class*="author-name"]',
     );
     const t = textOf(el as unknown as Element);
     if (t && t.length < 120) bylineVisible = t;
+    if (!bylineVisible) {
+      for (const b of Array.from(doc.querySelectorAll('.byline, [class*="byline"]')).slice(0, 5)) {
+        const bt = textOf(b as unknown as Element);
+        if (!bt || bt.length >= 160) continue;
+        const names =
+          /\b(?:by|written by|author:?|reviewed by)\s+\p{Lu}/iu.test(bt) ||
+          (b as unknown as Element).querySelector(
+            'a[href*="author"], a[href*="team"], a[href*="people"], a[href*="profile"], a[rel~="author"]',
+          );
+        if (names) {
+          bylineVisible = bt;
+          break;
+        }
+      }
+    }
   }
   if (!bylineVisible) {
     const m = mainText

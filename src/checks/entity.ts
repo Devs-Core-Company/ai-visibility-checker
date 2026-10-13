@@ -29,6 +29,7 @@ import {
   type AiDef,
   type JsonNode,
 } from './_ai-util.js';
+import { isSubtypeOf } from './schema-vocabulary.js';
 import { geoSignals } from '../agentic/geo-score.js';
 
 const REF = {
@@ -129,6 +130,44 @@ function phones(page: PageData): string[] {
         .map((l) => l.href.replace(/^tel:/i, '').replace(/[^\d+]/g, '')),
     ),
   ].filter((x) => x.length >= 7);
+}
+
+/** Digits of a phone number, compared by the last nine (national number without prefixes). */
+function phoneKey(raw: string): string | null {
+  const d = raw.replace(/\D/g, '');
+  return d.length >= 9 && d.length <= 15 ? d.slice(-9) : null;
+}
+
+const PHONE_TEXT = /(?:\+|\b0)\d[\d\s().-]{6,18}\d/g;
+
+/** Phone numbers a visitor sees on the page: click-to-call links and numbers in the text. */
+function visiblePhones(page: PageData): Map<string, string> {
+  const out = new Map<string, string>();
+  for (const l of page.links) {
+    if (!/^tel:/i.test(l.href)) continue;
+    const raw = decodeURIComponent(l.href.replace(/^tel:/i, ''));
+    const k = phoneKey(raw);
+    if (k && !out.has(k)) out.set(k, raw);
+  }
+  for (const m of (page.text || '').matchAll(PHONE_TEXT)) {
+    const k = phoneKey(m[0]);
+    if (k && !out.has(k)) out.set(k, m[0].trim());
+  }
+  return out;
+}
+
+/** Organisation/LocalBusiness nodes on a page that describe that page (url or @id points to it). */
+function ownBusinessNodes(page: PageData): JsonNode[] {
+  const here = (page.finalUrl || page.url).replace(/[#?].*$/, '').replace(/\/$/, '');
+  return nodesOfType(page, ['Organization', 'LocalBusiness', ...ORG_TYPES]).filter((n) => {
+    if (!typesOf(n).some((t) => isSubtypeOf(t, 'Organization') || isSubtypeOf(t, 'LocalBusiness')))
+      return false;
+    return [str(n.url), str(n['@id'])].some((u) => {
+      if (!u) return false;
+      const abs = safeUrl(u, page.finalUrl || page.url)?.toString();
+      return abs ? abs.replace(/[#?].*$/, '').replace(/\/$/, '') === here : false;
+    });
+  });
 }
 
 export const checks: Check[] = [
@@ -623,6 +662,40 @@ export const checks: Check[] = [
             'geo-entity.nap-inconsistent',
             `${distinct.size} different phone numbers are used in click-to-call links.`,
             { evidence: ev(nums.map(([k, n]) => `${k} on ${n} pages`)) },
+          )
+        : null;
+    },
+  ),
+
+  pageCheck(
+    def({
+      id: 'geo-entity.nap-page-mismatch',
+      title: 'Phone number in the markup differs from the page',
+      why: 'Google asks that structured data describe the content people see. When the LocalBusiness or Organization telephone differs from the number shown on the same page, engines cannot tell which is right and assistants may give out the wrong one.',
+      severity: 'medium',
+      fixTier: 'guided',
+      fix: 'Make the telephone in the JSON-LD the same number the page shows (in international format, for example +44 1632 960245), and update both together.',
+      refs: [
+        'https://developers.google.com/search/docs/appearance/structured-data/local-business',
+        'https://developers.google.com/search/docs/appearance/structured-data/sd-policies',
+      ],
+      tags: ['geo', 'local'],
+    }),
+    (page) => {
+      if (!page.isHtml || page.status !== 200) return null;
+      const shown = visiblePhones(page);
+      if (!shown.size) return null;
+      const bad: string[] = [];
+      for (const n of ownBusinessNodes(page)) {
+        const tel = str(n.telephone);
+        const k = tel ? phoneKey(tel) : null;
+        if (tel && k && !shown.has(k)) bad.push(`${typesOf(n).join('/')} telephone "${tel}"`);
+      }
+      return bad.length
+        ? issue(
+            'geo-entity.nap-page-mismatch',
+            `The markup gives a phone number the page does not show (${[...shown.values()].slice(0, 2).join(', ')} on the page).`,
+            { url: page.url, evidence: ev(bad) },
           )
         : null;
     },

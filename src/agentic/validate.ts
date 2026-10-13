@@ -528,3 +528,124 @@ export function inspectFeed(body: string): {
   }
   return { kind: null, items: 0 };
 }
+
+// ---------------------------------------------------------------------------
+// JSON Schema (structural check against the JSON Schema 2020-12 meta-schema keywords)
+// ---------------------------------------------------------------------------
+
+const JSON_TYPES = new Set(['string', 'number', 'integer', 'boolean', 'object', 'array', 'null']);
+const SUBSCHEMA = [
+  'not',
+  'if',
+  'then',
+  'else',
+  'contains',
+  'propertyNames',
+  'unevaluatedItems',
+  'unevaluatedProperties',
+  'additionalItems',
+];
+const SCHEMA_LISTS = ['allOf', 'anyOf', 'oneOf', 'prefixItems'];
+const SCHEMA_MAPS = ['properties', 'patternProperties', '$defs', 'definitions', 'dependentSchemas'];
+const NON_NEG_INTS = [
+  'minLength',
+  'maxLength',
+  'minItems',
+  'maxItems',
+  'minProperties',
+  'maxProperties',
+  'minContains',
+  'maxContains',
+];
+const NUMBERS = ['minimum', 'maximum', 'exclusiveMinimum', 'exclusiveMaximum', 'multipleOf'];
+const STRINGS = [
+  'title',
+  'description',
+  'format',
+  'pattern',
+  '$ref',
+  '$id',
+  '$schema',
+  '$comment',
+  '$anchor',
+];
+
+/**
+ * Problems that make `schema` an invalid JSON Schema: wrong keyword value types (a "type"
+ * that is not one of the seven JSON types, "required" that is not an array of strings,
+ * "properties" that is not an object of schemas…). Returns [] for a valid schema. Paths are
+ * JSON-pointer-like.
+ */
+export function jsonSchemaProblems(schema: unknown, path = '#', depth = 0): string[] {
+  if (typeof schema === 'boolean') return [];
+  if (!isObj(schema)) return [`${path} must be an object or boolean`];
+  if (depth > 20) return [];
+  const out: string[] = [];
+  const t = schema.type;
+  if (t !== undefined) {
+    const list = Array.isArray(t) ? t : [t];
+    if (!list.length) out.push(`${path}/type is an empty array`);
+    for (const x of list)
+      if (typeof x !== 'string' || !JSON_TYPES.has(x))
+        out.push(`${path}/type ${JSON.stringify(x)} is not a JSON Schema type`);
+  }
+  if (schema.required !== undefined) {
+    const r = schema.required;
+    if (!Array.isArray(r) || r.some((x) => typeof x !== 'string'))
+      out.push(`${path}/required must be an array of property names`);
+    else if (new Set(r).size !== r.length) out.push(`${path}/required has duplicates`);
+  }
+  if (schema.enum !== undefined && !Array.isArray(schema.enum))
+    out.push(`${path}/enum must be an array`);
+  for (const k of STRINGS)
+    if (schema[k] !== undefined && typeof schema[k] !== 'string')
+      out.push(`${path}/${k} must be a string`);
+  for (const k of NUMBERS)
+    if (schema[k] !== undefined && typeof schema[k] !== 'number')
+      out.push(`${path}/${k} must be a number`);
+  for (const k of NON_NEG_INTS) {
+    const v = schema[k];
+    if (v !== undefined && !(Number.isInteger(v) && (v as number) >= 0))
+      out.push(`${path}/${k} must be a non-negative integer`);
+  }
+  for (const k of SCHEMA_MAPS) {
+    const m = schema[k];
+    if (m === undefined) continue;
+    if (!isObj(m)) out.push(`${path}/${k} must be an object of schemas`);
+    else
+      for (const [name, sub] of Object.entries(m))
+        out.push(...jsonSchemaProblems(sub, `${path}/${k}/${name}`, depth + 1));
+  }
+  for (const k of SCHEMA_LISTS) {
+    const l = schema[k];
+    if (l === undefined) continue;
+    if (!Array.isArray(l) || !l.length)
+      out.push(`${path}/${k} must be a non-empty array of schemas`);
+    else
+      l.forEach((sub, i) => out.push(...jsonSchemaProblems(sub, `${path}/${k}/${i}`, depth + 1)));
+  }
+  for (const k of [...SUBSCHEMA, 'additionalProperties'])
+    if (schema[k] !== undefined)
+      out.push(...jsonSchemaProblems(schema[k], `${path}/${k}`, depth + 1));
+  if (schema.items !== undefined) {
+    // Draft 4–7 allowed an array of schemas for tuples; accept both forms.
+    const items = schema.items;
+    if (Array.isArray(items))
+      items.forEach((sub, i) =>
+        out.push(...jsonSchemaProblems(sub, `${path}/items/${i}`, depth + 1)),
+      );
+    else out.push(...jsonSchemaProblems(items, `${path}/items`, depth + 1));
+  }
+  return out;
+}
+
+/**
+ * Problems with a tool inputSchema (MCP and WebMCP): it must be a valid JSON Schema whose
+ * top-level type is "object".
+ */
+export function toolInputSchemaProblems(schema: unknown): string[] {
+  const out = jsonSchemaProblems(schema);
+  if (isObj(schema) && schema.type !== undefined && schema.type !== 'object' && !out.length)
+    out.push('#/type must be "object" for a tool input schema');
+  return out;
+}

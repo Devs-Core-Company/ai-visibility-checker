@@ -7,6 +7,12 @@ and the project uses [semantic versioning](https://semver.org). Check ids are st
 
 ### Added
 
+- 13 standards-based checks after benchmark run 1 (bench/results/CHANGES.md): unknown schema.org
+  types (full vocabulary), end dates before start dates, location pages missing LocalBusiness
+  markup their siblings have, markup phone numbers not shown on the page, RFC 9116 security.txt
+  fields, main content copied from another page, broken markdown alternates, loading
+  placeholders replaced by JavaScript, AI bots blocked from sections by robots.txt, invalid WebMCP
+  input schemas, unreachable A2A endpoints, broken api-catalog links, invalid autocomplete tokens.
 - 36 checks (630 in total), including meta descriptions too thin for AI, doctype, mixed redirect
   codes per section, cannibalisation, doubled words, spelling (LanguageTool), PDF titles,
   meaning-based duplicates and off-topic pages (embeddings), oversized images, image sitemap
@@ -35,6 +41,11 @@ and the project uses [semantic versioning](https://semver.org). Check ids are st
 
 ### Changed
 
+- `--render` now renders every crawled page (desktop and phone) instead of stopping at 50; CLS is
+  observed until 1.5 s after load and in the phone render (Lighthouse's 412×823 viewport); AI-bot
+  sample fetches cover each site section; security headers and version leaks are checked per page
+  and over HTTP; several thresholds now follow Lighthouse (unsized images, text compression, link
+  text). See bench/results/CHANGES.md for the full list and rationale.
 - `onpage.title-too-long` and `onpage.description-too-long` also measure pixel width.
 - Accessibility checks use the rendered DOM when a page was rendered.
 - JavaScript rendering serves a blank stand-in for images instead of aborting them, so rendered

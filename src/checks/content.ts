@@ -8,6 +8,7 @@ import {
   REF,
   STOP_WORDS,
   doc,
+  pathOf,
   fleschReadingEase,
   groupBy,
   indexablePages,
@@ -105,6 +106,29 @@ function brandWords(page: PageData): Set<string> {
   if (host) s.add(host.toLowerCase());
   for (const w of words((page.og['og:site_name'] || '').toLowerCase())) s.add(w);
   return s;
+}
+
+/** A page whose main text is at least this share copied from one other page is reported. */
+export const COPIED_SHARE = 0.5;
+export const COPIED_MIN_WORDS = 60;
+
+/** Normalised paragraphs (10+ words) of the main content, with their word counts. */
+function mainParagraphs(page: PageData): Map<string, number> {
+  const d = doc(page);
+  const root =
+    d.querySelector('main, [role="main"]') ??
+    (d.querySelectorAll('article').length === 1 ? d.querySelector('article') : null) ??
+    d.body;
+  const out = new Map<string, number>();
+  if (!root) return out;
+  for (const el of Array.from(root.querySelectorAll('p, li, blockquote, dd, td'))) {
+    if (el.closest('nav, header, footer, aside')) continue;
+    if (el.querySelector('p, li')) continue;
+    const t = normText(el.textContent);
+    const n = words(t).length;
+    if (n >= 10) out.set(t, n);
+  }
+  return out;
 }
 
 export const checks = [
@@ -676,6 +700,61 @@ export const checks = [
           3,
         ),
       }));
+    },
+  ),
+  siteCheck(
+    {
+      id: 'duplicates.copied-content',
+      category: 'duplicates',
+      pillar: C,
+      title: 'Main content copied from another page',
+      why: 'When most of a page’s main text is copied word for word from another page on the site, search engines treat the two as duplicates and pick one to show, and AI engines cite whichever they saw first. The rest of the page (navigation, footer) differs, so whole-page duplicate checks miss it.',
+      severity: 'medium',
+      fixTier: 'manual',
+      fix: 'Rewrite the copied passages for this page’s own purpose, or keep one version and link to it (or set a canonical to it if the page must stay).',
+      refs: [REF.canonical, REF.spam],
+    },
+    (site) => {
+      const pages = indexablePages(site).slice(0, NEAR_DUP_MAX_PAGES);
+      // Listings (paginated, tag, category, author, archive pages) repeat excerpts by design.
+      const listing = (p: PageData) =>
+        pageNumber(p.url) != null ||
+        /\/(tag|tags|category|categories|author|authors|archive)(\/|$)/i.test(pathOf(p.url));
+      const paras = new Map<PageData, Map<string, number>>();
+      const owners = new Map<string, Set<PageData>>();
+      for (const p of pages) {
+        const m = mainParagraphs(p);
+        paras.set(p, m);
+        for (const t of m.keys()) (owners.get(t) ?? owners.set(t, new Set()).get(t)!).add(p);
+      }
+      const out: Issue[] = [];
+      for (const p of pages) {
+        if (listing(p)) continue;
+        const mine = paras.get(p)!;
+        const total = [...mine.values()].reduce((a, b) => a + b, 0);
+        if (total < COPIED_MIN_WORDS) continue;
+        // Shared words per partner, counting paragraphs that appear on exactly one other page
+        // (text on three or more pages is template copy, which other checks cover).
+        const shared = new Map<PageData, number>();
+        for (const [t, n] of mine) {
+          const o = owners.get(t)!;
+          if (o.size !== 2) continue;
+          for (const q of o) if (q !== p) shared.set(q, (shared.get(q) ?? 0) + n);
+        }
+        for (const [q, n] of shared) {
+          if (n < COPIED_MIN_WORDS || n / total < COPIED_SHARE) continue;
+          if (p.contentHash === q.contentHash) continue; // duplicates.exact reports those
+          out.push({
+            checkId: 'duplicates.copied-content',
+            url: p.url,
+            message: `${Math.round((n / total) * 100)}% of the main text (${n} words) is copied word for word from another page`,
+            evidence: q.url,
+            data: { other: q.url, words: n },
+          });
+          if (out.length >= DUPLICATE_REPORT_LIMIT) return out;
+        }
+      }
+      return out;
     },
   ),
   siteCheck(

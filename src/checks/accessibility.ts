@@ -80,6 +80,45 @@ export function contrastRatio(a: string, b: string): number | null {
   return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
 }
 
+/** WHATWG autofill field names (HTML Living Standard, 4.10.18.7.1). */
+const AUTOFILL_FIELDS = new Set(
+  'name honorific-prefix given-name additional-name family-name honorific-suffix nickname username new-password current-password one-time-code organization-title organization street-address address-line1 address-line2 address-line3 address-level4 address-level3 address-level2 address-level1 country country-name postal-code cc-name cc-given-name cc-additional-name cc-family-name cc-number cc-exp cc-exp-month cc-exp-year cc-csc cc-type transaction-currency transaction-amount language bday bday-day bday-month bday-year sex url photo'.split(
+    ' ',
+  ),
+);
+/** Field names that may take a home/work/mobile/fax/pager prefix. */
+const AUTOFILL_CONTACT = new Set(
+  'tel tel-country-code tel-national tel-area-code tel-local tel-local-prefix tel-local-suffix tel-extension email impp'.split(
+    ' ',
+  ),
+);
+
+/** Why an autocomplete value is invalid under the WHATWG autofill grammar, or null if valid. */
+export function autocompleteProblem(value: string): string | null {
+  const tokens = value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  if (!tokens.length) return null; // empty is the same as omitting it
+  if (tokens.length === 1 && (tokens[0] === 'on' || tokens[0] === 'off')) return null;
+  let i = 0;
+  if (tokens[i]?.startsWith('section-')) i++;
+  if (tokens[i] === 'shipping' || tokens[i] === 'billing') i++;
+  let contact = false;
+  if (['home', 'work', 'mobile', 'fax', 'pager'].includes(tokens[i] ?? '')) {
+    contact = true;
+    i++;
+  }
+  const field = tokens[i];
+  if (!field) return 'no field name';
+  if (
+    contact
+      ? !AUTOFILL_CONTACT.has(field)
+      : !AUTOFILL_FIELDS.has(field) && !AUTOFILL_CONTACT.has(field)
+  )
+    return `"${field}" is not an autofill field name`;
+  i++;
+  if (tokens[i] === 'webauthn') i++;
+  return i < tokens.length ? `unexpected "${tokens.slice(i).join(' ')}"` : null;
+}
+
 export const checks = [
   pageCheck(
     {
@@ -245,11 +284,67 @@ export const checks = [
         page,
         'div[onclick], span[onclick], li[onclick], td[onclick], img[onclick]',
       ).filter((e) => !e.getAttribute('role') && !e.hasAttribute('tabindex'));
+      // In the browser render: elements styled as clickable (their own cursor: pointer) that
+      // are not links, buttons or form controls and have no role or tabindex. Click handlers
+      // attached from scripts (often delegated) do not show in the HTML at all.
+      const styled = page.rendered?.layout?.pointerNonControls ?? [];
+      const evidence = [...bad.map(snippet), ...styled.map((x) => `${x.html} "${x.text}"`)];
+      if (!evidence.length) return null;
+      return {
+        checkId: 'accessibility.clickable-div',
+        message: [
+          bad.length
+            ? `${plural(bad.length, 'element')} with onclick but no role or keyboard access`
+            : '',
+          styled.length
+            ? `${plural(styled.length, 'element')} styled as clickable (cursor: pointer) that ${styled.length === 1 ? 'is' : 'are'} not a link, button or control and cannot be focused`
+            : '',
+        ]
+          .filter(Boolean)
+          .join('; '),
+        evidence: list(evidence, 3),
+      };
+    },
+  ),
+  pageCheck(
+    {
+      id: 'accessibility.autocomplete-invalid',
+      category: 'accessibility',
+      pillar: C,
+      title: 'Invalid autocomplete values on form fields',
+      why: 'Browsers, password managers, assistive technology and AI agents use the autocomplete attribute to know what a field is for (WCAG 1.3.5). A value outside the HTML autofill list, such as "emailaddress" or "phone-number", is ignored, so the field is filled by guesswork or not at all.',
+      severity: 'low',
+      fixTier: 'guided',
+      fix: 'Use the standard tokens: name, email, tel, street-address, postal-code, bday, organization, username, new-password and so on (for example autocomplete="email", not "emailaddress").',
+      refs: [
+        U('identify-input-purpose'),
+        'https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofill',
+      ],
+      tags: ['wcag-1.3.5', 'agentic'],
+    },
+    (page) => {
+      if (!isHtml200(page)) return null;
+      const bad: string[] = [];
+      for (const e of els(
+        page,
+        'input[autocomplete], select[autocomplete], textarea[autocomplete]',
+      )) {
+        const type = (e.getAttribute('type') || '').toLowerCase();
+        if (
+          ['hidden', 'submit', 'button', 'reset', 'image', 'checkbox', 'radio', 'file'].includes(
+            type,
+          )
+        )
+          continue;
+        const v = e.getAttribute('autocomplete') || '';
+        const why = autocompleteProblem(v);
+        if (why) bad.push(`autocomplete="${v}" (${why})`);
+      }
       return bad.length
         ? {
-            checkId: 'accessibility.clickable-div',
-            message: `${plural(bad.length, 'element')} with onclick but no role or keyboard access`,
-            evidence: list(bad.map(snippet), 3),
+            checkId: 'accessibility.autocomplete-invalid',
+            message: `${plural(bad.length, 'field')} with an invalid autocomplete value`,
+            evidence: list(bad, 4),
           }
         : null;
     },
@@ -655,11 +750,11 @@ export const checks = [
       id: 'accessibility.list-structure',
       category: 'accessibility',
       pillar: C,
-      title: 'List items outside a list',
-      why: '<li> elements must sit inside <ul>, <ol> or <menu>. Stray items break the list semantics screen readers announce.',
+      title: 'List markup is broken',
+      why: '<li> elements must sit inside <ul>, <ol> or <menu>, and a <ul> or <ol> may only contain <li>, <script> or <template> as direct children. Anything else breaks the list semantics screen readers and agents rely on.',
       severity: 'low',
       fixTier: 'guided',
-      fix: 'Wrap list items in a <ul> or <ol>.',
+      fix: 'Wrap list items in a <ul> or <ol>, and move any other element (a heading, a <div>) out of the list or inside an <li>.',
       refs: [U('info-and-relationships')],
       tags: ['wcag-1.3.1'],
     },
@@ -673,10 +768,31 @@ export const checks = [
           !(tag === 'ul' || tag === 'ol' || tag === 'menu' || p.getAttribute('role') === 'list')
         );
       });
-      return bad.length
+      const wrongChildren = els(page, 'ul, ol').flatMap((l) =>
+        Array.from(l.children).filter(
+          (c) =>
+            !['li', 'script', 'template'].includes(c.tagName.toLowerCase()) &&
+            c.getAttribute('role') !== 'listitem',
+        ),
+      );
+      const parts = [
+        bad.length ? `${plural(bad.length, '<li>')} not inside a list` : '',
+        wrongChildren.length
+          ? `${plural(wrongChildren.length, 'element')} other than <li> directly inside a <ul>/<ol>`
+          : '',
+      ].filter(Boolean);
+      return parts.length
         ? {
             checkId: 'accessibility.list-structure',
-            message: `${plural(bad.length, '<li>')} not inside a list`,
+            message: parts.join('; '),
+            evidence: wrongChildren.length
+              ? list(
+                  wrongChildren.map(
+                    (c) => `<${c.parentElement?.tagName.toLowerCase()}> > ${snippet(c)}`,
+                  ),
+                  3,
+                )
+              : undefined,
           }
         : null;
     },
@@ -841,7 +957,7 @@ checks.push(
     },
     (page) => {
       const low = page.rendered?.layout?.lowContrast ?? [];
-      if (low.length < 2) return null;
+      if (low.length < 1) return null;
       return {
         checkId: 'accessibility.low-contrast-rendered',
         message: `${cu.plural(low.length, 'text sample')} below the WCAG AA contrast ratio`,

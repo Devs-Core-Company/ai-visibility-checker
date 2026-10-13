@@ -20,9 +20,27 @@ export const DESCRIPTION_LIMIT_PX = 920;
 /** Below about this many characters a description gives AI little context. */
 export const DESCRIPTION_AI_MIN_CHARS = 120;
 
+/** Arial advance widths of common typographic punctuation outside ASCII. */
+const PUNCT: Record<string, number> = {
+  '\u2018': 222, // ‘
+  '\u2019': 222, // ’
+  '\u201C': 333, // “
+  '\u201D': 333, // ”
+  '\u2013': 556, // –
+  '\u2014': 1000, // —
+  '\u2026': 1000, // …
+  '\u00B7': 278, // ·
+  '\u2022': 350, // •
+  '\u00A0': 278, // no-break space
+  '\u00A3': 556, // £
+  '\u20AC': 556, // €
+};
+
 function charWidth(ch: string): number {
   const code = ch.codePointAt(0) ?? 32;
   if (code >= 32 && code <= 126) return ARIAL[code - 32]!;
+  const punct = PUNCT[ch];
+  if (punct !== undefined) return punct;
   if (/[À-ɏ]/.test(ch)) return 556; // accented Latin: about a lower-case letter
   if (/[　-鿿가-힯＀-￯]/.test(ch)) return 1000; // CJK, full width
   if (/\p{Extended_Pictographic}/u.test(ch)) return 1000;

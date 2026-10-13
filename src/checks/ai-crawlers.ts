@@ -20,6 +20,7 @@ import {
   groupsFor,
   homePage,
   htmlPages,
+  indexablePages,
   isIndexable,
   issue,
   pageCheck,
@@ -282,6 +283,70 @@ export const checks: Check[] = [
           );
       }
       return out;
+    },
+  ),
+
+  siteCheck(
+    def({
+      id: 'ai-crawlers.path-blocked',
+      title: 'Sections of the site blocked for specific AI crawlers',
+      why: 'A Disallow rule in one AI bot’s robots.txt group can hide a whole section (team biographies, guides, prices) from that bot while the rest of the site is open. Pages it cannot fetch cannot inform or be cited by that engine. Often a leftover from an old rule rather than a decision.',
+      severity: 'medium',
+      fixTier: 'guided',
+      fix: 'Check each rule listed. If the section should be readable by that bot, remove the Disallow line from its group (or add an Allow for the section). If the block is deliberate, no change is needed.',
+      refs: [REF.rfc, REF.openai, REF.anthropic],
+      tags: ['robots'],
+    }),
+    (site) => {
+      if (!robotsUsable(site)) return null;
+      const root = rootUrl(site);
+      const pages = indexablePages(site);
+      // bot token + deciding rule → pages it blocks
+      const groups = new Map<string, { bot: AiBot; rule: string; pages: string[] }>();
+      for (const bot of robotsBots()) {
+        if (bot.token === 'Googlebot' || bot.token === 'Bingbot') continue;
+        try {
+          if (site.robots.isAllowed(root, bot.token) === false) continue; // whole-site blocks: purpose checks
+        } catch {
+          continue;
+        }
+        // Only rules written for this bot: a User-agent: * rule applies to every crawler alike.
+        if (!groupsFor(robotsParsed(site), bot.token).specific) continue;
+        for (const p of pages) {
+          let allowed = true;
+          try {
+            allowed = site.robots.isAllowed(p.url, bot.token) !== false;
+          } catch {
+            continue;
+          }
+          if (allowed) continue;
+          const d = site.robots.decidingLine(p.url, bot.token);
+          const rule = d ? `line ${d.line}: ${d.rule}` : 'Disallow';
+          const key = `${bot.token}|${rule}`;
+          const g = groups.get(key) ?? { bot, rule, pages: [] };
+          g.pages.push(p.url);
+          groups.set(key, g);
+        }
+      }
+      if (!groups.size) return null;
+      const rows = [...groups.values()];
+      const pageCount = new Set(rows.flatMap((g) => g.pages)).size;
+      return issue(
+        'ai-crawlers.path-blocked',
+        `robots.txt blocks ${plural(new Set(rows.map((g) => g.bot.token)).size, 'AI bot')} from ${plural(pageCount, 'indexable page')} while allowing the rest of the site.`,
+        {
+          severity: rows.some((g) => g.bot.purpose !== 'training') ? 'high' : 'medium',
+          evidence: ev(
+            rows.map(
+              (g) =>
+                `${g.bot.token} (${g.rule}): ${plural(g.pages.length, 'page')}, e.g. ${new URL(g.pages[0]!).pathname}`,
+            ),
+          ),
+          data: {
+            rules: rows.map((g) => ({ token: g.bot.token, rule: g.rule, pages: g.pages.length })),
+          },
+        },
+      );
     },
   ),
 

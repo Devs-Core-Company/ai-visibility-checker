@@ -128,6 +128,10 @@ export async function crawlSite(
     if (v !== undefined) (options as unknown as Record<string, unknown>)[k] = v;
   }
   options.startUrl = coerceStartUrl(options.startUrl);
+  // An explicit render: true ("--render: always render") renders every crawled HTML page,
+  // within the page limit, unless a render limit was given. 'auto' keeps its small sample.
+  if (options.render === true && input.renderLimit === undefined)
+    options.renderLimit = options.maxPages > 0 ? options.maxPages : Number.MAX_SAFE_INTEGER;
   const emit: ProgressFn = (e) => {
     try {
       onProgress?.(e);
@@ -598,6 +602,9 @@ export async function crawlSite(
         headers: options.headers,
         auth: options.auth,
         mobile: options.mobileRender !== false,
+        // "Always render" covers the phone render too (layout shift and tap targets are
+        // judged on mobile first); 'auto' keeps a small phone sample.
+        ...(options.render === true ? { mobileLimit: targets.length } : {}),
         log,
       }).catch((e: Error) => {
         log('warn', `Rendering skipped: ${e.message}`);

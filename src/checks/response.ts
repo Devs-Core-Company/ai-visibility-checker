@@ -69,6 +69,16 @@ function chainText(page: PageData): string {
   );
 }
 
+/** The redirects for this URL repeat a URL (or the crawler gave up on a loop). */
+function isRedirectLoop(page: PageData): boolean {
+  const urls = page.redirects.map((h) => h.url);
+  return (
+    urls.some((u, i) => urls.indexOf(u) !== i) ||
+    page.redirects.some((h) => h.status === 0) ||
+    /redirect\s*loop|too many redirects/i.test(page.error || '')
+  );
+}
+
 export const checks = [
   // -------------------------------------------------------------------------
   // Response codes
@@ -451,7 +461,8 @@ export const checks = [
       refs: [REF.redirects],
     },
     (page) => {
-      if (page.redirects.length < 2) return null;
+      // A loop never ends at a page: redirects.loop reports it, not as a chain.
+      if (page.redirects.length < 2 || isRedirectLoop(page)) return null;
       return {
         checkId: 'redirects.chain',
         severity: page.redirects.length >= LONG_CHAIN_HOPS ? 'high' : 'medium',
@@ -473,11 +484,7 @@ export const checks = [
       refs: [REF.redirects],
     },
     (page) => {
-      const urls = page.redirects.map((h) => h.url);
-      const repeated =
-        urls.some((u, i) => urls.indexOf(u) !== i) || page.redirects.some((h) => h.status === 0);
-      const errLoop = /redirect\s*loop|too many redirects/i.test(page.error || '');
-      if (!repeated && !errLoop) return null;
+      if (!isRedirectLoop(page)) return null;
       return {
         checkId: 'redirects.loop',
         message: 'The redirects for this URL go round in a loop',
