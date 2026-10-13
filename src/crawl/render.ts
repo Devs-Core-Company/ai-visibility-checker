@@ -365,6 +365,27 @@ export function defaultRenderConcurrency(): number {
   return Math.max(2, Math.min(4, availableParallelism() - 1));
 }
 
+/** Chrome switches for the audit browser (exported for tests). */
+export function chromeArgs(opts: Pick<RenderOptions, 'concurrency' | 'mobile'>): string[] {
+  return [
+    '--no-first-run',
+    '--no-default-browser-check',
+    '--disable-extensions',
+    '--mute-audio',
+    // An audit browser needs none of these; turning them off keeps memory flat on large
+    // crawls. Never pass --disable-features here: Chrome keeps only the last such switch,
+    // which would replace Playwright's own list and let Chrome make background calls.
+    '--disable-dev-shm-usage',
+    '--disable-background-networking',
+    '--disable-component-update',
+    '--disk-cache-size=1',
+    '--disable-gpu',
+    '--disable-software-rasterizer',
+    '--js-flags=--max-old-space-size=256',
+    `--renderer-process-limit=${Math.max(2, (opts.concurrency ?? defaultRenderConcurrency()) * (opts.mobile ? 2 : 1))}`,
+  ];
+}
+
 export async function renderPages(pages: PageData[], opts: RenderOptions): Promise<RenderSummary> {
   const log = opts.log ?? ((level, m) => (level === 'error' ? console.error(m) : console.warn(m)));
   const todo = pages
@@ -386,23 +407,7 @@ export async function renderPages(pages: PageData[], opts: RenderOptions): Promi
     browser = await chromium.launch({
       executablePath: chromePath,
       headless: true,
-      args: [
-        '--no-first-run',
-        '--no-default-browser-check',
-        '--disable-extensions',
-        '--mute-audio',
-        // An audit browser needs none of these; turning them off keeps memory flat on large
-        // crawls (one renderer per tab, no back-forward cache, no background traffic).
-        '--disable-dev-shm-usage',
-        '--disable-background-networking',
-        '--disable-component-update',
-        '--disable-features=BackForwardCache,Translate,OptimizationHints,MediaRouter,IsolateOrigins,site-per-process',
-        '--disk-cache-size=1',
-        '--disable-gpu',
-        '--disable-software-rasterizer',
-        '--js-flags=--max-old-space-size=256',
-        `--renderer-process-limit=${Math.max(2, (opts.concurrency ?? defaultRenderConcurrency()) * (opts.mobile ? 2 : 1))}`,
-      ],
+      args: chromeArgs(opts),
     });
   } catch (e) {
     const reason = `JavaScript rendering skipped: the browser at ${chromePath} could not start (${oneLine((e as Error).message).slice(0, 200)}).`;

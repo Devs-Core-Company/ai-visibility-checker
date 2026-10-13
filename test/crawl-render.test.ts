@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { startFixtureServer, type FixtureServer } from './fixtures/serve.js';
 import { crawlSite } from '../src/crawl/index.js';
-import { findChrome, renderPages } from '../src/crawl/render.js';
+import { chromeArgs, findChrome, renderPages } from '../src/crawl/render.js';
 import type { PageData } from '../src/core/types.js';
 
 let fx: FixtureServer;
@@ -58,4 +58,14 @@ describe('render', () => {
     },
     90_000,
   );
+});
+
+describe('chromeArgs', () => {
+  it('never overrides Playwright’s --disable-features list (that re-enables background calls)', () => {
+    for (const mobile of [true, false]) {
+      const args = chromeArgs({ mobile, concurrency: 3 });
+      expect(args.some((a) => a.startsWith('--disable-features'))).toBe(false);
+      expect(args).toContain('--disable-background-networking');
+    }
+  });
 });
