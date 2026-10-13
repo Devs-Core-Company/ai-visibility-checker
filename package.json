@@ -11,13 +11,18 @@
   },
   "type": "module",
   "bin": {
-    "avc": "dist/cli.js"
+    "avc": "bin/avc.mjs"
   },
   "files": [
+    "bin",
     "dist",
+    "src",
     "public",
+    "tsconfig.json",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "CHANGELOG.md",
+    "docs"
   ],
   "engines": {
     "node": ">=22.5.0"
@@ -31,7 +36,7 @@
     "format": "prettier --write \"src/**/*.{ts,tsx}\" \"test/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx}\" \"test/**/*.ts\"",
     "check": "npm run typecheck && npm run format:check && npm test",
-    "prepare": "npm run build"
+    "prepack": "npm run build"
   },
   "keywords": [
     "seo",
@@ -63,13 +68,13 @@
     "picocolors": "^1.1.1",
     "playwright-core": "^1.64.0",
     "robots-parser": "^3.0.1",
+    "tsx": "^4.23.15",
     "zod": "^4.6.7"
   },
   "devDependencies": {
     "@types/node": "^22.20.5",
     "@types/nodemailer": "^8.0.2",
     "prettier": "^3.9.10",
-    "tsx": "^4.23.15",
     "typescript": "^5.9.3",
     "vitest": "^5.0.4"
   }
