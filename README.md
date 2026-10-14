@@ -97,10 +97,11 @@ contact details), freshness signals, and whether pages are easy to quote and cit
 
 ### 4. AI crawler access
 
-38 AI and search crawlers (GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, Claude-SearchBot, PerplexityBot,
+40 AI and search crawlers (GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, Claude-SearchBot, PerplexityBot,
 Google-Extended, Applebot-Extended, Bytespider, CCBot, Meta and Amazon bots and more), each with its
 operator and purpose (training, search, user-triggered fetch). For each one: what robots.txt decides
-and **which line decides it**, plus a **live fetch of your home page as that bot**, compared with a
+and **which line decides it**. For the 25 that fetch pages, a **live fetch of your pages as that
+bot**, compared with a
 browser fetch, to catch firewalls, bot challenges (Cloudflare, Akamai, DataDome) and content that
 differs. With server logs connected: **verified real visits** (IP ranges and reverse DNS), spoofed
 user agents, errors served to bots, and key pages no AI bot has fetched.
