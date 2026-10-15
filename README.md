@@ -442,6 +442,27 @@ work on a normal laptop with rendering off.
 **Is the score the same as the web checker's?** They share the idea, not the code path. This app sees
 the whole site and connected data, so its score is more complete.
 
+## Uninstall
+
+```bash
+avc uninstall
+```
+
+This removes AVC from the Claude desktop app, Claude Code and Cursor (other servers and settings in
+those files are kept, with a backup). It then asks whether to delete your stored API keys (yes by
+default) and your audit history, settings, Google sign-in and WordPress rollback snapshots (no by
+default). It deletes only files AVC created, never anything else in the folder. Finish with:
+
+```bash
+npm uninstall -g @devs-core/ai-visibility-checker
+```
+
+Options: `--yes` (ask nothing: delete keys, keep data), `--keep-keys`, `--delete-data`,
+`--keep-data`. Installed as the Claude Desktop extension instead? Use Claude Desktop → Settings →
+Extensions → AI Visibility Checker → **Uninstall**; then run `avc uninstall` too if you also
+installed the `avc` command and want your keys and data gone. Quit and reopen Claude Desktop so
+AVC disappears from the tools list.
+
 ## Licence
 
 GNU Affero General Public License v3.0 only (`AGPL-3.0-only`), © 2026 Devs Core. See

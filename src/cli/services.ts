@@ -172,6 +172,11 @@ export function getStore(config = getConfig()): Store {
 }
 
 export function resetStoreCache(): void {
+  try {
+    storeCache?.store.close();
+  } catch {
+    /* already closed */
+  }
   storeCache = null;
 }
 

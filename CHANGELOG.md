@@ -26,6 +26,9 @@ and the project uses [semantic versioning](https://semver.org). Check ids are st
 
 ### Added
 
+- `avc uninstall`: removes AVC from Claude Desktop, Claude Code and Cursor, deletes stored API keys
+  and, if asked, local data (only files AVC created). Uninstall steps in the README and INSTALL.md.
+
 - The AVC logo: the Claude Desktop extension's icon, the MCP server's announced icon (`serverInfo.icons`,
   for clients that show one) and the dashboard's browser-tab icon.
 - Claude Desktop extension (`npm run bundle:mcpb` → `build/ai-visibility-checker-<version>.mcpb`) with

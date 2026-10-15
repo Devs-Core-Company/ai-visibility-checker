@@ -20,6 +20,13 @@ folder (safe to commit), and explains which keys to set.
 List configured sites (and sites that only exist in history), add one (`avc sites add <url>
 --name "Brand"`), or remove one (`--purge` also deletes its history).
 
+### `avc uninstall`
+
+Removes AVC from the Claude desktop app, Claude Code and Cursor, deletes stored API keys (asks; yes
+by default) and optionally your local data (asks; no by default), deleting only files AVC created.
+Then prints `npm uninstall -g @devs-core/ai-visibility-checker`. `--yes`, `--keep-keys`,
+`--delete-data`, `--keep-data`.
+
 ### `avc doctor`
 
 Checks Node, SQLite, Chrome, the data folder, AI keys, spend, sites and connections. `--json` for
