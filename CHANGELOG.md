@@ -52,6 +52,30 @@ and the project uses [semantic versioning](https://semver.org). Check ids are st
 - `avc setup-claude`: connects the MCP server to the Claude desktop app, Claude Code (user scope,
   every folder) and Cursor in one step, with absolute paths so the desktop app finds Node without
   your shell's PATH. The one-line installers run it (`AVC_SKIP_CLAUDE=1` to skip).
+
+## [1.0.0] - 2026-10-15
+
+First public release.
+
+### Added
+
+- `avc` command: `init`, `audit`, `visibility`, `prompts suggest`, `fix`, `rollback`, `generate`,
+  `connect`, `logs`, `diff`, `history`, `report`, `sites`, `schedule`, `monitor`, `ui`, `mcp`,
+  `checks`, `doctor`.
+- Full-site crawler with robots.txt, sitemaps, optional JavaScript rendering in local Chrome, and
+  stack detection.
+- Checks for technical SEO, content, AI crawler access, AEO/GEO readiness and the agentic web.
+- Live fetch of the home page as each AI crawler, with firewall and challenge detection.
+- AI visibility tracking with your own keys or one Vercel AI Gateway key: mentions, share of voice,
+  competitor wins, citations, sentiment, fact-checks, repeated runs, spend caps.
+- Stack-aware fixes with agent prompts; WordPress auto-apply with rollback; local repo patches.
+- Generators for llms.txt, robots.txt AI rules, Organization JSON-LD and an A2A agent card.
+- Connections: Google Search Console, GA4, PageSpeed Insights, Bing Webmaster Tools and IndexNow,
+  server access logs, WordPress.
+- Local history in SQLite, diffs, trends, scheduled runs, webhook and email alerts.
+- Reports in HTML, Markdown, CSV, JSON and SARIF; GitHub Action.
+- Local dashboard (`avc ui`) and MCP server (`avc mcp`).
+- Installers for macOS, Linux and Windows; Dockerfile and docker-compose.
 - 13 standards-based checks after benchmark run 1 (bench/results/CHANGES.md): unknown schema.org
   types (full vocabulary), end dates before start dates, location pages missing LocalBusiness
   markup their siblings have, markup phone numbers not shown on the page, RFC 9116 security.txt
@@ -98,27 +122,3 @@ and the project uses [semantic versioning](https://semver.org). Check ids are st
 - Licence changed from MIT to the GNU Affero General Public License v3.0 only (AGPL-3.0-only).
   Commercial licences are available from Devs Core. Commit `f13a0c9` and earlier remain available
   under MIT.
-
-## [1.0.0] - 2026-10-13
-
-First public release.
-
-### Added
-
-- `avc` command: `init`, `audit`, `visibility`, `prompts suggest`, `fix`, `rollback`, `generate`,
-  `connect`, `logs`, `diff`, `history`, `report`, `sites`, `schedule`, `monitor`, `ui`, `mcp`,
-  `checks`, `doctor`.
-- Full-site crawler with robots.txt, sitemaps, optional JavaScript rendering in local Chrome, and
-  stack detection.
-- Checks for technical SEO, content, AI crawler access, AEO/GEO readiness and the agentic web.
-- Live fetch of the home page as each AI crawler, with firewall and challenge detection.
-- AI visibility tracking with your own keys or one Vercel AI Gateway key: mentions, share of voice,
-  competitor wins, citations, sentiment, fact-checks, repeated runs, spend caps.
-- Stack-aware fixes with agent prompts; WordPress auto-apply with rollback; local repo patches.
-- Generators for llms.txt, robots.txt AI rules, Organization JSON-LD and an A2A agent card.
-- Connections: Google Search Console, GA4, PageSpeed Insights, Bing Webmaster Tools and IndexNow,
-  server access logs, WordPress.
-- Local history in SQLite, diffs, trends, scheduled runs, webhook and email alerts.
-- Reports in HTML, Markdown, CSV, JSON and SARIF; GitHub Action.
-- Local dashboard (`avc ui`) and MCP server (`avc mcp`).
-- Installers for macOS, Linux and Windows; Dockerfile and docker-compose.
