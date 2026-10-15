@@ -50,8 +50,19 @@ if (-not (Get-Command avc -ErrorAction SilentlyContinue)) {
 
 Write-Host ''
 avc doctor
+
+# Connect AVC to Claude (desktop app, Claude Code at user scope, Cursor): whichever are
+# installed. Set AVC_SKIP_CLAUDE=1 to skip.
+if ($env:AVC_SKIP_CLAUDE -ne '1') {
+  Write-Host ''
+  Write-Host 'Connecting AVC to Claude...' -ForegroundColor Cyan
+  avc setup-claude
+  if ($LASTEXITCODE -ne 0) { Write-Host "Could not connect AVC to Claude. Run 'avc setup-claude' later." -ForegroundColor Yellow }
+}
+
 Write-Host ''
 Write-Host 'Done. Next steps:' -ForegroundColor Cyan
+Write-Host '  Quit the Claude app fully (File > Exit) and reopen it, then ask: "Audit https://yoursite.com with avc"'
 Write-Host '  avc init                        # set up your site'
 Write-Host '  avc audit https://yoursite.com  # run an audit'
 Write-Host '  avc ui                          # open the dashboard'

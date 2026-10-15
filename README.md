@@ -63,7 +63,8 @@ avc audit yoursite.com
 avc ui            # the dashboard, at http://127.0.0.1:4317
 ```
 
-One-line installers check Node, install `avc`, then run `avc doctor`:
+One-line installers check Node, install `avc`, run `avc doctor`, and connect AVC to the Claude
+desktop app, Claude Code and Cursor if you have them (`AVC_SKIP_CLAUDE=1` to skip):
 
 ```bash
 # macOS / Linux
@@ -356,9 +357,17 @@ date; your provider's dashboard is the bill.
 
 ## MCP: use it from Claude Code, Cursor or VS Code
 
+Connect it to the **Claude desktop app** (chat), **Claude Code** (every folder) and **Cursor** in one
+step:
+
 ```bash
-claude mcp add avc -- npx -y github:Devs-Core-Company/ai-visibility-checker mcp
+npm i -g github:Devs-Core-Company/ai-visibility-checker
+avc setup-claude
 ```
+
+The one-line installers above do this for you. Then fully quit the Claude app and reopen it. (A plain
+`claude mcp add` only reaches Claude Code, in one folder, and not the desktop app's chat; `avc
+setup-claude` handles both, with absolute paths so the desktop app finds Node.)
 
 Then ask: "Audit example.com and fix the top three issues in this repo." Tools include `audit_site`,
 `get_issues`, `get_fix` (with agent prompts), `crawler_access`, `agentic_readiness`, `ai_visibility`
@@ -395,7 +404,7 @@ with code 2 when the score is below 70. SARIF uploads to GitHub code scanning. S
 | `avc diff`, `avc history`, `avc report`                     | Compare, list and export stored audits                                         |
 | `avc schedule`, `avc monitor`                               | Scheduled audits with alerts                                                   |
 | `avc ui`                                                    | Dashboard                                                                      |
-| `avc mcp`                                                   | MCP server                                                                     |
+| `avc mcp`, `avc setup-claude`                               | MCP server; connect it to Claude desktop, Claude Code and Cursor               |
 | `avc checks`, `avc doctor`                                  | List checks; check your setup                                                  |
 | `avc serp`, `avc ask`                                       | Snippet preview (pixel widths) and AI-written drafts; questions about an audit |
 | `avc screenshot <url>`                                      | Desktop or phone screenshot                                                    |

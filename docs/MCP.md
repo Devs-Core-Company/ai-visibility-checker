@@ -9,49 +9,92 @@ visible in the others.
 
 ## Set it up
 
-You need Node.js 22.5 or newer. With `avc` installed globally, use `avc mcp` as the command; otherwise
-`npx -y github:Devs-Core-Company/ai-visibility-checker mcp` works anywhere.
+You need Node.js 22.5 or newer.
 
-### Claude Code
+### One step: Claude desktop app, Claude Code and Cursor
 
 ```bash
-claude mcp add avc -- npx -y github:Devs-Core-Company/ai-visibility-checker mcp
-# or, with avc installed:
-claude mcp add avc -- avc mcp
+npm i -g github:Devs-Core-Company/ai-visibility-checker
+avc setup-claude
 ```
 
-Pass keys with `-e`, for example `claude mcp add avc -e AI_GATEWAY_API_KEY=... -- avc mcp`, or save
-them once with `avc ui` → Settings.
+Or run the one-line installer (`install.sh` / `install.ps1`, see the README), which installs `avc` and
+runs `avc setup-claude` for you.
 
-### Claude Desktop
+`avc setup-claude` connects AVC to whichever of these are installed:
 
-Settings → Developer → Edit config (`claude_desktop_config.json`):
+- **Claude desktop app (chat):** adds an `avc` entry to `claude_desktop_config.json`, keeping every
+  other server and setting, and saves a backup of the old file first.
+- **Claude Code** (the `claude` CLI and the app's Code tab): registers it at **user scope**, so it
+  works in every folder, not only the one you ran the command in.
+- **Cursor:** adds it to `~/.cursor/mcp.json`.
+
+The entry uses absolute paths (your `node` and AVC's own launcher) plus a `PATH` that contains that
+`node`. The desktop app does not inherit your shell's `PATH`, so a bare `npx` often fails silently
+with nvm, conda or Homebrew; absolute paths avoid that, and there is no download on first start.
+
+Then **fully quit the Claude app** (⌘Q on macOS, File → Exit on Windows; closing the window is not
+enough) and open it again. In a new chat, AVC appears in the tools menu. Try: "Audit
+https://yoursite.com with avc".
+
+Options: `--desktop`, `--code` or `--cursor` to set up only one; `--dry-run` to see the change
+without writing it; `--remove` to take AVC out again. If you switch Node versions later (nvm, fnm),
+run `avc setup-claude` again so the path points at a Node that still exists.
+
+### Doing it by hand
+
+`claude mcp add` only reaches Claude Code, not the desktop app's chat; the two keep separate
+configs. And without `--scope user` it only applies to the folder you ran it in.
+
+**Claude Code, every folder:**
+
+```bash
+claude mcp add --scope user avc -- npx -y github:Devs-Core-Company/ai-visibility-checker mcp
+```
+
+**Claude desktop app:** Settings → Developer → Edit Config, or open the file directly:
+
+| System  | Config file                                                       |
+| ------- | ----------------------------------------------------------------- |
+| macOS   | `~/Library/Application Support/Claude/claude_desktop_config.json` |
+| Windows | `%APPDATA%\Claude\claude_desktop_config.json`                     |
+| Linux   | `~/.config/Claude/claude_desktop_config.json`                     |
+
+Use the full path to `npx` (from `which npx`, or `where npx` on Windows), and merge the entry into
+any existing `mcpServers` block:
 
 ```json
 {
   "mcpServers": {
     "avc": {
-      "command": "npx",
-      "args": ["-y", "github:Devs-Core-Company/ai-visibility-checker", "mcp"]
+      "command": "/full/path/from/which/npx",
+      "args": ["-y", "github:Devs-Core-Company/ai-visibility-checker", "mcp"],
+      "env": { "PATH": "/folder/containing/node:/usr/bin:/bin" }
     }
   }
 }
 ```
 
-### Cursor
+Then quit the app fully and reopen it.
 
-`.cursor/mcp.json` in your project (or `~/.cursor/mcp.json` for all projects):
+**Cursor:** the same entry in `.cursor/mcp.json` in your project, or `~/.cursor/mcp.json` for all
+projects.
 
-```json
-{
-  "mcpServers": {
-    "avc": {
-      "command": "npx",
-      "args": ["-y", "github:Devs-Core-Company/ai-visibility-checker", "mcp"]
-    }
-  }
-}
-```
+API keys for the AI visibility tools: save them once with `avc ui` → Settings (the MCP server reads
+the same `~/.avc` folder), or add them to the entry's `env`.
+
+### If it does not show up
+
+The Claude app writes a log per server that usually says exactly why it failed:
+
+| System  | Log                                        |
+| ------- | ------------------------------------------ |
+| macOS   | `~/Library/Logs/Claude/mcp-server-avc.log` |
+| Windows | `%APPDATA%\Claude\logs\mcp-server-avc.log` |
+
+The usual causes: `npx: command not found` or `node: command not found` (use `avc setup-claude`,
+or absolute paths as above), the first GitHub download timing out (install with `npm i -g` first),
+or the app was closed rather than quit.
 
 ### VS Code (GitHub Copilot agent mode)
 
@@ -73,30 +116,30 @@ Add `"env": { "AVC_DATA_DIR": "/path" }` to any of these to use a different data
 
 ## Tools
 
-| Tool | What it does | Changes anything? |
-| --- | --- | --- |
-| `audit_site` | Crawl and check a site; returns score, pillars and top priorities | Saves the audit |
-| `get_issues` | Issues filtered by pillar, category, severity, check, URL or text | No |
-| `get_page` | Everything recorded about one page, with its issues | No |
-| `get_fix` | Stack-aware fix for a check: steps, files, snippet, agent prompt, affected URLs | No |
-| `list_checks` | The check catalogue | No |
-| `crawler_access` | Per AI crawler: robots.txt decision and deciding line, live fetch verdict | No |
-| `agentic_readiness` | Origin probes, llms.txt structure, agentic check results | No |
-| `ai_visibility` | Latest stored run; with `run=true`, a new run (see below) | Spends money only with `confirm_spend=true` |
-| `diff_audits` | Score, new and fixed issues, pages, AI visibility between two audits | No |
-| `generate_llms_txt` | llms.txt from the latest audit | No |
-| `generate_robots_txt` | robots.txt with managed AI crawler rules for a policy | No |
-| `generate_schema` | Organization + WebSite JSON-LD | No |
-| `plan_fixes` | Ranked fixes; with `target`, a dry-run preview | No |
-| `apply_fixes` | Apply to WordPress or a local repo | Only with `confirm=true` |
-| `list_sites` | Configured sites and available AI engines | No |
-| `list_audits` | Stored audits per site, newest first | No |
-| `pagespeed` | PageSpeed Insights lab and field data for one URL | No |
-| `serp_preview` | Titles and descriptions as search snippets: pixel width, truncation, thin-for-AI | No |
-| `ask_audit` | Answer a question about the latest audit | No |
-| `generate_report` | Write html, md, csv, json, sarif, xlsx or pdf files | Writes report files |
-| `create_redirect` | Add a WordPress redirect through the AVC helper | Only with `confirm=true` |
-| `rollback` | Restore a WordPress or repo rollback snapshot | Only with `confirm=true` |
+| Tool                  | What it does                                                                     | Changes anything?                           |
+| --------------------- | -------------------------------------------------------------------------------- | ------------------------------------------- |
+| `audit_site`          | Crawl and check a site; returns score, pillars and top priorities                | Saves the audit                             |
+| `get_issues`          | Issues filtered by pillar, category, severity, check, URL or text                | No                                          |
+| `get_page`            | Everything recorded about one page, with its issues                              | No                                          |
+| `get_fix`             | Stack-aware fix for a check: steps, files, snippet, agent prompt, affected URLs  | No                                          |
+| `list_checks`         | The check catalogue                                                              | No                                          |
+| `crawler_access`      | Per AI crawler: robots.txt decision and deciding line, live fetch verdict        | No                                          |
+| `agentic_readiness`   | Origin probes, llms.txt structure, agentic check results                         | No                                          |
+| `ai_visibility`       | Latest stored run; with `run=true`, a new run (see below)                        | Spends money only with `confirm_spend=true` |
+| `diff_audits`         | Score, new and fixed issues, pages, AI visibility between two audits             | No                                          |
+| `generate_llms_txt`   | llms.txt from the latest audit                                                   | No                                          |
+| `generate_robots_txt` | robots.txt with managed AI crawler rules for a policy                            | No                                          |
+| `generate_schema`     | Organization + WebSite JSON-LD                                                   | No                                          |
+| `plan_fixes`          | Ranked fixes; with `target`, a dry-run preview                                   | No                                          |
+| `apply_fixes`         | Apply to WordPress or a local repo                                               | Only with `confirm=true`                    |
+| `list_sites`          | Configured sites and available AI engines                                        | No                                          |
+| `list_audits`         | Stored audits per site, newest first                                             | No                                          |
+| `pagespeed`           | PageSpeed Insights lab and field data for one URL                                | No                                          |
+| `serp_preview`        | Titles and descriptions as search snippets: pixel width, truncation, thin-for-AI | No                                          |
+| `ask_audit`           | Answer a question about the latest audit                                         | No                                          |
+| `generate_report`     | Write html, md, csv, json, sarif, xlsx or pdf files                              | Writes report files                         |
+| `create_redirect`     | Add a WordPress redirect through the AVC helper                                  | Only with `confirm=true`                    |
+| `rollback`            | Restore a WordPress or repo rollback snapshot                                    | Only with `confirm=true`                    |
 
 Resource: `avc://report/{site}`, the latest audit report for a site as Markdown.
 

@@ -395,6 +395,24 @@ export function buildProgram(): Command {
     );
 
   program
+    .command('setup-claude')
+    .alias('mcp-install')
+    .description(
+      'Connect AVC to the Claude desktop app, Claude Code (every folder) and Cursor in one step.',
+    )
+    .option('--desktop', 'only the Claude desktop app')
+    .option('--code', 'only Claude Code (user scope)')
+    .option('--cursor', 'only Cursor')
+    .option('--dry-run', 'show what would change, write nothing')
+    .option('--remove', 'remove AVC from them instead')
+    .action(
+      run(async (opts) => {
+        const { cmdSetupClaude } = await import('./commands/setup-claude.js');
+        await cmdSetupClaude(opts);
+      }),
+    );
+
+  program
     .command('checks')
     .description('List every check with its pillar, severity and fix tier.')
     .option('--category <id>', 'filter by category')

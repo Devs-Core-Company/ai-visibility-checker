@@ -61,8 +61,18 @@ fi
 
 echo
 avc doctor || true
+
+# Connect AVC to Claude (desktop app, Claude Code at user scope, Cursor): whichever are
+# installed. Set AVC_SKIP_CLAUDE=1 to skip.
+if [ "${AVC_SKIP_CLAUDE:-}" != "1" ]; then
+  echo
+  bold "Connecting AVC to Claude…"
+  avc setup-claude || warn "Could not connect AVC to Claude. Run 'avc setup-claude' later."
+fi
+
 echo
 bold "Done. Next steps:"
+echo "  Quit the Claude app fully and reopen it, then ask: \"Audit https://yoursite.com with avc\""
 echo "  avc init                       # set up your site"
 echo "  avc audit https://yoursite.com # run an audit"
 echo "  avc ui                         # open the dashboard"

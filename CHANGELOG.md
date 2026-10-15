@@ -7,6 +7,12 @@ and the project uses [semantic versioning](https://semver.org). Check ids are st
 
 ### Added
 
+- `avc setup-claude`: connects the MCP server to the Claude desktop app, Claude Code (user scope,
+  every folder) and Cursor in one step, with absolute paths so the desktop app finds Node without
+  your shell's PATH. The one-line installers run it (`AVC_SKIP_CLAUDE=1` to skip).
+
+### Added
+
 - 13 standards-based checks after benchmark run 1 (bench/results/CHANGES.md): unknown schema.org
   types (full vocabulary), end dates before start dates, location pages missing LocalBusiness
   markup their siblings have, markup phone numbers not shown on the page, RFC 9116 security.txt

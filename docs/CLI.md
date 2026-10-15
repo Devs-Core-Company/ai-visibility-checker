@@ -37,42 +37,42 @@ Google sign-in when needed, then tests the connection. Options: `--property`, `-
 
 ### `avc audit <url>`
 
-| Option | Meaning |
-| --- | --- |
-| `--max-pages <n>` | Stop after n pages (0 = no limit). Default 500 or the site config. |
-| `--depth <n>` | Maximum click depth. |
-| `--render` / `--no-render` | Always (every crawled HTML page, within `--max-pages`) / never render with Chrome. Default: `auto` (home page, thin pages and a sample of up to 50). |
-| `--include <regex>`, `--exclude <regex>` | URL filters for the crawl (repeatable). |
-| `--only <sel>`, `--skip <sel>` | Checks to run or skip: ids, id prefixes, categories or pillars. |
-| `--visibility` | Also run an AI visibility check (uses your keys). |
-| `--engines <list>`, `--repeats <n>`, `--mock` | Options for `--visibility`. |
-| `-f, --format <list>` | `html,json,md,csv,sarif,xlsx,pdf`. Default `html,json`. PDF needs local Chrome. |
-| `-o, --out <dir>` | Report folder. Default `avc-reports`. |
-| `--fail-under <score>` | Exit with code 2 when the score is below this. |
-| `--open` | Open the HTML report. |
-| `--json` | Print the full result to stdout. |
-| `-q, --quiet`, `--no-save` | No progress output; do not store in history. |
+| Option                                        | Meaning                                                                                                                                              |
+| --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--max-pages <n>`                             | Stop after n pages (0 = no limit). Default 500 or the site config.                                                                                   |
+| `--depth <n>`                                 | Maximum click depth.                                                                                                                                 |
+| `--render` / `--no-render`                    | Always (every crawled HTML page, within `--max-pages`) / never render with Chrome. Default: `auto` (home page, thin pages and a sample of up to 50). |
+| `--include <regex>`, `--exclude <regex>`      | URL filters for the crawl (repeatable).                                                                                                              |
+| `--only <sel>`, `--skip <sel>`                | Checks to run or skip: ids, id prefixes, categories or pillars.                                                                                      |
+| `--visibility`                                | Also run an AI visibility check (uses your keys).                                                                                                    |
+| `--engines <list>`, `--repeats <n>`, `--mock` | Options for `--visibility`.                                                                                                                          |
+| `-f, --format <list>`                         | `html,json,md,csv,sarif,xlsx,pdf`. Default `html,json`. PDF needs local Chrome.                                                                      |
+| `-o, --out <dir>`                             | Report folder. Default `avc-reports`.                                                                                                                |
+| `--fail-under <score>`                        | Exit with code 2 when the score is below this.                                                                                                       |
+| `--open`                                      | Open the HTML report.                                                                                                                                |
+| `--json`                                      | Print the full result to stdout.                                                                                                                     |
+| `-q, --quiet`, `--no-save`                    | No progress output; do not store in history.                                                                                                         |
 
 Crawl scope and options (all optional):
 
-| Option | Meaning |
-| --- | --- |
-| `--profile <name>` | Use a named crawl profile from `profiles` in `avc.config.json`. |
-| `--preset <name>` | Platform preset: `auto` (detect), `wordpress`, `wordpress:woocommerce`, `wordpress:blog`, `shopify`, `magento`, `drupal`, `joomla`, `laravel`, `nextjs`, `spa`, `hosted`, `static`. See `avc presets`. |
-| `--list <file>` | List mode: audit exactly these URLs (one per line), follow no links. |
-| `--sitemap-only` | Crawl only the URLs in the sitemaps. |
-| `--subdomains`, `--stay-in-folder` | Also crawl subdomains; or stay inside the start URL's folder. |
-| `--no-follow-nofollow` | Do not follow `rel="nofollow"` links. |
-| `--external-links` | Check that outbound links work (needed for Safe Browsing too). |
-| `--ignore-robots`, `--robots-ua <token>` | Crawl disallowed URLs (still reported); obey another robots.txt group. |
-| `--user-agent <ua>`, `--concurrency <n>`, `--delay <ms>` | Crawler identity and pace. 429 and 503 answers are retried with back-off. |
-| `--remove-param <name>`, `--rewrite "regex=>replacement"`, `--lowercase-urls` | URL rewriting (repeatable). |
-| `--max-url-length <n>`, `--max-query-params <n>`, `--max-folder-depth <n>`, `--max-per-depth <n>` | Skip URLs beyond these limits. |
-| `--cdn <host>` | A host serving your own files (not counted as third party). |
-| `--extract "name=css:selector[@attr]"` | Custom extraction (repeatable). Also `xpath:` (simple paths such as `//div[@class='price']/text()`), `regex:` (group 1) and `count:` (number of matches). Results go to the page detail, CSV (`-extraction.csv`) and Excel. |
-| `--content-selector <css>`, `--content-exclude <css>` | Content area used for word counts and duplicate detection. |
-| `--form-login <url>` | Sign in at this login form in Chrome first (credentials only from `AVC_FORM_USER` / `AVC_FORM_PASS`). Log-out, delete and admin links are not followed while signed in. Use an account with the least access. |
-| `--no-mobile`, `--no-pdf` | Skip the phone render; do not read linked PDFs' properties. |
+| Option                                                                                            | Meaning                                                                                                                                                                                                                     |
+| ------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--profile <name>`                                                                                | Use a named crawl profile from `profiles` in `avc.config.json`.                                                                                                                                                             |
+| `--preset <name>`                                                                                 | Platform preset: `auto` (detect), `wordpress`, `wordpress:woocommerce`, `wordpress:blog`, `shopify`, `magento`, `drupal`, `joomla`, `laravel`, `nextjs`, `spa`, `hosted`, `static`. See `avc presets`.                      |
+| `--list <file>`                                                                                   | List mode: audit exactly these URLs (one per line), follow no links.                                                                                                                                                        |
+| `--sitemap-only`                                                                                  | Crawl only the URLs in the sitemaps.                                                                                                                                                                                        |
+| `--subdomains`, `--stay-in-folder`                                                                | Also crawl subdomains; or stay inside the start URL's folder.                                                                                                                                                               |
+| `--no-follow-nofollow`                                                                            | Do not follow `rel="nofollow"` links.                                                                                                                                                                                       |
+| `--external-links`                                                                                | Check that outbound links work (needed for Safe Browsing too).                                                                                                                                                              |
+| `--ignore-robots`, `--robots-ua <token>`                                                          | Crawl disallowed URLs (still reported); obey another robots.txt group.                                                                                                                                                      |
+| `--user-agent <ua>`, `--concurrency <n>`, `--delay <ms>`                                          | Crawler identity and pace. 429 and 503 answers are retried with back-off.                                                                                                                                                   |
+| `--remove-param <name>`, `--rewrite "regex=>replacement"`, `--lowercase-urls`                     | URL rewriting (repeatable).                                                                                                                                                                                                 |
+| `--max-url-length <n>`, `--max-query-params <n>`, `--max-folder-depth <n>`, `--max-per-depth <n>` | Skip URLs beyond these limits.                                                                                                                                                                                              |
+| `--cdn <host>`                                                                                    | A host serving your own files (not counted as third party).                                                                                                                                                                 |
+| `--extract "name=css:selector[@attr]"`                                                            | Custom extraction (repeatable). Also `xpath:` (simple paths such as `//div[@class='price']/text()`), `regex:` (group 1) and `count:` (number of matches). Results go to the page detail, CSV (`-extraction.csv`) and Excel. |
+| `--content-selector <css>`, `--content-exclude <css>`                                             | Content area used for word counts and duplicate detection.                                                                                                                                                                  |
+| `--form-login <url>`                                                                              | Sign in at this login form in Chrome first (credentials only from `AVC_FORM_USER` / `AVC_FORM_PASS`). Log-out, delete and admin links are not followed while signed in. Use an account with the least access.               |
+| `--no-mobile`, `--no-pdf`                                                                         | Skip the phone render; do not read linked PDFs' properties.                                                                                                                                                                 |
 
 The terminal shows a progress line, the score and pillars, the top 10 priorities with their first
 fix step, the change since the last audit, and where the reports were saved.
@@ -182,6 +182,21 @@ audit (or `--visibility`), diff against the last one, send alerts (`--dry-run-al
 
 The dashboard on `http://127.0.0.1:4317`. `--port`, `--no-open`, `--monitor` (run schedules while
 open), `--host` (listen on another interface; prints a warning). See [DASHBOARD.md](DASHBOARD.md).
+
+### `avc setup-claude`
+
+Connects the MCP server to the Claude desktop app (chat), Claude Code at user scope (every folder) and
+Cursor, whichever are installed. Uses absolute paths to `node` and AVC, so the desktop app finds them
+without your shell's `PATH`, and backs up any config file it changes.
+
+```bash
+avc setup-claude              # all that are installed
+avc setup-claude --desktop    # only the Claude desktop app (also --code, --cursor)
+avc setup-claude --dry-run    # show the change, write nothing
+avc setup-claude --remove     # take AVC out again
+```
+
+Then fully quit the Claude app and reopen it. Details: [MCP.md](MCP.md).
 
 ### `avc mcp`
 
