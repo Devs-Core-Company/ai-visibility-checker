@@ -17,7 +17,7 @@ Free, open source, and it runs on your machine.
 ![40 AI crawlers](https://img.shields.io/badge/AI%20crawlers-40-0e4f95)
 [![Benchmark: 121 of 121 defects found](https://img.shields.io/badge/benchmark-121%2F121%20defects%20found-5fd69b)](#benchmark)
 
-[Watch the tour](#see-it-run) · [Quickstart](#quickstart-60-seconds) · [What you get](#what-you-get) · [Benchmark](#benchmark) · [Docs](docs/) · [Free web checker](https://devs-core.com/ai-visibility-checker)
+[Watch the tour](#see-it-run) · [Quickstart](#quickstart-60-seconds) · [Use it in Claude](#mcp-use-it-from-claude-cursor-or-vs-code) · [What you get](#what-you-get) · [Benchmark](#benchmark) · [Docs](docs/) · [Free web checker](https://devs-core.com/ai-visibility-checker)
 
 </div>
 
@@ -52,19 +52,8 @@ app's sample mode. [Watch on YouTube](https://www.youtube.com/watch?v=HW0-TYBymH
 
 You need [Node.js](https://nodejs.org) 22.5 or newer. Chrome is optional (for JavaScript rendering).
 
-```bash
-# Run once without installing
-npx github:Devs-Core-Company/ai-visibility-checker audit https://yoursite.com
-
-# Or install the `avc` command
-npm i -g github:Devs-Core-Company/ai-visibility-checker
-avc init          # your site, brand and competitors
-avc audit yoursite.com
-avc ui            # the dashboard, at http://127.0.0.1:4317
-```
-
-One-line installers check Node, install `avc`, run `avc doctor`, and connect AVC to the Claude
-desktop app, Claude Code and Cursor if you have them (`AVC_SKIP_CLAUDE=1` to skip):
+**1. Install.** The one-line installer checks Node, installs the `avc` command, runs `avc doctor`
+and connects AVC to Claude (step 3) if you have it:
 
 ```bash
 # macOS / Linux
@@ -75,6 +64,29 @@ curl -fsSL https://raw.githubusercontent.com/Devs-Core-Company/ai-visibility-che
 # Windows (PowerShell)
 irm https://raw.githubusercontent.com/Devs-Core-Company/ai-visibility-checker/main/install.ps1 | iex
 ```
+
+Or with npm: `npm i -g github:Devs-Core-Company/ai-visibility-checker`
+
+**2. Audit your site.**
+
+```bash
+avc init          # your site, brand and competitors
+avc audit yoursite.com
+avc ui            # the dashboard, at http://127.0.0.1:4317
+```
+
+**3. Use it in Claude (desktop app, Claude Code or Cursor).** AVC is also an MCP server, so you can
+ask Claude to audit your site and fix what it finds. One command connects it to the Claude desktop
+app, Claude Code (in every folder) and Cursor, whichever you have:
+
+```bash
+avc setup-claude
+```
+
+Then **fully quit the Claude app and open it again** (⌘Q on a Mac, File → Exit on Windows; closing the
+window is not enough). In a new chat, ask: _"Audit https://yoursite.com with avc and tell me the
+three things to fix first."_ The installer in step 1 has already done this unless you set
+`AVC_SKIP_CLAUDE=1`. More in [docs/MCP.md](docs/MCP.md).
 
 Docker (Chromium included, data in a volume):
 
@@ -355,25 +367,18 @@ run, the CLI and dashboard show an upper-bound estimate, and two hard caps stop 
 everything with sample answers and no spend. Prices in the estimate are list prices and can be out of
 date; your provider's dashboard is the bill.
 
-## MCP: use it from Claude Code, Cursor or VS Code
+## MCP: use it from Claude, Cursor or VS Code
 
-Connect it to the **Claude desktop app** (chat), **Claude Code** (every folder) and **Cursor** in one
-step:
-
-```bash
-npm i -g github:Devs-Core-Company/ai-visibility-checker
-avc setup-claude
-```
-
-The one-line installers above do this for you. Then fully quit the Claude app and reopen it. (A plain
-`claude mcp add` only reaches Claude Code, in one folder, and not the desktop app's chat; `avc
-setup-claude` handles both, with absolute paths so the desktop app finds Node.)
+`avc setup-claude` ([Quickstart step 3](#quickstart-60-seconds)) connects AVC to the Claude desktop
+app, Claude Code and Cursor. A plain `claude mcp add` only reaches Claude Code, in one folder, and
+not the desktop app's chat; `avc setup-claude` handles both, with absolute paths so the desktop app
+finds Node. VS Code and other clients: [docs/MCP.md](docs/MCP.md).
 
 Then ask: "Audit example.com and fix the top three issues in this repo." Tools include `audit_site`,
 `get_issues`, `get_fix` (with agent prompts), `crawler_access`, `agentic_readiness`, `ai_visibility`
 (asks before spending), `diff_audits`, `list_audits`, `pagespeed`, `serp_preview`, `ask_audit`,
 `generate_report`, generators, `plan_fixes` / `apply_fixes` (dry run unless confirmed),
-`create_redirect` and `rollback`. Setup for every client: [docs/MCP.md](docs/MCP.md).
+`create_redirect` and `rollback`.
 
 ## CI
 
