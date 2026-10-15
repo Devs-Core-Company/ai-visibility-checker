@@ -99,6 +99,14 @@ export async function cmdVisibility(target: string, opts: VisOpts): Promise<void
     return;
   }
   printRun(run);
+  console.log(
+    `\n${c.bold('See it in the dashboard:')} run ${c.cyan('avc ui')}, open ${c.bold(site.id)}, then ${c.bold('AI visibility')}.`,
+  );
+  console.log(
+    c.dim(
+      `This check is stored on its own, so the audit score leaves it out. To include it: avc audit ${site.id} --visibility`,
+    ),
+  );
 }
 
 export function printRun(run: VisibilityRun): void {

@@ -17,9 +17,9 @@ import {
   type SecretSource,
 } from '../../core/secrets.js';
 import { aiUnavailableReason } from '../../ai/availability.js';
-import { getConfig } from '../../cli/services.js';
+import { allSites, getConfig } from '../../cli/services.js';
 import { back, form, str, type Deps, type ServerEnv } from '../app.js';
-import { Badge, Layout } from '../ui.js';
+import { Badge, Layout, siteHref } from '../ui.js';
 
 export const MASK = '••••••••';
 
@@ -104,7 +104,9 @@ export function registerKeysPages(app: Hono<ServerEnv>, deps: Deps): void {
 
   app.get('/keys', (c) => {
     const store = secretStore();
-    const noAi = aiUnavailableReason(getConfig(true));
+    const config = getConfig(true);
+    const noAi = aiUnavailableReason(config);
+    const sites = allSites(config).slice(0, 6);
     return c.html(
       <Layout title="API keys" active="keys" flash={c.get('flash')}>
         <div class="card">
@@ -119,11 +121,31 @@ export function registerKeysPages(app: Hono<ServerEnv>, deps: Deps): void {
               you can read.
             </p>
           ) : null}
-          <p class={noAi ? 'notice warn' : 'muted'} role="status">
-            {noAi
-              ? 'No AI key yet: AI visibility runs are skipped until you add one. Audits work without keys.'
-              : 'AI visibility can run.'}
-          </p>
+          {noAi ? (
+            <p class="notice warn" role="status">
+              No AI key yet: AI visibility runs are skipped until you add one. Audits work without
+              keys.
+            </p>
+          ) : (
+            <div class="notice ok" role="status">
+              <strong>AI keys are ready.</strong> Next: run an AI visibility check to see whether
+              ChatGPT, Claude, Gemini and Perplexity name you. It shows the cost before it starts.
+              {sites.length ? (
+                <div class="row" style="margin-top:8px;gap:8px;flex-wrap:wrap">
+                  {sites.map((s) => (
+                    <a class="btn primary small" href={siteHref(s.id, 'visibility')}>
+                      Run AI visibility for {s.id} →
+                    </a>
+                  ))}
+                </div>
+              ) : (
+                <>
+                  {' '}
+                  <a href="/">Add your site first →</a>
+                </>
+              )}
+            </div>
+          )}
         </div>
         <form method="post" action="/keys" class="stack" autocomplete="off">
           {/* Enter submits the form's first button: make that Save, not a key's Test. */}

@@ -744,3 +744,41 @@ ul.tree > li {
 ul.tree summary {
   cursor: pointer;
 }
+
+/* Sites page: the whole card opens the site; make that obvious. */
+.site-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.15s;
+}
+.site-card:hover,
+.site-card:focus-visible {
+  border-color: var(--royal);
+  text-decoration: none;
+}
+.site-card:hover .site-open {
+  filter: brightness(1.08);
+}
+.site-status {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 12px;
+  margin: 0;
+  font-size: 0.85rem;
+}
+.site-status dt {
+  color: var(--muted);
+}
+.site-status dd {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.site-open {
+  align-self: flex-start;
+}
