@@ -15,7 +15,10 @@ afterAll(async () => {
 const chrome = findChrome();
 
 describe('render', () => {
-  it('skips cleanly when no browser exists', async () => {
+  it('skips cleanly, with a reason, when the browser cannot start', async () => {
+    // An executable that is not a browser: the launch fails at once, wherever the tests run.
+    // (A path that does not exist would fall back to auto-detection and launch the machine's
+    // real Chrome, which is slow and made this test time out on busy CI runners.)
     const logs: string[] = [];
     const page = {
       isHtml: true,
@@ -24,13 +27,13 @@ describe('render', () => {
       finalUrl: `${fx.url}/app`,
     } as PageData;
     const r = await renderPages([page], {
-      chromePath: '/nope/chrome',
+      chromePath: process.execPath,
       limit: 1,
       log: (_l, m) => logs.push(m),
-    }).catch(() => null);
-    // A wrong explicit path falls back to auto-detection, so only assert it never throws.
-    expect(r).not.toBeNull();
-  });
+    });
+    expect(r).toMatchObject({ rendered: 0, skipped: true, chromePath: process.execPath });
+    expect(r.reason).toMatch(/could not start/);
+  }, 20_000);
 
   it.skipIf(!chrome)(
     'renders the JS page in auto mode and fills rendered fields',
