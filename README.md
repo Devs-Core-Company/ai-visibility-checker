@@ -17,6 +17,8 @@ Free, open source, and it runs on your machine.
 ![40 AI crawlers](https://img.shields.io/badge/AI%20crawlers-40-0e4f95)
 [![Benchmark: 121 of 121 defects found](https://img.shields.io/badge/benchmark-121%2F121%20defects%20found-5fd69b)](#benchmark)
 
+<a href="https://www.producthunt.com/products/ai-visibility-checker-8?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-ai-visibility-checker-8" target="_blank" rel="noopener noreferrer"><picture><source media="(prefers-color-scheme: dark)" srcset="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1280880&amp;theme=dark&amp;t=1792032288603"><img alt="AI Visibility Checker - Open-source audit for SEO, AI search and AI agents | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1280880&amp;theme=light&amp;t=1792032288603"></picture></a>
+
 [Watch the tour](#see-it-run) · [Quickstart](#quickstart-60-seconds) · [Use it in Claude](#mcp-use-it-from-claude-cursor-or-vs-code) · [What you get](#what-you-get) · [Benchmark](#benchmark) · [Docs](docs/) · [Free web checker](https://devs-core.com/ai-visibility-checker)
 
 </div>
