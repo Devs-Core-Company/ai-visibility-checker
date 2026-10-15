@@ -4,7 +4,7 @@
   "description": "AI Visibility Checker by Devs Core: full-site technical SEO, AEO/GEO, AI crawler access, agentic-web readiness and real AI visibility tracking (ChatGPT, Claude, Gemini, Perplexity) for your own website. Runs on your machine.",
   "license": "AGPL-3.0-only",
   "author": "Devs Core <contact@devs-core.com> (https://devs-core.com)",
-  "homepage": "https://devs-core.com/ai-visibility-checker/app",
+  "homepage": "https://devs-core.com/ai-visibility-checker",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Devs-Core-Company/ai-visibility-checker.git"
@@ -39,16 +39,33 @@
   },
   "keywords": [
     "seo",
+    "seo-audit",
+    "technical-seo",
+    "site-audit",
+    "crawler",
     "geo",
     "aeo",
+    "generative-engine-optimization",
     "ai-visibility",
-    "llms.txt",
-    "crawler",
-    "site-audit",
+    "ai-seo",
+    "llm-seo",
+    "ai-search",
+    "llms-txt",
+    "robots-txt",
+    "gptbot",
+    "chatgpt",
+    "perplexity",
+    "claude",
+    "gemini",
     "mcp",
     "a2a",
-    "chatgpt",
-    "perplexity"
+    "agentic-web",
+    "screaming-frog-alternative",
+    "lighthouse",
+    "core-web-vitals",
+    "structured-data",
+    "schema-org",
+    "cli"
   ],
   "dependencies": {
     "@ai-sdk/anthropic": "^4.0.79",
@@ -76,5 +93,8 @@
     "prettier": "^3.9.10",
     "typescript": "^5.9.3",
     "vitest": "^5.0.4"
+  },
+  "bugs": {
+    "url": "https://github.com/Devs-Core-Company/ai-visibility-checker/issues"
   }
 }
