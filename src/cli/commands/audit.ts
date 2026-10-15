@@ -5,6 +5,7 @@ import { parseExtractorFlag } from '../../crawl/options.js';
 import { c, fail, printAuditSummary, progressPrinter } from '../output.js';
 import { ExitError } from '../errors.js';
 import { openPath } from '../open.js';
+import { ensureAiKeys, offerKeysOnce } from './keys.js';
 import {
   audit,
   getConfig,
@@ -118,16 +119,21 @@ export function crawlFlags(opts: AuditOpts, argv = process.argv): Partial<CrawlO
 
 export async function cmdAudit(target: string, opts: AuditOpts): Promise<void> {
   if (opts.mock) process.env.AVC_LLM_MOCK = '1';
-  const config = getConfig(Boolean(opts.mock));
+  let config = getConfig(Boolean(opts.mock));
   const site = resolveSite(target, config);
   const formats = parseFormats(opts.format);
   const wantVisibility = Boolean(opts.visibility || opts.engines?.length || opts.repeats);
+  // Without a key the AI run is skipped (and the summary says so); offer to add one first.
+  if (wantVisibility && !opts.json) await ensureAiKeys('The AI visibility run');
+  else if (!opts.json && !opts.quiet) await offerKeysOnce();
   const visibility = wantVisibility
     ? {
         engines: opts.engines?.length ? pickEngines(opts.engines, config) : undefined,
         repeats: opts.repeats,
       }
     : false;
+
+  config = getConfig(true);
 
   // commander sets render=true for --render, false for --no-render, and leaves it
   // true by default because of the negated option; only pass it when given explicitly.

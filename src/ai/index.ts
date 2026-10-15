@@ -14,6 +14,13 @@ export {
   type Via,
 } from './engines.js';
 export {
+  aiUnavailableReason,
+  assertAiAvailable,
+  AiKeysMissingError,
+  hasAnyKey,
+  NO_AI_KEY_REASON,
+} from './availability.js';
+export {
   inferBrand,
   mergeBrand,
   refineBrand,

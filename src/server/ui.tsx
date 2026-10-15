@@ -124,6 +124,11 @@ export function Layout(p: LayoutProps) {
               <div class="nav-group eyebrow">App</div>
               <ul class="nav">
                 <li>
+                  <a href="/keys" aria-current={p.active === 'keys' ? 'page' : undefined}>
+                    API keys
+                  </a>
+                </li>
+                <li>
                   <a href="/settings" aria-current={p.active === 'settings' ? 'page' : undefined}>
                     Settings
                   </a>

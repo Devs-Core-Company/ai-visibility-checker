@@ -1,4 +1,5 @@
 import type { Hono } from 'hono';
+import { secretStore } from '../../core/secrets.js';
 import type { AvcConfig } from '../../core/config.js';
 import { userConfigPath } from '../../core/config.js';
 import type { Alert } from '../../monitor/alerts.js';
@@ -93,7 +94,7 @@ function ApplyResult({ report, preview }: { report: ApplyReport; preview: boolea
 }
 
 function maskSet(v: string | undefined): string {
-  return v ? `set (…${v.slice(-4)})` : 'not set';
+  return v ? 'set' : 'not set';
 }
 
 export function registerOpsPages(app: Hono<ServerEnv>, deps: Deps) {
@@ -782,38 +783,15 @@ export function registerOpsPages(app: Hono<ServerEnv>, deps: Deps) {
     const config = getConfig();
     const { engineStatus } = await import('../../ai/engines.js');
     const status = engineStatus(config);
-    const keys: [string, string, string | undefined][] = [
-      ['gatewayKey', 'Vercel AI Gateway (one key for every engine)', config.ai.gatewayKey],
-      ['openaiKey', 'OpenAI (ChatGPT)', config.ai.openaiKey],
-      ['anthropicKey', 'Anthropic (Claude)', config.ai.anthropicKey],
-      ['googleKey', 'Google (Gemini)', config.ai.googleKey],
-      ['perplexityKey', 'Perplexity', config.ai.perplexityKey],
-      ['xaiKey', 'xAI (Grok)', config.ai.xaiKey],
-    ];
     return c.html(
       <Layout title="Settings" active="settings" flash={c.get('flash')}>
         <form method="post" action="/settings" class="stack">
           <div class="card">
-            <h2>AI keys</h2>
+            <h2>AI engines</h2>
             <p class="muted">
-              Stored in {userConfigPath()} (readable only by you). Environment variables take
-              precedence. Leave a field empty to keep the current key.
+              Add, test or remove API keys on the <a href="/keys">API keys</a> page. They are saved
+              in {secretStore().where}, on this computer only.
             </p>
-            <div class="grid grid-2">
-              {keys.map(([name, label, v]) => (
-                <div class="field">
-                  <label for={name}>
-                    {label} <small>({maskSet(v)})</small>
-                  </label>
-                  <input id={name} name={name} type="password" autocomplete="off" />
-                  {v ? (
-                    <label class="check">
-                      <input type="checkbox" name={`clear_${name}`} /> remove
-                    </label>
-                  ) : null}
-                </div>
-              ))}
-            </div>
             <label class="check">
               <input type="checkbox" name="mock" checked={Boolean(config.ai.mock)} /> Mock mode:
               sample answers, no spend
@@ -920,18 +898,8 @@ export function registerOpsPages(app: Hono<ServerEnv>, deps: Deps) {
   app.post('/settings', async (c) => {
     const f = await form(c);
     const config = getConfig();
+    // Keys are managed on the API keys page (/keys).
     const ai: Record<string, unknown> = {};
-    for (const k of [
-      'gatewayKey',
-      'openaiKey',
-      'anthropicKey',
-      'googleKey',
-      'perplexityKey',
-      'xaiKey',
-    ]) {
-      if (str(f[`clear_${k}`]) === 'on') ai[k] = '';
-      else if (str(f[k])) ai[k] = str(f[k]);
-    }
     ai.mock = str(f.mock) === 'on' ? true : '';
     const run = Number(str(f.maxRunUsd));
     const month = Number(str(f.maxMonthUsd));

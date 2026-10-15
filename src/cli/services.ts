@@ -6,7 +6,14 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import type { AvcConfig, SiteConfig } from '../core/config.js';
-import { loadConfig, saveUserConfig, siteIdFromUrl, userConfigPath } from '../core/config.js';
+import {
+  loadConfig,
+  saveSecrets,
+  saveUserConfig,
+  siteIdFromUrl,
+  userConfigPath,
+} from '../core/config.js';
+import { SECRET_FIELDS, getPath } from '../core/secrets.js';
 import type {
   AuditDiff,
   AuditResult,
@@ -39,6 +46,7 @@ import { runVisibility } from '../ai/run.js';
 import { suggestPrompts } from '../ai/suggest.js';
 import { inferBrand, mergeBrand } from '../ai/brand.js';
 import { engineStatus, defaultEngines } from '../ai/engines.js';
+import { assertAiAvailable } from '../ai/availability.js';
 import { expectedCallCost } from '../ai/pricing.js';
 import { buildFixes } from '../fixes/index.js';
 import {
@@ -118,6 +126,14 @@ export function patchUserConfig<K extends keyof AvcConfig>(
   section: K,
   patch: Partial<AvcConfig[K]>,
 ): AvcConfig {
+  // An empty value for a secret removes it from the secret store (it is never in the file).
+  const cleared: Record<string, null> = {};
+  for (const f of SECRET_FIELDS)
+    if (f.path[0] === section) {
+      const v = getPath(patch, f.path.slice(1));
+      if (v === '' || v === null) cleared[f.id] = null;
+    }
+  if (Object.keys(cleared).length) saveSecrets(cleared);
   const current = readUserConfig();
   const prev = (current[section] ?? {}) as object;
   const next = { ...prev, ...patch } as AvcConfig[K];
@@ -662,6 +678,7 @@ export async function visibility(
   req: VisibilityRequest,
   config = getConfig(),
 ): Promise<VisibilityRun> {
+  assertAiAvailable(config);
   const context =
     req.context === undefined ? await quickContext(req.site, req.onProgress) : req.context;
   const brand = brandFor(req.site, context);

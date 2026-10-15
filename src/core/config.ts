@@ -2,12 +2,24 @@
  * App configuration: where data lives and which keys/connections are set.
  *
  * Precedence: CLI flags > environment variables > project file (./avc.config.json)
- * > user file (~/.avc/config.json) > defaults. Secrets may live in env vars or the
- * user file (chmod 600); never in the project file, which people commit.
+ * > secret store > user file (~/.avc/config.json) > defaults.
+ *
+ * Secrets (see SECRET_FIELDS) live in env vars or the OS secret store (./secrets.ts), never
+ * in a config file: saving moves them out of the user file, a user file from an older
+ * version is migrated on load, and secrets found in the project file, which people commit,
+ * are ignored with a warning.
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync, chmodSync } from 'node:fs';
 import { homedir } from 'node:os';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
+import {
+  SECRET_FIELDS,
+  deletePath,
+  getPath,
+  secretStore,
+  setPath,
+  wordpressSecretId,
+} from './secrets.js';
 import type { BrandProfile, EngineId, TrackedPrompt } from './types.js';
 
 export interface AvcConfig {
@@ -199,7 +211,14 @@ function merge(...parts: Partial<AvcConfig>[]): AvcConfig {
     if (p.ai) out.ai = { ...out.ai, ...strip(p.ai) };
     if (p.google) out.google = { ...out.google, ...strip(p.google) };
     if (p.bing) out.bing = { ...out.bing, ...strip(p.bing) };
-    if (p.alerts) out.alerts = { ...out.alerts, ...strip(p.alerts) };
+    if (p.alerts) {
+      const email = p.alerts.email
+        ? ({ ...out.alerts?.email, ...strip(p.alerts.email) } as NonNullable<
+            AvcConfig['alerts']
+          >['email'])
+        : out.alerts?.email;
+      out.alerts = { ...out.alerts, ...strip(p.alerts), ...(email ? { email } : {}) };
+    }
     if (p.server) out.server = { ...out.server, ...strip(p.server) };
     if (p.spelling) out.spelling = { ...out.spelling, ...strip(p.spelling) };
     if (p.safeBrowsing) out.safeBrowsing = { ...out.safeBrowsing, ...strip(p.safeBrowsing) };
@@ -219,28 +238,135 @@ function strip<T extends object>(o: T): Partial<T> {
 }
 
 let cached: AvcConfig | null = null;
+const warned = new Set<string>();
 
-export function loadConfig(opts: { projectFile?: string; reload?: boolean } = {}): AvcConfig {
-  if (cached && !opts.reload) return cached;
-  const user = readJson(userConfigPath());
-  const project = readJson(opts.projectFile ?? join(process.cwd(), 'avc.config.json'));
-  cached = merge(user, project, envOverrides());
-  mkdirSync(cached.dataDir, { recursive: true });
-  return cached;
+/** One stderr line per process (stdout may be the MCP protocol). */
+function warnOnce(message: string): void {
+  if (warned.has(message)) return;
+  warned.add(message);
+  process.stderr.write(`[avc] ${message}\n`);
 }
 
-/** Persist to the user file (~/.avc/config.json, mode 600). */
-export function saveUserConfig(patch: Partial<AvcConfig>): AvcConfig {
+/** Secret values found in a config object, keyed by secret id. */
+export function secretsIn(obj: Partial<AvcConfig>): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const f of SECRET_FIELDS) {
+    const v = getPath(obj, f.path);
+    if (typeof v === 'string' && v) out[f.id] = v;
+  }
+  for (const site of obj.sites ?? []) {
+    const v = site.connections?.wordpress?.appPassword;
+    if (v) out[wordpressSecretId(site.id)] = v;
+  }
+  return out;
+}
+
+/** A copy of obj with every secret removed. */
+export function withoutSecrets<T extends Partial<AvcConfig>>(obj: T): T {
+  const copy = structuredClone(obj) as Record<string, unknown>;
+  for (const f of SECRET_FIELDS) deletePath(copy, f.path);
+  for (const site of (copy.sites as SiteConfig[] | undefined) ?? [])
+    if (site.connections?.wordpress) delete site.connections.wordpress.appPassword;
+  return copy as T;
+}
+
+/** Stored secrets shaped as a partial config, so they merge like any other source. */
+function storedSecrets(): Partial<AvcConfig> {
+  let values: Record<string, string>;
+  try {
+    values = secretStore().getAll();
+  } catch (e) {
+    warnOnce(`Could not read stored keys: ${(e as Error).message}`);
+    return {};
+  }
+  const out: Record<string, unknown> = {};
+  for (const f of SECRET_FIELDS) if (values[f.id]) setPath(out, f.path, values[f.id]);
+  return out as Partial<AvcConfig>;
+}
+
+/** Put each site's WordPress application password back from the store. */
+function attachSitePasswords(config: AvcConfig): void {
+  let values: Record<string, string> = {};
+  try {
+    values = secretStore().getAll();
+  } catch {
+    return;
+  }
+  for (const site of config.sites) {
+    const pw = values[wordpressSecretId(site.id)];
+    if (pw && site.connections?.wordpress && !site.connections.wordpress.appPassword)
+      site.connections.wordpress.appPassword = pw;
+  }
+}
+
+function writeUserFile(obj: Partial<AvcConfig>): void {
   const path = userConfigPath();
-  const current = readJson(path);
-  const next = { ...current, ...patch } as Partial<AvcConfig>;
-  mkdirSync(DEFAULTS.dataDir, { recursive: true });
-  writeFileSync(path, JSON.stringify(next, null, 2));
+  mkdirSync(dirname(path), { recursive: true });
+  writeFileSync(path, JSON.stringify(obj, null, 2));
   try {
     chmodSync(path, 0o600);
   } catch {
     /* windows */
   }
+}
+
+/** Move keys an older version saved in ~/.avc/config.json into the secret store. */
+function migrateUserFile(user: Partial<AvcConfig>): Partial<AvcConfig> {
+  const found = secretsIn(user);
+  const ids = Object.keys(found);
+  if (!ids.length) return user;
+  try {
+    const store = secretStore();
+    const existing = store.getAll();
+    // A key already in the store is newer than one left behind in the file.
+    store.setMany(
+      Object.fromEntries(ids.filter((id) => !existing[id]).map((id) => [id, found[id]!])),
+    );
+    const clean = withoutSecrets(user);
+    writeUserFile(clean);
+    warnOnce(`Moved ${ids.length} key(s) out of ${userConfigPath()} into ${store.where}.`);
+    return clean;
+  } catch (e) {
+    warnOnce(
+      `${ids.length} key(s) are still in ${userConfigPath()}: ${(e as Error).message}. Run \`avc keys\` to check.`,
+    );
+    return user;
+  }
+}
+
+export function loadConfig(opts: { projectFile?: string; reload?: boolean } = {}): AvcConfig {
+  if (cached && !opts.reload) return cached;
+  const user = migrateUserFile(readJson(userConfigPath()));
+  const projectPath = opts.projectFile ?? join(process.cwd(), 'avc.config.json');
+  let project = readJson(projectPath);
+  if (Object.keys(secretsIn(project)).length) {
+    warnOnce(
+      `${projectPath} contains API keys or passwords. They are ignored: project files get committed. Remove them and run \`avc keys setup\` instead.`,
+    );
+    project = withoutSecrets(project);
+  }
+  cached = merge(user, storedSecrets(), project, envOverrides());
+  attachSitePasswords(cached);
+  mkdirSync(cached.dataDir, { recursive: true });
+  return cached;
+}
+
+/**
+ * Save secrets to the secret store. A non-empty string sets a key, an empty string or null
+ * removes it, and a missing entry leaves it unchanged.
+ */
+export function saveSecrets(values: Record<string, string | null>): void {
+  secretStore().setMany(Object.fromEntries(Object.entries(values).map(([k, v]) => [k, v ?? ''])));
+  cached = null;
+}
+
+/** Persist to the user file (~/.avc/config.json, mode 600). Secrets go to the secret store. */
+export function saveUserConfig(patch: Partial<AvcConfig>): AvcConfig {
+  const current = readJson(userConfigPath());
+  const next = { ...current, ...patch } as Partial<AvcConfig>;
+  const secrets = secretsIn(next);
+  if (Object.keys(secrets).length) saveSecrets(secrets);
+  writeUserFile(withoutSecrets(next));
   cached = null;
   return loadConfig({ reload: true });
 }

@@ -767,6 +767,8 @@ export interface AuditResult {
   sitemaps: { url: string; found: boolean; urls: number; errors: string[] }[];
   external: Omit<ExternalData, 'repo'> & { repo?: ExternalData['repo'] };
   visibility?: VisibilityRun;
+  /** Whole steps that did not run (e.g. the AI visibility run without keys), and why. */
+  notRun?: { step: 'ai-visibility'; reason: string }[];
 }
 
 export interface ResourceSummary {

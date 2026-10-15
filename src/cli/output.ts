@@ -4,6 +4,7 @@
  */
 import pc from 'picocolors';
 import type { AuditResult, ProgressEvent, Severity } from '../core/types.js';
+import { skippedSummary } from '../audit/index.js';
 
 export const c = pc;
 
@@ -181,6 +182,7 @@ export function printAuditSummary(result: AuditResult, opts: { top?: number } = 
       `  ${pc.bold('AI engines')}  named in ${fmtScore(v.mentionRate * 100)}% of answers · cost ~$${v.costUsd.toFixed(2)}`,
     );
   }
+  out.push(...skippedLines(result));
   const top = result.priorities.slice(0, opts.top ?? 10);
   if (top.length) {
     out.push(heading(`Top ${top.length} priorities`));
@@ -197,6 +199,19 @@ export function printAuditSummary(result: AuditResult, opts: { top?: number } = 
     });
   }
   return out.join('\n');
+}
+
+/** What did not run and why: shown after every audit, so nothing is skipped silently. */
+export function skippedLines(result: AuditResult): string[] {
+  const s = skippedSummary(result);
+  if (!s.steps.length && !s.total) return [];
+  const out = [heading(`Skipped${s.total ? ` (${s.total} checks)` : ''}`)];
+  for (const st of s.steps) out.push(`  ${pc.yellow('•')} AI visibility run  ${pc.dim(st.reason)}`);
+  for (const g of s.checks)
+    out.push(
+      `  ${pc.yellow('•')} ${`${g.checks.length} check${g.checks.length === 1 ? '' : 's'}`.padEnd(17)} ${pc.dim(g.reason)}`,
+    );
+  return out;
 }
 
 export function truncate(s: string, n: number): string {

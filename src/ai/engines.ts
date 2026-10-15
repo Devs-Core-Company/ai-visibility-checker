@@ -6,6 +6,10 @@ import { createGateway, generateText, Output, type LanguageModel, type ToolSet }
 import type { z } from 'zod';
 
 import type { AvcConfig } from '../core/config.js';
+import { SECRET_FIELDS } from '../core/secrets.js';
+import { isMock } from './availability.js';
+
+export { aiUnavailableReason, hasAnyKey, isMock, NO_AI_KEY_REASON } from './availability.js';
 import type { EngineId } from '../core/types.js';
 import { bareModel, estimateCost } from './pricing.js';
 import { describeError, withTimeout } from './util.js';
@@ -133,20 +137,13 @@ export const ENGINE_INFO: EngineInfo[] = [
   },
 ];
 
+/** The `avc keys set <id>` id for an engine's config key. */
+function keyIdFor(key: EngineInfo['key']): string {
+  return SECRET_FIELDS.find((f) => f.path[0] === 'ai' && f.path[1] === key)?.id ?? 'gateway';
+}
+
 export function engineLabel(id: EngineId): string {
   return ENGINE_INFO.find((e) => e.id === id)?.label ?? id;
-}
-
-function hasAnyKey(config: AvcConfig): boolean {
-  const a = config.ai;
-  return Boolean(
-    a.gatewayKey || a.openaiKey || a.anthropicKey || a.googleKey || a.perplexityKey || a.xaiKey,
-  );
-}
-
-/** Mock when asked for, or when no AI key is configured at all. */
-export function isMock(config: AvcConfig): boolean {
-  return Boolean(config.ai.mock) || !hasAnyKey(config);
 }
 
 function modelFor(info: EngineInfo, via: Via, config: AvcConfig): string {
@@ -188,9 +185,7 @@ export function engineStatus(config: AvcConfig): EngineStatus[] {
         model: modelFor(info, 'mock', config),
         available: true,
         default: info.core,
-        note: config.ai.mock
-          ? 'Mock mode: sample answers, nothing is sent to an AI provider.'
-          : 'No AI keys set: sample answers only. Add a provider key or AI_GATEWAY_API_KEY for real results.',
+        note: 'Mock mode: sample answers, nothing is sent to an AI provider.',
       };
     }
     const directKey = info.key ? config.ai[info.key] : undefined;
@@ -219,8 +214,8 @@ export function engineStatus(config: AvcConfig): EngineStatus[] {
       available: false,
       default: false,
       note: info.keyEnv
-        ? `Set ${info.keyEnv} or AI_GATEWAY_API_KEY to include ${info.label}.`
-        : `Set AI_GATEWAY_API_KEY to include ${info.label}.`,
+        ? `Skipped: no ${info.label} key. Add one with \`avc keys set ${keyIdFor(info.key)}\` (or ${info.keyEnv}), or a Vercel AI Gateway key (\`avc keys set gateway\`) for every engine.`
+        : `Skipped: ${info.label} runs through the Vercel AI Gateway. Add a key with \`avc keys set gateway\`.`,
     };
   });
 }

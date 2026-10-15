@@ -25,6 +25,16 @@ List configured sites (and sites that only exist in history), add one (`avc site
 Checks Node, SQLite, Chrome, the data folder, AI keys, spend, sites and connections. `--json` for
 machine-readable output. Exits 1 if something essential is missing.
 
+### `avc keys [status|setup|set|remove]`
+
+API keys, stored in your OS keychain (macOS Keychain, Linux Secret Service, Windows DPAPI; a
+mode-600 file elsewhere). `avc keys` lists which are set (never their values) and what each one
+unlocks. `avc keys setup [--ai]` asks for each at a hidden prompt, Enter to skip. `avc keys set <id>`
+adds or replaces one (`--stdin` to pipe it in a script; keys are never taken as arguments, which
+other users can read in the process list). `avc keys remove <id>` deletes one. Environment variables
+win over stored keys. Steps that need a missing key are skipped and listed under "Skipped" with
+the reason.
+
 ### `avc connect <source> [site]`
 
 `google | gsc | ga4 | psi | bing | wordpress | logs | repo | spelling | safe-browsing | embeddings |

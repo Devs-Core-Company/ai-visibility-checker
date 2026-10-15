@@ -132,9 +132,30 @@ Setting it up by hand, VS Code and other clients, and the full tool list: [MCP.m
 
 ## Keys
 
-Keys are optional. Set them as environment variables, or save them in the dashboard (`avc ui` →
-Settings), which writes `~/.avc/config.json` with file mode 600. Never put keys in
-`avc.config.json`: that file is meant to be committed.
+Keys are optional: audits need none. AI visibility runs need at least one AI key; without one
+they are skipped and every result says so (the CLI summary, the reports, the dashboard and the
+MCP tools all list what was skipped and why). Nothing falls back to sample answers unless you ask
+for them with `--mock`.
+
+Add keys in any of these ways. Each keeps them on your computer:
+
+- **Terminal:** `avc keys setup` asks for each key at a hidden prompt (Enter skips one).
+  `avc keys set <id>` adds one, `avc keys` shows what is set, `avc keys remove <id>` deletes one.
+  `avc init` and the first `avc audit` offer the same setup, and `avc audit --visibility` and
+  `avc visibility` offer it when a key is missing.
+- **Dashboard:** `avc ui` → Settings.
+- **Claude, Cursor or VS Code (MCP):** ask for AI visibility, or for the `setup_keys` tool. A
+  private page opens on your computer (`127.0.0.1`, one-time link, expires after 15 minutes) where
+  you type the keys. They go from your browser straight to AVC and never pass through the chat or
+  the AI model. Never paste a key into the chat.
+- **Environment variables** (below), for CI and Docker. They take precedence over stored keys.
+
+Where stored keys live: the macOS Keychain, the Secret Service keyring on Linux (GNOME Keyring,
+KWallet), or a DPAPI-encrypted file for your Windows account. Without one of those (for example
+in a container), `~/.avc/secrets.json` with file mode 600. Set `AVC_SECRET_STORE=file` to use the
+file anyway. Keys are never written to `~/.avc/config.json`: keys an older version saved there
+are moved to the keychain automatically. Keys in `avc.config.json`, which is meant to be committed,
+are ignored with a warning. A key is sent only to the provider it belongs to.
 
 | Variable                                                                                                   | Used for                                              |
 | ---------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |

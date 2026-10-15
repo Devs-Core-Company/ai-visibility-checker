@@ -1,4 +1,5 @@
 import type { Hono } from 'hono';
+import { aiUnavailableReason } from '../../ai/availability.js';
 import { AI_BOTS } from '../../agentic/bots.js';
 import { parseLlmsTxt } from '../../agentic/llms.js';
 import { buildRobots } from '../../crawl/robots.js';
@@ -456,6 +457,7 @@ export function registerAiPages(app: Hono<ServerEnv>, deps: Deps) {
     const run = (runId ? store.getVisibility(runId) : null) ?? store.latestVisibility(site.id);
     const history = store.listVisibility(site.id, 30);
     const status = engines(config);
+    const noKeys = Boolean(aiUnavailableReason(config));
     const prompts = site.prompts ?? [];
     const promptText = c.req.query('suggested')
       ? decodeURIComponent(c.req.query('suggested')!)
@@ -741,6 +743,13 @@ export function registerAiPages(app: Hono<ServerEnv>, deps: Deps) {
               Save prompts
             </button>
           </div>
+          {noKeys ? (
+            <p class="notice warn" role="status">
+              No AI key is set, so the AI visibility check is skipped. Add one in{' '}
+              <a href="/settings">Settings</a>: it is saved in your OS keychain on this computer and
+              sent only to that AI provider.
+            </p>
+          ) : null}
           <fieldset>
             <legend>Engines</legend>
             {status.map((s) => (
@@ -779,8 +788,12 @@ export function registerAiPages(app: Hono<ServerEnv>, deps: Deps) {
             may cost money
           </label>
           <div>
-            <button class="btn primary" type="submit" disabled={Boolean(running)}>
-              {running ? 'Another job is running' : 'Run AI visibility check'}
+            <button class="btn primary" type="submit" disabled={Boolean(running) || noKeys}>
+              {running
+                ? 'Another job is running'
+                : noKeys
+                  ? 'Add an AI key to run this'
+                  : 'Run AI visibility check'}
             </button>
           </div>
         </form>

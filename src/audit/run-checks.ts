@@ -32,6 +32,8 @@ export interface RunChecksOptions {
   siteCheckTimeoutMs?: number;
   /** Whether an AI visibility run is available (satisfies `requires: ['llm']`). */
   hasVisibility?: boolean;
+  /** Override the skip reason for a requirement (e.g. `llm` when no AI key is set). */
+  reasons?: Partial<Record<Requirement, string>>;
   onProgress?: ProgressFn;
   signal?: AbortSignal;
 }
@@ -50,7 +52,7 @@ const REQUIREMENT_REASON: Record<Requirement, string> = {
   gsc: 'Needs Google Search Console. Connect it with `avc connect google`.',
   ga4: 'Needs Google Analytics 4. Connect it with `avc connect google`.',
   logs: 'Needs server access logs. Point the site config at your log files.',
-  llm: 'Needs an AI visibility run. Add an AI key (or use --mock) and run with --visibility.',
+  llm: 'Needs an AI visibility run. Run the audit with --visibility (it uses your AI keys).',
   repo: "Needs the site's source code. Set connections.repoPath in the site config.",
   spelling:
     'Needs a LanguageTool server. Run one locally, or opt in to the public API with `avc connect spelling`.',
@@ -210,7 +212,7 @@ export async function runChecks(
   const runnablePage: Extract<Check, { kind: 'page' }>[] = [];
   for (const c of pageChecks) {
     const unmet = unmetRequirement(c.def, site, hasVisibility);
-    if (unmet) skipped(c.def, REQUIREMENT_REASON[unmet]);
+    if (unmet) skipped(c.def, opts.reasons?.[unmet] ?? REQUIREMENT_REASON[unmet]);
     else runnablePage.push(c as Extract<Check, { kind: 'page' }>);
   }
 
@@ -254,7 +256,7 @@ export async function runChecks(
   const runnableSite: Extract<Check, { kind: 'site' }>[] = [];
   for (const c of siteChecks) {
     const unmet = unmetRequirement(c.def, site, hasVisibility);
-    if (unmet) skipped(c.def, REQUIREMENT_REASON[unmet]);
+    if (unmet) skipped(c.def, opts.reasons?.[unmet] ?? REQUIREMENT_REASON[unmet]);
     else runnableSite.push(c as Extract<Check, { kind: 'site' }>);
   }
 

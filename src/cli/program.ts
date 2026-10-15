@@ -35,6 +35,7 @@ import {
 } from './commands/tools.js';
 import { cmdChecks } from './commands/checks.js';
 import { cmdDoctor } from './commands/doctor.js';
+import { cmdKeysRemove, cmdKeysSet, cmdKeysSetup, cmdKeysStatus } from './commands/keys.js';
 
 export { ExitError };
 
@@ -176,6 +177,31 @@ export function buildProgram(): Command {
     .option('--no-mobile', 'skip the phone render when rendering')
     .option('--no-pdf', 'do not read properties of linked PDFs')
     .action(run(cmdAudit));
+
+  const keys = program
+    .command('keys')
+    .description('Add, check or remove API keys. They stay on this computer, in your OS keychain.');
+  keys
+    .command('status', { isDefault: true })
+    .description('Which keys are set and what each one unlocks (never shows a key).')
+    .option('--json', 'print as JSON')
+    .action(run(cmdKeysStatus));
+  keys
+    .command('setup')
+    .description('Add keys one by one at a hidden prompt; Enter skips a key.')
+    .option('--ai', 'only the AI engine keys')
+    .action(run(cmdKeysSetup));
+  keys
+    .command('set')
+    .description('Add or replace one key, typed at a hidden prompt.')
+    .argument('<id>', 'key id, e.g. gateway, openai, anthropic, google-ai, perplexity, psi')
+    .option('--stdin', 'read the key from stdin instead (for scripts)')
+    .action(run(cmdKeysSet));
+  keys
+    .command('remove')
+    .description('Delete one stored key.')
+    .argument('<id>', 'key id')
+    .action(run(cmdKeysRemove));
 
   program
     .command('visibility')

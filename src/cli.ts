@@ -26,5 +26,9 @@ for (const stream of [process.stdout, process.stderr])
     throw err;
   });
 
+// Unfilled optional settings from the Claude Desktop extension must not look like keys.
+const { dropUnfilledPlaceholders } = await import('./core/secrets.js');
+dropUnfilledPlaceholders();
+
 const { buildProgram } = await import('./cli/program.js');
 await buildProgram().parseAsync(process.argv);

@@ -28,6 +28,7 @@ import type {
   VisibilityRun,
 } from '../core/types.js';
 import { APP_VERSION } from '../core/version.js';
+import { aiUnavailableReason } from '../ai/availability.js';
 import { runChecks, type SiteWithVisibility } from './run-checks.js';
 import { PILLAR_LABELS, rankPriorities, scoreAudit, type ScoreBreakdown } from './score.js';
 
@@ -258,7 +259,12 @@ export async function runAudit(
 
   // 4. AI visibility (before checks, so llm checks can read it)
   let visibility: VisibilityRun | undefined;
-  if (opts.visibility) {
+  const notRun: NonNullable<AuditResult['notRun']> = [];
+  const noKeys = aiUnavailableReason(opts.config);
+  if (opts.visibility && noKeys) {
+    notRun.push({ step: 'ai-visibility', reason: noKeys });
+    log('warn', `AI visibility: ${noKeys}`);
+  } else if (opts.visibility) {
     progress?.({ type: 'phase', phase: 'visibility', message: 'Asking AI engines' });
     try {
       const brand = mergeBrand(d.inferBrand(site), opts.siteConfig?.brand);
@@ -281,7 +287,15 @@ export async function runAudit(
     } catch (e) {
       if (signal?.aborted) throw e;
       log('warn', `AI visibility run failed: ${errText(e)}`);
+      notRun.push({ step: 'ai-visibility', reason: `Failed: ${errText(e)}` });
     }
+  } else {
+    notRun.push({
+      step: 'ai-visibility',
+      reason:
+        noKeys ??
+        'Not requested. Run the audit with --visibility to ask the AI engines (it uses your AI keys and costs a little).',
+    });
   }
   signal?.throwIfAborted();
 
@@ -291,6 +305,7 @@ export async function runAudit(
     only: opts.only,
     skip: opts.skip,
     hasVisibility: !!visibility,
+    reasons: notRun.length ? { llm: notRun[0]!.reason } : undefined,
     onProgress: progress,
     signal,
   });
@@ -338,6 +353,7 @@ export async function runAudit(
     })),
     external: { ...externalRest, ...(repo ? { repo } : {}) },
     ...(visibility ? { visibility } : {}),
+    ...(notRun.length ? { notRun } : {}),
   };
 
   // 8. Fixes and priorities
@@ -450,6 +466,37 @@ export function countBySeverity(result: AuditResult): Record<Issue['severity'] &
   return out;
 }
 
+export interface SkippedGroup {
+  reason: string;
+  /** Check ids skipped for this reason. */
+  checks: string[];
+}
+
+/**
+ * Everything that did not run, grouped by reason, so every surface can show the user what
+ * was skipped and why: whole steps (the AI visibility run) first, then checks.
+ */
+export function skippedSummary(result: AuditResult): {
+  steps: NonNullable<AuditResult['notRun']>;
+  checks: SkippedGroup[];
+  total: number;
+} {
+  const byReason = new Map<string, string[]>();
+  for (const [id, c] of Object.entries(result.checks)) {
+    if (c.status !== 'skipped') continue;
+    const reason = c.skippedReason ?? 'Skipped.';
+    byReason.set(reason, [...(byReason.get(reason) ?? []), id]);
+  }
+  const checks = [...byReason]
+    .map(([reason, ids]) => ({ reason, checks: ids.sort() }))
+    .sort((a, b) => b.checks.length - a.checks.length);
+  return {
+    steps: result.notRun ?? [],
+    checks,
+    total: checks.reduce((n, g) => n + g.checks.length, 0),
+  };
+}
+
 export function isReadinessOnly(result: AuditResult): boolean {
   const flag = (result.score as Partial<ScoreBreakdown>).readinessOnly;
   return typeof flag === 'boolean' ? flag : !result.visibility;
@@ -494,6 +541,17 @@ export function summariseForCli(result: AuditResult, opts: { top?: number } = {}
     lines.push(
       `AI visibility: named in ${Math.round(v.mentionRate * 100)}% of answers across ${Object.keys(v.byEngine).length} engine(s); cost $${v.costUsd.toFixed(2)}.`,
     );
+  }
+  const skipped = skippedSummary(result);
+  if (skipped.steps.length || skipped.total) {
+    lines.push('');
+    lines.push(pc.bold(`Skipped${skipped.total ? ` (${skipped.total} checks)` : ''}:`));
+    for (const st of skipped.steps)
+      lines.push(`  ${pc.yellow('•')} AI visibility run: ${pc.dim(st.reason)}`);
+    for (const g of skipped.checks)
+      lines.push(
+        `  ${pc.yellow('•')} ${g.checks.length} check${g.checks.length === 1 ? '' : 's'}: ${pc.dim(g.reason)}`,
+      );
   }
   if (result.priorities.length) {
     lines.push('');

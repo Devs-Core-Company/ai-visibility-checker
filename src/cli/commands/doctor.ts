@@ -2,9 +2,10 @@ import { accessSync, constants, mkdirSync } from 'node:fs';
 import { findChrome } from '../../crawl/render.js';
 import { connectionStatus } from '../../connect/index.js';
 import { APP_VERSION } from '../../core/version.js';
-import { userConfigPath } from '../../core/config.js';
+import { secretsIn, userConfigPath } from '../../core/config.js';
+import { secretStore } from '../../core/secrets.js';
 import { c } from '../output.js';
-import { allSites, engines, getConfig, getStore, monthSpend } from '../services.js';
+import { allSites, engines, getConfig, getStore, monthSpend, readUserConfig } from '../services.js';
 
 export interface DoctorItem {
   name: string;
@@ -25,13 +26,19 @@ export async function doctorReport(opts: { test?: boolean } = {}): Promise<Docto
   });
   try {
     await import('node:sqlite');
-    items.push({ name: 'SQLite (node:sqlite)', status: 'ok', detail: 'available' });
+    items.push({
+      name: 'SQLite (node:sqlite)',
+      status: 'ok',
+      detail: process.execArgv.includes('--experimental-sqlite')
+        ? 'available (started with --experimental-sqlite on this Node version)'
+        : 'available',
+    });
   } catch {
     items.push({
       name: 'SQLite (node:sqlite)',
       status: 'fail',
       detail: 'not available',
-      help: 'Use Node 22.5 or newer.',
+      help: 'Start avc through its `avc` launcher (it adds --experimental-sqlite on Node 22.5 to 22.12), or install Node 24 LTS.',
     });
   }
 
@@ -65,6 +72,27 @@ export async function doctorReport(opts: { test?: boolean } = {}): Promise<Docto
     items.push({ name: 'Database', status: 'fail', detail: (e as Error).message });
   }
   items.push({ name: 'User config', status: 'info', detail: userConfigPath() });
+  try {
+    const secrets = secretStore();
+    items.push({
+      name: 'Key storage',
+      status: secrets.fallbackReason ? 'warn' : 'ok',
+      detail: secrets.where,
+      help: secrets.fallbackReason
+        ? `The OS keychain could not be used (${secrets.fallbackReason}), so keys are in a file only you can read.`
+        : undefined,
+    });
+  } catch (e) {
+    items.push({ name: 'Key storage', status: 'fail', detail: (e as Error).message });
+  }
+  const leftInFile = Object.keys(secretsIn(readUserConfig()));
+  if (leftInFile.length)
+    items.push({
+      name: 'Keys in config file',
+      status: 'warn',
+      detail: `${leftInFile.length} key(s) still in ${userConfigPath()}`,
+      help: 'They could not be moved to the keychain. Run `avc keys` to check, then remove them from the file.',
+    });
 
   const eng = engines(config);
   const live = eng.filter((e) => e.available && e.via !== 'mock');
@@ -75,10 +103,10 @@ export async function doctorReport(opts: { test?: boolean } = {}): Promise<Docto
       ? live.map((e) => `${e.label} (${e.via})`).join(', ')
       : config.ai.mock
         ? 'mock mode (sample answers)'
-        : 'no keys: audits work, AI visibility uses sample answers',
+        : 'no keys: audits work, AI visibility runs are skipped',
     help: live.length
       ? undefined
-      : 'Set AI_GATEWAY_API_KEY, or OPENAI_API_KEY / ANTHROPIC_API_KEY / GOOGLE_GENERATIVE_AI_API_KEY / PERPLEXITY_API_KEY.',
+      : 'Run `avc keys setup` (saved in your OS keychain), or set AI_GATEWAY_API_KEY / OPENAI_API_KEY / ANTHROPIC_API_KEY / GOOGLE_GENERATIVE_AI_API_KEY / PERPLEXITY_API_KEY.',
   });
   items.push({
     name: 'AI spend',

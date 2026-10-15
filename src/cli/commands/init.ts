@@ -2,7 +2,8 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { SiteConfig } from '../../core/config.js';
 import { siteIdFromUrl, userConfigPath } from '../../core/config.js';
-import { ask, interactive } from '../ask.js';
+import { ask, confirm, interactive } from '../ask.js';
+import { keysSetup } from './keys.js';
 import { c, ok, warn } from '../output.js';
 import { engines, getConfig, toUrl, upsertUserSite } from '../services.js';
 
@@ -19,7 +20,7 @@ export async function cmdInit(opts: InitOpts): Promise<void> {
   console.log(c.bold('AI Visibility Checker: set up a site'));
   console.log(
     c.dim(
-      'Answers go into a config file. Keys never do; they go in ~/.avc/config.json or env vars.\n',
+      'Answers go into a config file. Keys never do; they go in your OS keychain (or env vars).\n',
     ),
   );
 
@@ -83,8 +84,18 @@ export async function cmdInit(opts: InitOpts): Promise<void> {
   console.log('\n' + c.bold('Keys'));
   if (live.length) {
     console.log(`  AI engines ready: ${live.map((e) => `${e.label} (${e.via})`).join(', ')}`);
+  } else if (
+    !quiet &&
+    (await confirm('  No AI keys yet. Add one now? (Enter skips; audits work without keys)', true))
+  ) {
+    await keysSetup({ group: 'ai' });
   } else {
-    console.log('  No AI keys yet. Audits work without them. To track AI visibility, set either:');
+    console.log(
+      '  No AI keys yet. Audits work without them; AI visibility runs are skipped until you add one:',
+    );
+    console.log(
+      `    ${c.cyan('avc keys setup')}  typed at a hidden prompt, saved in your OS keychain, or`,
+    );
     console.log(
       `    ${c.cyan('AI_GATEWAY_API_KEY')}  one Vercel AI Gateway key for every engine, or`,
     );
@@ -92,7 +103,7 @@ export async function cmdInit(opts: InitOpts): Promise<void> {
       `    ${c.cyan('OPENAI_API_KEY')}, ${c.cyan('ANTHROPIC_API_KEY')}, ${c.cyan('GOOGLE_GENERATIVE_AI_API_KEY')}, ${c.cyan('PERPLEXITY_API_KEY')}`,
     );
     console.log(
-      `  Or save them in the dashboard: ${c.cyan('avc ui')} → Settings. Spend caps: $${config.ai.maxRunUsd} a run, $${config.ai.maxMonthUsd} a month.`,
+      `  Or in the dashboard: ${c.cyan('avc ui')} → Settings. Spend caps: $${config.ai.maxRunUsd} a run, $${config.ai.maxMonthUsd} a month.`,
     );
   }
   console.log(

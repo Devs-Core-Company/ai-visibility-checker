@@ -18,6 +18,7 @@ import { Layout } from './ui.js';
 import { registerSitePages } from './pages/site.js';
 import { registerAiPages } from './pages/ai.js';
 import { registerOpsPages } from './pages/ops.js';
+import { registerKeysPages } from './pages/keys.js';
 import { registerExplorePages } from './pages/explore.js';
 
 export const COOKIE = 'avc_session';
@@ -80,7 +81,8 @@ export function createApp(opts: AppOptions) {
     await next();
     c.header('X-Content-Type-Options', 'nosniff');
     c.header('X-Frame-Options', 'DENY');
-    c.header('Referrer-Policy', 'no-referrer');
+    // same-origin, not no-referrer: no-referrer makes browsers send `Origin: null` on posts.
+    c.header('Referrer-Policy', 'same-origin');
     c.header('Cross-Origin-Opener-Policy', 'same-origin');
     c.header('Cross-Origin-Resource-Policy', 'same-origin');
     c.header(
@@ -118,7 +120,11 @@ export function createApp(opts: AppOptions) {
     if (c.req.method !== 'GET' && c.req.method !== 'HEAD') {
       const origin = c.req.header('origin');
       const site = c.req.header('sec-fetch-site');
-      if (origin) {
+      // Browsers send `Origin: null` on form posts from a page whose referrer policy hides
+      // the origin; then only the browser-set Sec-Fetch-Site header can vouch for the request.
+      if (origin === 'null') {
+        if (site !== 'same-origin') return c.text('Forbidden: cross-origin request.', 403);
+      } else if (origin) {
         let originHost = '';
         try {
           originHost = new URL(origin).host.toLowerCase();
@@ -148,6 +154,7 @@ export function createApp(opts: AppOptions) {
   registerExplorePages(app, deps);
   registerAiPages(app, deps);
   registerOpsPages(app, deps);
+  registerKeysPages(app, deps);
 
   app.notFound((c) =>
     c.html(

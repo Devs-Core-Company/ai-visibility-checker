@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import type { AvcConfig } from '../src/core/config.js';
 import type { PageData, SiteContext, TrackedPrompt, VisibilityRun } from '../src/core/types.js';
 import {
+  aiUnavailableReason,
   availableEngines,
   Budget,
   compareRuns,
@@ -193,12 +194,20 @@ function makeSite(): SiteContext {
 }
 
 describe('engines', () => {
-  it('uses mock when no keys are set', () => {
-    const e = availableEngines(cfg());
+  it('skips every engine, with a reason, when no keys are set (no silent mock)', () => {
+    expect(availableEngines(cfg())).toEqual([]);
+    expect(aiUnavailableReason(cfg())).toMatch(/no AI API key.*avc keys setup/);
+    for (const s of engineStatus(cfg()).filter((x) => x.engine !== 'copilot'))
+      expect(s.note).toMatch(/^Skipped: /);
+  });
+
+  it('uses mock only when it is asked for', () => {
+    const e = availableEngines(cfg({ mock: true }));
     expect(e.map((x) => x.engine)).toEqual(
       expect.arrayContaining(['chatgpt', 'claude', 'gemini', 'perplexity']),
     );
     expect(e.every((x) => x.via === 'mock')).toBe(true);
+    expect(aiUnavailableReason(cfg({ mock: true }))).toBeNull();
   });
 
   it('prefers direct keys, falls back to the gateway, marks Copilot unavailable', () => {
