@@ -359,3 +359,29 @@ describe('API keys page', () => {
     expect(decodeURIComponent(res.headers.get('location') ?? '')).toMatch(/no free way/);
   });
 });
+
+describe('finding the AI results', () => {
+  it('shows an Open button and the AI status on each site card', async () => {
+    const html = await (await req('/')).text();
+    expect(html).toContain(`Open ${siteId} →`);
+    expect(html).toContain('Open a site to see its audit, issues, fixes and AI visibility');
+    expect(html).toMatch(/AI visibility<\/dt>/);
+  });
+
+  it('explains on the overview where AI results live and how to include them', async () => {
+    const html = await (await req(`/s/${siteId}`)).text();
+    // Mock mode counts as AI-ready: the note offers a check rather than asking for a key.
+    expect(html).toMatch(/Run an AI visibility check|See AI visibility results/);
+    expect(html).toContain(`href="/s/${siteId}/visibility"`);
+  });
+
+  it('pre-ticks the AI option when the run page is opened from "Include it in the score"', async () => {
+    const html = await (await req(`/s/${siteId}/run?visibility=1`)).text();
+    expect(html).toMatch(/name="visibility"[^>]*checked/);
+  });
+
+  it('points to the next step on the keys page once AI can run', async () => {
+    const html = await (await req('/keys')).text();
+    expect(html).toContain(`Run AI visibility for ${siteId}`);
+  });
+});

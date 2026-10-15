@@ -2,6 +2,8 @@ import type { Hono } from 'hono';
 import { streamSSE } from 'hono/streaming';
 import type { SiteConfig } from '../../core/config.js';
 import { siteIdFromUrl } from '../../core/config.js';
+import { aiUnavailableReason } from '../../ai/availability.js';
+import type { VisibilityRow } from '../../monitor/store.js';
 import type { AuditResult, Fix, Issue, PageSummary, Severity } from '../../core/types.js';
 import {
   allSites,
@@ -139,6 +141,44 @@ export function fixMap(result: AuditResult): Map<string, Fix> {
   return m;
 }
 
+/**
+ * Under the score when the audit had no AI visibility run: where the AI results are (they
+ * live on their own page), and how to put them in the score. Without a key, how to add one.
+ */
+function AiScoreNote({ siteId, latest }: { siteId: string; latest?: VisibilityRow }) {
+  const noKey = aiUnavailableReason(getConfig());
+  const include = `${siteHref(siteId, 'run')}?visibility=1`;
+  return (
+    <div class="notice info" style="margin-top:10px">
+      {latest ? (
+        <>
+          <strong>
+            AI visibility: {pct(latest.mentionRate)} named ({fmtDate(latest.at)}).
+          </strong>{' '}
+          That check ran on its own, so this score leaves it out.{' '}
+          <a href={siteHref(siteId, 'visibility')}>See AI visibility results →</a>
+          {noKey ? null : (
+            <>
+              {' '}
+              · <a href={include}>Include it in the score</a>
+            </>
+          )}
+        </>
+      ) : noKey ? (
+        <>
+          This score covers readiness only: AI visibility (whether ChatGPT, Claude, Gemini and
+          Perplexity name you) has not been measured. <a href="/keys">Add an AI key →</a>
+        </>
+      ) : (
+        <>
+          This score covers readiness only: AI visibility has not been measured yet.{' '}
+          <a href={siteHref(siteId, 'visibility')}>Run an AI visibility check →</a>
+        </>
+      )}
+    </div>
+  );
+}
+
 export function registerSitePages(app: Hono<ServerEnv>, deps: Deps) {
   // ---------------------------------------------------------------- sites
   app.get('/', (c) => {
@@ -156,12 +196,22 @@ export function registerSitePages(app: Hono<ServerEnv>, deps: Deps) {
           </div>
         ) : null}
         {sites.length ? (
+          <p class="muted" style="margin-top:0">
+            Open a site to see its audit, issues, fixes and AI visibility results.
+          </p>
+        ) : null}
+        {sites.length ? (
           <div class="grid grid-3">
             {sites.map((s) => {
               const rows = store.listAudits(s.id, 12);
               const last = rows[0];
+              const ai = store.listVisibility(s.id, 1)[0];
               return (
-                <a class="card" href={siteHref(s.id)} style="color:inherit;text-decoration:none">
+                <a
+                  class="card site-card"
+                  href={siteHref(s.id)}
+                  aria-label={`Open ${s.id}: audit, issues, fixes and AI visibility`}
+                >
                   <div class="row spread">
                     <div>
                       <h3 style="margin:0">{s.id}</h3>
@@ -173,10 +223,35 @@ export function registerSitePages(app: Hono<ServerEnv>, deps: Deps) {
                       <Badge>not audited</Badge>
                     )}
                   </div>
-                  <div class="row spread" style="margin-top:10px">
-                    <small>{last ? `Last audit ${fmtDate(last.at)}` : 'No audits yet'}</small>
-                    <Sparkline values={rows.map((r) => r.score).reverse()} label="Score trend" />
-                  </div>
+                  <dl class="site-status">
+                    <dt>Audit</dt>
+                    <dd>
+                      {last ? (
+                        <>
+                          {last.score}/100 · {fmtDate(last.at)}{' '}
+                          <Sparkline
+                            values={rows.map((r) => r.score).reverse()}
+                            label="Score trend"
+                          />
+                        </>
+                      ) : (
+                        <span class="muted">not run yet</span>
+                      )}
+                    </dd>
+                    <dt>AI visibility</dt>
+                    <dd>
+                      {ai ? (
+                        <>
+                          <strong>{pct(ai.mentionRate)} named</strong> · {fmtDate(ai.at)}
+                        </>
+                      ) : (
+                        <span class="muted">not run yet</span>
+                      )}
+                    </dd>
+                  </dl>
+                  <span class="btn primary small site-open" aria-hidden="true">
+                    Open {s.id} →
+                  </span>
                 </a>
               );
             })}
@@ -328,10 +403,7 @@ export function registerSitePages(app: Hono<ServerEnv>, deps: Deps) {
                   </p>
                   <small>Audited {fmtDate(result.at)}</small>
                   {!result.visibility ? (
-                    <p class="muted" style="margin-top:8px">
-                      Readiness only: no AI visibility run in this audit, so that pillar is left
-                      out.
-                    </p>
+                    <AiScoreNote siteId={site.id} latest={vis[vis.length - 1]} />
                   ) : null}
                   <div class="row" style="margin-top:10px">
                     <Sparkline values={audits.map((a) => a.score)} label="Score trend" />
@@ -344,7 +416,18 @@ export function registerSitePages(app: Hono<ServerEnv>, deps: Deps) {
                 {result.score.pillars.map((p) => (
                   <div class="pillar">
                     <span>{PILLAR_LABEL[p.pillar] ?? p.pillar}</span>
-                    {p.weight ? <Bar value={p.score} /> : <small>not measured</small>}
+                    {p.weight ? (
+                      <Bar value={p.score} />
+                    ) : p.pillar === 'ai-visibility' ? (
+                      <small>
+                        not in this score ·{' '}
+                        <a href={siteHref(site.id, 'visibility')}>
+                          {vis.length ? 'see AI results' : 'run an AI check'}
+                        </a>
+                      </small>
+                    ) : (
+                      <small>not measured</small>
+                    )}
                     <span class="num">{p.weight ? p.score : '-'}</span>
                   </div>
                 ))}
@@ -371,14 +454,18 @@ export function registerSitePages(app: Hono<ServerEnv>, deps: Deps) {
                   </a>
                 );
               })}
-              <div class="card">
+              <a class="card" href={siteHref(site.id, 'visibility')}>
                 <div class="eyebrow">AI mention rate</div>
                 <div class="stat">{vis.length ? pct(vis[vis.length - 1].mentionRate) : '-'}</div>
-                <Sparkline
-                  values={vis.map((v) => v.mentionRate * 100)}
-                  label="Mention rate trend"
-                />
-              </div>
+                {vis.length ? (
+                  <Sparkline
+                    values={vis.map((v) => v.mentionRate * 100)}
+                    label="Mention rate trend"
+                  />
+                ) : (
+                  <small>no AI check yet · run one →</small>
+                )}
+              </a>
             </div>
 
             <div class="grid grid-2" style="margin-top:16px">
@@ -559,7 +646,12 @@ export function registerSitePages(app: Hono<ServerEnv>, deps: Deps) {
               {cfg.ai.maxMonthUsd} a month)
             </legend>
             <label class="check">
-              <input type="checkbox" name="visibility" /> Also ask AI engines about the brand
+              <input
+                type="checkbox"
+                name="visibility"
+                checked={c.req.query('visibility') === '1'}
+              />{' '}
+              Also ask AI engines about the brand, so AI visibility counts in the score
             </label>
             <p class="muted" style="margin:6px 0 0">
               Pick engines and see the cost estimate on the{' '}

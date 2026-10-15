@@ -5,6 +5,14 @@ and the project uses [semantic versioning](https://semver.org). Check ids are st
 
 ## [Unreleased]
 
+### Changed
+
+- Easier to find results in the dashboard: each site card says what it holds (audit score, AI
+  visibility result or "not run yet") with an Open button; the overview explains that a separate AI
+  check is not in the score, with links to the results and to include it; the AI mention rate card
+  links to the AI visibility page; the API keys page shows the next step once a key is saved; and
+  `avc visibility` says where to find the results.
+
 ## [1.1.0] - 2026-10-15
 
 ### Fixed
