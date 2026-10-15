@@ -16,3 +16,6 @@ bench/results/raw/**/.avc-data/
 bench/results/raw/**/.scrawly-data/
 bench/results/raw/**/.unlighthouse/
 bench/results/raw/**/.lhr.json
+
+# Claude Desktop extension build (npm run bundle:mcpb)
+build/
