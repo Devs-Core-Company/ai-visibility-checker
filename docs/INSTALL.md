@@ -184,7 +184,9 @@ avc uninstall
 ```
 
 This removes AVC from the Claude desktop app, Claude Code and Cursor (other servers and settings in
-those files are kept, with a backup). It then asks whether to delete your stored API keys (yes by
+those files are kept, with a backup), including entries Claude Code keeps for a single folder. It
+removes the `avc shortcut` app launcher and any scheduled runs set up from `avc schedule`
+(LaunchAgents, cron lines, Windows tasks; it lists them and asks first). It then asks whether to delete your stored API keys (yes by
 default) and your audit history, settings, Google sign-in and WordPress rollback snapshots (no by
 default). It deletes only files AVC created, never anything else in the folder. Finish with:
 

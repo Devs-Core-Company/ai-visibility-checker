@@ -26,7 +26,8 @@ and the project uses [semantic versioning](https://semver.org). Check ids are st
 
 ### Added
 
-- `avc uninstall`: removes AVC from Claude Desktop, Claude Code and Cursor, deletes stored API keys
+- `avc uninstall`: removes AVC from Claude Desktop, Claude Code (including per-folder entries) and
+  Cursor, the `avc shortcut` launcher and scheduled runs from `avc schedule`, deletes stored API keys
   and, if asked, local data (only files AVC created). Uninstall steps in the README and INSTALL.md.
 
 - The AVC logo: the Claude Desktop extension's icon, the MCP server's announced icon (`serverInfo.icons`,

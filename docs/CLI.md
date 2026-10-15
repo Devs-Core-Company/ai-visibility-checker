@@ -22,7 +22,8 @@ List configured sites (and sites that only exist in history), add one (`avc site
 
 ### `avc uninstall`
 
-Removes AVC from the Claude desktop app, Claude Code and Cursor, deletes stored API keys (asks; yes
+Removes AVC from the Claude desktop app, Claude Code (account-wide and per-folder entries) and
+Cursor, removes the `avc shortcut` launcher and scheduled runs from `avc schedule`, deletes stored API keys (asks; yes
 by default) and optionally your local data (asks; no by default), deleting only files AVC created.
 Then prints `npm uninstall -g @devs-core/ai-visibility-checker`. `--yes`, `--keep-keys`,
 `--delete-data`, `--keep-data`.
