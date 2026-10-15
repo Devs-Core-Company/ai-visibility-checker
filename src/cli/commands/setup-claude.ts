@@ -143,7 +143,7 @@ export function writeMcpConfig(
   return { changed: true, backup, text: merged.text };
 }
 
-function hasClaudeCli(): boolean {
+export function hasClaudeCli(): boolean {
   const r = spawnSync('claude', ['--version'], {
     stdio: 'ignore',
     shell: process.platform === 'win32',

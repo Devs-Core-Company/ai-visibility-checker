@@ -68,3 +68,71 @@ describe('avc uninstall cleanup', () => {
     expect(unsafeDataDir('/Users/a/.avc', '/Users/a')).toBeNull();
   });
 });
+
+describe('Claude Code local-scope entries', () => {
+  it('finds every folder where AVC was added at local scope', async () => {
+    const { claudeCodeLocalEntries } = await import('../src/cli/commands/uninstall.js');
+    const home = mkdtempSync(join(tmpdir(), 'avc-home-'));
+    writeFileSync(
+      join(home, '.claude.json'),
+      JSON.stringify({
+        mcpServers: { avc: {} },
+        projects: {
+          '/Users/a': { mcpServers: { avc: { command: 'npx' } } },
+          '/Users/a/site': { mcpServers: { other: {} } },
+          '/Users/a/empty': {},
+        },
+      }),
+    );
+    expect(claudeCodeLocalEntries(home)).toEqual(['/Users/a']);
+    expect(claudeCodeLocalEntries(mkdtempSync(join(tmpdir(), 'avc-none-')))).toEqual([]);
+  });
+});
+
+describe('scheduled runs from avc schedule', () => {
+  it('finds only AVC LaunchAgents', async () => {
+    const { findLaunchAgents } = await import('../src/cli/commands/uninstall.js');
+    const home = mkdtempSync(join(tmpdir(), 'avc-la-'));
+    const dir = join(home, 'Library', 'LaunchAgents');
+    mkdirSync(dir, { recursive: true });
+    for (const f of [
+      'com.devs-core.avc.example.com.audit.plist',
+      'com.devs-core.avc.shop.example.visibility.plist',
+      'com.google.keystone.agent.plist',
+      'com.devs-core.other.plist',
+    ])
+      writeFileSync(join(dir, f), '');
+    expect(
+      findLaunchAgents(home)
+        .map((p) => p.slice(dir.length + 1))
+        .sort(),
+    ).toEqual([
+      'com.devs-core.avc.example.com.audit.plist',
+      'com.devs-core.avc.shop.example.visibility.plist',
+    ]);
+  });
+
+  it('matches only the cron lines avc schedule suggests', async () => {
+    const { isAvcCronLine } = await import('../src/cli/commands/uninstall.js');
+    expect(isAvcCronLine('0 9 * * 1 avc monitor run example.com >> ~/.avc/logs/a.log 2>&1')).toBe(
+      true,
+    );
+    expect(isAvcCronLine('0 9 * * * /usr/bin/node /x/bin/avc.mjs monitor run example.com')).toBe(
+      true,
+    );
+    expect(isAvcCronLine('# 0 9 * * * avc monitor run example.com')).toBe(false);
+    expect(isAvcCronLine('0 3 * * * /usr/local/bin/backup.sh')).toBe(false);
+    expect(isAvcCronLine('0 3 * * * echo "javc monitor running"')).toBe(false);
+  });
+
+  it('picks AVC tasks out of the Windows task list', async () => {
+    const { avcTaskNames } = await import('../src/cli/commands/uninstall.js');
+    const csv = [
+      '"\\AVC example.com audit","16/10/2026 09:00:00","Ready"',
+      '"\\AVC example.com visibility","N/A","Ready"',
+      '"\\GoogleUpdateTaskMachineCore","16/10/2026 10:00:00","Ready"',
+      '"\\AVC notes","N/A","Ready"',
+    ].join('\r\n');
+    expect(avcTaskNames(csv)).toEqual(['AVC example.com audit', 'AVC example.com visibility']);
+  });
+});
