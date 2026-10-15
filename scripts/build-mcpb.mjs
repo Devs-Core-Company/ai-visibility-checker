@@ -10,7 +10,16 @@
 // them to the server as the usual environment variables (OPENAI_API_KEY, …). The form is built
 // from SECRET_FIELDS in src/core/secrets.ts, so it always matches what the app reads.
 import { execFileSync } from 'node:child_process';
-import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import {
+  cpSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
+import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -77,6 +86,27 @@ userConfig.max_month_usd = {
   max: 1000,
 };
 
+// The tool list shown on the extension's page, read from the real server so it never drifts.
+async function listServerTools() {
+  process.env.AVC_DATA_DIR = mkdtempSync(join(tmpdir(), 'avc-mcpb-'));
+  process.env.AVC_SECRET_STORE = 'file';
+  const { buildMcpServer } = await import(pathToFileURL(join(root, 'dist/mcp/server.js')).href);
+  const { Client } = await import('@modelcontextprotocol/sdk/client/index.js');
+  const { InMemoryTransport } = await import('@modelcontextprotocol/sdk/inMemory.js');
+  const [a, b] = InMemoryTransport.createLinkedPair();
+  await buildMcpServer().connect(a);
+  const client = new Client({ name: 'build-mcpb', version: pkg.version });
+  await client.connect(b);
+  const { tools } = await client.listTools();
+  await client.close();
+  // First sentence only: the page shows a list, not the full instructions for the model.
+  return tools.map((t) => ({
+    name: t.name,
+    description: (t.title ? `${t.title}: ` : '') + (t.description ?? '').split(/(?<=\.)\s/)[0],
+  }));
+}
+const tools = await listServerTools();
+
 const manifest = {
   manifest_version: '0.3',
   name: 'ai-visibility-checker',
@@ -85,7 +115,13 @@ const manifest = {
   description:
     'Audit your website for Google and AI engines, and check whether ChatGPT, Claude, Gemini and Perplexity name you. Runs on your computer.',
   long_description:
-    'Technical SEO, AEO/GEO, AI crawler access and agentic-web checks for your own site, plus AI visibility runs with your own API keys.\n\n' +
+    'AI Visibility Checker by Devs Core audits your own website the way Google and AI engines see it, and tells you what to fix first.\n\n' +
+    '**What it does**\n' +
+    '- Crawls your site and runs more than 600 checks: technical SEO, content, AI crawler access (GPTBot, ClaudeBot, PerplexityBot and others), AEO/GEO readiness and agentic-web standards (llms.txt, MCP, A2A).\n' +
+    '- Ranks the fixes by impact, with stack-aware steps (Next.js, WordPress, Shopify and more) and a ready prompt for a coding agent. WordPress fixes can be applied after a dry run, with a rollback.\n' +
+    '- With your own AI keys, checks whether ChatGPT, Claude, Gemini and Perplexity name and cite your brand, and against which competitors. It shows the cost first and runs only after you confirm, within your spend caps.\n' +
+    '- Generates llms.txt, robots.txt rules for AI crawlers and Organization JSON-LD from the audit.\n\n' +
+    '**Everything runs on your computer.** Audits, history and keys stay on your machine; pages are fetched from your site directly.\n\n' +
     '**Keys are optional.** Audits need none. Add AI keys below to measure whether AI engines name you; without them those steps are skipped and the results say so. ' +
     'Keys entered here are kept by Claude Desktop in your system’s secure storage and passed only to this extension on your computer. They are sent only to the provider each key belongs to, never to Devs Core. ' +
     'Keys you saved with `avc keys` (in your OS keychain) are used too; keys entered here take precedence.',
@@ -97,9 +133,10 @@ const manifest = {
   homepage: pkg.homepage,
   documentation: 'https://github.com/Devs-Core-Company/ai-visibility-checker/blob/main/docs/MCP.md',
   support: 'https://github.com/Devs-Core-Company/ai-visibility-checker/issues',
+  privacy_policies: ['https://devs-core.com/privacy'],
   icon: 'public/icon.png',
   license: pkg.license,
-  keywords: ['seo', 'ai-visibility', 'geo', 'aeo', 'llms-txt', 'audit'],
+  keywords: ['seo', 'ai-visibility', 'geo', 'aeo', 'llms-txt', 'audit', 'ai-crawlers', 'schema'],
   server: {
     type: 'node',
     entry_point: 'bin/avc.mjs',
@@ -109,7 +146,7 @@ const manifest = {
       env,
     },
   },
-  tools_generated: true,
+  tools,
   compatibility: {
     platforms: ['darwin', 'win32', 'linux'],
     runtimes: { node: '>=22.5.0' },
