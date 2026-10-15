@@ -28,7 +28,10 @@ empty and the steps that need it are skipped, and the results say so.
 Keys you saved with `avc keys` or the dashboard are used too. A key entered in the extension's
 settings takes precedence, and `keys_status` shows which is which ("Claude Desktop settings").
 The extension runs on the Node.js that Claude Desktop ships with, so you do not need Node installed
-for it. Use either the extension or the `avc setup-claude` entry below in Claude Desktop, not both,
+for it. To disable or uninstall it, use the switch and the Uninstall button on the same page. An
+`avc setup-claude` entry has no such page in Claude Desktop (only tool permissions), because it
+lives in `claude_desktop_config.json`; remove it with `avc setup-claude --remove --desktop`.
+Use either the extension or the `avc setup-claude` entry below in Claude Desktop, not both,
 or AVC shows up twice.
 
 ### One step: Claude desktop app, Claude Code and Cursor
