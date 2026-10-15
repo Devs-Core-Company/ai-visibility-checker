@@ -1,20 +1,45 @@
+<div align="center">
+
+<a href="https://devs-core.com/ai-visibility-checker"><img src="docs/assets/avc-hero.webp" alt="The AI Visibility Checker app: a terminal audit scoring a demo site 83 out of 100 across technical SEO, content, AI access, AEO/GEO and agentic web, in front of the local dashboard overview" width="100%"></a>
+
 # AI Visibility Checker
 
-**Audit your own website for Google and AI engines, measure whether ChatGPT, Claude, Gemini and
-Perplexity actually name you, and fix what holds you back.** It runs on your machine, with your
-keys, against your site.
+**One audit for search engines, AI answers and AI agents.**
 
-Built by [Devs Core](https://devs-core.com). Free and open source under the AGPL-3.0.
+Crawl your whole site, see which AI crawlers can actually read it, find out whether ChatGPT,
+Claude, Gemini and Perplexity name you or a competitor, and get fixes written for your stack.
+Free, open source, and it runs on your machine.
+
+[![Licence: AGPL-3.0](https://img.shields.io/badge/licence-AGPL--3.0-0072ba)](LICENSE)
+[![CI](https://github.com/Devs-Core-Company/ai-visibility-checker/actions/workflows/ci.yml/badge.svg)](https://github.com/Devs-Core-Company/ai-visibility-checker/actions/workflows/ci.yml)
+[![Node 22.5+](https://img.shields.io/badge/node-22.5%2B-0092d3)](https://nodejs.org)
+![643 checks](https://img.shields.io/badge/checks-643-0e4f95)
+![40 AI crawlers](https://img.shields.io/badge/AI%20crawlers-40-0e4f95)
+[![Benchmark: 121 of 121 defects found](https://img.shields.io/badge/benchmark-121%2F121%20defects%20found-5fd69b)](#benchmark)
+
+[Watch the tour](#see-it-run) · [Quickstart](#quickstart-60-seconds) · [What you get](#what-you-get) · [Benchmark](#benchmark) · [Docs](docs/) · [Free web checker](https://devs-core.com/ai-visibility-checker)
+
+</div>
 
 ```bash
 npx github:Devs-Core-Company/ai-visibility-checker audit https://yoursite.com
 ```
 
 That one line crawls the site, runs every check, and writes an HTML and JSON report to
-`./avc-reports`. No account, no sign-up.
+`./avc-reports`. No account, no sign-up, no API key needed for the audit.
 
-**In an open benchmark against Scrawly, Google Lighthouse, Unlighthouse and python-seo-analyzer,
-AVC found all 121 planted defects; the next best found 48%.** [See the benchmark](#benchmark).
+|                                        643 checks                                        |                                  40 AI crawlers                                   |                           4 AI engines                           |                                       121 / 121                                        |
+| :--------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------: | :--------------------------------------------------------------: | :------------------------------------------------------------------------------------: |
+| technical SEO, content, accessibility, AI access, AEO/GEO and agentic web, on every page | robots.txt rule and deciding line for each, live fetch as the 25 that fetch pages | ChatGPT, Claude, Gemini and Perplexity, asked with your own keys | planted defects found in an [open benchmark](#benchmark); the next best tool found 48% |
+
+## See it run
+
+<a href="https://www.youtube.com/watch?v=HW0-TYBymHQ"><img src="docs/assets/avc-video.jpg" alt="Watch the 1-minute tour of the AI Visibility Checker app on YouTube (1:18)" width="100%"></a>
+
+One command audits every page. The dashboard explains each issue, shows the robots.txt line that
+blocks each AI crawler, checks agentic-web endpoints and AI visibility, and writes fixes for your
+stack. Recorded on the benchmark demo site, which has planted issues; the AI answers shown are the
+app's sample mode. [Watch on YouTube](https://www.youtube.com/watch?v=HW0-TYBymHQ) (1:18).
 
 ## Who it is for
 
@@ -59,9 +84,47 @@ docker run --rm -v avc-data:/data -v "$PWD/avc-reports:/app/avc-reports" avc aud
 
 Step-by-step setup per operating system: [docs/INSTALL.md](docs/INSTALL.md).
 
+## What you get
+
+Screens from a real audit of the benchmark demo site (`harbourline-dental.test`, 96 pages with
+planted issues). AI visibility is shown in sample mode, without API keys.
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <img src="docs/assets/screen-overview.webp" alt="Dashboard overview: AI Visibility Score 78 (grade B), six pillar scores, issues by severity and the fixes to do first">
+      <p><b>Overview.</b> One score across six pillars, issues by severity, and the fixes to do first, ranked by impact.</p>
+    </td>
+    <td width="50%" valign="top">
+      <img src="docs/assets/screen-issues.webp" alt="Issues list with one issue expanded: why it matters, affected pages, steps to fix, files to touch and a copy-prompt button for Claude Code or Cursor">
+      <p><b>Issues with fixes.</b> Why each one matters, the pages affected, steps for your stack, the files to touch, and a prompt to paste into Claude Code or Cursor.</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <img src="docs/assets/screen-crawlers.webp" alt="AI crawlers table: each bot with operator, purpose, robots.txt verdict, the deciding line and the live fetch result">
+      <p><b>AI crawlers.</b> Every AI bot with its operator and purpose, what robots.txt decides, the exact line that decides it, and what the site really served it.</p>
+    </td>
+    <td width="50%" valign="top">
+      <img src="docs/assets/screen-agentic.webp" alt="Agentic web probes: llms.txt, MCP server card, A2A agent card, OAuth discovery, API catalogue and more, each with its result">
+      <p><b>Agentic web.</b> What AI agents find at your origin: llms.txt, MCP server card, A2A agent card, OAuth discovery, API catalogue, Web Bot Auth.</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <img src="docs/assets/screen-visibility.webp" alt="AI visibility: share of answers naming the brand, share of voice against competitors, results by engine and the prompts where competitors win">
+      <p><b>AI visibility.</b> How often each engine names you, your share of voice, and the exact prompts where a competitor wins, with the sources it used.</p>
+    </td>
+    <td width="50%" valign="top">
+      <img src="docs/assets/screen-report.webp" alt="The offline HTML report: score, pillar bars, severity counts and a plain-English summary">
+      <p><b>Report to share.</b> A single offline HTML file with the score, the summary and every issue, plus Markdown, CSV, JSON, SARIF, Excel and PDF exports.</p>
+    </td>
+  </tr>
+</table>
+
 ## What it checks
 
-630 checks: 440 technical SEO, content, accessibility and CMS checks, and 190 AI
+643 checks: 447 technical SEO, content, accessibility and CMS checks, and 196 AI
 crawler, llms.txt, AEO/GEO, entity and agentic-web checks. Every check has a stable id, a severity, the reason it matters, and a fix. List them all with
 `avc checks` (or `avc checks --json`). Checks that need data you have not connected are skipped
 with a reason, never failed.
