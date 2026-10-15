@@ -35,6 +35,7 @@ import {
 } from './commands/tools.js';
 import { cmdChecks } from './commands/checks.js';
 import { cmdDoctor } from './commands/doctor.js';
+import { cmdUninstall } from './commands/uninstall.js';
 import { cmdKeysRemove, cmdKeysSet, cmdKeysSetup, cmdKeysStatus } from './commands/keys.js';
 
 export { ExitError };
@@ -527,6 +528,17 @@ export function buildProgram(): Command {
     .argument('[message...]', 'your message')
     .option('--email', 'write an email to Devs Core instead')
     .action(run(cmdFeedback));
+
+  program
+    .command('uninstall')
+    .description(
+      'Remove AVC from Claude and Cursor, delete stored API keys, and optionally your local data.',
+    )
+    .option('-y, --yes', 'ask nothing: delete stored keys, keep data')
+    .option('--keep-keys', 'keep the stored API keys')
+    .option('--delete-data', 'also delete audits, settings, sign-ins and rollback snapshots')
+    .option('--keep-data', 'keep audits and settings (the default)')
+    .action(run(cmdUninstall));
 
   program
     .command('doctor')
