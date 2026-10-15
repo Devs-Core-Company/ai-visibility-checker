@@ -279,3 +279,76 @@ describe('dashboard: page filter builder', () => {
     expect(html).not.toContain('/services/kitchens');
   });
 });
+
+describe('API keys page', () => {
+  const KEY = 'sk-dashboard-secret-9876543210';
+  const post = (path: string, body: string) =>
+    req(path, {
+      method: 'POST',
+      headers: { origin: `http://${HOST}`, 'content-type': 'application/x-www-form-urlencoded' },
+      body,
+    });
+
+  it('saves a key to the secret store and only ever shows dots', async () => {
+    const res = await post('/keys', `openai=${KEY}`);
+    expect(res.status).toBe(303);
+    const { secretStore } = await import('../src/core/secrets.js');
+    expect(secretStore().get('openai')).toBe(KEY);
+    const html = await (await req('/keys')).text();
+    expect(html).not.toContain(KEY);
+    expect(html).not.toContain(KEY.slice(-4));
+    expect(html).toContain('••••••••');
+    expect(html).toContain('type="password"');
+    // Not in the settings page or the user config file either.
+    expect(await (await req('/settings')).text()).not.toContain(KEY);
+    const { readFileSync } = await import('node:fs');
+    expect(readFileSync(join(dataDir, 'config.json'), 'utf8')).not.toContain(KEY);
+  });
+
+  it('removes a saved key', async () => {
+    await post('/keys/remove/openai', '');
+    const { secretStore } = await import('../src/core/secrets.js');
+    expect(secretStore().get('openai')).toBeUndefined();
+  });
+
+  it('refuses a cross-origin save', async () => {
+    const res = await req('/keys', {
+      method: 'POST',
+      headers: {
+        origin: 'https://evil.example',
+        'content-type': 'application/x-www-form-urlencoded',
+      },
+      body: `openai=${KEY}`,
+    });
+    expect(res.status).toBe(403);
+  });
+
+  it('accepts a form post with Origin: null from the same page, as Chrome sends it', async () => {
+    const ok = await req('/keys', {
+      method: 'POST',
+      headers: {
+        origin: 'null',
+        'sec-fetch-site': 'same-origin',
+        'content-type': 'application/x-www-form-urlencoded',
+      },
+      body: 'anthropic=sk-ant-null-origin-123',
+    });
+    expect(ok.status).toBe(303);
+    const forged = await req('/keys', {
+      method: 'POST',
+      headers: {
+        origin: 'null',
+        'sec-fetch-site': 'cross-site',
+        'content-type': 'application/x-www-form-urlencoded',
+      },
+      body: 'anthropic=sk-ant-attacker-0000',
+    });
+    expect(forged.status).toBe(403);
+    await post('/keys/remove/anthropic', '');
+  });
+
+  it('says when a key has no free test', async () => {
+    const res = await post('/keys/test/perplexity', 'perplexity=pplx-abcdefghij');
+    expect(decodeURIComponent(res.headers.get('location') ?? '')).toMatch(/no free way/);
+  });
+});

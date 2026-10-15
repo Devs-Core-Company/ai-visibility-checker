@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { runAudit, summariseForCli, type AuditDeps } from '../src/audit/index.js';
+import { runAudit, skippedSummary, summariseForCli, type AuditDeps } from '../src/audit/index.js';
 import { runChecks } from '../src/audit/run-checks.js';
 import {
   checkPassRate,
@@ -332,6 +332,42 @@ describe('runAudit', () => {
     expect(r.checks['ai-visibility.named'].status).toBe('ran');
     expect(r.score.pillars.find((p) => p.pillar === 'ai-visibility')!.weight).toBeGreaterThan(0);
     expect(summariseForCli(r)).toMatch(/AI visibility: named in 50%/);
+  });
+
+  it('skips the AI visibility run without a key and says why (no silent mock)', async () => {
+    let asked = false;
+    const noKeys = { ...config, ai: { maxRunUsd: 3, maxMonthUsd: 30 } };
+    const r = await runAudit(
+      { url: 'https://example.com/', config: noKeys, visibility: true },
+      stubDeps({
+        runVisibility: async () => {
+          asked = true;
+          return visibilityRun();
+        },
+      }),
+    );
+    expect(asked).toBe(false);
+    expect(r.visibility).toBeUndefined();
+    expect(r.notRun).toEqual([
+      { step: 'ai-visibility', reason: expect.stringMatching(/no AI API key.*avc keys setup/) },
+    ]);
+    expect(r.checks['ai-visibility.named']).toMatchObject({
+      status: 'skipped',
+      skippedReason: expect.stringMatching(/no AI API key/),
+    });
+    const skipped = skippedSummary(r);
+    expect(skipped.steps).toHaveLength(1);
+    expect(skipped.checks.some((g) => g.checks.includes('ai-visibility.named'))).toBe(true);
+    expect(summariseForCli(r)).toMatch(/Skipped[\s\S]*AI visibility run[\s\S]*no AI API key/);
+  });
+
+  it('says the AI run was not requested when the audit is readiness only', async () => {
+    const r = await runAudit({ url: 'https://example.com/', config }, stubDeps());
+    expect(r.notRun?.[0]).toMatchObject({
+      step: 'ai-visibility',
+      reason: expect.stringMatching(/Not requested.*--visibility/),
+    });
+    expect(r.checks['ai-visibility.named'].skippedReason).toMatch(/Not requested/);
   });
 
   it('marks noindex and canonicalised pages as not indexable', async () => {

@@ -67,7 +67,15 @@ AI visibility. Set the audit and AI visibility schedules.
 **Ask.** Ask a question about the latest audit; answered by your writer model, or from the ranked
 priorities without a key.
 
-**Settings.** AI keys (shown masked), mock mode, spend caps, and alert webhook and email with a
+**API keys.** Add, replace, test and remove keys for the AI engines and data sources. A saved key
+is shown only as `••••••••` (the same eight dots for every key, so not even its length shows) and is
+never sent back to the browser: it can be replaced or removed, not viewed or copied. Keys are saved
+in your OS keychain on this computer. **Test** makes one free request to the provider (a model list,
+or the AI Gateway balance) and says whether the key works; it tests a key you have typed before you
+save it. Keys set by an environment variable or by the Claude Desktop extension's settings are
+labelled as such, with where to change them.
+
+**Settings.** Mock mode, spend caps, and alert webhook and email with a
 "send a test alert" button.
 
 **All checks.** The searchable check catalogue.

@@ -2,6 +2,7 @@ import type { VisibilityRun } from '../../core/types.js';
 import { confirm, interactive } from '../ask.js';
 import { c, fmtScore, ok, progressPrinter, table } from '../output.js';
 import { ExitError } from '../errors.js';
+import { ensureAiKeys } from './keys.js';
 import {
   brandFor,
   engines,
@@ -29,11 +30,16 @@ interface VisOpts {
 
 export async function cmdVisibility(target: string, opts: VisOpts): Promise<void> {
   if (opts.mock) process.env.AVC_LLM_MOCK = '1';
-  const config = getConfig(Boolean(opts.mock));
+  // Without a key there is nothing to ask: offer to add one, else say it was skipped and why.
+  if (!(await ensureAiKeys('AI visibility'))) return;
+  const config = getConfig(true);
   const site = resolveSite(target, config);
   const engineIds = pickEngines(opts.engines, config);
   if (!engineIds.length)
-    throw new ExitError(1, 'No AI engines available. Add a key (see `avc doctor`) or use --mock.');
+    throw new ExitError(
+      1,
+      'None of the chosen engines has a key. See `avc keys` for which engines are ready.',
+    );
   const repeats = opts.repeats ?? 1;
   const progress = progressPrinter({ json: opts.json });
 

@@ -3,6 +3,7 @@
  * audits, read issues and fixes, check AI visibility and apply fixes (dry run by default).
  * Nothing is written to stdout except protocol messages; logs go to stderr.
  */
+import { randomUUID } from 'node:crypto';
 import { McpServer, ResourceTemplate } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { z } from 'zod';
@@ -10,6 +11,11 @@ import { buildRobots } from '../crawl/robots.js';
 import { AI_BOTS } from '../agentic/bots.js';
 import { parseLlmsTxt } from '../agentic/llms.js';
 import { explainGaps } from '../ai/gaps.js';
+import { aiUnavailableReason } from '../ai/availability.js';
+import { skippedSummary } from '../audit/index.js';
+import { SECRET_FIELDS, secretSource, secretStore } from '../core/secrets.js';
+import { startKeyPage, type KeyPage } from '../server/key-page.js';
+import { openPath } from '../cli/open.js';
 import { APP_NAME, APP_VERSION } from '../core/version.js';
 import type { AuditResult, ProgressEvent } from '../core/types.js';
 import {
@@ -92,11 +98,135 @@ export function summarise(result: AuditResult, top = 10) {
           costUsd: result.visibility.summary.costUsd,
         }
       : undefined,
+    // Tell the user what did not run and why; nothing is skipped silently.
+    skipped: skippedForTools(result),
   };
 }
 
+export function skippedForTools(result: AuditResult) {
+  const s = skippedSummary(result);
+  return {
+    steps: s.steps.map((x) => ({ step: x.step, reason: x.reason })),
+    checks: s.checks.map((g) => ({
+      reason: g.reason,
+      count: g.checks.length,
+      examples: g.checks.slice(0, 5),
+    })),
+    totalChecks: s.total,
+  };
+}
+
+const NEVER_PASTE =
+  'Never ask the user to paste an API key into this chat: keys must go through the private local page (setup_keys) or `avc keys setup` in a terminal, so they never reach the AI model.';
+
+/** Which keys are set (never their values), for tool output. */
+function keysOverview() {
+  return {
+    storedIn: secretStore().where,
+    aiReady: !aiUnavailableReason(getConfig(true)),
+    keys: SECRET_FIELDS.map((f) => ({
+      id: f.id,
+      label: f.label,
+      group: f.group,
+      set: secretSource(f) !== 'none',
+      source: secretSource(f),
+      unlocks: f.unlocks,
+    })),
+  };
+}
+
+type Extra = {
+  _meta?: { progressToken?: string | number };
+  sendNotification?: (n: {
+    method: 'notifications/progress';
+    params: { progressToken: string | number; progress: number; message?: string };
+  }) => Promise<void>;
+};
+
 export function buildMcpServer(): McpServer {
-  const server = new McpServer({ name: 'avc', version: APP_VERSION, title: APP_NAME });
+  const server = new McpServer(
+    { name: 'avc', version: APP_VERSION, title: APP_NAME },
+    {
+      instructions:
+        "AI Visibility Checker audits a website for search and AI engines. Audits need no API keys. AI visibility runs need the user's own AI keys, which stay on their computer. When a tool reports missing keys, call setup_keys: it gives the user a private local page to type them. " +
+        NEVER_PASTE +
+        ' When results list skipped steps or checks, tell the user what was skipped and why.',
+    },
+  );
+
+  // One key page at a time; reuse it while it is open.
+  let keyPage: { page: KeyPage; settled: boolean } | null = null;
+  const openKeyPage = async (reason: string): Promise<KeyPage> => {
+    if (keyPage && !keyPage.settled) return keyPage.page;
+    const page = await startKeyPage({ reason });
+    const entry = { page, settled: false };
+    keyPage = entry;
+    void page.done.then(() => (entry.settled = true));
+    return page;
+  };
+
+  /**
+   * Ask the user for keys without them passing through the chat. With clients that support
+   * URL elicitation (MCP 2025-11-25), the client opens the page itself and is told when the
+   * user has saved. Otherwise the link comes back for the assistant to show the user.
+   */
+  const requestKeys = async (
+    reason: string,
+    opts: { open?: boolean } = {},
+  ): Promise<{ status: 'saved' | 'skipped' | 'declined' | 'waiting' | 'link'; url: string }> => {
+    const page = await openKeyPage(reason);
+    const caps = server.server.getClientCapabilities() as
+      { elicitation?: { url?: object } } | undefined;
+    if (caps?.elicitation?.url) {
+      const elicitationId = randomUUID();
+      const notify = server.server.createElicitationCompletionNotifier(elicitationId);
+      void page.done.then((o) => (o === 'saved' ? notify().catch(() => {}) : undefined));
+      try {
+        const r = await server.server.elicitInput({
+          mode: 'url',
+          message: `${reason} Open this private page on your computer to add your API keys. They are saved in your OS keychain and never pass through this chat.`,
+          url: page.url,
+          elicitationId,
+        });
+        if (r.action !== 'accept') return { status: 'declined', url: page.url };
+        const outcome = await Promise.race([
+          page.done,
+          new Promise<'waiting'>((res) => setTimeout(() => res('waiting'), 120_000).unref()),
+        ]);
+        return {
+          status: outcome === 'saved' || outcome === 'skipped' ? outcome : 'waiting',
+          url: page.url,
+        };
+      } catch {
+        /* the client refused URL mode after all: fall back to the link */
+      }
+    }
+    if (opts.open) openPath(page.url);
+    return { status: 'link', url: page.url };
+  };
+
+  const keysNeeded = (
+    what: string,
+    reason: string,
+    got: { status: string; url: string },
+  ): ToolResult =>
+    json({
+      skipped: true,
+      step: what,
+      reason,
+      addKeys:
+        got.status === 'declined'
+          ? 'The user declined to add keys. Do not ask again unless they bring it up.'
+          : got.status === 'skipped'
+            ? 'The user chose to skip adding keys.'
+            : {
+                link: got.url,
+                instructions:
+                  'Show this link to the user. It opens a private page on their own computer (it only works there and expires in 15 minutes). After they save, call this tool again.',
+                terminalAlternative: 'avc keys setup',
+              },
+      note: NEVER_PASTE,
+    });
   const log = (e: ProgressEvent) => {
     if (e.type === 'phase')
       process.stderr.write(`[avc] ${e.phase}${e.message ? `: ${e.message}` : ''}\n`);
@@ -130,18 +260,57 @@ export function buildMcpServer(): McpServer {
       },
       annotations: { readOnlyHint: false, openWorldHint: true },
     },
-    guard(async (a: { url: string; max_pages?: number; render?: boolean; only?: string[] }) => {
-      const site = resolveSite(a.url);
-      const r = await audit({
-        url: site.url,
-        site,
-        maxPages: a.max_pages,
-        render: a.render,
-        only: a.only,
-        onProgress: log,
-      });
-      return json(summarise(r));
-    }),
+    async (
+      a: { url: string; max_pages?: number; render?: boolean; only?: string[] },
+      extra: Extra,
+    ): Promise<ToolResult> => {
+      try {
+        const site = resolveSite(a.url);
+        // Progress notifications keep clients that reset their timeout on progress waiting
+        // through a long crawl instead of giving up.
+        const token = extra?._meta?.progressToken;
+        let step = 0;
+        const onProgress = (e: ProgressEvent) => {
+          log(e);
+          if (token === undefined || !extra.sendNotification) return;
+          if (e.type !== 'phase' && !(e.type === 'log' && e.level === 'info')) return;
+          step += 1;
+          void extra
+            .sendNotification({
+              method: 'notifications/progress',
+              params: {
+                progressToken: token,
+                progress: step,
+                message:
+                  e.type === 'phase' ? `${e.phase}${e.message ? `: ${e.message}` : ''}` : e.message,
+              },
+            })
+            .catch(() => {});
+        };
+        const r = await audit({
+          url: site.url,
+          site,
+          maxPages: a.max_pages,
+          render: a.render,
+          only: a.only,
+          onProgress,
+        });
+        const out = summarise(r);
+        return json(
+          aiUnavailableReason(getConfig())
+            ? {
+                ...out,
+                keys: {
+                  aiReady: false,
+                  note: 'AI visibility was not measured because no AI key is set. Offer the user setup_keys if they want it.',
+                },
+              }
+            : out,
+        );
+      } catch (e) {
+        return fail(errMsg(e));
+      }
+    },
   );
 
   server.registerTool(
@@ -314,8 +483,14 @@ export function buildMcpServer(): McpServer {
         engines?: string[];
         repeats?: number;
       }) => {
-        const config = getConfig();
+        let config = getConfig();
         const site = resolveSite(a.site, config);
+        if (a.run && aiUnavailableReason(config)) {
+          const reason = aiUnavailableReason(config)!;
+          const got = await requestKeys('Measuring AI visibility needs an AI API key.');
+          config = getConfig(true);
+          if (aiUnavailableReason(config)) return keysNeeded('ai-visibility', reason, got);
+        }
         if (!a.run) {
           const last = getStore(config).latestVisibility(site.id);
           if (!last)
@@ -766,6 +941,46 @@ export function buildMcpServer(): McpServer {
           `Would restore ${file}. Call again with confirm: true to undo it.\nSnapshots:\n${files.slice(0, 10).join('\n')}`,
         );
       return json(await rollbackSnapshot(file));
+    }),
+  );
+
+  server.registerTool(
+    'keys_status',
+    {
+      title: 'API key status',
+      description:
+        'Which API keys are set (never their values), where they are stored on this computer, and whether AI visibility can run. ' +
+        NEVER_PASTE,
+      inputSchema: {},
+      annotations: { readOnlyHint: true },
+    },
+    guard(() => json(keysOverview())),
+  );
+
+  server.registerTool(
+    'setup_keys',
+    {
+      title: 'Add API keys (private page)',
+      description:
+        "Let the user add their AI and data-source API keys. Opens a private page on the user's own computer where they type the keys; the keys are saved in the OS keychain and never pass through this chat or the AI model. Use when the user wants AI visibility (or another key-based check) and keys are missing. " +
+        NEVER_PASTE,
+      inputSchema: {},
+      annotations: { readOnlyHint: false, openWorldHint: false },
+    },
+    guard(async () => {
+      const got = await requestKeys('Add the keys you want AI Visibility Checker to use.', {
+        open: true,
+      });
+      const overview = keysOverview();
+      if (got.status === 'link')
+        return json({
+          status: 'waiting-for-user',
+          link: got.url,
+          instructions:
+            "A page was opened in the user's browser. If it did not open, show them this link (it only works on their computer and expires in 15 minutes). After they save, call keys_status to confirm.",
+          ...overview,
+        });
+      return json({ status: got.status, ...overview });
     }),
   );
 

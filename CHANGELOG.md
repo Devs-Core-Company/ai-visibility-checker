@@ -5,6 +5,40 @@ and the project uses [semantic versioning](https://semver.org). Check ids are st
 
 ## [Unreleased]
 
+### Fixed
+
+- Dashboard forms were refused as "cross-origin" in Chrome: with `Referrer-Policy: no-referrer` the
+  browser sends `Origin: null` on form posts. The dashboard now sends `same-origin` and accepts
+  `Origin: null` only when the browser marks the request `Sec-Fetch-Site: same-origin`.
+
+- The MCP server (and every command) crashed with "No such built-in module: node:sqlite" on
+  Node 22.5 to 22.12, where node:sqlite needs `--experimental-sqlite`. The launcher now adds the
+  flag on those versions.
+- No AI key no longer means silent sample answers: AI steps are skipped, and the CLI, reports,
+  dashboard and MCP tools say what was skipped and why. `--mock` still gives sample answers.
+
+### Security
+
+- API keys move from `~/.avc/config.json` to the OS keychain (macOS Keychain, Linux Secret
+  Service, Windows DPAPI; a mode-600 file where none exists). Existing keys are migrated on first
+  run. Keys in the committed `avc.config.json` are ignored with a warning. The dashboard no longer
+  shows the last four characters of a key.
+
+### Added
+
+- Claude Desktop extension (`npm run bundle:mcpb` → `build/ai-visibility-checker-<version>.mcpb`) with
+  a settings page for API keys and spend caps under Settings → Extensions. Key fields are masked and
+  kept in the system's secure storage by Claude Desktop.
+- Dashboard **API keys** page: add, replace, test (one free provider request) and remove keys. Saved
+  keys show only as `••••••••` and are never sent back to the browser.
+- `avc keys` (`status`, `setup`, `set`, `remove`): hidden-prompt key entry, never via arguments.
+  `avc init`, the first `avc audit`, `avc audit --visibility` and `avc visibility` offer it when a
+  key is missing.
+- MCP `setup_keys` and `keys_status`: keys are typed on a one-time page on the user's computer
+  (URL elicitation where the client supports it), never through the chat.
+- `audit_site` (MCP) returns a `skipped` summary and sends progress notifications.
+- `avc doctor` reports where keys are stored and any left in a config file.
+
 ### Added
 
 - `avc setup-claude`: connects the MCP server to the Claude desktop app, Claude Code (user scope,

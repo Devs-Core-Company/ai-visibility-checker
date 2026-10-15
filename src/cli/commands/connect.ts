@@ -60,6 +60,10 @@ export async function cmdConnect(
   siteRef: string | undefined,
   opts: ConnectOpts,
 ): Promise<void> {
+  if (opts.key || opts.clientSecret || opts.wpAppPassword)
+    warn(
+      'A key passed as an argument stays in your shell history and is visible to other users in the process list. Leave the flag out to type it at a hidden prompt, or use `avc keys set <id> --stdin`.',
+    );
   const config = getConfig();
   const siteless =
     source === 'google' ||

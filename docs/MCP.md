@@ -11,6 +11,26 @@ visible in the others.
 
 You need Node.js 22.5 or newer.
 
+### Claude desktop app: install the extension (with a settings page for your keys)
+
+Download `ai-visibility-checker-<version>.mcpb` from the
+[releases](https://github.com/Devs-Core-Company/ai-visibility-checker/releases), or build it with
+`npm run bundle:mcpb` (it lands in `build/`). Double-click it, or drag it into Claude Desktop →
+**Settings → Extensions**, and choose Install.
+
+The extension has its own settings page: **Settings → Extensions → AI Visibility Checker →
+Configure**. It has a field for each AI engine key (Vercel AI Gateway, OpenAI, Anthropic, Google
+Gemini, Perplexity, xAI), PageSpeed Insights and Bing, plus your spend caps. Every key field is
+optional and masked. Claude Desktop keeps the values in your system's secure storage and passes them
+only to the extension on your computer, which sends each key only to its own provider. Leave a field
+empty and the steps that need it are skipped, and the results say so.
+
+Keys you saved with `avc keys` or the dashboard are used too. A key entered in the extension's
+settings takes precedence, and `keys_status` shows which is which ("Claude Desktop settings").
+The extension runs on the Node.js that Claude Desktop ships with, so you do not need Node installed
+for it. Use either the extension or the `avc setup-claude` entry below in Claude Desktop, not both,
+or AVC shows up twice.
+
 ### One step: Claude desktop app, Claude Code and Cursor
 
 ```bash
@@ -140,6 +160,8 @@ Add `"env": { "AVC_DATA_DIR": "/path" }` to any of these to use a different data
 | `generate_report`     | Write html, md, csv, json, sarif, xlsx or pdf files                              | Writes report files                         |
 | `create_redirect`     | Add a WordPress redirect through the AVC helper                                  | Only with `confirm=true`                    |
 | `rollback`            | Restore a WordPress or repo rollback snapshot                                    | Only with `confirm=true`                    |
+| `keys_status`         | Which API keys are set (never their values) and where they are stored            | No                                          |
+| `setup_keys`          | Opens a private page on your computer to type API keys                           | Saves keys to your OS keychain              |
 
 Resource: `avc://report/{site}`, the latest audit report for a site as Markdown.
 
@@ -151,7 +173,19 @@ Resource: `avc://report/{site}`, the latest audit report for a site as Markdown.
 - **Changes.** `apply_fixes` is a dry run unless `confirm=true`. The tool description tells the
   assistant to show you the preview and get your go-ahead first. WordPress changes save a rollback
   snapshot (`avc rollback <file>`).
+- **Keys.** Keys never go through the chat. When a key is missing, `ai_visibility` (or
+  `setup_keys`) gives you a one-time link to a page on your own computer (`127.0.0.1`, expires
+  after 15 minutes) where you type them. Clients that support URL elicitation open it themselves.
+  The page saves to your OS keychain and never shows a key back; the assistant only ever sees the
+  link. If you skip, the AI steps are skipped and the result says so.
+- **Skipped steps.** `audit_site` lists what did not run and why (`skipped`), so the assistant can
+  tell you, for example, that AI visibility was not measured because no key is set.
+- **Long audits.** `audit_site` sends progress notifications, so clients that reset their timeout
+  on progress keep waiting through a long crawl.
 - **Output.** The server writes only protocol messages to stdout; progress goes to stderr.
+- **Node versions.** On Node 22.5 to 22.12, where `node:sqlite` needs a flag, the `avc` launcher
+  starts Node again with `--experimental-sqlite`. stdin and stdout pass straight through, so the
+  MCP connection is unaffected.
 
 ## Example prompts
 

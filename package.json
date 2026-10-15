@@ -35,7 +35,8 @@
     "test": "vitest run",
     "format": "prettier --write \"src/**/*.{ts,tsx}\" \"test/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx}\" \"test/**/*.ts\"",
-    "check": "npm run typecheck && npm run format:check && npm test"
+    "check": "npm run typecheck && npm run format:check && npm test",
+    "bundle:mcpb": "node scripts/build-mcpb.mjs"
   },
   "keywords": [
     "seo",
