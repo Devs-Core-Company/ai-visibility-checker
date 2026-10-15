@@ -97,6 +97,7 @@ const manifest = {
   homepage: pkg.homepage,
   documentation: 'https://github.com/Devs-Core-Company/ai-visibility-checker/blob/main/docs/MCP.md',
   support: 'https://github.com/Devs-Core-Company/ai-visibility-checker/issues',
+  icon: 'public/icon.png',
   license: pkg.license,
   keywords: ['seo', 'ai-visibility', 'geo', 'aeo', 'llms-txt', 'audit'],
   server: {

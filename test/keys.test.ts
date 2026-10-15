@@ -228,6 +228,12 @@ describe('MCP without keys', () => {
     expect(out.keys.find((k: { id: string }) => k.id === 'gateway').set).toBe(true);
   });
 
+  it('announces the AVC logo as the server icon', () => {
+    const icons = client.getServerVersion()?.icons;
+    expect(icons?.[0]).toMatchObject({ mimeType: 'image/png', sizes: ['128x128'] });
+    expect(icons?.[0]?.src).toMatch(/^data:image\/png;base64,iVBOR/);
+  });
+
   it('tells the assistant how keys are handled', async () => {
     const { tools } = await client.listTools();
     const setup = tools.find((t) => t.name === 'setup_keys');

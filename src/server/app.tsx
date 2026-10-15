@@ -95,12 +95,14 @@ export function createApp(opts: AppOptions) {
   // 2. Static assets (no session needed: they hold nothing private).
   app.get('/assets/:file', (c) => {
     const file = c.req.param('file');
-    if (!assets || !/^[a-z0-9-]+\.(css|js)$/i.test(file)) return c.notFound();
+    if (!assets || !/^[a-z0-9-]+\.(css|js|png)$/i.test(file)) return c.notFound();
     const p = join(assets, file);
     if (!existsSync(p)) return c.notFound();
     const type = file.endsWith('.css')
       ? 'text/css; charset=utf-8'
-      : 'text/javascript; charset=utf-8';
+      : file.endsWith('.png')
+        ? 'image/png'
+        : 'text/javascript; charset=utf-8';
     return c.body(readFileSync(p), 200, { 'Content-Type': type, 'Cache-Control': 'no-cache' });
   });
 

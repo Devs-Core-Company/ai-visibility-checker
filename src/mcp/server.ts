@@ -16,6 +16,7 @@ import { skippedSummary } from '../audit/index.js';
 import { SECRET_FIELDS, secretSource, secretStore } from '../core/secrets.js';
 import { startKeyPage, type KeyPage } from '../server/key-page.js';
 import { openPath } from '../cli/open.js';
+import { iconDataUri } from '../core/icon.js';
 import { APP_NAME, APP_VERSION } from '../core/version.js';
 import type { AuditResult, ProgressEvent } from '../core/types.js';
 import {
@@ -144,8 +145,15 @@ type Extra = {
 };
 
 export function buildMcpServer(): McpServer {
+  const icon = iconDataUri();
   const server = new McpServer(
-    { name: 'avc', version: APP_VERSION, title: APP_NAME },
+    {
+      name: 'avc',
+      version: APP_VERSION,
+      title: APP_NAME,
+      // Shown by clients that display server icons.
+      ...(icon ? { icons: [{ src: icon, mimeType: 'image/png', sizes: ['128x128'] }] } : {}),
+    },
     {
       instructions:
         "AI Visibility Checker audits a website for search and AI engines. Audits need no API keys. AI visibility runs need the user's own AI keys, which stay on their computer. When a tool reports missing keys, call setup_keys: it gives the user a private local page to type them. " +
