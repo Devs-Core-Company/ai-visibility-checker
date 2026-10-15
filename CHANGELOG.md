@@ -5,12 +5,13 @@ and the project uses [semantic versioning](https://semver.org). Check ids are st
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-10-15
+
 ### Fixed
 
 - Dashboard forms were refused as "cross-origin" in Chrome: with `Referrer-Policy: no-referrer` the
   browser sends `Origin: null` on form posts. The dashboard now sends `same-origin` and accepts
   `Origin: null` only when the browser marks the request `Sec-Fetch-Site: same-origin`.
-
 - The MCP server (and every command) crashed with "No such built-in module: node:sqlite" on
   Node 22.5 to 22.12, where node:sqlite needs `--experimental-sqlite`. The launcher now adds the
   flag on those versions.
@@ -29,7 +30,6 @@ and the project uses [semantic versioning](https://semver.org). Check ids are st
 - `avc uninstall`: removes AVC from Claude Desktop, Claude Code (including per-folder entries) and
   Cursor, the `avc shortcut` launcher and scheduled runs from `avc schedule`, deletes stored API keys
   and, if asked, local data (only files AVC created). Uninstall steps in the README and INSTALL.md.
-
 - The AVC logo: the Claude Desktop extension's icon, the MCP server's announced icon (`serverInfo.icons`,
   for clients that show one) and the dashboard's browser-tab icon.
 - Claude Desktop extension (`npm run bundle:mcpb` → `build/ai-visibility-checker-<version>.mcpb`) with
@@ -44,15 +44,9 @@ and the project uses [semantic versioning](https://semver.org). Check ids are st
   (URL elicitation where the client supports it), never through the chat.
 - `audit_site` (MCP) returns a `skipped` summary and sends progress notifications.
 - `avc doctor` reports where keys are stored and any left in a config file.
-
-### Added
-
 - `avc setup-claude`: connects the MCP server to the Claude desktop app, Claude Code (user scope,
   every folder) and Cursor in one step, with absolute paths so the desktop app finds Node without
   your shell's PATH. The one-line installers run it (`AVC_SKIP_CLAUDE=1` to skip).
-
-### Added
-
 - 13 standards-based checks after benchmark run 1 (bench/results/CHANGES.md): unknown schema.org
   types (full vocabulary), end dates before start dates, location pages missing LocalBusiness
   markup their siblings have, markup phone numbers not shown on the page, RFC 9116 security.txt

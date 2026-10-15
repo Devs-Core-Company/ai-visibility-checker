@@ -1,6 +1,6 @@
 {
   "name": "@devs-core/ai-visibility-checker",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "AI Visibility Checker by Devs Core: full-site technical SEO, AEO/GEO, AI crawler access, agentic-web readiness and real AI visibility tracking (ChatGPT, Claude, Gemini, Perplexity) for your own website. Runs on your machine.",
   "license": "AGPL-3.0-only",
   "author": "Devs Core <contact@devs-core.com> (https://devs-core.com)",
