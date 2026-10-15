@@ -7,6 +7,11 @@ and the project uses [semantic versioning](https://semver.org). Check ids are st
 
 ### Fixed
 
+- `avc uninstall` and `avc setup-claude` could be undone by a running Claude Desktop, which writes
+  its in-memory settings back over `claude_desktop_config.json` about a minute later. Both now
+  detect the running app and ask you to quit it first (or continue anyway), warn without a
+  terminal, and re-check the file afterwards.
+
 - Dashboard forms were refused as "cross-origin" in Chrome: with `Referrer-Policy: no-referrer` the
   browser sends `Origin: null` on form posts. The dashboard now sends `same-origin` and accepts
   `Origin: null` only when the browser marks the request `Sec-Fetch-Site: same-origin`.

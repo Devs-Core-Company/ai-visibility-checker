@@ -109,8 +109,11 @@ It finds what you have and sets each one up:
 The desktop app does not see your terminal's `PATH`, so the entry uses absolute paths to Node and to
 AVC. That is why a plain `claude mcp add` or a bare `npx` entry often fails there silently.
 
-Then **fully quit the Claude app and open it again**: ⌘Q on a Mac, File → Exit on Windows. Closing
-the window is not enough. In a new chat, `avc` shows under the tools menu. Try: _"Audit
+**Quit the Claude app before you run it** (⌘Q on a Mac, File → Exit on Windows; closing the window
+is not enough), then open it again afterwards. While it runs, the app keeps its settings in memory and
+writes them back over the file, which can undo the change a minute later. If the app is running,
+`avc setup-claude` says so and waits for you to quit it (or lets you continue anyway); without a
+terminal to ask in, it writes anyway and warns. In a new chat, `avc` shows under the tools menu. Try: _"Audit
 https://yoursite.com with avc and tell me the three things to fix first."_
 
 Useful options:
@@ -197,8 +200,13 @@ npm uninstall -g @devs-core/ai-visibility-checker
 Options: `--yes` (ask nothing: delete keys, keep data), `--keep-keys`, `--delete-data`,
 `--keep-data`. Installed as the Claude Desktop extension instead? Use Claude Desktop → Settings →
 Extensions → AI Visibility Checker → **Uninstall**; then run `avc uninstall` too if you also
-installed the `avc` command and want your keys and data gone. Quit and reopen Claude Desktop so
-AVC disappears from the tools list.
+installed the `avc` command and want your keys and data gone.
+
+**Quit Claude Desktop before running `avc uninstall`** (⌘Q / File → Exit). A running app writes its
+in-memory settings back over the file and puts the `avc` entry back. `avc uninstall` checks for this:
+it asks you to quit the app and press Enter (or continue anyway), and warns if the entry came back.
+If it did, quit the app, run `avc setup-claude --remove --desktop` (before removing the program), or
+delete the `avc` entry from `claude_desktop_config.json` by hand, then open the app again.
 
 ## Troubleshooting
 

@@ -14,6 +14,7 @@ import { dirname, join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { c, fail, ok, warn } from '../output.js';
+import { guardDesktopWrite, verifyDesktopWrite } from '../claude-desktop.js';
 import { ExitError } from '../errors.js';
 
 export const SERVER_NAME = 'avc';
@@ -168,11 +169,13 @@ export async function cmdSetupClaude(opts: {
   cursor?: boolean;
   dryRun?: boolean;
   remove?: boolean;
-}): Promise<void> {
+}): Promise<{ desktopRunning: boolean }> {
   const explicit = Boolean(opts.desktop || opts.code || opts.cursor);
   const spec = opts.remove ? null : launchSpec();
   const verb = opts.remove ? 'Removed from' : 'Added to';
   let done = 0;
+  // Claude Desktop was still running when its config was written (the change may not stick).
+  let desktopRunning = false;
 
   if (spec) {
     console.log(c.dim(`Server command: ${[spec.command, ...spec.args].map(shellQuote).join(' ')}`));
@@ -187,11 +190,18 @@ export async function cmdSetupClaude(opts: {
   const desktopFile = desktopConfigPath();
   const desktopPresent = existsSync(dirname(desktopFile));
   if (opts.desktop || (!explicit && desktopPresent)) {
-    const r = writeMcpConfig(desktopFile, spec, { dryRun: opts.dryRun });
-    if (opts.dryRun) console.log(`${c.bold('Claude desktop app')} ${desktopFile}\n${r.text}`);
-    else if (r.changed) {
+    const preview = writeMcpConfig(desktopFile, spec, { dryRun: true });
+    if (opts.dryRun) console.log(`${c.bold('Claude desktop app')} ${desktopFile}\n${preview.text}`);
+    else if (preview.changed) {
+      // A running app writes its in-memory copy back over the file, so ask for it to quit.
+      const guard = await guardDesktopWrite(opts.remove ? 'removing AVC' : 'adding AVC');
+      const r = writeMcpConfig(desktopFile, spec);
       ok(`${verb} the Claude desktop app: ${desktopFile}`);
       if (r.backup) console.log(c.dim(`  Previous config saved to ${r.backup}`));
+      if (guard.stillRunning) {
+        desktopRunning = true;
+        await verifyDesktopWrite(desktopFile, SERVER_NAME, Boolean(spec));
+      }
       done++;
     } else ok(`Claude desktop app already ${opts.remove ? 'had no AVC entry' : 'set up'}.`);
   } else if (!explicit) {
@@ -247,12 +257,15 @@ export async function cmdSetupClaude(opts: {
 
   if (opts.dryRun) {
     console.log(c.dim('Dry run: nothing was written.'));
-    return;
+    return { desktopRunning };
   }
   if (done && !opts.remove) {
     console.log('');
+    const quit = `${process.platform === 'darwin' ? '⌘Q' : 'File → Exit'}, closing the window is not enough`;
     console.log(
-      `${c.bold('Next:')} fully quit the Claude app (${process.platform === 'darwin' ? '⌘Q' : 'File → Exit'}, closing the window is not enough) and open it again. In a new chat, AVC appears under the tools menu. Try: "Audit https://yoursite.com with avc".`,
+      desktopRunning
+        ? `${c.bold('Next:')} quit the Claude app fully (${quit}) and run \`avc setup-claude\` again before opening it: while it runs, it can write its old settings back over this change. In a new chat, AVC then appears under the tools menu. Try: "Audit https://yoursite.com with avc".`
+        : `${c.bold('Next:')} open the Claude app. What matters is that it was not running while this command wrote its settings; if you quit it for this, just start it again. In a new chat, AVC appears under the tools menu. Try: "Audit https://yoursite.com with avc".`,
     );
     console.log(
       c.dim(
@@ -266,4 +279,5 @@ export async function cmdSetupClaude(opts: {
       ),
     );
   }
+  return { desktopRunning };
 }

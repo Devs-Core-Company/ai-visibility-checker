@@ -16,7 +16,13 @@ import { resetSecretStore, secretStore } from '../../core/secrets.js';
 import { confirm, interactive } from '../ask.js';
 import { c, ok, warn } from '../output.js';
 import { getConfig, resetStoreCache } from '../services.js';
-import { SERVER_NAME, cmdSetupClaude, hasClaudeCli, packageRoot } from './setup-claude.js';
+import {
+  SERVER_NAME,
+  cmdSetupClaude,
+  desktopConfigPath,
+  hasClaudeCli,
+  packageRoot,
+} from './setup-claude.js';
 import { shortcutPaths } from './tools.js';
 
 /** Everything AVC writes in its data folder. */
@@ -229,7 +235,7 @@ export async function cmdUninstall(opts: UninstallOpts): Promise<void> {
 
   // 1. Claude Desktop, Claude Code and Cursor.
   console.log('\n' + c.bold('1. Disconnect from Claude and Cursor'));
-  await cmdSetupClaude({ remove: true });
+  const { desktopRunning } = await cmdSetupClaude({ remove: true });
   removeClaudeCodeLocalEntries();
   console.log(
     c.dim(
@@ -320,9 +326,14 @@ export async function cmdUninstall(opts: UninstallOpts): Promise<void> {
     console.log('  Run this to finish:');
     console.log(`    ${c.cyan('npm uninstall -g @devs-core/ai-visibility-checker')}`);
   } else console.log(c.dim(`  Running from a checkout (${root}); delete that folder if you like.`));
-  console.log(
-    c.dim(
-      '\nIf you used Claude Desktop, quit it fully and reopen it so AVC disappears from the tools list.',
-    ),
-  );
+  if (desktopRunning)
+    warn(
+      `Claude Desktop was running, so it may put AVC back into its settings. Quit it fully (${process.platform === 'darwin' ? '⌘Q' : 'File → Exit'}), then run \`avc setup-claude --remove --desktop\` before removing the program, or delete the "${SERVER_NAME}" entry from ${desktopConfigPath()} by hand.`,
+    );
+  else
+    console.log(
+      c.dim(
+        '\nIf you used Claude Desktop, quit it fully and reopen it so AVC disappears from the tools list.',
+      ),
+    );
 }
