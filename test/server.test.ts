@@ -280,6 +280,13 @@ describe('dashboard: page filter builder', () => {
   });
 });
 
+it('serves the logo for the browser tab', async () => {
+  const res = await req('/assets/icon-128.png', { cookie: false });
+  expect(res.status).toBe(200);
+  expect(res.headers.get('content-type')).toBe('image/png');
+  expect(await (await req('/keys')).text()).toContain('href="/assets/icon-128.png"');
+});
+
 describe('API keys page', () => {
   const KEY = 'sk-dashboard-secret-9876543210';
   const post = (path: string, body: string) =>

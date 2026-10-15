@@ -26,6 +26,8 @@ and the project uses [semantic versioning](https://semver.org). Check ids are st
 
 ### Added
 
+- The AVC logo: the Claude Desktop extension's icon, the MCP server's announced icon (`serverInfo.icons`,
+  for clients that show one) and the dashboard's browser-tab icon.
 - Claude Desktop extension (`npm run bundle:mcpb` → `build/ai-visibility-checker-<version>.mcpb`) with
   a settings page for API keys and spend caps under Settings → Extensions. Key fields are masked and
   kept in the system's secure storage by Claude Desktop.
