@@ -7,7 +7,8 @@
  * Only files AVC creates are deleted, never a whole folder blindly: AVC_DATA_DIR may point at
  * a folder that holds other things too.
  */
-import { existsSync, readdirSync, rmdirSync, rmSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import { existsSync, readFileSync, readdirSync, rmdirSync, rmSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join, resolve, sep } from 'node:path';
 import { userConfigPath } from '../../core/config.js';
@@ -15,7 +16,7 @@ import { resetSecretStore, secretStore } from '../../core/secrets.js';
 import { confirm, interactive } from '../ask.js';
 import { c, ok, warn } from '../output.js';
 import { getConfig, resetStoreCache } from '../services.js';
-import { cmdSetupClaude, packageRoot } from './setup-claude.js';
+import { SERVER_NAME, cmdSetupClaude, hasClaudeCli, packageRoot } from './setup-claude.js';
 
 /** Everything AVC writes in its data folder. */
 export const DATA_ENTRIES = [
@@ -37,6 +38,51 @@ export interface CleanupResult {
   removed: string[];
   /** Other files left in the data folder (not AVC's). */
   leftover: string[];
+}
+
+/**
+ * Folders where Claude Code has AVC at local scope (added with `claude mcp add` inside that
+ * folder, without --scope user). `setup-claude --remove` only covers user scope, so these
+ * would otherwise survive an uninstall. Read from ~/.claude.json; never written here.
+ */
+export function claudeCodeLocalEntries(home = homedir(), name = SERVER_NAME): string[] {
+  try {
+    const data = JSON.parse(readFileSync(join(home, '.claude.json'), 'utf8')) as {
+      projects?: Record<string, { mcpServers?: Record<string, unknown> }>;
+    };
+    return Object.entries(data.projects ?? {})
+      .filter(([, p]) => p?.mcpServers && name in p.mcpServers)
+      .map(([path]) => path);
+  } catch {
+    return [];
+  }
+}
+
+/** Remove local-scope entries through Claude Code itself, run from each folder. */
+function removeClaudeCodeLocalEntries(): void {
+  const folders = claudeCodeLocalEntries();
+  if (!folders.length) return;
+  if (!hasClaudeCli()) {
+    warn(
+      `Claude Code also has AVC set up in ${folders.length} folder(s), but the \`claude\` command was not found. In each folder run: claude mcp remove --scope local ${SERVER_NAME}`,
+    );
+    return;
+  }
+  for (const folder of folders) {
+    if (!existsSync(folder)) {
+      warn(
+        `Claude Code lists AVC for ${folder}, which no longer exists. Remove it from ~/.claude.json by hand if it bothers you.`,
+      );
+      continue;
+    }
+    const r = spawnSync('claude', ['mcp', 'remove', '--scope', 'local', SERVER_NAME], {
+      cwd: folder,
+      encoding: 'utf8',
+      shell: process.platform === 'win32',
+    });
+    if (r.status === 0) ok(`Removed from Claude Code in ${folder}.`);
+    else warn(`Claude Code in ${folder}: ${(r.stderr || r.stdout || 'remove failed').trim()}`);
+  }
 }
 
 /** Refuse folders whose deletion would be a disaster even if AVC files sit in them. */
@@ -98,6 +144,12 @@ export async function cmdUninstall(opts: UninstallOpts): Promise<void> {
   // 1. Claude Desktop, Claude Code and Cursor.
   console.log('\n' + c.bold('1. Disconnect from Claude and Cursor'));
   await cmdSetupClaude({ remove: true });
+  removeClaudeCodeLocalEntries();
+  console.log(
+    c.dim(
+      `  A repository with AVC in its own .mcp.json keeps it there; remove the "${SERVER_NAME}" entry from that file if you added one.`,
+    ),
+  );
   console.log(
     c.dim(
       '  Installed as a Claude Desktop extension? Remove it in Claude Desktop → Settings → Extensions → AI Visibility Checker → Uninstall.',

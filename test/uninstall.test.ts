@@ -68,3 +68,23 @@ describe('avc uninstall cleanup', () => {
     expect(unsafeDataDir('/Users/a/.avc', '/Users/a')).toBeNull();
   });
 });
+
+describe('Claude Code local-scope entries', () => {
+  it('finds every folder where AVC was added at local scope', async () => {
+    const { claudeCodeLocalEntries } = await import('../src/cli/commands/uninstall.js');
+    const home = mkdtempSync(join(tmpdir(), 'avc-home-'));
+    writeFileSync(
+      join(home, '.claude.json'),
+      JSON.stringify({
+        mcpServers: { avc: {} },
+        projects: {
+          '/Users/a': { mcpServers: { avc: { command: 'npx' } } },
+          '/Users/a/site': { mcpServers: { other: {} } },
+          '/Users/a/empty': {},
+        },
+      }),
+    );
+    expect(claudeCodeLocalEntries(home)).toEqual(['/Users/a']);
+    expect(claudeCodeLocalEntries(mkdtempSync(join(tmpdir(), 'avc-none-')))).toEqual([]);
+  });
+});
