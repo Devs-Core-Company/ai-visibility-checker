@@ -85,8 +85,9 @@ app, Claude Code (in every folder) and Cursor, whichever you have:
 avc setup-claude
 ```
 
-Then **fully quit the Claude app and open it again** (⌘Q on a Mac, File → Exit on Windows; closing the
-window is not enough). In a new chat, ask: _"Audit https://yoursite.com with avc and tell me the
+**Quit the Claude app before running it** (⌘Q on a Mac, File → Exit on Windows; closing the window
+is not enough) and open it again afterwards: a running app writes its old settings back over the
+change. `avc setup-claude` warns and waits if the app is running. In a new chat, ask: _"Audit https://yoursite.com with avc and tell me the
 three things to fix first."_ The installer in step 1 has already done this unless you set
 `AVC_SKIP_CLAUDE=1`. More in [docs/MCP.md](docs/MCP.md).
 
@@ -462,8 +463,13 @@ npm uninstall -g @devs-core/ai-visibility-checker
 Options: `--yes` (ask nothing: delete keys, keep data), `--keep-keys`, `--delete-data`,
 `--keep-data`. Installed as the Claude Desktop extension instead? Use Claude Desktop → Settings →
 Extensions → AI Visibility Checker → **Uninstall**; then run `avc uninstall` too if you also
-installed the `avc` command and want your keys and data gone. Quit and reopen Claude Desktop so
-AVC disappears from the tools list.
+installed the `avc` command and want your keys and data gone.
+
+**Quit Claude Desktop before running `avc uninstall`** (⌘Q / File → Exit). A running app writes its
+in-memory settings back over the file and puts the `avc` entry back. `avc uninstall` checks for this:
+it asks you to quit the app and press Enter (or continue anyway), and warns if the entry came back.
+If it did, quit the app, run `avc setup-claude --remove --desktop` (before removing the program), or
+delete the `avc` entry from `claude_desktop_config.json` by hand, then open the app again.
 
 ## Licence
 
